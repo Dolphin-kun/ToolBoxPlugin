@@ -1,0 +1,66 @@
+<UserControl x:Class="ToolBox.View.ToolItemCommonSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:settings="clr-namespace:ToolBox.Settings"
+             mc:Ignorable="d"
+             d:DesignWidth="300">
+
+    <StackPanel>
+        <!-- 表示/非表示トグル -->
+        <Grid Margin="0,0,0,8">
+            <TextBlock Text="ツールボックスに表示"
+                       VerticalAlignment="Center" FontSize="11"/>
+            <controls:ToggleSlider Value="{Binding IsVisible, Mode=TwoWay}"
+                                   HorizontalAlignment="Right" Width="40"/>
+        </Grid>
+
+        <!-- 詳細設定（表示中のみ有効） -->
+        <StackPanel IsEnabled="{Binding IsVisible}">
+            <!-- 表示設定 -->
+            <Grid Margin="0,0,0,8">
+                <TextBlock Text="表示設定"
+                           VerticalAlignment="Center" FontSize="11"/>
+                <ComboBox SelectedValue="{Binding SettingsInstance.DisplayMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValuePath="Tag"
+                          HorizontalAlignment="Right" Width="200" FontSize="11">
+                    <ComboBoxItem Content="アイコン" Tag="{x:Static settings:ToolItemDisplayMode.Icon}"/>
+                    <ComboBoxItem Content="カスタム" Tag="{x:Static settings:ToolItemDisplayMode.Custom}"/>
+                </ComboBox>
+            </Grid>
+
+            <!-- カスタマイズ時のみ表示する内容 -->
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SettingsInstance.DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <!-- 画像ファイル -->
+                <Grid Margin="0,0,0,8">
+                    <TextBlock Text="画像ファイル"
+                               VerticalAlignment="Center" FontSize="11"/>
+                    <controls:FileSelector Value="{Binding SettingsInstance.CustomImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Filter="画像ファイル|*.png;*.jpg;*.jpeg;*.bmp|すべてのファイル|*.*" 
+                                           HorizontalAlignment="Right" Width="200" Height="24" FontSize="11" />
+                </Grid>
+
+                <!-- ボタンのラベル -->
+                <Grid Margin="0,0,0,8">
+                    <TextBlock Text="ボタンのラベル"
+                               VerticalAlignment="Center" FontSize="11"/>
+                    <TextBox Text="{Binding SettingsInstance.Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Right" Width="200" FontSize="11"/>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

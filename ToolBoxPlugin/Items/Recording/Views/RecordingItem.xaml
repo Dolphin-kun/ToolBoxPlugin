@@ -1,0 +1,40 @@
+<UserControl x:Class="ToolBox.Items.Recording.Views.RecordingItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
+             mc:Ignorable="d"
+             x:Name="Root"
+             ToolTip="マイクから音声を録音">
+
+    <Grid>
+        <!-- 録音ボタン -->
+        <Button Command="{Binding ToggleRecordingCommand, ElementName=Root}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.Play}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRecording, ElementName=Root}" Value="True">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.Stop}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <!-- 波形表示用 Canvas（マウスイベント透過） -->
+        <Canvas x:Name="PeakMeterCanvas" Background="Transparent" IsHitTestVisible="False" />
+    </Grid>
+</UserControl>

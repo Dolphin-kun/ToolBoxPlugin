@@ -1,0 +1,82 @@
+<UserControl x:Class="ToolBox.Items.TextSplitter.Views.TextSplitterSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:local="clr-namespace:ToolBox.Items.TextSplitter.Settings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:TextSplitterSettings}"
+             Width="240">
+
+
+    <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            BorderThickness="1"
+            CornerRadius="4"
+            Padding="8">
+
+        <StackPanel>
+            <TextBlock Text="テキスト分割の設定" FontWeight="SemiBold" Margin="0,0,0,8" />
+
+            <Grid Margin="0,0,0,6">
+                <TextBlock Text="元のアイテムを削除" VerticalAlignment="Center" FontSize="11"/>
+                <controls:ToggleSlider Value="{Binding IsDeleteOriginalItem, Mode=TwoWay}" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,6">
+                <TextBlock Text="分割モード" VerticalAlignment="Center" FontSize="11"/>
+                <controls:EnumComboBox Value="{Binding SplitMode, Mode=TwoWay}" EnumType="{x:Type local:SplitMode}" Width="120" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,6">
+                <TextBlock Text="分割方向" VerticalAlignment="Center" FontSize="11"/>
+                <controls:EnumComboBox Value="{Binding SplitDirection, Mode=TwoWay}" EnumType="{x:Type local:SplitDirection}" Width="120" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Margin="0,4,0,8" />
+
+            <!-- Vertical options -->
+            <Grid Margin="0,0,0,4">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SplitDirection}" Value="{x:Static local:SplitDirection.Vertical}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                    <TextBlock Text="ずれ幅 (フレーム)" FontSize="11" Margin="0,0,0,2"/>
+                    <controls:TextBoxSlider Value="{Binding FrameOffset, Mode=TwoWay}"
+                                            DefaultValue="0"
+                                            StringFormat="F0"
+                                            Unit="F"
+                                            DefaultMin="0" DefaultMax="300"
+                                            Min="0" Max="2147483647"
+                                            HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Horizontal options -->
+            <Grid Margin="0,0,0,4">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SplitDirection}" Value="{x:Static local:SplitDirection.Horizontal}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid>
+                    <TextBlock Text="全体の長さを保持" VerticalAlignment="Center" FontSize="11"/>
+                    <controls:ToggleSlider Value="{Binding IsKeepLength, Mode=TwoWay}" HorizontalAlignment="Right"/>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

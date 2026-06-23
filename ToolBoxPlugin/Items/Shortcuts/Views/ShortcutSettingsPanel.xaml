@@ -1,0 +1,32 @@
+<UserControl x:Class="ToolBox.Items.Shortcuts.Views.ShortcutSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             mc:Ignorable="d"
+             d:DesignWidth="280">
+
+
+    <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            BorderThickness="1"
+            CornerRadius="4"
+            Padding="8">
+        
+        <StackPanel>
+            <TextBlock Text="ショートカットの設定" FontWeight="SemiBold" Margin="0,0,0,6" />
+
+            <TextBlock Text="表示ラベル" FontSize="11" Margin="0,0,0,2"/>
+            <TextBox Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+
+            <TextBlock Text="実行するコマンド" FontSize="11" Margin="0,0,0,2"/>
+            <controls:CommonComboBox x:Name="CommandTypeComboBox"
+                                     SelectedValuePath="Value"
+                                     DisplayMemberPath="DisplayName"
+                                     Value="{Binding CommandType}"
+                                     HorizontalAlignment="Stretch" />
+        </StackPanel>
+    </Border>
+</UserControl>

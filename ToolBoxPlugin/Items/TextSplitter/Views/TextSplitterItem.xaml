@@ -1,0 +1,17 @@
+<UserControl x:Class="ToolBox.Items.TextSplitter.Views.TextSplitterItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             mc:Ignorable="d"
+             x:Name="Root"
+             ToolTip="テキスト・ボイスを分割">
+
+    <Button Command="{Binding SplitTextCommand, ElementName=Root}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+        <Path Fill="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}" Stretch="Uniform" Margin="4"
+              Data="M0,0 L24,24 M0,24 L24,0" />
+    </Button>
+</UserControl>

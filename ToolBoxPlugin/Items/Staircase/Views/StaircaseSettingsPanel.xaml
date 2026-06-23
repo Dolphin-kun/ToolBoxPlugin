@@ -1,0 +1,32 @@
+<UserControl x:Class="ToolBox.Items.Staircase.Views.StaircaseSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:setting="clr-namespace:ToolBox.Items.Staircase.Settings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=setting:StaircaseSettings}"
+             Width="220">
+
+
+    <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            BorderThickness="1"
+            CornerRadius="4"
+            Padding="8">
+
+        <StackPanel>
+            <TextBlock Text="階段化の設定" FontWeight="SemiBold" Margin="0,0,0,6" />
+
+            <TextBlock Text="オフセット (フレーム)" FontSize="11" Margin="0,0,0,2" />
+            <controls:TextBoxSlider Value="{Binding Offset, Mode=TwoWay}"
+                                    DefaultValue="20"
+                                    StringFormat="F0"
+                                    Unit="F"
+                                    DefaultMin="0" DefaultMax="50"
+                                    Min="1" Max="10000"
+                                    HorizontalAlignment="Stretch" />
+        </StackPanel>
+    </Border>
+</UserControl>

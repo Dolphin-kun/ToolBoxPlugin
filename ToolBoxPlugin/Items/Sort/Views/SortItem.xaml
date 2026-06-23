@@ -1,0 +1,20 @@
+<UserControl x:Class="ToolBox.Items.Sort.Views.SortItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
+             mc:Ignorable="d"
+             x:Name="Root"
+             ToolTip="アイテムをフレーム順にソートしてレイヤーを整理">
+
+    <UniformGrid Columns="2">
+        <Button Command="{Binding SortAscendingCommand, ElementName=Root}" ToolTip="早い順にソート">
+            <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.SortAscending}}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+        </Button>
+        <Button Command="{Binding SortDescendingCommand, ElementName=Root}" ToolTip="遅い順にソート">
+            <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.SortDescending}}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" />
+        </Button>
+    </UniformGrid>
+</UserControl>

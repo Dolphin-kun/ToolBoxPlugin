@@ -1,0 +1,56 @@
+<UserControl x:Class="ToolBox.Items.Ruby.Views.RubySettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:local="clr-namespace:ToolBox.Items.Ruby.Settings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:RubySettings}"
+             Width="240">
+
+
+    <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            BorderThickness="1"
+            CornerRadius="4"
+            Padding="8">
+
+        <StackPanel>
+            <TextBlock Text="ルビ振りの設定" FontWeight="SemiBold" Margin="0,0,0,8" />
+
+            <Grid Margin="0,0,0,6">
+                <TextBlock Text="ルビの種類" VerticalAlignment="Center" FontSize="11"/>
+                <controls:EnumComboBox Value="{Binding RubyType, Mode=TwoWay}" EnumType="{x:Type local:RubyType}" Width="120" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,6">
+                <TextBlock Text="行高さを自動調整" VerticalAlignment="Center" FontSize="11"/>
+                <controls:ToggleSlider Value="{Binding IsAutoAdjustLineHeight, Mode=TwoWay}" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,4">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAutoAdjustLineHeight}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                    <TextBlock Text="行高さの倍率" FontSize="11" Margin="0,0,0,2"/>
+                    <controls:TextBoxSlider Value="{Binding LineHeightMultiplier, Mode=TwoWay}"
+                                            DefaultValue="1.5"
+                                            StringFormat="F1"
+                                            Unit="倍"
+                                            DefaultMin="1.0" DefaultMax="3.0"
+                                            Min="0.1" Max="10.0"
+                                            HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>
