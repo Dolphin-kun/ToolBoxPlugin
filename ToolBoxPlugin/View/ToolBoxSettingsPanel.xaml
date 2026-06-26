@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:tbControls="clr-namespace:ToolBox.Controls"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
              xmlns:settings="clr-namespace:ToolBox.Settings"
              xmlns:commons="clr-namespace:ToolBox.Commons"
@@ -13,71 +14,8 @@
              d:DataContext="{d:DesignInstance Type=vm:ToolBoxSettingsViewModel}">
 
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <commons:StringToGeometryConverter x:Key="StringToGeometryConverter" />
-
-        <!-- アコーディオンヘッダー（ToggleButton）スタイル -->
-        <Style x:Key="GroupHeaderStyle" TargetType="ToggleButton">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="4,5,4,5"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="14"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="Arrow" Grid.Column="0" Text="▾"
-                                           FontSize="9" VerticalAlignment="Center"
-                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="False">
-                                <Setter TargetName="Arrow" Property="Text" Value="▸"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background"
-                                        Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- 左ペイン・アイテム行のボタンスタイル -->
-        <Style x:Key="ItemButtonStyle" TargetType="Button">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="20,4,4,4"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background"
-                                        Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -86,7 +24,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- ─── ヘッダー（タイトル＋閉じるボタン） ─────────────────────── -->
+        <!-- ヘッダー -->
         <Grid Grid.Row="0" Margin="8,6,8,6">
             <TextBlock Text="ツールボックスの設定" FontWeight="SemiBold" VerticalAlignment="Center"/>
             <Button Content="✕"
@@ -99,42 +37,34 @@
                     VerticalAlignment="Center"/>
         </Grid>
 
-        <!-- 区切り線 -->
         <Border Grid.Row="0" VerticalAlignment="Bottom"
                 BorderThickness="0,0,0,1"
                 BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
 
-        <!-- ─── 2ペインレイアウト ──────────────────────────────────────── -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <!-- 左ペイン（固定幅） -->
                 <ColumnDefinition Width="160" MinWidth="100" MaxWidth="220"/>
-                <!-- スプリッター -->
                 <ColumnDefinition Width="Auto"/>
-                <!-- 右ペイン -->
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- ═══ 左ペイン（アコーディオン） ═════════════════════════════ -->
+            <!-- 左ペイン -->
             <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Groups}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <!-- 通常カテゴリーグループ -->
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                                              Value="{x:Null}"/>
                             </DataTemplate.Triggers>
                             <ContentControl Content="{Binding}">
                                 <ContentControl.Resources>
-                                    <!-- ルートカテゴリーグループ用テンプレート -->
                                     <DataTemplate DataType="{x:Type vm:RootCategoryGroupViewModel}">
                                         <StackPanel>
-                                            <ToggleButton IsChecked="{Binding IsExpanded, Mode=TwoWay}"
-                                                          Style="{StaticResource GroupHeaderStyle}">
+                                            <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}">
                                                 <TextBlock Text="{Binding CategoryName}"
                                                            FontWeight="SemiBold" FontSize="12"/>
-                                            </ToggleButton>
+                                            </tbControls:AccordionHeader>
                                             <Grid Margin="10,0,0,0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -154,7 +84,6 @@
                                                         BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                                                         Margin="2,0,8,0" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
                                                 <ItemsControl Grid.Column="1" ItemsSource="{Binding SubGroups}">
-                                                    <!-- Recursive rendering of the sub-groups -->
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <ContentControl Content="{Binding}" />
@@ -164,43 +93,38 @@
                                             </Grid>
                                         </StackPanel>
                                     </DataTemplate>
-                                    <!-- 基本設定グループ用テンプレート -->
+                                    
                                     <DataTemplate DataType="{x:Type vm:BasicSettingsViewModel}">
                                         <StackPanel>
-                                            <ToggleButton IsChecked="{Binding IsExpanded, Mode=TwoWay}"
-                                                          Style="{StaticResource GroupHeaderStyle}"
+                                            <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                                           Command="{Binding DataContext.SelectBasicSettingsCommand,
                                                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                           CommandParameter="{Binding}">
                                                 <TextBlock Text="基本設定"
                                                            FontWeight="SemiBold" FontSize="11"/>
-                                            </ToggleButton>
+                                            </tbControls:AccordionHeader>
                                         </StackPanel>
                                     </DataTemplate>
 
 
-                                    <!-- 全体設定グループ用テンプレート -->
                                     <DataTemplate DataType="{x:Type vm:GeneralSettingsViewModel}">
                                         <StackPanel>
-                                            <ToggleButton IsChecked="{Binding IsExpanded, Mode=TwoWay}"
-                                                          Style="{StaticResource GroupHeaderStyle}"
+                                            <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                                           Command="{Binding DataContext.SelectGeneralSettingsCommand,
                                                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                           CommandParameter="{Binding}">
                                                 <TextBlock Text="グリッド"
                                                            FontWeight="SemiBold" FontSize="11"/>
-                                            </ToggleButton>
+                                            </tbControls:AccordionHeader>
                                         </StackPanel>
                                     </DataTemplate>
 
-                                    <!-- 通常グループ用テンプレート -->
                                     <DataTemplate DataType="{x:Type vm:ToolItemGroupViewModel}">
                                         <StackPanel>
-                                            <ToggleButton IsChecked="{Binding IsExpanded, Mode=TwoWay}"
-                                                          Style="{StaticResource GroupHeaderStyle}">
+                                            <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}">
                                                 <TextBlock Text="{Binding CategoryName}"
                                                            FontWeight="SemiBold" FontSize="11"/>
-                                            </ToggleButton>
+                                            </tbControls:AccordionHeader>
                                             <Grid Margin="10,0,0,0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -222,17 +146,16 @@
                                                 <ItemsControl Grid.Column="1" ItemsSource="{Binding Items}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate DataType="{x:Type vm:ToolItemEntryViewModel}">
-                                                            <Button Style="{StaticResource ItemButtonStyle}"
-                                                                    Command="{Binding DataContext.SelectToolEntryCommand,
+                                                            <tbControls:ItemButton Command="{Binding DataContext.SelectToolEntryCommand,
                                                                               RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                     CommandParameter="{Binding}">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <Path Data="{Binding IconPath, Converter={StaticResource StringToGeometryConverter}}"
-                                                                          Fill="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                                                          Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0"/>
-                                                                    <TextBlock Text="{Binding DisplayName}" FontSize="11" VerticalAlignment="Center"/>
-                                                                </StackPanel>
-                                                            </Button>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <commons:IconControl IconData="{Binding IconPath}"
+                                                                              Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                                                              Margin="0,0,6,0"/>
+                                                                        <TextBlock Text="{Binding DisplayName}" FontSize="11" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                            </tbControls:ItemButton>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
@@ -240,17 +163,15 @@
                                         </StackPanel>
                                     </DataTemplate>
 
-                                    <!-- ショートカットグループ用テンプレート -->
                                     <DataTemplate DataType="{x:Type vm:ShortcutsGroupViewModel}">
                                         <StackPanel>
-                                            <ToggleButton IsChecked="{Binding IsExpanded, Mode=TwoWay}"
-                                                          Style="{StaticResource GroupHeaderStyle}"
+                                            <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                                           Command="{Binding DataContext.SelectShortcutsGroupCommand,
                                                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                           CommandParameter="{Binding}">
                                                 <TextBlock Text="{Binding CategoryName}"
                                                            FontWeight="SemiBold" FontSize="11"/>
-                                            </ToggleButton>
+                                            </tbControls:AccordionHeader>
                                             <Grid Margin="10,0,0,0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -272,17 +193,16 @@
                                                 <ItemsControl Grid.Column="1" ItemsSource="{Binding Shortcuts}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate DataType="{x:Type vm:ShortcutEntryViewModel}">
-                                                            <Button Style="{StaticResource ItemButtonStyle}"
-                                                                    Command="{Binding DataContext.SelectShortcutEntryCommand,
+                                                            <tbControls:ItemButton Command="{Binding DataContext.SelectShortcutEntryCommand,
                                                                               RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                     CommandParameter="{Binding}">
                                                                 <StackPanel Orientation="Horizontal">
-                                                                    <Path Data="{Binding IconPath, Converter={StaticResource StringToGeometryConverter}}"
-                                                                          Fill="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                                                          Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0"/>
+                                                                    <commons:IconControl IconData="{Binding IconPath}"
+                                                                          Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                                                          Margin="0,0,6,0"/>
                                                                     <TextBlock Text="{Binding DisplayName}" FontSize="11" VerticalAlignment="Center"/>
                                                                 </StackPanel>
-                                                            </Button>
+                                                            </tbControls:ItemButton>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
@@ -302,12 +222,11 @@
                           VerticalAlignment="Stretch"
                           Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
 
-            <!-- ═══ 右ペイン（詳細設定） ════════════════════════════════════ -->
+            <!-- 右ペイン -->
             <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
                 <ContentControl Content="{Binding SelectedDetail}" Margin="8">
                     <ContentControl.Resources>
 
-                        <!-- ── 基本設定 ── -->
                         <DataTemplate DataType="{x:Type vm:BasicSettingsViewModel}">
                             <StackPanel>
                                 <TextBlock Text="{Binding CategoryName}"
@@ -315,14 +234,33 @@
                                            Margin="0,0,0,10"/>
                                 
                                 <Grid Margin="0,0,0,8">
-                                    <TextBlock Text="バージョン" VerticalAlignment="Center" FontSize="11"/>
-                                    <TextBlock Text="{Binding DataContext.Version, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                               HorizontalAlignment="Right" Width="200" TextAlignment="Right" FontSize="11"/>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="現在のバージョン" VerticalAlignment="Center" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding DataContext.Version, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                               HorizontalAlignment="Right" FontSize="11" VerticalAlignment="Center" Margin="0,0,0,4"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="最新バージョン" VerticalAlignment="Center" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding LatestVersion}"
+                                               HorizontalAlignment="Right" FontSize="11" VerticalAlignment="Center" Margin="0,0,0,4"/>
+
+                                    <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="アップデートをダウンロードする"
+                                            Command="{Binding OpenUpdateUrlCommand}"
+                                            Margin="0,4,0,0" Padding="8,4" HorizontalAlignment="Right"
+                                            Visibility="{Binding HasUpdate, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                 </Grid>
                             </StackPanel>
                         </DataTemplate>
 
-                        <!-- ── 全体設定 ── -->
                         <DataTemplate DataType="{x:Type vm:GeneralSettingsViewModel}">
                             <StackPanel>
                                 <TextBlock Text="グリッドの設定"
@@ -373,7 +311,6 @@
                             </StackPanel>
                         </DataTemplate>
 
-                        <!-- ── 通常ツール詳細 ── -->
                         <DataTemplate DataType="{x:Type vm:ToolItemEntryViewModel}">
                             <StackPanel>
                                 <TextBlock Text="{Binding DisplayName}"
@@ -382,7 +319,6 @@
 
                                 <view:ToolItemCommonSettingsPanel Margin="0,0,0,8" />
 
-                                <!-- ツール固有の設定パネル（設定あり＆表示中のときのみ） -->
                                 <ContentControl Content="{Binding SettingsView}">
                                     <ContentControl.Style>
                                         <Style TargetType="ContentControl">
@@ -398,7 +334,6 @@
                             </StackPanel>
                         </DataTemplate>
 
-                        <!-- ── ショートカット1件の詳細 ── -->
                         <DataTemplate DataType="{x:Type vm:ShortcutEntryViewModel}">
                             <StackPanel>
                                 <TextBlock Text="{Binding DisplayName}"
@@ -409,7 +344,6 @@
                             </StackPanel>
                         </DataTemplate>
 
-                        <!-- ── ショートカットグループ全体（説明） ── -->
                         <DataTemplate DataType="{x:Type vm:ShortcutsGroupViewModel}">
                             <StackPanel>
                                 <TextBlock Text="ショートカット"

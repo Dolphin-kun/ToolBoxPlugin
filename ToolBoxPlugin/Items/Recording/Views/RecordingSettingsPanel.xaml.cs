@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -13,15 +11,15 @@ namespace ToolBox.Items.Recording.Views
         public static readonly DependencyProperty DeviceListProperty =
             DependencyProperty.Register(nameof(DeviceList), typeof(List<KeyValuePair<int, string>>), typeof(RecordingSettingsPanel));
 
+        public static readonly DependencyProperty IsDropDownOpenProperty =
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(RecordingSettingsPanel),
+                new PropertyMetadata(false));
+
         public List<KeyValuePair<int, string>> DeviceList
         {
             get => (List<KeyValuePair<int, string>>?)GetValue(DeviceListProperty) ?? [];
             set => SetValue(DeviceListProperty, value);
         }
-
-        public static readonly DependencyProperty IsDropDownOpenProperty =
-            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(RecordingSettingsPanel),
-                new PropertyMetadata(false));
 
         public bool IsDropDownOpen
         {
@@ -41,7 +39,6 @@ namespace ToolBox.Items.Recording.Views
 
             Loaded += (_, _) => AttachDropDownHandlers();
         }
-
 
         private void AttachDropDownHandlers()
         {

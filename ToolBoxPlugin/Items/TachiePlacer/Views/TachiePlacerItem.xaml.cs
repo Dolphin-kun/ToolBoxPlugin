@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -8,13 +8,13 @@ namespace ToolBox.Items.TachiePlacer.Views
 {
     public partial class TachiePlacerItem : UserControl
     {
-        public static readonly DependencyProperty AddTachieItemCommandProperty =
-            DependencyProperty.Register(nameof(AddTachieItemCommand), typeof(ICommand), typeof(TachiePlacerItem));
+        public static readonly DependencyProperty TachiePlacerItemCommandProperty =
+            DependencyProperty.Register(nameof(TachiePlacerItemCommand), typeof(ICommand), typeof(TachiePlacerItem));
 
-        public ICommand? AddTachieItemCommand
+        public ICommand? TachiePlacerItemCommand
         {
-            get => (ICommand?)GetValue(AddTachieItemCommandProperty);
-            set => SetValue(AddTachieItemCommandProperty, value);
+            get => (ICommand?)GetValue(TachiePlacerItemCommandProperty);
+            set => SetValue(TachiePlacerItemCommandProperty, value);
         }
 
         private readonly AdornerUtil adornerUtil = new();

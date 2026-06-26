@@ -1,4 +1,3 @@
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,18 +12,21 @@ namespace ToolBox.Items.Recording.Views
 {
     public partial class RecordingItem : UserControl, IDisposable
     {
-        public static readonly DependencyProperty ToggleRecordingCommandProperty =
-            DependencyProperty.Register(nameof(ToggleRecordingCommand), typeof(ICommand), typeof(RecordingItem));
+        private readonly Commons.AdornerUtil adornerUtil = new();
+        private readonly DisposeCollector disposer = new();
 
-        public ICommand? ToggleRecordingCommand
-        {
-            get => (ICommand?)GetValue(ToggleRecordingCommandProperty);
-            set => SetValue(ToggleRecordingCommandProperty, value);
-        }
+        public static readonly DependencyProperty RecordingItemCommandProperty =
+            DependencyProperty.Register(nameof(RecordingItemCommand), typeof(ICommand), typeof(RecordingItem));
 
         public static readonly DependencyProperty IsRecordingProperty =
             DependencyProperty.Register(nameof(IsRecording), typeof(bool), typeof(RecordingItem),
                 new PropertyMetadata(false));
+
+        public ICommand? RecordingItemCommand
+        {
+            get => (ICommand?)GetValue(RecordingItemCommandProperty);
+            set => SetValue(RecordingItemCommandProperty, value);
+        }
 
         public bool IsRecording
         {
@@ -32,14 +34,11 @@ namespace ToolBox.Items.Recording.Views
             set => SetValue(IsRecordingProperty, value);
         }
 
-        private readonly Commons.AdornerUtil adornerUtil = new();
-        private readonly DisposeCollector disposer = new();
-
         public RecordingItem()
         {
             InitializeComponent();
 
-            this.SetBinding(IsRecordingProperty, new Binding("IsRecording"));
+            SetBinding(IsRecordingProperty, new Binding("IsRecording"));
 
             RecordingCommand.WaveformUpdated += OnWaveformUpdated;
             disposer.CollectAction(this, () => RecordingCommand.WaveformUpdated -= OnWaveformUpdated);
@@ -51,14 +50,28 @@ namespace ToolBox.Items.Recording.Views
             };
         }
 
-        private void OnWaveformUpdated(object? sender, EventArgs e)
-        {
-            DrawWaveform();
-        }
-
         public void Dispose()
         {
             disposer.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+            e.Handled = true;
+
+            adornerUtil.Toggle(this, () =>
+            {
+                var vm = DataContext as ViewModels.RecordingViewModel;
+                var recordingSettings = vm?.Settings ?? (DataContext as RecordingSettings);
+                return new RecordingSettingsPanel(recordingSettings);
+            });
+        }
+
+        private void OnWaveformUpdated(object? sender, EventArgs e)
+        {
+            DrawWaveform();
         }
 
         private void DrawWaveform()
@@ -113,19 +126,6 @@ namespace ToolBox.Items.Recording.Views
                 IsHitTestVisible = false
             };
             canvas.Children.Add(centerLine);
-        }
-
-        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseRightButtonDown(e);
-            e.Handled = true;
-
-            adornerUtil.Toggle(this, () =>
-            {
-                var vm = DataContext as ViewModels.RecordingViewModel;
-                var recordingSettings = vm?.Settings ?? (DataContext as RecordingSettings);
-                return new RecordingSettingsPanel(recordingSettings);
-            });
         }
     }
 }

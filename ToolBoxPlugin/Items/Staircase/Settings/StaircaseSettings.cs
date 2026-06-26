@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using ToolBox.Settings;
@@ -21,9 +21,12 @@ namespace ToolBox.Items.Staircase.Settings
         public override string Name => "Staircase";
 
         [JsonIgnore]
+        public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.SortReverseVariant;
+
+        [JsonIgnore]
         public override string DisplayName => "階段状に配置";
 
         [JsonIgnore]
-        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("StaircaseCommand");
+        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("StaircaseItemCommand");
     }
 }

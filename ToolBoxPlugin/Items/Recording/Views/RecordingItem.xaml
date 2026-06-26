@@ -4,28 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:commons="clr-namespace:ToolBox.Commons"
              mc:Ignorable="d"
              x:Name="Root"
-             ToolTip="マイクから音声を録音">
+             ToolTip="{Binding Settings.DisplayName}">
 
     <Grid>
-        <!-- 録音ボタン -->
-        <Button Command="{Binding ToggleRecordingCommand, ElementName=Root}"
+        <Button Command="{Binding RecordingItemCommand, ElementName=Root}"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+                VerticalAlignment="Stretch"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Content">
                         <Setter.Value>
-                            <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.Play}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                            <commons:IconControl IconData="{Binding Settings.IconPath}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsRecording, ElementName=Root}" Value="True">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.Stop}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                                    <commons:IconControl IconData="{x:Static icons:IconKeys.Stop}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
@@ -34,7 +35,6 @@
             </Button.Style>
         </Button>
 
-        <!-- 波形表示用 Canvas（マウスイベント透過） -->
         <Canvas x:Name="PeakMeterCanvas" Background="Transparent" IsHitTestVisible="False" />
     </Grid>
 </UserControl>

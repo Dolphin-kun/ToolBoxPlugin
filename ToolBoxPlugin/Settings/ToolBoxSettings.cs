@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
-using ToolBox.Items.Audio.Settings;
-using ToolBox.Items.Group.Settings;
+using ToolBox.Items.SeparateAudio.Settings;
+using ToolBox.Items.InsertIntoGroup.Settings;
 using ToolBox.Items.Ruby.Settings;
 using ToolBox.Items.Sort.Settings;
 using ToolBox.Items.Staircase.Settings;
@@ -68,13 +67,7 @@ namespace ToolBox.Settings
         public string HighlightColorHex
         {
             get => highlightColorHex;
-            set
-            {
-                if (Set(ref highlightColorHex, value))
-                {
-                    OnPropertyChanged(nameof(HighlightColor));
-                }
-            }
+            set => Set(ref highlightColorHex, value, etcChangedPropertyNames: nameof(HighlightColor));
         }
 
         [JsonIgnore]
@@ -116,15 +109,12 @@ namespace ToolBox.Settings
         {
             EnsureItemExists<StaircaseSettings>(new Point(0, 0));
             EnsureItemExists<RubySettings>(new Point(1, 0));
-            EnsureItemExists<GroupSettings>(new Point(0, 1));
+            EnsureItemExists<InsertIntoGroupSettings>(new Point(0, 1));
             EnsureItemExists<SortSettings>(new Point(0, 2));
-            EnsureItemExists<AudioSettings>(new Point(2, 1));
+            EnsureItemExists<SeparateAudioSettings>(new Point(2, 1));
             EnsureItemExists<RecordingSettings>(new Point(1, 1));
             EnsureItemExists<TextSplitterSettings>(new Point(3, 1));
             EnsureItemExists<TachiePlacerSettings>(new Point(4, 1));
-
-            EnsureShortcutExists(new Point(2, 0), YukkuriMovieMaker.Settings.CommandType.Delete,           "削除");
-            EnsureShortcutExists(new Point(3, 0), YukkuriMovieMaker.Settings.CommandType.AddTimelineSpace, "空白追加");
         }
 
         private void EnsureItemExists<T>(Point defaultPos, Action<T>? configure = null) where T : ToolItemSettings, new()
@@ -134,20 +124,6 @@ namespace ToolBox.Settings
                 var item = new T { Position = defaultPos };
                 configure?.Invoke(item);
                 Items.Add(item);
-            }
-        }
-
-        /// <summary>CommandType で一致するショートカットが存在しない場合のみ追加する。</summary>
-        private void EnsureShortcutExists(Point defaultPos, YukkuriMovieMaker.Settings.CommandType commandType, string defaultLabel)
-        {
-            if (!Items.OfType<Items.Shortcuts.Settings.ShortcutSettings>().Any(s => s.CommandType == commandType))
-            {
-                Items.Add(new Items.Shortcuts.Settings.ShortcutSettings
-                {
-                    Position = defaultPos,
-                    CommandType = commandType,
-                    Label = defaultLabel
-                });
             }
         }
     }

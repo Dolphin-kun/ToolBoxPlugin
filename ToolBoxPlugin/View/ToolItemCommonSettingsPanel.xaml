@@ -9,7 +9,6 @@
              d:DesignWidth="300">
 
     <StackPanel>
-        <!-- 表示/非表示トグル -->
         <Grid Margin="0,0,0,8">
             <TextBlock Text="ツールボックスに表示"
                        VerticalAlignment="Center" FontSize="11"/>
@@ -17,9 +16,7 @@
                                    HorizontalAlignment="Right" Width="40"/>
         </Grid>
 
-        <!-- 詳細設定（表示中のみ有効） -->
         <StackPanel IsEnabled="{Binding IsVisible}">
-            <!-- 表示設定 -->
             <Grid Margin="0,0,0,8">
                 <TextBlock Text="表示設定"
                            VerticalAlignment="Center" FontSize="11"/>
@@ -31,7 +28,6 @@
                 </ComboBox>
             </Grid>
 
-            <!-- カスタマイズ時のみ表示する内容 -->
             <StackPanel>
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
@@ -44,7 +40,6 @@
                     </Style>
                 </StackPanel.Style>
 
-                <!-- 画像ファイル -->
                 <Grid Margin="0,0,0,8">
                     <TextBlock Text="画像ファイル"
                                VerticalAlignment="Center" FontSize="11"/>
@@ -53,7 +48,6 @@
                                            HorizontalAlignment="Right" Width="200" Height="24" FontSize="11" />
                 </Grid>
 
-                <!-- ボタンのラベル -->
                 <Grid Margin="0,0,0,8">
                     <TextBlock Text="ボタンのラベル"
                                VerticalAlignment="Center" FontSize="11"/>

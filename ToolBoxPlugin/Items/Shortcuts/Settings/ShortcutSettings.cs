@@ -19,7 +19,8 @@ namespace ToolBox.Items.Shortcuts.Settings
             set => Set(ref commandType, value, etcChangedPropertyNames: nameof(IconPath));
         }
 
-        public string IconPath => ShortcutDefinitions.Allowed
+        [JsonIgnore]
+        public override string IconPath => ShortcutDefinitions.Allowed
             .FirstOrDefault(d => d.CommandType == commandType)?.IconPath ?? string.Empty;
 
         [JsonIgnore]

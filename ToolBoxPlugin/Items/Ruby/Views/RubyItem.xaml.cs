@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -8,13 +8,13 @@ namespace ToolBox.Items.Ruby.Views
 {
     public partial class RubyItem : UserControl
     {
-        public static readonly DependencyProperty AddRubyItemCommandProperty =
-            DependencyProperty.Register(nameof(AddRubyItemCommand), typeof(ICommand), typeof(RubyItem));
+        public static readonly DependencyProperty RubyItemCommandProperty =
+            DependencyProperty.Register(nameof(RubyItemCommand), typeof(ICommand), typeof(RubyItem));
 
-        public ICommand? AddRubyItemCommand
+        public ICommand? RubyItemCommand
         {
-            get => (ICommand?)GetValue(AddRubyItemCommandProperty);
-            set => SetValue(AddRubyItemCommandProperty, value);
+            get => (ICommand?)GetValue(RubyItemCommandProperty);
+            set => SetValue(RubyItemCommandProperty, value);
         }
 
         private readonly AdornerUtil adornerUtil = new();

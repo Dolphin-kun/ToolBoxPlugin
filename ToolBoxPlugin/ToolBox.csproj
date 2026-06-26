@@ -20,7 +20,7 @@
 		  <HintPath>$(YMM4DirPath)NAudio.Core.dll</HintPath>
 		</Reference>
 		<Reference Include="NAudio.WinMM">
-		  <HintPath>..\..\..\..\YukkuriMovieMaker_v4_Lite_Plugin\NAudio.WinMM.dll</HintPath>
+		  <HintPath>$(YMM4DirPath)NAudio.WinMM.dll</HintPath>
 		</Reference>
 		<Reference Include="YukkuriMovieMaker">
 			<HintPath>$(YMM4DirPath)YukkuriMovieMaker.dll</HintPath>

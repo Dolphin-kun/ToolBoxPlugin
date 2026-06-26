@@ -36,6 +36,18 @@
 
             <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Margin="0,4,0,8" />
 
+            <Grid Margin="0,0,0,6">
+                <TextBlock Text="元の描画位置を維持" VerticalAlignment="Center" FontSize="11"/>
+                <controls:ToggleSlider Value="{Binding IsKeepPosition, Mode=TwoWay}" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,6">
+                <TextBlock Text="&lt;rb&gt;等のタグを無視" VerticalAlignment="Center" FontSize="11" ToolTip="ONの場合、YMMのタグ（&lt;rb&gt;など）を分割せずに一塊として維持します"/>
+                <controls:ToggleSlider Value="{Binding IsIgnoreTags, Mode=TwoWay}" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Margin="0,4,0,8" />
+
             <!-- Vertical options -->
             <Grid Margin="0,0,0,4">
                 <Grid.Style>

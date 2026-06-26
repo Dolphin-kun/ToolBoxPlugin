@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -8,13 +8,13 @@ namespace ToolBox.Items.TextSplitter.Views
 {
     public partial class TextSplitterItem : UserControl
     {
-        public static readonly DependencyProperty SplitTextCommandProperty =
-            DependencyProperty.Register(nameof(SplitTextCommand), typeof(ICommand), typeof(TextSplitterItem));
+        public static readonly DependencyProperty TextSplitterItemCommandProperty =
+            DependencyProperty.Register(nameof(TextSplitterItemCommand), typeof(ICommand), typeof(TextSplitterItem));
 
-        public ICommand? SplitTextCommand
+        public ICommand? TextSplitterItemCommand
         {
-            get => (ICommand?)GetValue(SplitTextCommandProperty);
-            set => SetValue(SplitTextCommandProperty, value);
+            get => (ICommand?)GetValue(TextSplitterItemCommandProperty);
+            set => SetValue(TextSplitterItemCommandProperty, value);
         }
 
         private readonly AdornerUtil adornerUtil = new();

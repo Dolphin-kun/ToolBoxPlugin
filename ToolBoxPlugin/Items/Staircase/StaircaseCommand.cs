@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using ToolBox.Items.Staircase.Settings;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Project;
@@ -7,7 +7,7 @@ using YukkuriMovieMaker.UndoRedo;
 
 namespace ToolBox.Items.Staircase
 {
-    internal static class StaircaseCommand
+    internal static class StaircaseItemCommand
     {
         public static bool CanExecute(IReadOnlyList<IItem> selectedItems)
         {

@@ -38,6 +38,8 @@ namespace ToolBox.Items.Recording.ViewModels
         public void Dispose()
         {
             disposer.Dispose();
+
+            GC.SuppressFinalize(this);
         }
     }
 }

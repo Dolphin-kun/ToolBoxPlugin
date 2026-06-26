@@ -1,4 +1,4 @@
-<UserControl x:Class="ToolBox.Items.TachiePlacer.Views.TachiePlacerItem"
+<UserControl x:Class="ToolBox.Items.InsertIntoGroup.Views.InsertIntoGroupItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -9,7 +9,7 @@
              x:Name="Root"
              ToolTip="{Binding DisplayName}">
 
-    <Button Command="{Binding TachiePlacerItemCommand, ElementName=Root}"
+    <Button Command="{Binding InsertIntoGroupItemCommand, ElementName=Root}"
             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
             Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
         <commons:IconControl IconData="{Binding IconPath}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

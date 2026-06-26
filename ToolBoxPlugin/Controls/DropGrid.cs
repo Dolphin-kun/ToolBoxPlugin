@@ -1,4 +1,3 @@
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,7 +7,9 @@ namespace ToolBox.Controls
 {
     public class DropGrid : Grid
     {
-        private Border? _highlightBorder;
+        private Border? highlightBorder;
+        private Window? parentWindow;
+        private bool isCtrlPressed;
 
         public event EventHandler? GridChanged;
 
@@ -44,6 +45,10 @@ namespace ToolBox.Controls
             DependencyProperty.Register(nameof(ShowCellBorders), typeof(bool), typeof(DropGrid),
                 new PropertyMetadata(true, OnGridPropertyChanged));
 
+        public static readonly DependencyProperty HighlightPaddingProperty =
+            DependencyProperty.Register(nameof(HighlightPadding), typeof(double), typeof(DropGrid),
+                new PropertyMetadata(2.0));
+
         public int RowCount { get => (int)GetValue(RowCountProperty); set => SetValue(RowCountProperty, value); }
         public int ColumnCount { get => (int)GetValue(ColumnCountProperty); set => SetValue(ColumnCountProperty, value); }
         public double CellSize { get => (double)GetValue(CellSizeProperty); set => SetValue(CellSizeProperty, value); }
@@ -52,143 +57,12 @@ namespace ToolBox.Controls
         public bool ShowHighlight { get => (bool)GetValue(ShowHighlightProperty); set => SetValue(ShowHighlightProperty, value); }
         public Color HighlightColor { get => (Color)GetValue(HighlightColorProperty); set => SetValue(HighlightColorProperty, value); }
         public bool ShowCellBorders { get => (bool)GetValue(ShowCellBordersProperty); set => SetValue(ShowCellBordersProperty, value); }
-
-        private Window? _parentWindow;
-        private bool _isCtrlPressed;
+        public double HighlightPadding { get => (double)GetValue(HighlightPaddingProperty); set => SetValue(HighlightPaddingProperty, value); }
 
         public DropGrid()
         {
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            _parentWindow = Window.GetWindow(this);
-            AttachWindowKeyHandlers();
-            UpdateGrid();
-        }
-
-        private void OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            DetachWindowKeyHandlers();
-        }
-
-        private void AttachWindowKeyHandlers()
-        {
-            if (_parentWindow == null) return;
-            _parentWindow.PreviewKeyDown -= OnParentWindowKeyChanged;
-            _parentWindow.PreviewKeyUp -= OnParentWindowKeyChanged;
-            _parentWindow.Deactivated -= OnParentWindowDeactivated;
-            _parentWindow.PreviewKeyDown += OnParentWindowKeyChanged;
-            _parentWindow.PreviewKeyUp += OnParentWindowKeyChanged;
-            _parentWindow.Deactivated += OnParentWindowDeactivated;
-        }
-
-        private void DetachWindowKeyHandlers()
-        {
-            if (_parentWindow == null) return;
-            _parentWindow.PreviewKeyDown -= OnParentWindowKeyChanged;
-            _parentWindow.PreviewKeyUp -= OnParentWindowKeyChanged;
-            _parentWindow.Deactivated -= OnParentWindowDeactivated;
-        }
-
-        private void OnParentWindowKeyChanged(object sender, KeyEventArgs e)
-        {
-            bool ctrlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (_isCtrlPressed != ctrlPressed)
-            {
-                _isCtrlPressed = ctrlPressed;
-                UpdateGrid();
-            }
-        }
-
-        private void OnParentWindowDeactivated(object? sender, EventArgs e)
-        {
-            if (_isCtrlPressed)
-            {
-                _isCtrlPressed = false;
-                UpdateGrid();
-            }
-        }
-
-        protected override void OnPreviewMouseMove(MouseEventArgs e)
-        {
-            base.OnPreviewMouseMove(e);
-            UpdateCtrlState();
-        }
-
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseEnter(e);
-            UpdateCtrlState();
-        }
-
-        private void UpdateCtrlState()
-        {
-            bool ctrlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (_isCtrlPressed != ctrlPressed)
-            {
-                _isCtrlPressed = ctrlPressed;
-                UpdateGrid();
-            }
-        }
-
-        private static void OnGridPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DropGrid grid && grid.IsLoaded)
-                grid.UpdateGrid();
-        }
-
-        private void UpdateGrid()
-        {
-            RowDefinitions.Clear();
-            ColumnDefinitions.Clear();
-            Children.Clear();
-
-            for (int i = 0; i < RowCount; i++)
-                RowDefinitions.Add(new RowDefinition { Height = new GridLength(CellSize) });
-
-            for (int i = 0; i < ColumnCount; i++)
-                ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(CellSize) });
-
-            if (ShowCellBorders || _isCtrlPressed)
-            {
-                for (int r = 0; r < RowCount; r++)
-                {
-                    for (int c = 0; c < ColumnCount; c++)
-                    {
-                        var cellBorder = new Border
-                        {
-                            BorderBrush = CellBorderBrush,
-                            BorderThickness = new Thickness(1),
-                            Margin = new Thickness(CellMargin),
-                            SnapsToDevicePixels = true,
-                            IsHitTestVisible = false
-                        };
-                        SetRow(cellBorder, r);
-                        SetColumn(cellBorder, c);
-                        Children.Add(cellBorder);
-                    }
-                }
-            }
-
-            if (_highlightBorder != null)
-            {
-                Children.Add(_highlightBorder);
-            }
-
-            GridChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        public static readonly DependencyProperty HighlightPaddingProperty =
-            DependencyProperty.Register(nameof(HighlightPadding), typeof(double), typeof(DropGrid),
-                new PropertyMetadata(2.0));
-
-        public double HighlightPadding
-        {
-            get => (double)GetValue(HighlightPaddingProperty);
-            set => SetValue(HighlightPaddingProperty, value);
         }
 
         public void HighlightCell(int row, int col, Size cellSpan)
@@ -209,7 +83,7 @@ namespace ToolBox.Controls
             var borderBrush = new SolidColorBrush(brushColor);
             var bgBrush = new SolidColorBrush(Color.FromArgb(0x30, brushColor.R, brushColor.G, brushColor.B));
 
-            _highlightBorder = new Border
+            highlightBorder = new Border
             {
                 Background = bgBrush,
                 BorderBrush = borderBrush,
@@ -218,20 +92,20 @@ namespace ToolBox.Controls
                 IsHitTestVisible = false
             };
 
-            SetRow(_highlightBorder, startRow);
-            SetColumn(_highlightBorder, startCol);
-            SetRowSpan(_highlightBorder, Math.Min(spanY, RowCount - startRow));
-            SetColumnSpan(_highlightBorder, Math.Min(spanX, ColumnCount - startCol));
+            SetRow(highlightBorder, startRow);
+            SetColumn(highlightBorder, startCol);
+            SetRowSpan(highlightBorder, Math.Min(spanY, RowCount - startRow));
+            SetColumnSpan(highlightBorder, Math.Min(spanX, ColumnCount - startCol));
 
-            Children.Add(_highlightBorder);
+            Children.Add(highlightBorder);
         }
 
         public void ClearHighlight()
         {
-            if (_highlightBorder != null)
+            if (highlightBorder != null)
             {
-                Children.Remove(_highlightBorder);
-                _highlightBorder = null;
+                Children.Remove(highlightBorder);
+                highlightBorder = null;
             }
         }
 
@@ -248,5 +122,124 @@ namespace ToolBox.Controls
 
         public Point GetCellTopLeft(int row, int col)
             => new(col * CellSize, row * CellSize);
+
+        protected override void OnPreviewMouseMove(MouseEventArgs e)
+        {
+            base.OnPreviewMouseMove(e);
+            UpdateCtrlState();
+        }
+
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            UpdateCtrlState();
+        }
+
+        private static void OnGridPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is DropGrid grid && grid.IsLoaded)
+                grid.UpdateGrid();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            parentWindow = Window.GetWindow(this);
+            AttachWindowKeyHandlers();
+            UpdateGrid();
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            DetachWindowKeyHandlers();
+        }
+
+        private void AttachWindowKeyHandlers()
+        {
+            if (parentWindow == null) return;
+            parentWindow.PreviewKeyDown -= OnParentWindowKeyChanged;
+            parentWindow.PreviewKeyUp -= OnParentWindowKeyChanged;
+            parentWindow.Deactivated -= OnParentWindowDeactivated;
+            parentWindow.PreviewKeyDown += OnParentWindowKeyChanged;
+            parentWindow.PreviewKeyUp += OnParentWindowKeyChanged;
+            parentWindow.Deactivated += OnParentWindowDeactivated;
+        }
+
+        private void DetachWindowKeyHandlers()
+        {
+            if (parentWindow == null) return;
+            parentWindow.PreviewKeyDown -= OnParentWindowKeyChanged;
+            parentWindow.PreviewKeyUp -= OnParentWindowKeyChanged;
+            parentWindow.Deactivated -= OnParentWindowDeactivated;
+        }
+
+        private void OnParentWindowKeyChanged(object sender, KeyEventArgs e)
+        {
+            bool ctrlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            if (isCtrlPressed != ctrlPressed)
+            {
+                isCtrlPressed = ctrlPressed;
+                UpdateGrid();
+            }
+        }
+
+        private void OnParentWindowDeactivated(object? sender, EventArgs e)
+        {
+            if (isCtrlPressed)
+            {
+                isCtrlPressed = false;
+                UpdateGrid();
+            }
+        }
+
+        private void UpdateCtrlState()
+        {
+            bool ctrlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            if (isCtrlPressed != ctrlPressed)
+            {
+                isCtrlPressed = ctrlPressed;
+                UpdateGrid();
+            }
+        }
+
+        private void UpdateGrid()
+        {
+            RowDefinitions.Clear();
+            ColumnDefinitions.Clear();
+            Children.Clear();
+
+            for (int i = 0; i < RowCount; i++)
+                RowDefinitions.Add(new RowDefinition { Height = new GridLength(CellSize) });
+
+            for (int i = 0; i < ColumnCount; i++)
+                ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(CellSize) });
+
+            if (ShowCellBorders || isCtrlPressed)
+            {
+                for (int r = 0; r < RowCount; r++)
+                {
+                    for (int c = 0; c < ColumnCount; c++)
+                    {
+                        var cellBorder = new Border
+                        {
+                            BorderBrush = CellBorderBrush,
+                            BorderThickness = new Thickness(1),
+                            Margin = new Thickness(CellMargin),
+                            SnapsToDevicePixels = true,
+                            IsHitTestVisible = false
+                        };
+                        SetRow(cellBorder, r);
+                        SetColumn(cellBorder, c);
+                        Children.Add(cellBorder);
+                    }
+                }
+            }
+
+            if (highlightBorder != null)
+            {
+                Children.Add(highlightBorder);
+            }
+
+            GridChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

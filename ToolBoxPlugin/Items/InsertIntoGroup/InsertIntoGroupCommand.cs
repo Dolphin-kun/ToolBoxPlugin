@@ -1,11 +1,10 @@
-using System.Linq;
 using YukkuriMovieMaker.Project;
 using YukkuriMovieMaker.Project.Items;
 using YukkuriMovieMaker.UndoRedo;
 
-namespace ToolBox.Items.Group
+namespace ToolBox.Items.InsertIntoGroup
 {
-    internal static class GroupCommand
+    internal static class InsertIntoGroupItemCommand
     {
         public static bool CanExecute(IReadOnlyList<IItem> selectedItems)
         {

@@ -31,9 +31,12 @@ namespace ToolBox.Items.TachiePlacer.Settings
         public override string Name => "TachiePlacer";
 
         [JsonIgnore]
+        public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.Account;
+        
+        [JsonIgnore]
         public override string DisplayName => "立ち絵配置";
 
         [JsonIgnore]
-        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("AddTachieItemCommand");
+        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("TachiePlacerItemCommand");
     }
 }

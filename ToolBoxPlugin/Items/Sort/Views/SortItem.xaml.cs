@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -6,22 +6,22 @@ namespace ToolBox.Items.Sort.Views
 {
     public partial class SortItem : UserControl
     {
-        public static readonly DependencyProperty SortAscendingCommandProperty =
-            DependencyProperty.Register(nameof(SortAscendingCommand), typeof(ICommand), typeof(SortItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty SortAscendingItemCommandProperty =
+            DependencyProperty.Register(nameof(SortAscendingItemCommand), typeof(ICommand), typeof(SortItem), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty SortDescendingCommandProperty =
-            DependencyProperty.Register(nameof(SortDescendingCommand), typeof(ICommand), typeof(SortItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty SortDescendingItemCommandProperty =
+            DependencyProperty.Register(nameof(SortDescendingItemCommand), typeof(ICommand), typeof(SortItem), new PropertyMetadata(null));
 
-        public ICommand? SortAscendingCommand
+        public ICommand? SortAscendingItemCommand
         {
-            get => (ICommand?)GetValue(SortAscendingCommandProperty);
-            set => SetValue(SortAscendingCommandProperty, value);
+            get => (ICommand?)GetValue(SortAscendingItemCommandProperty);
+            set => SetValue(SortAscendingItemCommandProperty, value);
         }
 
-        public ICommand? SortDescendingCommand
+        public ICommand? SortDescendingItemCommand
         {
-            get => (ICommand?)GetValue(SortDescendingCommandProperty);
-            set => SetValue(SortDescendingCommandProperty, value);
+            get => (ICommand?)GetValue(SortDescendingItemCommandProperty);
+            set => SetValue(SortDescendingItemCommandProperty, value);
         }
 
         public SortItem()

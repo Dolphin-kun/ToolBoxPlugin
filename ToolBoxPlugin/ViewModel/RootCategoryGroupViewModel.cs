@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using ToolBox.Commons;
 using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.ViewModel

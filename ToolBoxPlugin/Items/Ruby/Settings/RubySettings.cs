@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
@@ -26,9 +26,12 @@ namespace ToolBox.Items.Ruby.Settings
         public override string Name => "Ruby";
 
         [JsonIgnore]
+        public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.FuriganaHorizontal;
+
+        [JsonIgnore]
         public override string DisplayName => "ルビ振り";
 
         [JsonIgnore]
-        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("AddRubyItemCommand");
+        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("RubyItemCommand");
     }
 }

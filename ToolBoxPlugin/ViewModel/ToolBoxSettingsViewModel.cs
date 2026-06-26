@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
-using ToolBox.Commons;
 using ToolBox.Items;
 using ToolBox.Items.Shortcuts.Settings;
 using ToolBox.Settings;
@@ -19,7 +14,7 @@ namespace ToolBox.ViewModel
 
         public ICommand CloseCommand { get; }
 
-        public string Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
+        public static string Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
 
         private object? selectedDetail;
         public object? SelectedDetail
@@ -92,7 +87,7 @@ namespace ToolBox.ViewModel
                         .Select(s =>
                         {
                             draggableItems.TryGetValue(s.GetType(), out var item);
-                            return new ToolItemEntryViewModel(settings, s.GetType(), s.DisplayName, item?.IconPath ?? string.Empty, item?.SettingsViewType);
+                            return new ToolItemEntryViewModel(settings, s.GetType(), s.DisplayName, s.IconPath, item?.SettingsViewType);
                         })
                         .ToList();
                     return new ToolItemGroupViewModel(jaName, entries);

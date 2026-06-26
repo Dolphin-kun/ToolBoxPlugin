@@ -15,7 +15,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <!-- Iconモード：元のViewを表示 -->
+        <!-- Iconモード -->
         <Border Margin="2" x:Name="IconViewBorder">
             <Border.Style>
                 <Style TargetType="Border">
@@ -30,7 +30,7 @@
             <ContentPresenter Content="{Binding}" />
         </Border>
 
-        <!-- Customモード：カスタム画像またはテキストを配置したボタンを表示 -->
+        <!-- Customモード -->
         <Button x:Name="CustomButton"
                 Command="{Binding DefaultCommand}"
                 ToolTip="{Binding Label}"
@@ -47,7 +47,7 @@
                 </Style>
             </Button.Style>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <!-- Custom Mode: Image -->
+                <!-- Image -->
                 <Image Source="{Binding CustomImagePath}"
                        Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Image.Style>
@@ -65,7 +65,7 @@
                     </Image.Style>
                 </Image>
 
-                <!-- Custom Mode: Text (画像がない場合) -->
+                <!-- Text -->
                 <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" FontSize="11" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">

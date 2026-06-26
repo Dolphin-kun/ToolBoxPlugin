@@ -5,16 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:commons="clr-namespace:ToolBox.Commons"
              mc:Ignorable="d"
              x:Name="Root"
-             ToolTip="アイテムをフレーム順にソートしてレイヤーを整理">
+             ToolTip="{Binding DisplayName}">
 
     <UniformGrid Columns="2">
-        <Button Command="{Binding SortAscendingCommand, ElementName=Root}" ToolTip="早い順にソート">
-            <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.SortAscending}}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+        <Button Command="{Binding SortAscendingItemCommand, ElementName=Root}" ToolTip="早い順にソート"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+            <commons:IconControl IconData="{x:Static icons:IconKeys.SortAscending}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
         </Button>
-        <Button Command="{Binding SortDescendingCommand, ElementName=Root}" ToolTip="遅い順にソート">
-            <ContentControl Content="{DynamicResource {x:Static icons:IconKeys.SortDescending}}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" />
+        <Button Command="{Binding SortDescendingItemCommand, ElementName=Root}" ToolTip="遅い順にソート"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+            <commons:IconControl IconData="{x:Static icons:IconKeys.SortDescending}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" />
         </Button>
     </UniformGrid>
 </UserControl>

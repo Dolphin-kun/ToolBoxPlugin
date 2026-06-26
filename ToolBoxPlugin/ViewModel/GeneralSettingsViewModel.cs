@@ -1,4 +1,3 @@
-using System.Windows;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
 

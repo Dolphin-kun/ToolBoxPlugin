@@ -17,11 +17,12 @@
     <Button Command="{Binding ShortcutCommand, ElementName=Root}" CommandParameter="{Binding}" ToolTip="{Binding Label}">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <!-- Icon Mode -->
-            <Path Data="{Binding IconPath, Converter={StaticResource StringToGeometryConverter}}"
-                  Fill="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                  Width="14" Height="14" Stretch="Uniform">
-                <Path.Style>
-                    <Style TargetType="Path">
+            <!-- Icon Mode -->
+            <commons:IconControl IconData="{Binding IconPath}"
+                  Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <commons:IconControl.Style>
+                    <Style TargetType="commons:IconControl">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Icon}">
@@ -29,12 +30,12 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Path.Style>
-            </Path>
+                </commons:IconControl.Style>
+            </commons:IconControl>
 
             <!-- Custom Mode: Image -->
             <Image Source="{Binding CustomImagePath}"
-                   Width="14" Height="14" Stretch="Uniform">
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
                 <Image.Style>
                     <Style TargetType="Image">
                         <Setter Property="Visibility" Value="Collapsed"/>

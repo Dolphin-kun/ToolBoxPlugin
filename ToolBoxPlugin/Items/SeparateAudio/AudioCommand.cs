@@ -3,7 +3,7 @@ using YukkuriMovieMaker.Project;
 using YukkuriMovieMaker.Project.Items;
 using YukkuriMovieMaker.UndoRedo;
 
-namespace ToolBox.Items.Audio
+namespace ToolBox.Items.SeparateAudio
 {
     internal static class AudioCommand
     {

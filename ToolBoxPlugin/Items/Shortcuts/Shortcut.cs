@@ -13,7 +13,6 @@ namespace ToolBox.Items.Shortcuts
         public override Type? ViewModelType => null;
         public override Type? SettingsViewType => typeof(ShortcutSettingsPanel);
         public override Type? SettingsViewModelType => null;
-        public override string IconPath => string.Empty;
 
         public override IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions() =>
         [

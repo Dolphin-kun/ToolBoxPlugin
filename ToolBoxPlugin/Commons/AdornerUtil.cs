@@ -6,47 +6,47 @@ namespace ToolBox.Commons
 {
     public class AdornerUtil
     {
-        private SettingsAdorner? _adorner;
-        private UIElement? _owner;
+        private SettingsAdorner? adorner;
+        private UIElement? owner;
+
+        public bool IsVisible => adorner != null;
 
         public void Show<TPanel>(UIElement owner, Func<TPanel> panelFactory) where TPanel : FrameworkElement
         {
             ArgumentNullException.ThrowIfNull(panelFactory);
 
-            _owner = owner;
+            this.owner = owner;
 
             var adornerLayer = AdornerLayer.GetAdornerLayer(owner);
             if (adornerLayer == null) return;
 
             var panel = panelFactory();
-            _adorner = new SettingsAdorner(owner, panel);
-            _adorner.DismissRequested += (_, _) => Hide();
+            adorner = new SettingsAdorner(owner, panel);
+            adorner.DismissRequested += (_, _) => Hide();
 
-            adornerLayer.Add(_adorner);
+            adornerLayer.Add(adorner);
             
             var window = Window.GetWindow(owner);
             if (window != null)
-                _adorner.AttachDismissHandler(window);
+                adorner.AttachDismissHandler(window);
         }
 
         public void Hide()
         {
-            if (_adorner == null || _owner == null) return;
+            if (adorner == null || owner == null) return;
 
-            _adorner.DetachDismissHandler();
-            AdornerLayer.GetAdornerLayer(_owner)?.Remove(_adorner);
-            _adorner = null;
-            _owner = null;
+            adorner.DetachDismissHandler();
+            AdornerLayer.GetAdornerLayer(owner)?.Remove(adorner);
+            adorner = null;
+            owner = null;
         }
 
         public void Toggle<TPanel>(UIElement owner, Func<TPanel> panelFactory) where TPanel : FrameworkElement
         {
-            if (_adorner != null)
+            if (adorner != null)
                 Hide();
             else
                 Show(owner, panelFactory);
         }
-
-        public bool IsVisible => _adorner != null;
     }
 }

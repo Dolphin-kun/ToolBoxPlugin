@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -328,7 +325,7 @@ namespace ToolBox.Controls
             if (ctrlPressed)
             {
                 e.Handled = true;
-                ShowItemContextMenu(e);
+                ShowItemContextMenu();
             }
             else
             {
@@ -336,10 +333,9 @@ namespace ToolBox.Controls
             }
         }
 
-        private void ShowItemContextMenu(MouseButtonEventArgs e)
+        private void ShowItemContextMenu()
         {
-            var settings = DataContext as ToolItemSettings;
-            if (settings == null) return;
+            if (DataContext is not ToolItemSettings settings) return;
 
             var contextMenu = new ContextMenu();
 
@@ -355,7 +351,7 @@ namespace ToolBox.Controls
             contextMenu.IsOpen = true;
         }
 
-        private void HideItem(ToolItemSettings settings)
+        private static void HideItem(ToolItemSettings settings)
         {
             ToolBoxSettings.Default.Items.Remove(settings);
         }

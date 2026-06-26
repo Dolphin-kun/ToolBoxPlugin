@@ -22,7 +22,7 @@ namespace ToolBox.ViewModel
         private readonly DisposeCollector disposer = new();
         public DisposeCollector Disposer => disposer;
 
-        public ToolBoxSettings ToolBoxSettings => ToolBoxSettings.Default;
+        public static ToolBoxSettings ToolBoxSettings => ToolBoxSettings.Default;
 
         private bool isSettingsVisible = false;
         public bool IsSettingsVisible

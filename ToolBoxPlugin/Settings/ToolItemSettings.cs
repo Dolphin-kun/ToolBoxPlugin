@@ -1,4 +1,3 @@
-using System;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -59,5 +58,8 @@ namespace ToolBox.Settings
                     : typeName;
             }
         }
+
+        [JsonIgnore]
+        public virtual string IconPath => string.Empty;
     }
 }

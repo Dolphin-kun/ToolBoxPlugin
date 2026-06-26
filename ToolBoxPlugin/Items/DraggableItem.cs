@@ -17,8 +17,7 @@ namespace ToolBox.Items
         /// <summary>設定パネルの ViewModel の型 (不要なら null)</summary>
         public abstract Type? SettingsViewModelType { get; }
 
-        /// <summary>設定一覧に表示するアイコンの SVG パスデータ</summary>
-        public abstract string IconPath { get; }
+
 
         /// <summary>
         /// コマンド定義を返す。

@@ -4,18 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:commons="clr-namespace:ToolBox.Commons"
              mc:Ignorable="d"
              x:Name="Root"
-             ToolTip="階段状に配置">
+             ToolTip="{Binding DisplayName}">
 
     <UniformGrid Columns="2">
-        <Button Command="{Binding StaircaseCommand, ElementName=Root}">
-            <Path Fill="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                  Data="M2 4H17V6H2M0 8H15V10H0M4 0H19V2H4" />
+        <Button Command="{Binding StaircaseItemCommand, ElementName=Root}"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+            <commons:IconControl IconData="M2 4H17V6H2M0 8H15V10H0M4 0H19V2H4" />
         </Button>
-        <Button Command="{Binding ReverseStaircaseCommand, ElementName=Root}">
-            <Path Fill="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                  Data="M2 4H17V6H2M4 8H19V10H4M0 0H15V2H0" />
+        <Button Command="{Binding ReverseStaircaseItemCommand, ElementName=Root}"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+            <commons:IconControl IconData="M2 4H17V6H2M4 8H19V10H4M0 0H15V2H0" />
         </Button>
     </UniformGrid>
 </UserControl>

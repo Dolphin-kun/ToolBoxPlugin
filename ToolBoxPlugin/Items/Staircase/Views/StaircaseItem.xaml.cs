@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -7,22 +7,22 @@ namespace ToolBox.Items.Staircase.Views
 {
     public partial class StaircaseItem : UserControl
     {
-        public static readonly DependencyProperty StaircaseCommandProperty =
-            DependencyProperty.Register(nameof(StaircaseCommand), typeof(ICommand), typeof(StaircaseItem));
+        public static readonly DependencyProperty StaircaseItemCommandProperty =
+            DependencyProperty.Register(nameof(StaircaseItemCommand), typeof(ICommand), typeof(StaircaseItem));
 
-        public static readonly DependencyProperty ReverseStaircaseCommandProperty =
-            DependencyProperty.Register(nameof(ReverseStaircaseCommand), typeof(ICommand), typeof(StaircaseItem));
+        public static readonly DependencyProperty ReverseStaircaseItemCommandProperty =
+            DependencyProperty.Register(nameof(ReverseStaircaseItemCommand), typeof(ICommand), typeof(StaircaseItem));
 
-        public ICommand? StaircaseCommand
+        public ICommand? StaircaseItemCommand
         {
-            get => (ICommand?)GetValue(StaircaseCommandProperty);
-            set => SetValue(StaircaseCommandProperty, value);
+            get => (ICommand?)GetValue(StaircaseItemCommandProperty);
+            set => SetValue(StaircaseItemCommandProperty, value);
         }
 
-        public ICommand? ReverseStaircaseCommand
+        public ICommand? ReverseStaircaseItemCommand
         {
-            get => (ICommand?)GetValue(ReverseStaircaseCommandProperty);
-            set => SetValue(ReverseStaircaseCommandProperty, value);
+            get => (ICommand?)GetValue(ReverseStaircaseItemCommandProperty);
+            set => SetValue(ReverseStaircaseItemCommandProperty, value);
         }
 
         private readonly AdornerUtil adornerUtil = new();
