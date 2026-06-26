@@ -19,10 +19,10 @@
         <Border Margin="2" x:Name="IconViewBorder">
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
+                        <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Icon}">
+                            <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -37,10 +37,13 @@
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Margin="2">
             <Button.Style>
-                <Style TargetType="Button">
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}">
+                        <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Text}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Image}">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -54,12 +57,9 @@
                         <Style TargetType="Image">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding CustomImagePath, Converter={StaticResource StringToVisibilityConverter}}" Value="Visible"/>
-                                    </MultiDataTrigger.Conditions>
+                                <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Image}">
                                     <Setter Property="Visibility" Value="Visible"/>
-                                </MultiDataTrigger>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Image.Style>
@@ -71,12 +71,9 @@
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding CustomImagePath, Converter={StaticResource StringToVisibilityConverter}}" Value="Collapsed"/>
-                                    </MultiDataTrigger.Conditions>
+                                <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Text}">
                                     <Setter Property="Visibility" Value="Visible"/>
-                                </MultiDataTrigger>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>

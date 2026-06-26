@@ -16,7 +16,7 @@
                 VerticalAlignment="Stretch"
                 Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
             <Button.Style>
-                <Style TargetType="Button">
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Content">
                         <Setter.Value>
                             <commons:IconControl IconData="{Binding Settings.IconPath}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />

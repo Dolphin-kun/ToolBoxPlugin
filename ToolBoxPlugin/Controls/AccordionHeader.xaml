@@ -6,31 +6,25 @@
               Background="Transparent"
               BorderThickness="0"
               Padding="4,5,4,5"
-              Cursor="Hand">
-    <ToggleButton.Template>
-        <ControlTemplate TargetType="{x:Type ToggleButton}">
-            <Border Background="{TemplateBinding Background}"
-                    Padding="{TemplateBinding Padding}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="14"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="Arrow" Grid.Column="0" Text="▾"
-                               FontSize="9" VerticalAlignment="Center"
-                               Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                    <ContentPresenter Grid.Column="1" VerticalAlignment="Center"/>
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsChecked" Value="False">
+              Cursor="Hand"
+              Style="{DynamicResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+    <ToggleButton.ContentTemplate>
+        <DataTemplate>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="Arrow" Grid.Column="0" Text="▾"
+                           FontSize="9" VerticalAlignment="Center"
+                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                <ContentPresenter Grid.Column="1" Content="{Binding}" VerticalAlignment="Center"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}" Value="False">
                     <Setter TargetName="Arrow" Property="Text" Value="▸"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background"
-                            Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-    </ToggleButton.Template>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </ToggleButton.ContentTemplate>
 </ToggleButton>

@@ -1,4 +1,3 @@
-using ToolBox.Items.Recording;
 using ToolBox.Items.Recording.Settings;
 using YukkuriMovieMaker.Commons;
 

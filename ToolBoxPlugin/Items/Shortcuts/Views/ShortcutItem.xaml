@@ -40,31 +40,23 @@
                     <Style TargetType="Image">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}"/>
-                                    <Condition Binding="{Binding CustomImagePath, Converter={StaticResource StringToVisibilityConverter}}" Value="Visible"/>
-                                </MultiDataTrigger.Conditions>
+                            <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Image}">
                                 <Setter Property="Visibility" Value="Visible"/>
-                            </MultiDataTrigger>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Image.Style>
             </Image>
 
             <!-- Custom Mode: Text -->
-            <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis">
+            <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}"/>
-                                    <Condition Binding="{Binding CustomImagePath, Converter={StaticResource StringToVisibilityConverter}}" Value="Collapsed"/>
-                                </MultiDataTrigger.Conditions>
+                            <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Text}">
                                 <Setter Property="Visibility" Value="Visible"/>
-                            </MultiDataTrigger>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TextBlock.Style>

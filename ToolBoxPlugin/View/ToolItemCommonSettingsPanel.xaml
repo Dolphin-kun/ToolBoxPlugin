@@ -24,7 +24,8 @@
                           SelectedValuePath="Tag"
                           HorizontalAlignment="Right" Width="200" FontSize="11">
                     <ComboBoxItem Content="アイコン" Tag="{x:Static settings:ToolItemDisplayMode.Icon}"/>
-                    <ComboBoxItem Content="カスタム" Tag="{x:Static settings:ToolItemDisplayMode.Custom}"/>
+                    <ComboBoxItem Content="テキスト" Tag="{x:Static settings:ToolItemDisplayMode.Text}"/>
+                    <ComboBoxItem Content="画像" Tag="{x:Static settings:ToolItemDisplayMode.Image}"/>
                 </ComboBox>
             </Grid>
 
@@ -33,7 +34,10 @@
                     <Style TargetType="StackPanel">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding SettingsInstance.DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}">
+                            <DataTrigger Binding="{Binding SettingsInstance.DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Image}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SettingsInstance.DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Text}">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -41,16 +45,34 @@
                 </StackPanel.Style>
 
                 <Grid Margin="0,0,0,8">
-                    <TextBlock Text="画像ファイル"
-                               VerticalAlignment="Center" FontSize="11"/>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SettingsInstance.DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Image}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <TextBlock Text="画像ファイル" VerticalAlignment="Center" FontSize="11"/>
                     <controls:FileSelector Value="{Binding SettingsInstance.CustomImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Filter="画像ファイル|*.png;*.jpg;*.jpeg;*.bmp|すべてのファイル|*.*" 
                                            HorizontalAlignment="Right" Width="200" Height="24" FontSize="11" />
                 </Grid>
 
                 <Grid Margin="0,0,0,8">
-                    <TextBlock Text="ボタンのラベル"
-                               VerticalAlignment="Center" FontSize="11"/>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SettingsInstance.DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Text}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <TextBlock Text="ボタンのラベル" VerticalAlignment="Center" FontSize="11"/>
                     <TextBox Text="{Binding SettingsInstance.Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              HorizontalAlignment="Right" Width="200" FontSize="11"/>
                 </Grid>
