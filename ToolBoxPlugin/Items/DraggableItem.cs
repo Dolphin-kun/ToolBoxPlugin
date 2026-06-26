@@ -1,5 +1,6 @@
 namespace ToolBox.Items
 {
+    //間違えそうなのでメモ
     public abstract class DraggableItem
     {
         /// <summary>設定の型</summary>
@@ -16,8 +17,6 @@ namespace ToolBox.Items
 
         /// <summary>設定パネルの ViewModel の型 (不要なら null)</summary>
         public abstract Type? SettingsViewModelType { get; }
-
-
 
         /// <summary>
         /// コマンド定義を返す。

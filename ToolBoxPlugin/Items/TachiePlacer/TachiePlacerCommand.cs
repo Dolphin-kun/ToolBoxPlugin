@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using ToolBox.Items.TachiePlacer.Settings;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Project;
@@ -37,21 +35,19 @@ namespace ToolBox.Items.TachiePlacer
 
             foreach (var voiceItem in voices)
             {
-                // Create new TachieItem using the decompiler constructor: public TachieItem(Character character)
                 var tachieItem = new TachieItem(voiceItem.Character)
                 {
                     Frame = voiceItem.Frame,
                     Length = voiceItem.Length
                 };
 
-                // Determine target layer based on settings
                 if (settings.Placement == TachiePlacement.Below)
                 {
                     tachieItem.Layer = voiceItem.Layer + 1;
                 }
-                else // Above
+                else
                 {
-                    tachieItem.Layer = System.Math.Max(0, voiceItem.Layer - 1);
+                    tachieItem.Layer = Math.Max(0, voiceItem.Layer - 1);
                 }
 
                 itemsToAdd.Add(tachieItem);
@@ -59,10 +55,9 @@ namespace ToolBox.Items.TachiePlacer
 
             if (itemsToAdd.Count == 0) return;
 
-            // Add each item individually to its computed layer and frame
             foreach (var item in itemsToAdd)
             {
-                timeline.TryAddItems(new[] { item }, item.Frame, item.Layer);
+                timeline.TryAddItems([item], item.Frame, item.Layer);
             }
 
             undoRedoManager.Record();
