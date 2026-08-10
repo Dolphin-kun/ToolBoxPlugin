@@ -19,12 +19,16 @@ namespace ToolBox.Controls
             set => SetValue(GestureProperty, value);
         }
 
+        private bool isCapturing;
+
         public HotkeyBox()
         {
             IsReadOnly = true;
             IsReadOnlyCaretVisible = false;
             Cursor = Cursors.Hand;
             UpdateText();
+
+            Unloaded += (_, _) => StopCapturing();
         }
 
         private static void OnGestureChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -36,44 +40,80 @@ namespace ToolBox.Controls
         private void UpdateText() =>
             SetCurrentValue(TextProperty, string.IsNullOrEmpty(Gesture) ? "(未設定)" : Gesture);
 
+        /// <summary>
+        /// 本体がキー入力を先に処理してしまうため、この欄の PreviewKeyDown までキーが届かないことがある。
+        /// フォーカスがある間だけ <see cref="PanelKeyRouter"/> に割り込んで、本体より先に受け取る。
+        /// </summary>
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnGotKeyboardFocus(e);
+            StartCapturing();
+        }
+
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnLostKeyboardFocus(e);
+            StopCapturing();
+            UpdateText();
+        }
+
+        private void StartCapturing()
+        {
+            if (isCapturing)
+                return;
+
+            isCapturing = true;
+            PanelKeyRouter.AddFirst(OnRoutedKey);
+        }
+
+        private void StopCapturing()
+        {
+            if (!isCapturing)
+                return;
+
+            isCapturing = false;
+            PanelKeyRouter.Remove(OnRoutedKey);
+        }
+
+        private bool OnRoutedKey(Key key, ModifierKeys modifiers) => Capture(key, modifiers);
+
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            e.Handled = true;
-
             var key = e.Key == Key.System ? e.SystemKey : e.Key;
+            e.Handled = Capture(key, Keyboard.Modifiers);
+        }
 
+        /// <summary>キーを取り込めたら true。呼び出し元はそれ以上イベントを流さない。</summary>
+        private bool Capture(Key key, ModifierKeys modifiers)
+        {
             if (key is Key.Escape or Key.Back or Key.Delete)
             {
                 SetCurrentValue(GestureProperty, string.Empty);
-                return;
+                return true;
             }
 
             if (IsModifierKey(key))
-                return;
-
-            var modifiers = Keyboard.Modifiers;
+                return true;
 
             if (modifiers.HasFlag(ModifierKeys.Windows))
             {
                 SetCurrentValue(TextProperty, "Win キーは使えません");
-                return;
+                return true;
             }
 
             if (!modifiers.HasFlag(ModifierKeys.Control) && !modifiers.HasFlag(ModifierKeys.Alt))
             {
                 SetCurrentValue(TextProperty, "Ctrl か Alt を含めてください");
-                return;
+                return true;
             }
 
             var gesture = HotkeyGesture.Format(key, modifiers);
-            if (gesture != null)
-                SetCurrentValue(GestureProperty, gesture);
-        }
+            if (gesture == null)
+                return true;
 
-        protected override void OnLostFocus(System.Windows.RoutedEventArgs e)
-        {
-            base.OnLostFocus(e);
+            SetCurrentValue(GestureProperty, gesture);
             UpdateText();
+            return true;
         }
 
         private static bool IsModifierKey(Key key) => key

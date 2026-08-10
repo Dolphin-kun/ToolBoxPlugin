@@ -140,11 +140,10 @@ namespace ToolBox.Controls
         private void AttachWindowKeyHandlers()
         {
             if (parentWindow == null) return;
-            parentWindow.PreviewKeyDown -= OnParentWindowKeyChanged;
-            parentWindow.PreviewKeyUp -= OnParentWindowKeyChanged;
-            parentWindow.Deactivated -= OnParentWindowDeactivated;
+            DetachWindowKeyHandlers();
             parentWindow.PreviewKeyDown += OnParentWindowKeyChanged;
             parentWindow.PreviewKeyUp += OnParentWindowKeyChanged;
+            parentWindow.PreviewMouseMove += OnParentWindowMouseMove;
             parentWindow.Deactivated += OnParentWindowDeactivated;
         }
 
@@ -153,13 +152,22 @@ namespace ToolBox.Controls
             if (parentWindow == null) return;
             parentWindow.PreviewKeyDown -= OnParentWindowKeyChanged;
             parentWindow.PreviewKeyUp -= OnParentWindowKeyChanged;
+            parentWindow.PreviewMouseMove -= OnParentWindowMouseMove;
             parentWindow.Deactivated -= OnParentWindowDeactivated;
         }
 
-        private void OnParentWindowKeyChanged(object sender, KeyEventArgs e) => SetCtrlPressed(
-            (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control);
+        private void OnParentWindowKeyChanged(object sender, KeyEventArgs e) => UpdateCtrlState();
+
+        /// <summary>
+        /// コンテキストメニューは別ウィンドウなので、開いている間に Ctrl を離してもキーイベントが届かない。
+        /// メニューを閉じたあとのマウス操作で取りこぼしを拾い直す。
+        /// </summary>
+        private void OnParentWindowMouseMove(object sender, MouseEventArgs e) => UpdateCtrlState();
 
         private void OnParentWindowDeactivated(object? sender, EventArgs e) => SetCtrlPressed(false);
+
+        /// <summary>Ctrl の押下状態を今の実際のキー状態に合わせ直す。</summary>
+        public void RefreshCtrlState() => UpdateCtrlState();
 
         private void UpdateCtrlState() => SetCtrlPressed(
             (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control);

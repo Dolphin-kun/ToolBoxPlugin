@@ -12,8 +12,6 @@ namespace ToolBox.ViewModel
         public override string IconPath { get; }
         public override string Description { get; }
 
-        protected override string PositionKey { get; }
-
         public ToolItemEntryViewModel(
             ToolBoxPanel panel,
             Type settingsType,
@@ -25,7 +23,6 @@ namespace ToolBox.ViewModel
         {
             this.settingsType = settingsType;
             this.settingsViewType = settingsViewType;
-            PositionKey = settingsType.FullName ?? settingsType.Name;
             DisplayName = displayName;
             IconPath = iconPath;
             Description = description;

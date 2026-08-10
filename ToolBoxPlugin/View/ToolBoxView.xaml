@@ -25,11 +25,13 @@
             </Grid.Style>
 
             <Grid.ContextMenu>
-                <ContextMenu>
+                <ContextMenu Closed="OnPanelContextMenuClosed" Opened="OnPanelContextMenuOpened">
                     <MenuItem Header="配置を元に戻す" InputGestureText="パネル上で Ctrl+Z"
                               Command="{Binding UndoLayoutCommand}" />
                     <MenuItem Header="配置をやり直す" InputGestureText="パネル上で Ctrl+Y"
                               Command="{Binding RedoLayoutCommand}" />
+                    <Separator />
+                    <MenuItem x:Name="PasteItemMenuItem" Header="アイテムを貼り付け" Click="OnPasteItemClick" />
                     <Separator />
                     <MenuItem Header="パネルの追加" Click="OnAddPanelClick" />
                     <MenuItem Header="パネルの複製" Click="OnDuplicatePanelClick" />

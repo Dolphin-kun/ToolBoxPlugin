@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using ToolBox.Commons;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
 
@@ -38,7 +40,10 @@ namespace ToolBox.ViewModel
 
         protected abstract ToolItemSettings CreateInstance();
 
-        protected abstract string PositionKey { get; }
+        private string? positionKey;
+
+        /// <summary>非表示にしたときの控え先。アイテム側の区分と必ず一致させるため見本から取る。</summary>
+        protected string PositionKey => positionKey ??= CreateInstance().HiddenKey;
 
         public abstract string DisplayName { get; }
         public abstract string IconPath { get; }
@@ -59,10 +64,62 @@ namespace ToolBox.ViewModel
         public ToolItemSettings? SelectedInstance
         {
             get => selectedInstance;
-            set => Set(ref selectedInstance, value, etcChangedPropertyNames: [nameof(SettingsInstance), .. ExtraSelectionPropertyNames]);
+            set
+            {
+                selectedInstance?.PropertyChanged -= OnSelectedInstancePropertyChanged;
+
+                Set(ref selectedInstance, value, etcChangedPropertyNames: [nameof(SettingsInstance), .. ExtraSelectionPropertyNames]);
+
+                selectedInstance?.PropertyChanged += OnSelectedInstancePropertyChanged;
+
+                UpdateHotkeyConflict();
+            }
         }
 
         public ToolItemSettings? SettingsInstance => SelectedInstance;
+
+        private string hotkeyConflictMessage = string.Empty;
+        public string HotkeyConflictMessage
+        {
+            get => hotkeyConflictMessage;
+            private set => Set(ref hotkeyConflictMessage, value, etcChangedPropertyNames: nameof(HasHotkeyConflict));
+        }
+
+        public bool HasHotkeyConflict => !string.IsNullOrEmpty(HotkeyConflictMessage);
+
+        private void OnSelectedInstancePropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ToolItemSettings.HotkeyGesture))
+                UpdateHotkeyConflict();
+        }
+
+        /// <summary>
+        /// 同じキーを割り当てているアイテムが他にあれば知らせる。
+        /// 実行時は先に置かれている 1 つだけが反応するため、気付けないと原因が分かりにくい。
+        /// </summary>
+        private void UpdateHotkeyConflict()
+        {
+            var current = selectedInstance;
+            var gesture = current == null ? null : HotkeyGesture.ParseAssignable(current);
+            if (current == null || gesture == null)
+            {
+                HotkeyConflictMessage = string.Empty;
+                return;
+            }
+
+            var conflicts = ToolBoxViewModel.GetAllPlacedItems()
+                .Where(item => !ReferenceEquals(item, current))
+                .Where(item => HotkeyGesture.ParseAssignable(item) is { } other
+                               && other.Key == gesture.Key
+                               && other.Modifiers == gesture.Modifiers)
+                .Select(item => item.InstanceSummary)
+                .Distinct()
+                .ToList();
+
+            HotkeyConflictMessage = conflicts.Count == 0
+                ? string.Empty
+                : $"「{string.Join("」「", conflicts)}」と重複しています。先に配置されている方だけが反応します。";
+        }
 
         public bool IsVisible
         {
@@ -86,8 +143,11 @@ namespace ToolBox.ViewModel
 
         public void AddInstance()
         {
-            var settings = CreateInstance();
-            settings.Position = ResolveNewPosition();
+            // 非表示にしただけのアイテムがあれば、設定を持ったまま戻す
+            var restored = Panel.TakeHiddenItem(PositionKey);
+            var settings = restored != null && Owns(restored) ? restored : CreateInstance();
+
+            settings.Position = ResolveNewPosition(restored?.Position);
             Panel.Items.Add(settings);
             SelectedInstance = settings;
         }
@@ -97,19 +157,23 @@ namespace ToolBox.ViewModel
             if (!Panel.Items.Contains(settings))
                 return;
 
+            // 最後の 1 個なら設定ごと控えておき、再表示したときに元の状態へ戻せるようにする
             if (Instances.Count == 1)
-                Panel.HiddenItemPositions[PositionKey] = settings.Position;
-
-            Panel.Items.Remove(settings);
+                Panel.HideItem(settings);
+            else
+                Panel.Items.Remove(settings);
         }
 
-        private Point ResolveNewPosition()
+        private Point ResolveNewPosition(Point? preferred)
         {
-            if (Panel.HiddenItemPositions.TryGetValue(PositionKey, out var saved))
+            if (preferred is { } saved && !Panel.Items.Any(i => i.Position == saved))
+                return saved;
+
+            if (Panel.HiddenItemPositions.TryGetValue(PositionKey, out var remembered))
             {
                 Panel.HiddenItemPositions.Remove(PositionKey);
-                if (!Panel.Items.Any(i => i.Position == saved))
-                    return saved;
+                if (!Panel.Items.Any(i => i.Position == remembered))
+                    return remembered;
             }
 
             return FindEmptyPosition();
@@ -150,6 +214,8 @@ namespace ToolBox.ViewModel
 
                 if (selectedInstance == null || !current.Contains(selectedInstance))
                     SelectedInstance = current.FirstOrDefault();
+                else
+                    UpdateHotkeyConflict();
 
                 OnPropertyChanged(nameof(InstanceCount));
                 OnPropertyChanged(nameof(HasInstances));

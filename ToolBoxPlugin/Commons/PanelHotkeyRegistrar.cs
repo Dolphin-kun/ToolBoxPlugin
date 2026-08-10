@@ -1,5 +1,3 @@
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Windows.Input;
 using ToolBox.Settings;
 
@@ -8,8 +6,7 @@ namespace ToolBox.Commons
     public sealed class PanelHotkeyRegistrar : IDisposable
     {
         private readonly ToolBoxPanel panel;
-        private readonly HashSet<ToolItemSettings> watchedItems = [];
-
+        private readonly PanelItemWatcher watcher;
         private readonly Dictionary<(Key Key, ModifierKeys Modifiers), ToolItemSettings> bindings = [];
 
         private bool isEnabled;
@@ -17,8 +14,7 @@ namespace ToolBox.Commons
         public PanelHotkeyRegistrar(ToolBoxPanel panel)
         {
             this.panel = panel;
-            panel.Items.CollectionChanged += OnItemsChanged;
-            WatchAllItems();
+            watcher = new PanelItemWatcher(panel, [nameof(ToolItemSettings.HotkeyGesture)], Rebuild);
         }
 
         public void Enable()
@@ -41,32 +37,6 @@ namespace ToolBox.Commons
             bindings.Clear();
         }
 
-        private void OnItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            WatchAllItems();
-            Rebuild();
-        }
-
-        private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ToolItemSettings.HotkeyGesture))
-                Rebuild();
-        }
-
-        private void WatchAllItems()
-        {
-            foreach (var item in watchedItems)
-                item.PropertyChanged -= OnItemPropertyChanged;
-
-            watchedItems.Clear();
-
-            foreach (var item in panel.Items)
-            {
-                item.PropertyChanged += OnItemPropertyChanged;
-                watchedItems.Add(item);
-            }
-        }
-
         private void Rebuild()
         {
             bindings.Clear();
@@ -76,11 +46,8 @@ namespace ToolBox.Commons
 
             foreach (var item in panel.Items)
             {
-                if (!item.IsInvokable || string.IsNullOrWhiteSpace(item.HotkeyGesture))
-                    continue;
-
-                var gesture = HotkeyGesture.Parse(item.HotkeyGesture);
-                if (gesture == null || !HasRequiredModifier(gesture.Modifiers))
+                var gesture = HotkeyGesture.ParseAssignable(item);
+                if (gesture == null)
                     continue;
 
                 bindings.TryAdd((gesture.Key, gesture.Modifiers), item);
@@ -100,17 +67,10 @@ namespace ToolBox.Commons
             return true;
         }
 
-        private static bool HasRequiredModifier(ModifierKeys modifiers) =>
-            !modifiers.HasFlag(ModifierKeys.Windows)
-            && (modifiers.HasFlag(ModifierKeys.Control) || modifiers.HasFlag(ModifierKeys.Alt));
-
         public void Dispose()
         {
             Disable();
-            panel.Items.CollectionChanged -= OnItemsChanged;
-            foreach (var item in watchedItems)
-                item.PropertyChanged -= OnItemPropertyChanged;
-            watchedItems.Clear();
+            watcher.Dispose();
         }
     }
 }

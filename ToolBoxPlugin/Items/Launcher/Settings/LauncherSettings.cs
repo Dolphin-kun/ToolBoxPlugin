@@ -2,32 +2,33 @@ using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.Launcher.Settings
 {
     public class LauncherSettings : ToolItemSettings
     {
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Utility;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "Launcher";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "ファイル・フォルダーを開く";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description =>
             "指定したファイル・フォルダー・URL を開きます。素材フォルダーや外部ツールへの入口として使えます。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.OpenInNew;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary =>
             string.IsNullOrWhiteSpace(TargetPath) ? "(未設定)" : TargetPath;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand =>
             ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("LaunchItemCommand");
 

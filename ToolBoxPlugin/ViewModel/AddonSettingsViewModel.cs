@@ -7,17 +7,8 @@ using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.ViewModel
 {
-    public class AddonSettingsViewModel : Bindable
+    public class AddonSettingsViewModel : SettingsNodeViewModel
     {
-        public string CategoryName { get; } = "アドオン";
-
-        private bool isExpanded = true;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set => Set(ref isExpanded, value);
-        }
-
         public ObservableCollection<AddonEntryViewModel> Addons { get; } = [];
 
         public bool HasAddons => Addons.Count > 0;
@@ -26,7 +17,7 @@ namespace ToolBox.ViewModel
         public ICommand OpenAddonFolderCommand { get; }
         public ICommand ReloadCommand { get; }
 
-        public AddonSettingsViewModel()
+        public AddonSettingsViewModel() : base("アドオン")
         {
             DeleteAddonCommand = new ActionCommand(
                 param => param is AddonEntryViewModel,
@@ -110,14 +101,7 @@ namespace ToolBox.ViewModel
 
         private void OnAddonsChanged(object? sender, EventArgs e)
         {
-            var dispatcher = Application.Current?.Dispatcher;
-            if (dispatcher != null && !dispatcher.CheckAccess())
-            {
-                dispatcher.Invoke(Refresh);
-                return;
-            }
-
-            Refresh();
+            UiThread.Run(Refresh);
         }
     }
 
@@ -144,11 +128,7 @@ namespace ToolBox.ViewModel
                 isEnabled = value;
                 OnPropertyChanged();
 
-                var dispatcher = Application.Current?.Dispatcher;
-                if (dispatcher != null)
-                    dispatcher.BeginInvoke(() => AddonLoader.SetAddonEnabled(SourcePath, value));
-                else
-                    AddonLoader.SetAddonEnabled(SourcePath, value);
+                UiThread.Post(() => AddonLoader.SetAddonEnabled(SourcePath, value));
             }
         }
 

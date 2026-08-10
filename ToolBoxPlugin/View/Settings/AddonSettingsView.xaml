@@ -51,15 +51,16 @@
                 <DataTemplate>
                     <Border BorderThickness="1"
                             BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                            Padding="8"
-                            Margin="0,0,0,8">
+                            Padding="10,8"
+                            Margin="0,0,0,8"
+                            ToolTip="{Binding SourcePath}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                            <StackPanel Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"/>
                                     <TextBlock Text="{Binding Version}"
@@ -67,42 +68,58 @@
                                                Margin="6,0,0,0"
                                                VerticalAlignment="Center"
                                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                    <TextBlock Text="{Binding Author}"
+                                               FontSize="11"
+                                               Margin="6,0,0,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Author}" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
-                                <TextBlock Text="{Binding Author}"
-                                           FontSize="11"
-                                           Margin="0,2,0,0"
-                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                                 <TextBlock Text="{Binding Description}"
                                            FontSize="11"
-                                           Margin="0,4,0,0"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding SourcePath}"
-                                           FontSize="10"
-                                           Margin="0,4,0,0"
-                                           TextWrapping="NoWrap"
-                                           TextTrimming="CharacterEllipsis"
-                                           ToolTip="{Binding SourcePath}"
-                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                           Margin="0,3,0,0"
+                                           TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Description}" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
 
-                            <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <controls:ToggleSlider Value="{Binding IsEnabled, Mode=TwoWay}"
+                                                       ToolTip="読み込みの有効 / 無効"
+                                                       Width="40"
+                                                       VerticalAlignment="Center"/>
+
                                 <Button Command="{Binding DataContext.DeleteAddonCommand,
                                                   RelativeSource={RelativeSource AncestorType=UserControl}}"
                                         CommandParameter="{Binding}"
                                         ToolTip="このアドオンを削除"
-                                        HorizontalAlignment="Right"
-                                        Width="22" Height="22"
+                                        Width="24" Height="24"
+                                        Margin="10,0,0,0"
                                         Padding="0"
+                                        VerticalAlignment="Center"
                                         Background="Transparent"
                                         BorderThickness="0">
                                     <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
                                                          Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                                          Width="14" Height="14"/>
                                 </Button>
-
-                                <controls:ToggleSlider Value="{Binding IsEnabled, Mode=TwoWay}"
-                                                       ToolTip="読み込みの有効 / 無効"
-                                                       Width="40" Margin="0,6,0,0"/>
                             </StackPanel>
                         </Grid>
                     </Border>

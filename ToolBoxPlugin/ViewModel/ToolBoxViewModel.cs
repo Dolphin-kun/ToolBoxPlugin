@@ -21,6 +21,13 @@ namespace ToolBox.ViewModel
 
         public static ToolBoxViewModel? Instance => instances.Count > 0 ? instances[^1] : null;
 
+        /// <summary>開いているすべてのパネルに置かれているアイテム。パネルをまたぐ参照や重複判定に使う。</summary>
+        public static IEnumerable<ToolItemSettings> GetAllPlacedItems() =>
+            instances.Where(vm => vm.Panel != null).SelectMany(vm => vm.Panel.Items);
+
+        public static ToolItemSettings? FindPlacedItem(Guid id) =>
+            GetAllPlacedItems().FirstOrDefault(item => item.Id == id);
+
         private readonly DisposeCollector disposer = new();
         public DisposeCollector Disposer => disposer;
 
@@ -100,6 +107,32 @@ namespace ToolBox.ViewModel
             RequestNewPanel(newPanel);
         }
 
+        /// <summary>控えてあるアイテムをこのパネルの空いている場所へ複製する。パネルをまたいで持ち込める。</summary>
+        public void PasteItem()
+        {
+            var copy = ItemClipboard.CreateCopy();
+            if (copy == null)
+                return;
+
+            copy.Position = FindEmptyPosition();
+            Panel.Items.Add(copy);
+        }
+
+        private Point FindEmptyPosition()
+        {
+            var occupied = Panel.Items.Select(item => item.Position).ToHashSet();
+
+            for (var y = 0; y < Math.Max(1, Panel.GridRowCount); y++)
+                for (var x = 0; x < Math.Max(1, Panel.GridColumnCount); x++)
+                {
+                    var candidate = new Point(x, y);
+                    if (!occupied.Contains(candidate))
+                        return candidate;
+                }
+
+            return new Point(0, 0);
+        }
+
         public void DuplicatePanel()
         {
             var copy = new ToolBoxPanel();
@@ -136,10 +169,8 @@ namespace ToolBox.ViewModel
 
         public ToolBoxViewModel()
         {
-            instances.Add(this);
-
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            ToolBoxSettings.Default.Migrate();
+            ToolBoxSettings.Default.Initialize();
 
             AddonLoader.LoadAddons();
             Panel = ToolBoxPanel.CreateDefault();
@@ -160,6 +191,10 @@ namespace ToolBox.ViewModel
             History.PropertyChanged += OnHistoryChanged;
 
             AddonLoader.AddonsChanged += OnAddonsChanged;
+
+            // Panel を組み立てる前に登録すると、AddonsChanged をきっかけに
+            // 他のパネルから GetAllPlacedItems() で覗かれたときに Panel が null のまま参照される
+            instances.Add(this);
         }
 
         private void OnHistoryChanged(object? sender, PropertyChangedEventArgs e)
@@ -176,14 +211,7 @@ namespace ToolBox.ViewModel
 
         private void OnAddonsChanged(object? sender, EventArgs e)
         {
-            var dispatcher = Application.Current?.Dispatcher;
-            if (dispatcher != null && !dispatcher.CheckAccess())
-            {
-                dispatcher.Invoke(HandleAddonsChanged);
-                return;
-            }
-
-            HandleAddonsChanged();
+            UiThread.Run(HandleAddonsChanged);
         }
 
         private void HandleAddonsChanged()

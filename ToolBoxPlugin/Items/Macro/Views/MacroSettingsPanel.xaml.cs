@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using ToolBox.Commons;
 using ToolBox.Items.Macro.Settings;
 using ToolBox.Items.Shortcuts;
+using ToolBox.ViewModel;
 
 namespace ToolBox.Items.Macro.Views
 {
@@ -12,12 +13,23 @@ namespace ToolBox.Items.Macro.Views
 
         public IReadOnlyList<ShortcutDefinition> AvailableShortcuts { get; } = ShortcutDefinitions.Allowed;
 
+        public IReadOnlyList<PanelItemChoice> AvailablePanelItems { get; }
+
         public MacroSettingsPanel()
         {
             AvailableCommands = [.. CommandCatalog.GetEntries().Where(e => e.CommandName != "RunMacroItemCommand")];
 
+            AvailablePanelItems =
+            [
+                .. ToolBoxViewModel.GetAllPlacedItems()
+                    .Where(item => item.IsInvokable && item is not MacroSettings)
+                    .Select(item => new PanelItemChoice(item.Id, $"{item.DisplayName} / {item.InstanceSummary}"))
+            ];
+
             InitializeComponent();
         }
+
+        public record PanelItemChoice(Guid Id, string DisplayText);
 
         private MacroSettings? Settings => DataContext as MacroSettings;
 

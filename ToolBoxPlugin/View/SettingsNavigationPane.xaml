@@ -60,10 +60,10 @@
                             <DataTemplate DataType="{x:Type vm:BasicSettingsViewModel}">
                                 <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                               ShowArrow="False"
-                                              Command="{Binding DataContext.SelectBasicSettingsCommand,
+                                              Command="{Binding DataContext.SelectDetailCommand,
                                                         RelativeSource={RelativeSource AncestorType=UserControl}}"
                                               CommandParameter="{Binding}">
-                                    <TextBlock Text="基本設定"
+                                    <TextBlock Text="{Binding CategoryName}"
                                                FontWeight="SemiBold" FontSize="11"/>
                                 </tbControls:AccordionHeader>
                             </DataTemplate>
@@ -71,10 +71,10 @@
                             <DataTemplate DataType="{x:Type vm:AddonSettingsViewModel}">
                                 <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                               ShowArrow="False"
-                                              Command="{Binding DataContext.SelectAddonSettingsCommand,
+                                              Command="{Binding DataContext.SelectDetailCommand,
                                                         RelativeSource={RelativeSource AncestorType=UserControl}}"
                                               CommandParameter="{Binding}">
-                                    <TextBlock Text="アドオン"
+                                    <TextBlock Text="{Binding CategoryName}"
                                                FontWeight="SemiBold" FontSize="11"/>
                                 </tbControls:AccordionHeader>
                             </DataTemplate>
@@ -82,10 +82,10 @@
                             <DataTemplate DataType="{x:Type vm:AddonMarketplaceViewModel}">
                                 <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                               ShowArrow="False"
-                                              Command="{Binding DataContext.SelectAddonMarketplaceCommand,
+                                              Command="{Binding DataContext.SelectDetailCommand,
                                                         RelativeSource={RelativeSource AncestorType=UserControl}}"
                                               CommandParameter="{Binding}">
-                                    <TextBlock Text="アドオンを探す"
+                                    <TextBlock Text="{Binding CategoryName}"
                                                FontWeight="SemiBold" FontSize="11"/>
                                 </tbControls:AccordionHeader>
                             </DataTemplate>
@@ -93,10 +93,10 @@
                             <DataTemplate DataType="{x:Type vm:GeneralSettingsViewModel}">
                                 <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                               ShowArrow="False"
-                                              Command="{Binding DataContext.SelectGeneralSettingsCommand,
+                                              Command="{Binding DataContext.SelectDetailCommand,
                                                         RelativeSource={RelativeSource AncestorType=UserControl}}"
                                               CommandParameter="{Binding}">
-                                    <TextBlock Text="グリッド"
+                                    <TextBlock Text="{Binding CategoryName}"
                                                FontWeight="SemiBold" FontSize="11"/>
                                 </tbControls:AccordionHeader>
                             </DataTemplate>
@@ -119,7 +119,7 @@
                                         <ItemsControl Grid.Column="1" ItemsSource="{Binding Items}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate DataType="{x:Type vm:ToolItemEntryViewModel}">
-                                                    <tbControls:ItemButton Command="{Binding DataContext.SelectToolEntryCommand,
+                                                    <tbControls:ItemButton Command="{Binding DataContext.SelectDetailCommand,
                                                                       RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                             CommandParameter="{Binding}">
                                                         <StackPanel Orientation="Horizontal">
@@ -140,7 +140,7 @@
                                 <StackPanel>
                                     <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
                                                   ShowArrow="{Binding HasChildren}"
-                                                  Command="{Binding DataContext.SelectShortcutsGroupCommand,
+                                                  Command="{Binding DataContext.SelectDetailCommand,
                                                             RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                   CommandParameter="{Binding}">
                                         <TextBlock Text="{Binding CategoryName}"
@@ -157,7 +157,7 @@
                                         <ItemsControl Grid.Column="1" ItemsSource="{Binding Shortcuts}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate DataType="{x:Type vm:ShortcutEntryViewModel}">
-                                                    <tbControls:ItemButton Command="{Binding DataContext.SelectShortcutEntryCommand,
+                                                    <tbControls:ItemButton Command="{Binding DataContext.SelectDetailCommand,
                                                                       RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                             CommandParameter="{Binding}">
                                                         <StackPanel Orientation="Horizontal">

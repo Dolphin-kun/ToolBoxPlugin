@@ -7,6 +7,7 @@
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
              xmlns:tbCommons="clr-namespace:ToolBox.Commons"
+             xmlns:tbControls="clr-namespace:ToolBox.Controls"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
              mc:Ignorable="d"
              d:DesignWidth="300"
@@ -28,7 +29,8 @@
                                        HorizontalAlignment="Right" Width="40"/>
             </Grid>
 
-            <ListBox ItemsSource="{Binding Instances}"
+            <ListBox tbControls:ScrollBubbling.IsEnabled="True"
+                     ItemsSource="{Binding Instances}"
                      SelectedItem="{Binding SelectedInstance, Mode=TwoWay}"
                      BorderThickness="0" Background="Transparent"
                      HorizontalContentAlignment="Stretch"

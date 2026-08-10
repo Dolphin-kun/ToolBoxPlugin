@@ -7,6 +7,7 @@
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
              xmlns:tbCommons="clr-namespace:ToolBox.Commons"
+             xmlns:tbControls="clr-namespace:ToolBox.Controls"
              xmlns:macro="clr-namespace:ToolBox.Items.Macro.Settings"
              xmlns:local="clr-namespace:ToolBox.Items.Macro.Settings"
              mc:Ignorable="d"
@@ -35,6 +36,16 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="VisibleForPanelItem" TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedItem.Kind, ElementName=StepList}"
+                             Value="{x:Static macro:MacroStepKind.PanelItem}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="VisibleForWait" TargetType="FrameworkElement">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
@@ -50,6 +61,7 @@
         <TextBlock Text="手順" FontSize="11" Margin="0,0,0,4"/>
 
         <ListBox x:Name="StepList"
+                 tbControls:ScrollBubbling.IsEnabled="True"
                  ItemsSource="{Binding Steps}"
                  BorderThickness="1"
                  BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
@@ -119,6 +131,7 @@
                           SelectedValuePath="Tag" FontSize="11">
                     <ComboBoxItem Content="ツールボックスの操作" Tag="{x:Static macro:MacroStepKind.Command}"/>
                     <ComboBoxItem Content="YMM4 のショートカット" Tag="{x:Static macro:MacroStepKind.Shortcut}"/>
+                    <ComboBoxItem Content="パネル上のアイテム" Tag="{x:Static macro:MacroStepKind.PanelItem}"/>
                     <ComboBoxItem Content="待つ" Tag="{x:Static macro:MacroStepKind.Wait}"/>
                 </ComboBox>
             </Grid>
@@ -151,6 +164,25 @@
                           FontSize="11"/>
             </Grid>
 
+            <StackPanel Style="{StaticResource VisibleForPanelItem}" Margin="0,0,0,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" MinWidth="90"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="アイテム" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+                    <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AvailablePanelItems, ElementName=Root}"
+                              DisplayMemberPath="DisplayText"
+                              SelectedValuePath="Id"
+                              SelectedValue="{Binding PanelItemId, Mode=TwoWay}"
+                              FontSize="11"/>
+                </Grid>
+                <TextBlock Text="開いているパネルに置かれているアイテムを、そのアイテム自身の設定で実行します。"
+                           FontSize="10" TextWrapping="Wrap" Margin="0,4,0,0"
+                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </StackPanel>
+
             <Grid Margin="0,0,0,8" Style="{StaticResource VisibleForWait}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -164,7 +196,7 @@
             </Grid>
         </StackPanel>
 
-        <TextBlock Text="手順は上から順に実行されます。実行できない手順 (選択が無いなど) は飛ばして続きます。処理の完了を待ちたいときは「待つ」を挟んでください。"
+        <TextBlock Text="手順は上から順に実行されます。実行できない手順 (選択が無いなど) は飛ばして続きます。"
                    FontSize="10" TextWrapping="Wrap" Margin="0,4,0,0"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
     </StackPanel>

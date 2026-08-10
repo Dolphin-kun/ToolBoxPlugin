@@ -10,20 +10,17 @@ namespace ToolBox.Controls
 {
     public partial class DraggableItemControl : UserControl
     {
-        public event EventHandler? DragStarted;
         public event EventHandler? DragDelta;
         public event EventHandler? DragCompleted;
-        public event EventHandler<ResizeEventArgs>? ResizeStarted;
-        public event EventHandler<ResizeEventArgs>? ResizeDelta;
         public event EventHandler<ResizeEventArgs>? ResizeCompleted;
 
-        private Point _startMousePoint;
-        private Point _startElementPosition;
-        private Size _startElementSize;
-        private bool _isDragging;
-        private bool _isResizing;
-        private Canvas? _parentCanvas;
-        private Window? _parentWindow;
+        private Point startMousePoint;
+        private Point startElementPosition;
+        private Size startElementSize;
+        private bool isDragging;
+        private bool isResizing;
+        private Canvas? parentCanvas;
+        private Window? parentWindow;
 
         public static readonly DependencyProperty CellSpanProperty =
             DependencyProperty.Register(nameof(CellSpan), typeof(Size), typeof(DraggableItemControl),
@@ -69,13 +66,11 @@ namespace ToolBox.Controls
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (appearanceSource != null)
-                appearanceSource.PropertyChanged -= OnSettingsPropertyChanged;
+            appearanceSource?.PropertyChanged -= OnSettingsPropertyChanged;
 
             appearanceSource = e.NewValue as ToolItemSettings;
 
-            if (appearanceSource != null)
-                appearanceSource.PropertyChanged += OnSettingsPropertyChanged;
+            appearanceSource?.PropertyChanged += OnSettingsPropertyChanged;
 
             ApplyIconBrushOverride();
         }
@@ -119,9 +114,9 @@ namespace ToolBox.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            _parentCanvas = VisualTreeHelper.GetParent(this) as Canvas;
+            parentCanvas = VisualTreeHelper.GetParent(this) as Canvas;
             UpdateSize();
-            _parentWindow = Window.GetWindow(this);
+            parentWindow = Window.GetWindow(this);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -137,7 +132,7 @@ namespace ToolBox.Controls
             Height = CellSpan.Height * DropGrid.CellSize;
         }
 
-        private Canvas? ParentCanvas => _parentCanvas;
+        private Canvas? ParentCanvas => parentCanvas;
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
@@ -149,7 +144,7 @@ namespace ToolBox.Controls
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
-            if (!_isDragging && !_isResizing)
+            if (!isDragging && !isResizing)
             {
                 DetachWindowKeyHandlers();
                 ResizeHandle.Visibility = Visibility.Collapsed;
@@ -158,18 +153,18 @@ namespace ToolBox.Controls
 
         private void AttachWindowKeyHandlers()
         {
-            if (_parentWindow == null) return;
-            _parentWindow.KeyDown -= OnParentWindowKeyChanged;
-            _parentWindow.KeyUp -= OnParentWindowKeyChanged;
-            _parentWindow.KeyDown += OnParentWindowKeyChanged;
-            _parentWindow.KeyUp += OnParentWindowKeyChanged;
+            if (parentWindow == null) return;
+            parentWindow.KeyDown -= OnParentWindowKeyChanged;
+            parentWindow.KeyUp -= OnParentWindowKeyChanged;
+            parentWindow.KeyDown += OnParentWindowKeyChanged;
+            parentWindow.KeyUp += OnParentWindowKeyChanged;
         }
 
         private void DetachWindowKeyHandlers()
         {
-            if (_parentWindow == null) return;
-            _parentWindow.KeyDown -= OnParentWindowKeyChanged;
-            _parentWindow.KeyUp -= OnParentWindowKeyChanged;
+            if (parentWindow == null) return;
+            parentWindow.KeyDown -= OnParentWindowKeyChanged;
+            parentWindow.KeyUp -= OnParentWindowKeyChanged;
         }
 
         private void OnParentWindowKeyChanged(object sender, KeyEventArgs e) => UpdateHandleVisibility();
@@ -178,7 +173,7 @@ namespace ToolBox.Controls
 
         private void UpdateHandleVisibility()
         {
-            if (_isResizing) return;
+            if (isResizing) return;
             bool ctrlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
             if (IsMouseOver && ctrlPressed && IsLocked)
             {
@@ -207,15 +202,14 @@ namespace ToolBox.Controls
             var canvas = ParentCanvas;
             if (canvas == null) return;
 
-            _startMousePoint = e.GetPosition(canvas);
-            _startElementPosition = new Point(Canvas.GetLeft(this), Canvas.GetTop(this));
-            if (double.IsNaN(_startElementPosition.X)) _startElementPosition.X = 0;
-            if (double.IsNaN(_startElementPosition.Y)) _startElementPosition.Y = 0;
+            startMousePoint = e.GetPosition(canvas);
+            startElementPosition = new Point(Canvas.GetLeft(this), Canvas.GetTop(this));
+            if (double.IsNaN(startElementPosition.X)) startElementPosition.X = 0;
+            if (double.IsNaN(startElementPosition.Y)) startElementPosition.Y = 0;
 
-            _isDragging = false;
+            isDragging = false;
             Panel.SetZIndex(this, 999);
             CaptureMouse();
-            DragStarted?.Invoke(this, EventArgs.Empty);
             e.Handled = true;
         }
 
@@ -223,25 +217,25 @@ namespace ToolBox.Controls
         {
             base.OnMouseMove(e);
 
-            if (_isResizing) { HandleResizeMove(e); return; }
+            if (isResizing) { HandleResizeMove(e); return; }
 
             var canvas = ParentCanvas;
             if (!IsMouseCaptured || canvas == null || e.LeftButton != MouseButtonState.Pressed) return;
 
             Point current = e.GetPosition(canvas);
 
-            if (!_isDragging)
+            if (!isDragging)
             {
-                Vector diff = _startMousePoint - current;
+                Vector diff = startMousePoint - current;
                 if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                     Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
-                    _isDragging = true;
+                    isDragging = true;
             }
 
-            if (_isDragging && DropGrid != null)
+            if (isDragging && DropGrid != null)
             {
-                double newLeft = _startElementPosition.X + (current.X - _startMousePoint.X);
-                double newTop = _startElementPosition.Y + (current.Y - _startMousePoint.Y);
+                double newLeft = startElementPosition.X + (current.X - startMousePoint.X);
+                double newTop = startElementPosition.Y + (current.Y - startMousePoint.Y);
 
                 var (row, col) = PixelToClampedCell(newLeft, newTop);
                 var snapped = DropGrid.GetCellTopLeft(row, col);
@@ -256,17 +250,17 @@ namespace ToolBox.Controls
         {
             base.OnMouseLeftButtonUp(e);
 
-            if (_isResizing) { HandleResizeUp(e); return; }
+            if (isResizing) { HandleResizeUp(e); return; }
 
             if (IsMouseCaptured)
             {
                 ReleaseMouseCapture();
                 Panel.SetZIndex(this, 0);
 
-                if (_isDragging)
+                if (isDragging)
                     DragCompleted?.Invoke(this, EventArgs.Empty);
 
-                _isDragging = false;
+                isDragging = false;
                 UpdateHandleVisibility();
             }
         }
@@ -286,24 +280,23 @@ namespace ToolBox.Controls
             if (ParentCanvas == null || DropGrid == null || IsLocked) return;
 
             e.Handled = true;
-            _isResizing = true;
-            _startMousePoint = e.GetPosition(ParentCanvas);
-            _startElementSize = CellSpan;
+            isResizing = true;
+            startMousePoint = e.GetPosition(ParentCanvas);
+            startElementSize = CellSpan;
 
             Panel.SetZIndex(this, 999);
             CaptureMouse();
-            ResizeStarted?.Invoke(this, new ResizeEventArgs(_startElementSize, _startElementSize));
         }
 
         private void HandleResizeMove(MouseEventArgs e)
         {
-            if (!_isResizing || e.LeftButton != MouseButtonState.Pressed || ParentCanvas == null || DropGrid == null)
+            if (!isResizing || e.LeftButton != MouseButtonState.Pressed || ParentCanvas == null || DropGrid == null)
                 return;
 
-            Vector delta = e.GetPosition(ParentCanvas) - _startMousePoint;
+            Vector delta = e.GetPosition(ParentCanvas) - startMousePoint;
 
-            int newW = (int)Math.Max(MinCellSpan.Width, _startElementSize.Width + (int)Math.Round(delta.X / DropGrid.CellSize));
-            int newH = (int)Math.Max(MinCellSpan.Height, _startElementSize.Height + (int)Math.Round(delta.Y / DropGrid.CellSize));
+            int newW = (int)Math.Max(MinCellSpan.Width, startElementSize.Width + (int)Math.Round(delta.X / DropGrid.CellSize));
+            int newH = (int)Math.Max(MinCellSpan.Height, startElementSize.Height + (int)Math.Round(delta.Y / DropGrid.CellSize));
 
             var currentPos = DropGrid.GetCellPosition(new Point(Canvas.GetLeft(this), Canvas.GetTop(this)));
             if (!currentPos.HasValue) return;
@@ -315,7 +308,6 @@ namespace ToolBox.Controls
             if (!WouldOverlapSiblings(currentPos.Value, newSize) && newSize != CellSpan)
             {
                 CellSpan = newSize;
-                ResizeDelta?.Invoke(this, new ResizeEventArgs(_startElementSize, newSize));
             }
 
             e.Handled = true;
@@ -323,11 +315,11 @@ namespace ToolBox.Controls
 
         private void HandleResizeUp(MouseButtonEventArgs e)
         {
-            if (!_isResizing) return;
-            _isResizing = false;
+            if (!isResizing) return;
+            isResizing = false;
             ReleaseMouseCapture();
             Panel.SetZIndex(this, 0);
-            ResizeCompleted?.Invoke(this, new ResizeEventArgs(_startElementSize, CellSpan));
+            ResizeCompleted?.Invoke(this, new ResizeEventArgs(startElementSize, CellSpan));
             UpdateHandleVisibility();
             e.Handled = true;
         }
@@ -394,6 +386,12 @@ namespace ToolBox.Controls
             settingsItem.Click += (s, args) => OpenItemSettings(settings);
             contextMenu.Items.Add(settingsItem);
 
+            var copyItem = new MenuItem { Header = "コピー" };
+            copyItem.Click += (s, args) => ItemClipboard.Copy(settings);
+            contextMenu.Items.Add(copyItem);
+
+            contextMenu.Items.Add(new Separator());
+
             var lockItem = new MenuItem { Header = settings.IsLocked ? "固定を解除" : "固定" };
             lockItem.Click += (s, args) => settings.IsLocked = !settings.IsLocked;
             contextMenu.Items.Add(lockItem);
@@ -402,13 +400,18 @@ namespace ToolBox.Controls
             hideItem.Click += (s, args) => HideItem(settings);
             contextMenu.Items.Add(hideItem);
 
+            // メニューを開いている間に Ctrl を離すとキーイベントがこちらへ届かないため、
+            // 閉じた時点で押下状態を取り直してグリッド表示を合わせる
+            contextMenu.Closed += (s, args) =>
+                Dispatcher.BeginInvoke(() => DropGrid?.RefreshCtrlState());
+
             contextMenu.PlacementTarget = this;
             contextMenu.IsOpen = true;
         }
 
         private void HideItem(ToolItemSettings settings)
         {
-            FindOwnerPanel()?.Items.Remove(settings);
+            FindOwnerPanel()?.HideItem(settings);
         }
 
         private ToolBoxPanel? FindOwnerPanel()

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.Recording.Settings
 {
@@ -14,22 +15,22 @@ namespace ToolBox.Items.Recording.Settings
             set => Set(ref recordingDeviceIndex, value);
         }
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Audio;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "Recording";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.RecordCircleOutline;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "録音";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description => "マイクから録音し、録音した音声をタイムラインへ音声アイテムとして追加します。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("RecordingItemCommand");
     }
 }

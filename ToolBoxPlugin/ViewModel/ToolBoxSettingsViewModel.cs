@@ -1,10 +1,8 @@
 using System.Windows.Input;
 using ToolBox.Commons;
-using ToolBox.Items;
-using ToolBox.Items.Shortcuts.Settings;
+using ToolBox.Items.Shortcuts;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
-using System.Windows;
 
 namespace ToolBox.ViewModel
 {
@@ -32,14 +30,6 @@ namespace ToolBox.ViewModel
             set => Set(ref selectedDetail, value);
         }
 
-        public ToolItemEntryViewModel? SelectedToolEntry => SelectedDetail as ToolItemEntryViewModel;
-        public ShortcutEntryViewModel? SelectedShortcutEntry => SelectedDetail as ShortcutEntryViewModel;
-        public ShortcutsGroupViewModel? SelectedShortcutsGroup => SelectedDetail as ShortcutsGroupViewModel;
-        public GeneralSettingsViewModel? SelectedGeneralSettings => SelectedDetail as GeneralSettingsViewModel;
-        public BasicSettingsViewModel? SelectedBasicSettings => SelectedDetail as BasicSettingsViewModel;
-        public AddonSettingsViewModel? SelectedAddonSettings => SelectedDetail as AddonSettingsViewModel;
-        public AddonMarketplaceViewModel? SelectedAddonMarketplace => SelectedDetail as AddonMarketplaceViewModel;
-
         public ToolBoxSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel, Action closeAction)
         {
             this.panel = panel;
@@ -63,14 +53,7 @@ namespace ToolBox.ViewModel
 
         private void OnAddonsChanged(object? sender, EventArgs e)
         {
-            var dispatcher = Application.Current?.Dispatcher;
-            if (dispatcher != null && !dispatcher.CheckAccess())
-            {
-                dispatcher.Invoke(ReloadGroups);
-                return;
-            }
-
-            ReloadGroups();
+            UiThread.Run(ReloadGroups);
         }
 
         private void ReloadGroups()
@@ -139,67 +122,20 @@ namespace ToolBox.ViewModel
 
             itemGroups.AddRange(toolGroups);
 
-            itemGroups.Add(new ShortcutsGroupViewModel(panel));
+            var shortcutGroups = ShortcutDefinitions.Groups
+                .Select(group => (object)new ShortcutsGroupViewModel(panel, group))
+                .ToList();
+
+            itemGroups.Add(new RootCategoryGroupViewModel("ショートカット", shortcutGroups) { IsExpanded = false });
 
             var itemsRoot = new RootCategoryGroupViewModel("アイテム", itemGroups);
 
             return [settingsRoot, itemsRoot];
         }
 
-        private ICommand? selectToolEntryCommand;
-        public ICommand SelectToolEntryCommand =>
-            selectToolEntryCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is ToolItemEntryViewModel entry)
-                    SelectedDetail = entry;
-            });
+        private ICommand? selectDetailCommand;
+        public ICommand SelectDetailCommand =>
+            selectDetailCommand ??= new ActionCommand(_ => true, param => SelectedDetail = param);
 
-        private ICommand? selectShortcutEntryCommand;
-        public ICommand SelectShortcutEntryCommand =>
-            selectShortcutEntryCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is ShortcutEntryViewModel entry)
-                    SelectedDetail = entry;
-            });
-
-        private ICommand? selectShortcutsGroupCommand;
-        public ICommand SelectShortcutsGroupCommand =>
-            selectShortcutsGroupCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is ShortcutsGroupViewModel group)
-                    SelectedDetail = group;
-            });
-
-        private ICommand? selectGeneralSettingsCommand;
-        public ICommand SelectGeneralSettingsCommand =>
-            selectGeneralSettingsCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is GeneralSettingsViewModel group)
-                    SelectedDetail = group;
-            });
-
-        private ICommand? selectBasicSettingsCommand;
-        public ICommand SelectBasicSettingsCommand =>
-            selectBasicSettingsCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is BasicSettingsViewModel group)
-                    SelectedDetail = group;
-            });
-
-        private ICommand? selectAddonMarketplaceCommand;
-        public ICommand SelectAddonMarketplaceCommand =>
-            selectAddonMarketplaceCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is AddonMarketplaceViewModel group)
-                    SelectedDetail = group;
-            });
-
-        private ICommand? selectAddonSettingsCommand;
-        public ICommand SelectAddonSettingsCommand =>
-            selectAddonSettingsCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is AddonSettingsViewModel group)
-                    SelectedDetail = group;
-            });
     }
 }

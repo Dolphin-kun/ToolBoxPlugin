@@ -13,7 +13,10 @@ namespace ToolBox.Items.Macro
 
         public static bool CanRun(MacroSettings settings) => !isRunning && settings.Steps.Count > 0;
 
-        public static async Task RunAsync(IToolBoxContext ctx, MacroSettings settings)
+        /// <summary>マクロの実行を始める。待ち時間があるので完了は待たない。</summary>
+        public static void Run(MacroSettings settings) => _ = RunAsync(settings);
+
+        private static async Task RunAsync(MacroSettings settings)
         {
             if (isRunning)
                 return;
@@ -33,8 +36,12 @@ namespace ToolBox.Items.Macro
                             RunShortcut(step.ShortcutCommand);
                             break;
 
+                        case MacroStepKind.PanelItem:
+                            RunPanelItem(step.PanelItemId);
+                            break;
+
                         default:
-                            if (!RunCommand(ctx, step.CommandName, settings))
+                            if (!RunCommand(step.CommandName, settings))
                                 return;
                             break;
                     }
@@ -46,7 +53,7 @@ namespace ToolBox.Items.Macro
             }
         }
 
-        private static bool RunCommand(IToolBoxContext ctx, string commandName, MacroSettings settings)
+        private static bool RunCommand(string commandName, MacroSettings settings)
         {
             if (string.IsNullOrWhiteSpace(commandName))
                 return true;
@@ -67,6 +74,21 @@ namespace ToolBox.Items.Macro
                 command.Execute(null);
 
             return true;
+        }
+
+        /// <summary>
+        /// パネルに置かれているアイテムを、そのアイテム自身の設定で実行する。
+        /// 開く対象やラベルなどアイテム固有の設定が要る操作を、マクロから呼べるようにするための手順。
+        /// </summary>
+        private static void RunPanelItem(Guid itemId)
+        {
+            var item = ToolBoxViewModel.FindPlacedItem(itemId);
+            if (item == null)
+                return;
+
+            var command = item.DefaultCommand;
+            if (command?.CanExecute(item) == true)
+                command.Execute(item);
         }
 
         private static void RunShortcut(CommandType commandType)

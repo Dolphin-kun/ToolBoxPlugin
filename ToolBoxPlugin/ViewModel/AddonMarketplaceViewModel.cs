@@ -7,17 +7,8 @@ using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.ViewModel
 {
-    public class AddonMarketplaceViewModel : Bindable
+    public class AddonMarketplaceViewModel : SettingsNodeViewModel
     {
-        public string CategoryName { get; } = "アドオンを探す";
-
-        private bool isExpanded = true;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set => Set(ref isExpanded, value);
-        }
-
         public ObservableCollection<MarketplaceAddonViewModel> Addons { get; } = [];
 
         private bool isBusy;
@@ -42,7 +33,7 @@ namespace ToolBox.ViewModel
         public ICommand InstallCommand { get; }
         public ICommand OpenRepositoryCommand { get; }
 
-        public AddonMarketplaceViewModel()
+        public AddonMarketplaceViewModel() : base("アドオンを探す")
         {
             RefreshCommand = new ActionCommand(_ => !IsBusy, _ => _ = RefreshAsync());
             InstallCommand = new ActionCommand(
@@ -70,15 +61,13 @@ namespace ToolBox.ViewModel
 
             try
             {
-                var found = await AddonMarketplace.SearchAsync();
+                var response = await AddonMarketplace.SearchAsync();
 
                 Addons.Clear();
-                foreach (var addon in found)
+                foreach (var addon in response.Addons)
                     Addons.Add(new MarketplaceAddonViewModel(addon));
 
-                StatusMessage = found.Count == 0
-                    ? $"トピック「{AddonMarketplace.Topic}」が付いたリポジトリは見つかりませんでした。"
-                    : $"{found.Count} 件見つかりました。";
+                StatusMessage = BuildStatusMessage(response);
             }
             catch (Exception ex)
             {
@@ -90,6 +79,26 @@ namespace ToolBox.ViewModel
                 OnPropertyChanged(nameof(HasAddons));
                 RaiseCommandStates();
             }
+        }
+
+        /// <summary>
+        /// 問い合わせ回数の上限が近いので、取得したてなのかキャッシュなのかを分かるようにしておく。
+        /// </summary>
+        private static string BuildStatusMessage(SearchResponse response)
+        {
+            if (response.Addons.Count == 0)
+                return $"トピック「{AddonMarketplace.Topic}」が付いたリポジトリは見つかりませんでした。";
+
+            var message = $"{response.Addons.Count} 件見つかりました。";
+
+            if (response.IsTruncated)
+                message += $" (GitHub 側の総数は {response.TotalCount} 件ですが、検索 API の上限により一部のみ表示しています)";
+
+            message += response.IsFromCache
+                ? $" 前回取得した一覧を表示しています ({response.CacheExpiresAt.LocalDateTime:HH:mm} まで)。"
+                : string.Empty;
+
+            return message;
         }
 
         private async Task InstallAsync(MarketplaceAddonViewModel addon)
@@ -136,14 +145,7 @@ namespace ToolBox.ViewModel
 
         private void OnAddonsChanged(object? sender, EventArgs e)
         {
-            var dispatcher = Application.Current?.Dispatcher;
-            if (dispatcher != null && !dispatcher.CheckAccess())
-            {
-                dispatcher.Invoke(RefreshInstalledFlags);
-                return;
-            }
-
-            RefreshInstalledFlags();
+            UiThread.Run(RefreshInstalledFlags);
         }
 
         private void RefreshInstalledFlags()

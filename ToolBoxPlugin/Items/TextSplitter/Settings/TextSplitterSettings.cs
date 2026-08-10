@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.TextSplitter.Settings
 {
@@ -29,25 +30,25 @@ namespace ToolBox.Items.TextSplitter.Settings
         private bool isIgnoreTags = true;
         public bool IsIgnoreTags { get => isIgnoreTags; set => Set(ref isIgnoreTags, value); }
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override Size MinSize => new(1, 1);
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Text;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "TextSplitter";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => "M1.5 9H3.5V15H5.5V9H7.5V7H1.5zM10 7H11L9 15H8L10 7M12 7H13.5L15 9.5L16.5 7H18L15.8 11L18 15H16.5L15 12.5L13.5 15H12L14.2 11L12 7z";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "テキスト分割";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description => "選択したテキスト・音声アイテムを分割し、縦または横に並べます。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("TextSplitterItemCommand");
     }
 }

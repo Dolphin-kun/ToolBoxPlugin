@@ -1,29 +1,30 @@
 using System.Text.Json.Serialization;
 using ToolBox.Settings;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.Decorations.Settings
 {
     public class LabelSettings : ToolItemSettings
     {
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Decoration;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "Label";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "ラベル";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description => "パネルに見出しの文字を置きます。クリックしても何も実行しません。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.FormatText;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override bool IsInvokable => false;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary => string.IsNullOrWhiteSpace(Text) ? DisplayName : Text;
 
         private string text = "見出し";

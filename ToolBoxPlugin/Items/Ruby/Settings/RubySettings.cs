@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.Ruby.Settings
 {
@@ -26,25 +27,25 @@ namespace ToolBox.Items.Ruby.Settings
         private double lineHeightMultiplier = 1.5;
         public double LineHeightMultiplier { get => lineHeightMultiplier; set => Set(ref lineHeightMultiplier, value); }
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override System.Windows.Size MinSize => new(1, 1);
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Text;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "Ruby";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.FuriganaHorizontal;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "ルビ振り";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description => "選択したアイテムの漢字にルビを振ります。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("RubyItemCommand");
     }
 }

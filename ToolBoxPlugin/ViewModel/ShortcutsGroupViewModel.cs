@@ -1,22 +1,18 @@
 using ToolBox.Items.Shortcuts;
 using ToolBox.Settings;
-using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.ViewModel
 {
-    public class ShortcutsGroupViewModel(ToolBoxPanel panel) : Bindable
+    public class ShortcutsGroupViewModel : SettingsNodeViewModel
     {
-        public string CategoryName { get; } = "ショートカット";
+        public IReadOnlyList<ShortcutEntryViewModel> Shortcuts { get; }
 
-        private bool isExpanded = true;
-        public bool IsExpanded
+        public override bool HasChildren => Shortcuts.Count > 0;
+
+        public ShortcutsGroupViewModel(ToolBoxPanel panel, string group) : base(group)
         {
-            get => isExpanded;
-            set => Set(ref isExpanded, value);
+            Shortcuts = [.. ShortcutDefinitions.InGroup(group).Select(def => new ShortcutEntryViewModel(panel, def))];
+            IsExpanded = false;
         }
-
-        public IReadOnlyList<ShortcutEntryViewModel> Shortcuts { get; } = [.. ShortcutDefinitions.Allowed.Select(def => new ShortcutEntryViewModel(panel, def))];
-
-        public bool HasChildren => Shortcuts.Count > 0;
     }
 }

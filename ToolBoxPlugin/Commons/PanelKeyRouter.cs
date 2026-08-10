@@ -14,6 +14,16 @@ namespace ToolBox.Commons
             handlers.Add(handler);
         }
 
+        /// <summary>
+        /// 他のどのハンドラーよりも先にキーを受け取る。
+        /// ホットキーを設定している最中に、そのキーが割り当て済みの操作を起動しないようにするために使う。
+        /// </summary>
+        public static void AddFirst(Func<Key, ModifierKeys, bool> handler)
+        {
+            EnsureInstalled();
+            handlers.Insert(0, handler);
+        }
+
         public static void Remove(Func<Key, ModifierKeys, bool> handler) => handlers.Remove(handler);
 
         private static void EnsureInstalled()

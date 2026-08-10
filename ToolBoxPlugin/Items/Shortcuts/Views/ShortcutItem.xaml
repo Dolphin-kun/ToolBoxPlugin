@@ -9,10 +9,6 @@
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
              mc:Ignorable="d"
              x:Name="Root">
-    <UserControl.Resources>
-        <commons:StringToGeometryConverter x:Key="StringToGeometryConverter" />
-        <commons:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-    </UserControl.Resources>
 
     <Button Command="{Binding ShortcutCommand, ElementName=Root}" CommandParameter="{Binding}" ToolTip="{Binding Label}">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -31,7 +27,7 @@
                 </commons:IconControl.Style>
             </commons:IconControl>
 
-            <Image Source="{Binding CustomImagePath}"
+            <Image Source="{Binding CustomImagePath, Converter={x:Static commons:ImagePathConverter.Instance}}"
                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
                 <Image.Style>
                     <Style TargetType="Image">

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.TachiePlacer.Settings
 {
@@ -21,25 +22,25 @@ namespace ToolBox.Items.TachiePlacer.Settings
         private TachiePlacement placement = TachiePlacement.Below;
         public TachiePlacement Placement { get => placement; set => Set(ref placement, value); }
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override Size MinSize => new(1, 1);
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Timeline;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "TachiePlacer";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.AccountPlus;
         
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "立ち絵配置";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description => "選択した音声アイテムのキャラクターに対応する立ち絵アイテムを、上下いずれかの隣接レイヤーへ配置します。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("TachiePlacerItemCommand");
     }
 }

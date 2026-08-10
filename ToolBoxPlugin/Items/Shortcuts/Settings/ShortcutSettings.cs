@@ -3,6 +3,7 @@ using YukkuriMovieMaker.Settings;
 using System.Windows.Input;
 using System.Text.Json.Serialization;
 using ToolBox.ViewModel;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.Shortcuts.Settings
 {
@@ -18,15 +19,18 @@ namespace ToolBox.Items.Shortcuts.Settings
             set => Set(ref commandType, value, etcChangedPropertyNames: nameof(IconPath));
         }
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
+        public override string HiddenKey => "Shortcut_" + CommandType;
+
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => ShortcutDefinitions.Allowed
             .FirstOrDefault(d => d.CommandType == commandType)?.IconPath ?? string.Empty;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description => ShortcutDefinitions.Allowed
             .FirstOrDefault(d => d.CommandType == commandType)?.Description ?? string.Empty;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("ShortcutCommand");
 
         public ShortcutSettings()

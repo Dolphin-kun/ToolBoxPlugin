@@ -1,30 +1,31 @@
 using System.Text.Json.Serialization;
 using System.Windows.Controls;
 using ToolBox.Settings;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.Decorations.Settings
 {
     public class SeparatorSettings : ToolItemSettings
     {
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Decoration;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "Separator";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "区切り線";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description => "パネルに区切り線を引きます。アイテムのまとまりを分けるための飾りです。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.Minus;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override bool IsInvokable => false;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary =>
             $"{DisplayName} ({(Orientation == Orientation.Horizontal ? "横" : "縦")})";
 

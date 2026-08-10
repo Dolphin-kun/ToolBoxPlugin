@@ -23,8 +23,7 @@ namespace ToolBox.Items.Launcher
                 MessageBox.Show(
                     $"開けませんでした。次の場所が見つかりません。\n\n{target}",
                     "ファイル・フォルダーを開く",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                    MessageBoxButton.OK);
                 return;
             }
 
@@ -44,8 +43,7 @@ namespace ToolBox.Items.Launcher
                 MessageBox.Show(
                     $"開けませんでした。\n\n{target}\n\n{ex.Message}",
                     "ファイル・フォルダーを開く",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                    MessageBoxButton.OK);
             }
         }
 

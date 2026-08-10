@@ -11,8 +11,22 @@ namespace ToolBox.Commons
     {
         public const string Topic = "ymm4-toolbox-addon";
 
-        private const string SearchUrl =
-            "https://api.github.com/search/repositories?q=topic:" + Topic + "&sort=stars&order=desc&per_page=50";
+        /// <summary>
+        /// このプラグイン本体のリポジトリ。トピックは付いているがアドオンではないので一覧から外す。
+        /// </summary>
+        private const string SelfRepository = "Dolphin-kun/ToolBoxPlugin";
+
+        /// <summary>1 回の問い合わせで取れる最大件数 (GitHub の上限)。</summary>
+        private const int PageSize = 100;
+
+        /// <summary>
+        /// 検索 API は合計 1000 件までしか辿れない。
+        /// 1 ページ 100 件なので、10 ページで打ち止めになる。
+        /// </summary>
+        private const int MaxPages = 10;
+
+        private static string BuildSearchUrl(int page) =>
+            $"https://api.github.com/search/repositories?q=topic:{Topic}&sort=stars&order=desc&per_page={PageSize}&page={page}";
 
         private static readonly Lazy<HttpClient> Client = new(() =>
         {
@@ -27,28 +41,120 @@ namespace ToolBox.Commons
             PropertyNameCaseInsensitive = true,
         };
 
-        public static async Task<IReadOnlyList<MarketplaceAddon>> SearchAsync(CancellationToken cancellationToken = default)
+        private static SearchResponse? cachedResponse;
+        private static DateTimeOffset cacheExpiresAt;
+
+        /// <summary>
+        /// 検索 API は認証なしだと 1 分あたり 10 回までなので、
+        /// 一度取得した一覧はしばらく使い回して無駄な問い合わせを避ける。
+        /// </summary>
+        private static readonly TimeSpan CacheLifetime = TimeSpan.FromMinutes(10);
+
+        /// <summary>
+        /// トピックの付いたリポジトリをすべて取得する。
+        /// 1 ページ 100 件で、まだ残りがあれば次のページも取りに行く。
+        /// </summary>
+        public static async Task<SearchResponse> SearchAsync(CancellationToken cancellationToken = default)
         {
-            var json = await Client.Value.GetStringAsync(SearchUrl, cancellationToken).ConfigureAwait(false);
-            var result = JsonSerializer.Deserialize<SearchResult>(json, JsonOptions);
+            if (cachedResponse != null && DateTimeOffset.UtcNow < cacheExpiresAt)
+                return cachedResponse with { IsFromCache = true, CacheExpiresAt = cacheExpiresAt };
 
-            if (result?.Items == null)
-                return [];
+            var addons = new List<MarketplaceAddon>();
+            var totalCount = 0;
+            var fetchedCount = 0;
+            var excludedCount = 0;
 
-            return [.. result.Items.Select(repo => new MarketplaceAddon(
-                repo.FullName ?? repo.Name ?? "(unknown)",
-                repo.Name ?? "(unknown)",
-                repo.Owner?.Login ?? string.Empty,
-                repo.Description ?? string.Empty,
-                repo.HtmlUrl ?? string.Empty,
-                repo.StargazersCount,
-                repo.PushedAt))];
+            for (var page = 1; page <= MaxPages; page++)
+            {
+                var json = await GetStringAsync(BuildSearchUrl(page), cancellationToken).ConfigureAwait(false);
+                var result = JsonSerializer.Deserialize<SearchResult>(json, JsonOptions);
+
+                if (result?.Items == null || result.Items.Count == 0)
+                    break;
+
+                totalCount = result.TotalCount;
+                fetchedCount += result.Items.Count;
+
+                foreach (var repo in result.Items)
+                {
+                    if (IsSelf(repo))
+                    {
+                        excludedCount++;
+                        continue;
+                    }
+
+                    addons.Add(ToAddon(repo));
+                }
+
+                // 一覧から外した分も取得済みなので、取得件数で残りを判断する
+                if (fetchedCount >= totalCount)
+                    break;
+            }
+
+            cachedResponse = new SearchResponse(
+                addons,
+                Math.Max(addons.Count, totalCount - excludedCount),
+                IsFromCache: false,
+                DateTimeOffset.MinValue);
+            cacheExpiresAt = DateTimeOffset.UtcNow + CacheLifetime;
+
+            return cachedResponse with { CacheExpiresAt = cacheExpiresAt };
+        }
+
+        private static bool IsSelf(Repository repo) =>
+            string.Equals(repo.FullName, SelfRepository, StringComparison.OrdinalIgnoreCase);
+
+        private static MarketplaceAddon ToAddon(Repository repo) => new(
+            repo.FullName ?? repo.Name ?? "(unknown)",
+            repo.Name ?? "(unknown)",
+            repo.Owner?.Login ?? string.Empty,
+            repo.Description ?? string.Empty,
+            repo.HtmlUrl ?? string.Empty,
+            repo.StargazersCount,
+            repo.PushedAt);
+
+        /// <summary>
+        /// 回数制限に当たったときは HTTP 403 と共に X-RateLimit-Remaining: 0 が返る。
+        /// そのまま例外を投げると原因が分からないので、いつ回復するかを添えて伝える。
+        /// </summary>
+        private static async Task<string> GetStringAsync(string url, CancellationToken cancellationToken)
+        {
+            using var response = await Client.Value.GetAsync(url, cancellationToken).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
+            if (IsRateLimited(response))
+                throw new InvalidOperationException(BuildRateLimitMessage(response));
+
+            throw new InvalidOperationException($"GitHub から応答がありませんでした ({(int)response.StatusCode})。");
+        }
+
+        private static bool IsRateLimited(HttpResponseMessage response)
+        {
+            if (response.StatusCode is not (System.Net.HttpStatusCode.Forbidden or System.Net.HttpStatusCode.TooManyRequests))
+                return false;
+
+            return !response.Headers.TryGetValues("X-RateLimit-Remaining", out var remaining)
+                || remaining.FirstOrDefault() == "0";
+        }
+
+        private static string BuildRateLimitMessage(HttpResponseMessage response)
+        {
+            if (response.Headers.TryGetValues("X-RateLimit-Reset", out var reset)
+                && long.TryParse(reset.FirstOrDefault(), out var epochSeconds))
+            {
+                var resetAt = DateTimeOffset.FromUnixTimeSeconds(epochSeconds).LocalDateTime;
+                return $"GitHub の問い合わせ回数の上限に達しました。{resetAt:HH:mm} 以降にもう一度お試しください。";
+            }
+
+            return "GitHub の問い合わせ回数の上限に達しました。しばらく待ってからもう一度お試しください。";
         }
 
         public static async Task<IReadOnlyList<string>> InstallAsync(MarketplaceAddon addon, CancellationToken cancellationToken = default)
         {
             var releaseUrl = $"https://api.github.com/repos/{addon.FullName}/releases/latest";
-            var json = await Client.Value.GetStringAsync(releaseUrl, cancellationToken).ConfigureAwait(false);
+            var json = await GetStringAsync(releaseUrl, cancellationToken).ConfigureAwait(false);
             var release = JsonSerializer.Deserialize<Release>(json, JsonOptions)
                 ?? throw new InvalidOperationException("リリース情報を読み取れませんでした。");
 
@@ -111,10 +217,13 @@ namespace ToolBox.Commons
 
         private sealed class SearchResult
         {
+            [JsonPropertyName("total_count")]
+            public int TotalCount { get; set; }
+
             public List<Repository>? Items { get; set; }
         }
 
-        private sealed class Repository
+        public sealed class Repository
         {
             public string? Name { get; set; }
 
@@ -135,7 +244,7 @@ namespace ToolBox.Commons
             public RepositoryOwner? Owner { get; set; }
         }
 
-        private sealed class RepositoryOwner
+        public sealed class RepositoryOwner
         {
             public string? Login { get; set; }
         }
@@ -157,6 +266,16 @@ namespace ToolBox.Commons
         }
 
         #endregion
+    }
+
+    /// <param name="TotalCount">GitHub 側の総件数。取得できた件数より多い場合は 1000 件の上限に当たっている。</param>
+    public record SearchResponse(
+        IReadOnlyList<MarketplaceAddon> Addons,
+        int TotalCount,
+        bool IsFromCache,
+        DateTimeOffset CacheExpiresAt)
+    {
+        public bool IsTruncated => Addons.Count < TotalCount;
     }
 
     public record MarketplaceAddon(

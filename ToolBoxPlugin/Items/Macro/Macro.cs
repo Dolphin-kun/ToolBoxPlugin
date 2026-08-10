@@ -16,10 +16,10 @@ namespace ToolBox.Items.Macro
         [
             new("RunMacroItemCommand",
                 (_, param) => param is MacroSettings settings && MacroCommand.CanRun(settings),
-                (ctx, param) =>
+                (_, param) =>
                 {
                     if (param is MacroSettings settings)
-                        _ = MacroCommand.RunAsync(ctx, settings);
+                        MacroCommand.Run(settings);
                 },
                 displayName: "マクロを実行",
                 requiresItemParameter: true),

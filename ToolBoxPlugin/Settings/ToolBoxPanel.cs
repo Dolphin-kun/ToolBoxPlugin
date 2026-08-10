@@ -37,19 +37,44 @@ namespace ToolBox.Settings
 
         public Dictionary<string, Point> HiddenItemPositions { get; } = [];
 
+        /// <summary>
+        /// 非表示にしたアイテムの控え。もう一度表示したときに設定ごと戻せるように、
+        /// 位置だけでなくアイテムそのものを取っておく。
+        /// </summary>
+        public Dictionary<string, ToolItemSettings> HiddenItems { get; } = [];
+
+        public void HideItem(ToolItemSettings settings)
+        {
+            if (!Items.Remove(settings))
+                return;
+
+            HiddenItems[settings.HiddenKey] = settings;
+            HiddenItemPositions[settings.HiddenKey] = settings.Position;
+        }
+
+        /// <summary>控えてある同じ種類のアイテムを取り出す。無ければ null。</summary>
+        public ToolItemSettings? TakeHiddenItem(string key)
+        {
+            if (!HiddenItems.Remove(key, out var settings))
+                return null;
+
+            HiddenItemPositions.Remove(key);
+            return settings;
+        }
+
         public static ToolBoxPanel CreateDefault()
         {
-            var settings = ToolBoxSettings.Default;
+            var template = ToolBoxSettings.Default.DefaultPanel;
             var panel = new ToolBoxPanel
             {
-                GridRowCount = settings.GridRowCount,
-                GridColumnCount = settings.GridColumnCount,
+                GridRowCount = template.GridRowCount,
+                GridColumnCount = template.GridColumnCount,
             };
 
-            foreach (var item in CloneItems(settings.Items))
+            foreach (var item in CloneItems(template.Items))
                 panel.Items.Add(item);
 
-            foreach (var (key, position) in settings.HiddenItemPositions)
+            foreach (var (key, position) in template.HiddenItemPositions)
                 panel.HiddenItemPositions[key] = position;
 
             return panel;
@@ -62,6 +87,7 @@ namespace ToolBox.Settings
             GridRowCount = GridRowCount,
             GridColumnCount = GridColumnCount,
             HiddenItemPositions = new Dictionary<string, Point>(HiddenItemPositions),
+            HiddenItems = HiddenItems.ToDictionary(pair => pair.Key, pair => (ToolItemSettings?)pair.Value),
         }, JsonOptions);
 
         public void LoadJson(string json)
@@ -91,6 +117,13 @@ namespace ToolBox.Settings
             HiddenItemPositions.Clear();
             foreach (var (key, position) in state.HiddenItemPositions)
                 HiddenItemPositions[key] = position;
+
+            HiddenItems.Clear();
+            foreach (var (key, settings) in state.HiddenItems)
+            {
+                if (settings != null)
+                    HiddenItems[key] = settings;
+            }
         }
 
         private static List<ToolItemSettings> CloneItems(IEnumerable<ToolItemSettings> source)
@@ -107,6 +140,7 @@ namespace ToolBox.Settings
             public int GridRowCount { get; set; } = 6;
             public int GridColumnCount { get; set; } = 6;
             public Dictionary<string, Point> HiddenItemPositions { get; set; } = [];
+            public Dictionary<string, ToolItemSettings?> HiddenItems { get; set; } = [];
         }
     }
 }

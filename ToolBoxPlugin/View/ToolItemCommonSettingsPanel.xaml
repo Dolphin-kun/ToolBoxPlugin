@@ -141,6 +141,21 @@
                                                   HorizontalAlignment="Right" Width="180" FontSize="11"/>
                         </Grid>
 
+                        <TextBlock Text="{Binding HotkeyConflictMessage}"
+                                   FontSize="10" TextWrapping="Wrap" Margin="0,0,0,6"
+                                   Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasHotkeyConflict}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
                         <TextBlock Text="欄を選んでキーを押すと割り当てます。Esc で解除します。文字入力と区別するため、Ctrl か Alt を含む組み合わせだけ設定できます。YMM4 のウィンドウが前面にあるときだけ働きます。"
                                    FontSize="10" TextWrapping="Wrap"
                                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>

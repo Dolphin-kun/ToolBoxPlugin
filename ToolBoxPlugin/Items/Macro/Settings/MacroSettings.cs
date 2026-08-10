@@ -3,32 +3,33 @@ using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Items.Macro.Settings
 {
     public class MacroSettings : ToolItemSettings
     {
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ItemCategory Category => ItemCategory.Utility;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Name => "Macro";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "マクロ";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string Description =>
             "登録した操作を上から順に実行します。よく使う手順をまとめて 1 つのボタンにできます。";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.PlaylistPlay;
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary =>
             Steps.Count == 0 ? $"{Label} (手順なし)" : $"{Label} ({Steps.Count} 手順)";
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand =>
             ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("RunMacroItemCommand");
 

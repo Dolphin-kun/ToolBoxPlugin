@@ -1,5 +1,4 @@
-using System.Collections.Specialized;
-using System.ComponentModel;
+using ToolBox.Commons;
 using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.Settings
@@ -9,12 +8,11 @@ namespace ToolBox.Settings
         private const int MaxDepth = 50;
 
         private readonly ToolBoxPanel panel;
+        private readonly PanelItemWatcher watcher;
         private readonly List<string> undoStack = [];
         private readonly List<string> redoStack = [];
-        private readonly HashSet<ToolItemSettings> watchedItems = [];
 
         private string currentSnapshot;
-
         private bool isRestoring;
 
         public PanelHistory(ToolBoxPanel panel)
@@ -22,8 +20,10 @@ namespace ToolBox.Settings
             this.panel = panel;
             currentSnapshot = panel.ToJson();
 
-            panel.Items.CollectionChanged += OnItemsChanged;
-            WatchAllItems();
+            watcher = new PanelItemWatcher(
+                panel,
+                [nameof(ToolItemSettings.Position), nameof(ToolItemSettings.Size), nameof(ToolItemSettings.IsLocked)],
+                Commit);
         }
 
         public bool CanUndo => undoStack.Count > 0;
@@ -34,7 +34,7 @@ namespace ToolBox.Settings
             undoStack.Clear();
             redoStack.Clear();
             currentSnapshot = panel.ToJson();
-            WatchAllItems();
+            watcher.Rewatch();
             NotifyAvailability();
         }
 
@@ -56,7 +56,7 @@ namespace ToolBox.Settings
             {
                 panel.LoadJson(target);
                 currentSnapshot = target;
-                WatchAllItems();
+                watcher.Rewatch();
             }
             finally
             {
@@ -90,42 +90,6 @@ namespace ToolBox.Settings
             OnPropertyChanged(nameof(CanRedo));
         }
 
-        private void OnItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            WatchAllItems();
-            Commit();
-        }
-
-        private void WatchAllItems()
-        {
-            foreach (var item in watchedItems)
-                item.PropertyChanged -= OnItemPropertyChanged;
-
-            watchedItems.Clear();
-
-            foreach (var item in panel.Items)
-            {
-                item.PropertyChanged += OnItemPropertyChanged;
-                watchedItems.Add(item);
-            }
-        }
-
-        private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName is nameof(ToolItemSettings.Position)
-                or nameof(ToolItemSettings.Size)
-                or nameof(ToolItemSettings.IsLocked))
-            {
-                Commit();
-            }
-        }
-
-        public void Dispose()
-        {
-            panel.Items.CollectionChanged -= OnItemsChanged;
-            foreach (var item in watchedItems)
-                item.PropertyChanged -= OnItemPropertyChanged;
-            watchedItems.Clear();
-        }
+        public void Dispose() => watcher.Dispose();
     }
 }

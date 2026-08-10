@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using ToolBox.Settings;
 
 namespace ToolBox.Commons
 {
@@ -13,7 +14,6 @@ namespace ToolBox.Commons
             if (modifiers.HasFlag(ModifierKeys.Control)) parts.Add("Ctrl");
             if (modifiers.HasFlag(ModifierKeys.Alt)) parts.Add("Alt");
             if (modifiers.HasFlag(ModifierKeys.Shift)) parts.Add("Shift");
-            if (modifiers.HasFlag(ModifierKeys.Windows)) parts.Add("Win");
             parts.Add(key.ToString());
 
             return string.Join("+", parts);
@@ -55,5 +55,19 @@ namespace ToolBox.Commons
                 return null;
             }
         }
+
+        /// <summary>実際に割り当てとして使えるジェスチャなら返す。使えない場合は null。</summary>
+        public static KeyGesture? ParseAssignable(ToolItemSettings item)
+        {
+            if (!item.IsInvokable)
+                return null;
+
+            var gesture = Parse(item.HotkeyGesture);
+            return gesture != null && IsAssignable(gesture.Modifiers) ? gesture : null;
+        }
+
+        public static bool IsAssignable(ModifierKeys modifiers) =>
+            !modifiers.HasFlag(ModifierKeys.Windows)
+            && (modifiers.HasFlag(ModifierKeys.Control) || modifiers.HasFlag(ModifierKeys.Alt));
     }
 }

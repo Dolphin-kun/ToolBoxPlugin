@@ -13,10 +13,6 @@
              ToolTip="{Binding Label}"
              ToolTipService.ShowOnDisabled="True">
 
-    <UserControl.Resources>
-        <commons:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-    </UserControl.Resources>
-
     <Grid>
         <Border Margin="2"
                 Background="{Binding AppearanceBackground}"
@@ -59,7 +55,7 @@
                 </Style>
             </Button.Style>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image Source="{Binding CustomImagePath}"
+                <Image Source="{Binding CustomImagePath, Converter={x:Static commons:ImagePathConverter.Instance}}"
                        Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Image.Style>
                         <Style TargetType="Image">

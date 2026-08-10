@@ -1,29 +1,36 @@
-﻿using System.Globalization;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
+using ToolBox.Commons;
 using ToolBox.Items.TextSplitter.Settings;
 using YukkuriMovieMaker.Project;
 using YukkuriMovieMaker.Project.Items;
 using YukkuriMovieMaker.UndoRedo;
-using ToolBox.Commons;
 
 namespace ToolBox.Items.TextSplitter
 {
-    internal static class TextSplitterCommand
+    internal static partial class TextSplitterCommand
     {
+        [GeneratedRegex(@"^[a-zA-Z@]+")]
+        private static partial Regex TagPrefixRegex();
+
+        [GeneratedRegex(@"<[^>]+>")]
+        private static partial Regex TagRegex();
+
+        [GeneratedRegex(@"<r[a-z]+\s+([^, >]+)")]
+        private static partial Regex RubyBaseRegex();
+
+        [GeneratedRegex(@"<rt>.*?</rt>")]
+        private static partial Regex RubyTextRegex();
+
         public static bool CanExecute(IReadOnlyList<IItem> selectedItems)
         {
-            return selectedItems.Any(item =>
+            return selectedItems.Any(item => item switch
             {
-                if (item is TextItem textItem)
-                {
-                    return !string.IsNullOrEmpty(textItem.Text);
-                }
-                if (item is VoiceItem voiceItem)
-                {
-                    return !string.IsNullOrEmpty(voiceItem.Serif);
-                }
-                return false;
+                TextItem textItem => !string.IsNullOrEmpty(textItem.Text),
+                VoiceItem voiceItem => !string.IsNullOrEmpty(voiceItem.Serif),
+                _ => false,
             });
         }
 
@@ -72,7 +79,7 @@ namespace ToolBox.Items.TextSplitter
                     int end = text.IndexOf('>', i);
                     if (end != -1)
                     {
-                        string tag = text.Substring(i, end - i + 1);
+                        string tag = text[i..(end + 1)];
                         if (tag.StartsWith("<rb ") || tag.StartsWith("<ruby "))
                         {
                             result.Add(WrapWithTags(tag, activeTags));
@@ -80,14 +87,13 @@ namespace ToolBox.Items.TextSplitter
                             continue;
                         }
 
-                        string inner = tag.Substring(1, tag.Length - 2);
-                        var match = System.Text.RegularExpressions.Regex.Match(inner, @"^[a-zA-Z@]+");
+                        var match = TagPrefixRegex().Match(tag[1..^1]);
                         if (match.Success)
                         {
                             string prefix = match.Value;
-                            activeTags.RemoveAll(t => 
+                            activeTags.RemoveAll(t =>
                             {
-                                var m = System.Text.RegularExpressions.Regex.Match(t.Substring(1, t.Length - 2), @"^[a-zA-Z@]+");
+                                var m = TagPrefixRegex().Match(t[1..^1]);
                                 return m.Success && m.Value == prefix;
                             });
 
@@ -121,17 +127,57 @@ namespace ToolBox.Items.TextSplitter
             return wrapped;
         }
 
+        /// <summary>
+        /// 分割した要素を行ごとにまとめる。
+        /// 改行そのものはアイテムにしないが、空の行として残しておくことで元の行の高さを保つ。
+        /// </summary>
+        private static List<List<string>> BuildLines(string text, TextSplitterSettings settings)
+        {
+            var lines = new List<List<string>>();
+
+            if (settings.SplitMode == SplitMode.PerLine)
+            {
+                // 1 行がそのまま 1 アイテムになるので、分割結果の 1 要素が 1 行にあたる
+                foreach (var line in text.Split(["\r\n", "\r", "\n"], StringSplitOptions.None))
+                    lines.Add(HasContent(line) ? [line] : []);
+            }
+            else
+            {
+                var currentLine = new List<string>();
+                foreach (var element in SplitWithTags(text, settings.IsIgnoreTags))
+                {
+                    if (element is "\n" or "\r\n")
+                    {
+                        lines.Add(currentLine);
+                        currentLine = [];
+                    }
+                    else if (HasContent(element))
+                    {
+                        currentLine.Add(element);
+                    }
+                }
+                lines.Add(currentLine);
+            }
+
+            while (lines.Count > 0 && lines[^1].Count == 0)
+                lines.RemoveAt(lines.Count - 1);
+
+            return lines;
+        }
+
+        /// <summary>タグを取り除いても中身が残るかどうか。ルビは中身があるものとして扱う。</summary>
+        private static bool HasContent(string element) =>
+            element.Contains("<rb ") || element.Contains("<ruby ")
+            || !string.IsNullOrWhiteSpace(TagRegex().Replace(element, ""));
+
         private static void SplitSingleItem(IItem selectedItem, TextSplitterSettings settings, Timeline timeline)
         {
-            string? textToSplit = null;
-            if (selectedItem is TextItem textItem)
+            string? textToSplit = selectedItem switch
             {
-                textToSplit = textItem.Text;
-            }
-            else if (selectedItem is VoiceItem voiceItem)
-            {
-                textToSplit = voiceItem.Serif;
-            }
+                TextItem textItem => textItem.Text,
+                VoiceItem voiceItem => voiceItem.Serif,
+                _ => null,
+            };
 
             if (string.IsNullOrEmpty(textToSplit)) return;
 
@@ -140,29 +186,32 @@ namespace ToolBox.Items.TextSplitter
                 ? selectedItem.Layer
                 : selectedItem.Layer + 1;
 
-            var itemsToAdd = new List<IItem>();
-            IEnumerable<string> textElements;
+            var lines = BuildLines(textToSplit, settings);
 
-            if (settings.SplitMode == SplitMode.PerLine)
+            var finalElements = new List<string>();
+            var positionOffsets = new List<Point>();
+
+            if (settings.IsKeepPosition)
             {
-                textElements = textToSplit.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
+                LayOutLines(selectedItem, lines, finalElements, positionOffsets);
             }
             else
             {
-                textElements = SplitWithTags(textToSplit, settings.IsIgnoreTags);
+                foreach (var element in lines.SelectMany(line => line))
+                {
+                    finalElements.Add(element);
+                    positionOffsets.Add(new Point(0, 0));
+                }
             }
 
-            var validTextElements = textElements.Where(te => te == "\n" || te == "\r\n" || te.Contains("<rb ") || te.Contains("<ruby ") || !string.IsNullOrWhiteSpace(System.Text.RegularExpressions.Regex.Replace(te, @"<[^>]+>", ""))).ToList();
-            int totalSplitItems = validTextElements.Count;
-
-            if (totalSplitItems == 0) return;
+            if (finalElements.Count == 0) return;
 
             int baseNewLength = 0;
             int remainder = 0;
-            if (settings.IsKeepLength && settings.SplitDirection == SplitDirection.Horizontal && totalSplitItems > 0)
+            if (settings.IsKeepLength && settings.SplitDirection == SplitDirection.Horizontal)
             {
-                baseNewLength = selectedItem.Length / totalSplitItems;
-                remainder = selectedItem.Length % totalSplitItems;
+                baseNewLength = selectedItem.Length / finalElements.Count;
+                remainder = selectedItem.Length % finalElements.Count;
             }
 
             int currentFrame = (settings.SplitDirection == SplitDirection.Horizontal && !settings.IsDeleteOriginalItem)
@@ -170,120 +219,7 @@ namespace ToolBox.Items.TextSplitter
                 : startFrame;
             int targetStartFrame = currentFrame;
 
-            var finalElements = new List<string>();
-            var positionOffsets = new List<Point>();
-
-            if (settings.IsKeepPosition)
-            {
-                string font = "Meiryo";
-                double fontSize = 100;
-                double letterSpacing = 0;
-                string basePointName = "CenterCenter";
-
-                if (selectedItem is TextItem tItemFont)
-                {
-                    try { font = tItemFont.Font; } catch { }
-                    try { fontSize = tItemFont.FontSize.Values[0].Value; } catch { }
-                    try { letterSpacing = tItemFont.LetterSpacing2.Values[0].Value; } catch { }
-                    try { basePointName = tItemFont.BasePoint.ToString(); } catch { }
-                }
-
-                var typeface = new Typeface(font);
-                
-                var lines = new List<List<string>>();
-                var currentLine = new List<string>();
-                foreach (var te in validTextElements)
-                {
-                    if (te == "\n" || te == "\r\n")
-                    {
-                        lines.Add(currentLine);
-                        currentLine = new List<string>();
-                    }
-                    else
-                    {
-                        currentLine.Add(te);
-                    }
-                }
-                lines.Add(currentLine);
-
-                double lineSpacingRatio = 100.0;
-                if (selectedItem is TextItem tItemSpacing)
-                {
-                    try { lineSpacingRatio = tItemSpacing.LineHeight2.Values[0].Value; } catch { }
-                }
-
-                double baseLineHeight = typeface.FontFamily.LineSpacing * fontSize;
-                double lineHeight = baseLineHeight * (lineSpacingRatio / 100.0);
-                double totalHeight = lines.Count * lineHeight;
-                double startY = -totalHeight / 2;
-                if (basePointName.Contains("Top")) startY = 0;
-                else if (basePointName.Contains("Bottom")) startY = -totalHeight;
-
-                double currentY = startY;
-
-                foreach (var lineElements in lines)
-                {
-                    double lineTotalWidth = 0;
-                    var lineCharSizes = new List<Size>();
-                    
-                    foreach (var te in lineElements)
-                    {
-                        string plainText = te;
-                        if (te.Contains("<rb ") || te.Contains("<ruby "))
-                        {
-                            var match = System.Text.RegularExpressions.Regex.Match(te, @"<r[a-z]+\s+([^, >]+)");
-                            if (match.Success) plainText = match.Groups[1].Value;
-                        }
-                        
-                        plainText = System.Text.RegularExpressions.Regex.Replace(plainText, @"<rt>.*?</rt>", "");
-                        plainText = System.Text.RegularExpressions.Regex.Replace(plainText, @"<[^>]+>", "");
-                        if (string.IsNullOrEmpty(plainText)) plainText = " ";
-
-                        var ft = new FormattedText(
-                            plainText,
-                            CultureInfo.CurrentCulture,
-                            FlowDirection.LeftToRight,
-                            typeface,
-                            fontSize,
-                            Brushes.Black,
-                            new NumberSubstitution(),
-                            1.0);
-
-                        double w = ft.WidthIncludingTrailingWhitespace;
-                        lineCharSizes.Add(new Size(w, ft.Height));
-                        lineTotalWidth += w + letterSpacing;
-                    }
-                    if (lineCharSizes.Count > 0) lineTotalWidth -= letterSpacing;
-
-                    double currentX = -lineTotalWidth / 2;
-                    if (basePointName.Contains("Left")) currentX = 0;
-                    else if (basePointName.Contains("Right")) currentX = -lineTotalWidth;
-
-                    for (int j = 0; j < lineElements.Count; j++)
-                    {
-                        double w = lineCharSizes[j].Width;
-                        double charCenterX = currentX + w / 2;
-                        double charCenterY = currentY + lineHeight / 2;
-
-                        finalElements.Add(lineElements[j]);
-                        positionOffsets.Add(new Point(charCenterX, charCenterY));
-                        
-                        currentX += w + letterSpacing;
-                    }
-                    currentY += lineHeight;
-                }
-            }
-            else
-            {
-                foreach (var te in validTextElements)
-                {
-                    if (te != "\n" && te != "\r\n")
-                    {
-                        finalElements.Add(te);
-                        positionOffsets.Add(new Point(0, 0));
-                    }
-                }
-            }
+            var itemsToAdd = new List<IItem>();
 
             for (int i = 0; i < finalElements.Count; i++)
             {
@@ -298,17 +234,14 @@ namespace ToolBox.Items.TextSplitter
                     newVoiceItem.Serif = textElement;
                 }
 
-                if (settings.IsKeepPosition)
+                if (settings.IsKeepPosition && newItem is TextItem newTextItemPos)
                 {
-                    if (newItem is TextItem newTextItemPos)
+                    try
                     {
-                        try
-                        {
-                            newTextItemPos.X.Values[0].Value += positionOffsets[i].X;
-                            newTextItemPos.Y.Values[0].Value += positionOffsets[i].Y;
-                        }
-                        catch { }
+                        newTextItemPos.X.Values[0].Value += positionOffsets[i].X;
+                        newTextItemPos.Y.Values[0].Value += positionOffsets[i].Y;
                     }
+                    catch { }
                 }
 
                 if (settings.SplitDirection == SplitDirection.Vertical)
@@ -337,18 +270,97 @@ namespace ToolBox.Items.TextSplitter
 
                 itemsToAdd.Add(newItem);
             }
+
             if (itemsToAdd.Count == 0) return;
             IItem[] itemsArray = [.. itemsToAdd];
 
             if (settings.IsDeleteOriginalItem)
             {
                 timeline.DeleteItems([selectedItem]);
-                timeline.TryAddItems(itemsArray, targetStartFrame, startLayer);
             }
-            else
+
+            timeline.TryAddItems(itemsArray, targetStartFrame, startLayer);
+        }
+
+        /// <summary>
+        /// 元の文字が並んでいた位置に重なるように、要素ごとの中心のずれを求める。
+        /// </summary>
+        private static void LayOutLines(
+            IItem selectedItem,
+            List<List<string>> lines,
+            List<string> finalElements,
+            List<Point> positionOffsets)
+        {
+            string font = "Meiryo";
+            double fontSize = 100;
+            double letterSpacing = 0;
+            string basePointName = "CenterCenter";
+            double lineSpacingRatio = 100.0;
+
+            if (selectedItem is TextItem textItem)
             {
-                timeline.TryAddItems(itemsArray, targetStartFrame, startLayer);
+                try { font = textItem.Font; } catch { }
+                try { fontSize = textItem.FontSize.Values[0].Value; } catch { }
+                try { letterSpacing = textItem.LetterSpacing2.Values[0].Value; } catch { }
+                try { basePointName = textItem.BasePoint.ToString(); } catch { }
+                try { lineSpacingRatio = textItem.LineHeight2.Values[0].Value; } catch { }
             }
+
+            var typeface = new Typeface(font);
+            double lineHeight = typeface.FontFamily.LineSpacing * fontSize * (lineSpacingRatio / 100.0);
+            double totalHeight = lines.Count * lineHeight;
+
+            double currentY = -totalHeight / 2;
+            if (basePointName.Contains("Top")) currentY = 0;
+            else if (basePointName.Contains("Bottom")) currentY = -totalHeight;
+
+            foreach (var lineElements in lines)
+            {
+                var widths = lineElements
+                    .Select(element => MeasureWidth(element, typeface, fontSize))
+                    .ToList();
+
+                double lineTotalWidth = widths.Sum() + letterSpacing * Math.Max(0, widths.Count - 1);
+
+                double currentX = -lineTotalWidth / 2;
+                if (basePointName.Contains("Left")) currentX = 0;
+                else if (basePointName.Contains("Right")) currentX = -lineTotalWidth;
+
+                for (int i = 0; i < lineElements.Count; i++)
+                {
+                    finalElements.Add(lineElements[i]);
+                    positionOffsets.Add(new Point(currentX + widths[i] / 2, currentY + lineHeight / 2));
+                    currentX += widths[i] + letterSpacing;
+                }
+
+                currentY += lineHeight;
+            }
+        }
+
+        private static double MeasureWidth(string element, Typeface typeface, double fontSize)
+        {
+            string plainText = element;
+            if (element.Contains("<rb ") || element.Contains("<ruby "))
+            {
+                var match = RubyBaseRegex().Match(element);
+                if (match.Success) plainText = match.Groups[1].Value;
+            }
+
+            plainText = RubyTextRegex().Replace(plainText, "");
+            plainText = TagRegex().Replace(plainText, "");
+            if (string.IsNullOrEmpty(plainText)) plainText = " ";
+
+            var formatted = new FormattedText(
+                plainText,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                typeface,
+                fontSize,
+                Brushes.Black,
+                new NumberSubstitution(),
+                1.0);
+
+            return formatted.WidthIncludingTrailingWhitespace;
         }
     }
 }

@@ -9,10 +9,6 @@
              x:Name="Root"
              ToolTip="{Binding DisplayName}">
 
-    <UserControl.Resources>
-        <commons:StringToGeometryConverter x:Key="StringToGeometryConverter" />
-    </UserControl.Resources>
-
     <Button Command="{Binding SeparateAudioItemCommand, ElementName=Root}"
             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
             Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">

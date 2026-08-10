@@ -20,9 +20,9 @@ namespace ToolBox.View
             public int Left, Top, Right, Bottom;
         }
 
-        [DllImport("user32.dll")]
+        [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+        private static partial bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
         private HwndSource? hwndSource;
 
@@ -97,11 +97,8 @@ namespace ToolBox.View
         {
             ToolBoxSettings.Default.PropertyChanged -= OnToolBoxSettingsPropertyChanged;
 
-            if (subscribedPanel != null)
-            {
-                subscribedPanel.PropertyChanged -= OnPanelPropertyChanged;
-                subscribedPanel = null;
-            }
+            subscribedPanel?.PropertyChanged -= OnPanelPropertyChanged;
+            subscribedPanel = null;
 
             hwndSource?.RemoveHook(OnWindowMessage);
             hwndSource = null;
@@ -124,6 +121,20 @@ namespace ToolBox.View
 
             e.Handled = true;
             vm.IsSettingsVisible = true;
+        }
+
+        private void OnPanelContextMenuClosed(object sender, RoutedEventArgs e) =>
+            Dispatcher.BeginInvoke(DropGrid.RefreshCtrlState);
+
+        private void OnPanelContextMenuOpened(object sender, RoutedEventArgs e) =>
+            PasteItemMenuItem.IsEnabled = ToolBox.Commons.ItemClipboard.HasContent;
+
+        private void OnPasteItemClick(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not ToolBoxViewModel vm) return;
+
+            e.Handled = true;
+            vm.PasteItem();
         }
 
         private void OnAddPanelClick(object sender, RoutedEventArgs e)

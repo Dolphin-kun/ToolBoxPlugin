@@ -12,13 +12,10 @@ namespace ToolBox.ViewModel
         public override string IconPath { get; }
         public override string Description => definition.Description;
 
-        protected override string PositionKey { get; }
-
         public ShortcutEntryViewModel(ToolBoxPanel panel, ShortcutDefinition definition)
             : base(panel)
         {
             this.definition = definition;
-            PositionKey = "Shortcut_" + definition.CommandType;
             IconPath = definition.IconPath;
 
             InitializeInstances();

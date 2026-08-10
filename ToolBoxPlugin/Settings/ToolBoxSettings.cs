@@ -11,6 +11,7 @@ using ToolBox.Items.Recording.Settings;
 using ToolBox.Items.TextSplitter.Settings;
 using ToolBox.Items.TachiePlacer.Settings;
 using YukkuriMovieMaker.Plugin;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Settings
 {
@@ -21,26 +22,7 @@ namespace ToolBox.Settings
         public override bool HasSettingView => false;
         public override object? SettingView => null;
 
-        private ObservableCollection<ToolItemSettings> items = [];
-        public ObservableCollection<ToolItemSettings> Items
-        {
-            get => items;
-            set => Set(ref items, value);
-        }
-
-        private int gridColumnCount = 6;
-        public int GridColumnCount
-        {
-            get => gridColumnCount;
-            set => Set(ref gridColumnCount, value);
-        }
-
-        private int gridRowCount = 6;
-        public int GridRowCount
-        {
-            get => gridRowCount;
-            set => Set(ref gridRowCount, value);
-        }
+        #region 全パネル共通の見た目
 
         private double cellSize = 40;
         public double CellSize
@@ -54,6 +36,13 @@ namespace ToolBox.Settings
         {
             get => cellMargin;
             set => Set(ref cellMargin, value);
+        }
+
+        private bool showGridLines = false;
+        public bool ShowGridLines
+        {
+            get => showGridLines;
+            set => Set(ref showGridLines, value);
         }
 
         private bool showHighlight = true;
@@ -70,33 +59,23 @@ namespace ToolBox.Settings
             set => Set(ref highlightColorHex, value, etcChangedPropertyNames: nameof(HighlightColor));
         }
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public Color HighlightColor
         {
-            get
-            {
-                try
-                {
-                    return (Color)ColorConverter.ConvertFromString(HighlightColorHex);
-                }
-                catch
-                {
-                    return Color.FromArgb(0xFF, 0x00, 0x99, 0xFF);
-                }
-            }
-            set
-            {
-                HighlightColorHex = value.ToString();
-                OnPropertyChanged();
-            }
+            get => ColorHelper.Parse(HighlightColorHex, Color.FromArgb(0xFF, 0x00, 0x99, 0xFF));
+            set => HighlightColorHex = value.ToString();
         }
 
-        private bool showGridLines = false;
-        public bool ShowGridLines
+        private bool showLockBadge = true;
+        public bool ShowLockBadge
         {
-            get => showGridLines;
-            set => Set(ref showGridLines, value);
+            get => showLockBadge;
+            set => Set(ref showLockBadge, value);
         }
+
+        #endregion
+
+        #region グリッドの調整
 
         private GridAdjustMode gridAdjustMode = GridAdjustMode.Manual;
         public GridAdjustMode GridAdjustMode
@@ -119,23 +98,56 @@ namespace ToolBox.Settings
             set => Set(ref autoFitLayout, value);
         }
 
-        private bool showLockBadge = true;
-        public bool ShowLockBadge
-        {
-            get => showLockBadge;
-            set => Set(ref showLockBadge, value);
-        }
+        #endregion
 
-        public Dictionary<string, Point> HiddenItemPositions { get; set; } = [];
+        private DefaultPanelSettings defaultPanel = new();
+        public DefaultPanelSettings DefaultPanel
+        {
+            get => defaultPanel;
+            set => Set(ref defaultPanel, value ?? new DefaultPanelSettings());
+        }
 
         public List<string> DisabledAddonFileNames { get; set; } = [];
 
+        #region v1.1 以前の保存形式。読み込み時に DefaultPanel へ移し替える
+
+        public ObservableCollection<ToolItemSettings>? Items { get; set; }
+        public int? GridRowCount { get; set; }
+        public int? GridColumnCount { get; set; }
+        public Dictionary<string, Point>? HiddenItemPositions { get; set; }
+
+        #endregion
+
         public override void Initialize()
         {
-            Migrate();
+            MigrateLegacyLayout();
+            EnsureDefaultItems();
         }
 
-        public void Migrate()
+        private void MigrateLegacyLayout()
+        {
+            if (Items is { Count: > 0 } legacyItems && DefaultPanel.Items.Count == 0)
+                DefaultPanel.Items = [.. legacyItems];
+
+            if (GridRowCount is { } rows)
+                DefaultPanel.GridRowCount = rows;
+
+            if (GridColumnCount is { } columns)
+                DefaultPanel.GridColumnCount = columns;
+
+            if (HiddenItemPositions is { Count: > 0 } legacyPositions)
+            {
+                foreach (var (key, position) in legacyPositions)
+                    DefaultPanel.HiddenItemPositions.TryAdd(key, position);
+            }
+
+            Items = null;
+            GridRowCount = null;
+            GridColumnCount = null;
+            HiddenItemPositions = null;
+        }
+
+        private void EnsureDefaultItems()
         {
             EnsureItemExists<StaircaseSettings>(new Point(0, 0));
             EnsureItemExists<RubySettings>(new Point(1, 0));
@@ -147,14 +159,12 @@ namespace ToolBox.Settings
             EnsureItemExists<TachiePlacerSettings>(new Point(4, 1));
         }
 
-        private void EnsureItemExists<T>(Point defaultPos, Action<T>? configure = null) where T : ToolItemSettings, new()
+        private void EnsureItemExists<T>(Point defaultPosition) where T : ToolItemSettings, new()
         {
-            if (!Items.OfType<T>().Any())
-            {
-                var item = new T { Position = defaultPos };
-                configure?.Invoke(item);
-                Items.Add(item);
-            }
+            if (DefaultPanel.Items.OfType<T>().Any())
+                return;
+
+            DefaultPanel.Items.Add(new T { Position = defaultPosition });
         }
     }
 }

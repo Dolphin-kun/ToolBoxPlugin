@@ -21,9 +21,5 @@
         <Button Content="フォルダーを選ぶ..." Click="OnBrowseFolderClick"
                 HorizontalAlignment="Left" Padding="8,3" FontSize="11"
                 Margin="0,0,0,6"/>
-
-        <TextBlock Text="ファイル・フォルダーのパスのほか、https:// で始まる URL も直接入力できます。%APPDATA% などの環境変数も使えます。"
-                   FontSize="10" TextWrapping="Wrap"
-                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
     </StackPanel>
 </UserControl>

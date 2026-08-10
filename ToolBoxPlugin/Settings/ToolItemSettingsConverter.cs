@@ -61,8 +61,7 @@ namespace ToolBox.Settings
             var type = value.GetType();
 
             var discriminator = GetDiscriminator(type);
-            var safeOptions = CreateOptionsWithoutSelf(options);
-            var element = JsonSerializer.SerializeToElement(value, type, safeOptions);
+            var element = JsonSerializer.SerializeToElement(value, type, options);
 
             writer.WriteStartObject();
             writer.WriteString("$type", discriminator);
@@ -92,20 +91,6 @@ namespace ToolBox.Settings
             return name.EndsWith("Settings", StringComparison.Ordinal)
                 ? name[..^"Settings".Length]
                 : name;
-        }
-
-        private static JsonSerializerOptions CreateOptionsWithoutSelf(JsonSerializerOptions options)
-        {
-            var clone = new JsonSerializerOptions(options);
-            for (int i = clone.Converters.Count - 1; i >= 0; i--)
-            {
-                if (clone.Converters[i] is ToolItemSettingsConverter)
-                {
-                    clone.Converters.RemoveAt(i);
-                }
-            }
-
-            return clone;
         }
     }
 }

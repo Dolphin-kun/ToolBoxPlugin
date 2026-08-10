@@ -7,36 +7,21 @@ using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.ViewModel
 {
-    public class BasicSettingsViewModel : Bindable
+    public class BasicSettingsViewModel : SettingsNodeViewModel
     {
         private static readonly HttpClient httpClient = new();
         private const string PostId = "1782201263495393";
         private const string ApiUrl = $"https://ymm4-info.net/api/plugin/{PostId}/version";
 
         public ToolBoxSettings Settings { get; }
-        public string CategoryName { get; } = "基本設定";
 
         public static string CurrentVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
-
-        private bool isExpanded = true;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set => Set(ref isExpanded, value);
-        }
 
         private string latestVersion = "取得中...";
         public string LatestVersion
         {
             get => latestVersion;
             set => Set(ref latestVersion, value);
-        }
-
-        private string updateMessage = "";
-        public string UpdateMessage
-        {
-            get => updateMessage;
-            set => Set(ref updateMessage, value);
         }
 
         private bool hasUpdate = false;
@@ -50,7 +35,7 @@ namespace ToolBox.ViewModel
 
         public ICommand OpenUpdateUrlCommand { get; }
 
-        public BasicSettingsViewModel(ToolBoxSettings settings)
+        public BasicSettingsViewModel(ToolBoxSettings settings) : base("基本設定")
         {
             Settings = settings;
             OpenUpdateUrlCommand = new ActionCommand(
@@ -95,7 +80,6 @@ namespace ToolBox.ViewModel
                     {
                         if (apiVersion > currentVersion)
                         {
-                            UpdateMessage = $"アップデートがあります (v{cleanApiVersionString})";
                             HasUpdate = true;
                         }
                     }
