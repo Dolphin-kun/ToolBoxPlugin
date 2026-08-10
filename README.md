@@ -178,5 +178,7 @@ public sealed class MySettings : ToolItemSettings
 「こんな機能のボタンが欲しい！」「このツールを追加してほしい」といったご要望がありましたら、[GitHub の Issue](https://github.com/Dolphin-kun/ToolBoxPlugin/issues) にてお書きください！
 
 ## 更新履歴
-  2026/6/26
-		v1.0.0公開
+|日付||
+|-|-|
+|2026/8/11|v2.0.0公開|
+|2026/6/26|1.0.0公開|
