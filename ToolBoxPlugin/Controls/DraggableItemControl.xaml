@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
              xmlns:commons="clr-namespace:ToolBox.Commons"
              xmlns:settings="clr-namespace:ToolBox.Settings"
              mc:Ignorable="d"
@@ -80,6 +81,39 @@
                 </TextBlock>
             </Grid>
         </Button>
+
+        <!-- 固定バッジ -->
+        <Border Width="14" Height="14"
+                CornerRadius="7"
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,-4,-4,0"
+                Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+                IsHitTestVisible="False">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsLocked}" Value="True"/>
+                                <Condition Binding="{Binding Source={x:Static settings:ToolBoxSettings.Default}, Path=ShowLockBadge}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsLocked}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DropGrid.IsCtrlPressed}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <commons:IconControl IconData="{x:Static icons:IconKeys.Lock}"
+                                  Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                  Width="10" Height="10"/>
+        </Border>
 
         <Border x:Name="ResizeHandle"
                 Width="12" Height="12"

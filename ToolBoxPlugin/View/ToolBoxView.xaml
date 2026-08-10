@@ -11,14 +11,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid Background="Transparent">
-        <Grid.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="設定" Click="OnSettingsClick" />
-            </ContextMenu>
-        </Grid.ContextMenu>
 
-        <!-- メインコンテンツ -->
-        <Grid>
+        <!-- メインコンテンツ (設定パネル表示中は非表示になるため、右クリックメニューもここにぶら下げて連動させる) -->
+        <Grid Background="Transparent">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Visible" />
@@ -30,8 +25,17 @@
                 </Style>
             </Grid.Style>
 
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="パネルの追加" Click="OnAddPanelClick" />
+                    <MenuItem Header="パネル名の編集" Click="OnRenamePanelClick" />
+                    <Separator />
+                    <MenuItem Header="設定" Click="OnSettingsClick" />
+                </ContextMenu>
+            </Grid.ContextMenu>
+
             <controls:DropGrid x:Name="DropGrid"
-                                RowCount="{Binding ToolBoxSettings.GridRowCount}" ColumnCount="{Binding ToolBoxSettings.GridColumnCount}"
+                                RowCount="{Binding Panel.GridRowCount}" ColumnCount="{Binding Panel.GridColumnCount}"
                                 CellSize="{Binding ToolBoxSettings.CellSize}" CellMargin="{Binding ToolBoxSettings.CellMargin}"
                                 ShowHighlight="{Binding ToolBoxSettings.ShowHighlight}"
                                 HighlightColor="{Binding ToolBoxSettings.HighlightColor}"
@@ -39,7 +43,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top" />
 
-            <controls:DraggableCanvas ItemsSource="{Binding ToolBoxSettings.Items}"
+            <controls:DraggableCanvas ItemsSource="{Binding Panel.Items}"
                                        DropGrid="{Binding ElementName=DropGrid}"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Top">
@@ -54,6 +58,12 @@
                     </ItemsPanelTemplate>
                 </controls:DraggableCanvas.ItemsPanel>
             </controls:DraggableCanvas>
+
+            <!-- ドラッグ中のセルハイライト。DraggableCanvas より後に置くことで常に最前面に表示する -->
+            <controls:DropGridHighlightOverlay DropGrid="{Binding ElementName=DropGrid}"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                IsHitTestVisible="False" />
         </Grid>
 
         <!-- 設定パネル -->

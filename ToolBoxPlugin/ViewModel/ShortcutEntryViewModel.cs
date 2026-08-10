@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using ToolBox.Items.Shortcuts;
 using ToolBox.Items.Shortcuts.Settings;
 using ToolBox.Settings;
@@ -8,12 +8,14 @@ namespace ToolBox.ViewModel
 {
     public class ShortcutEntryViewModel : Bindable
     {
-        private readonly ToolBoxSettings settings;
+        private readonly ToolBoxPanel panel;
         private readonly ShortcutDefinition definition;
         private readonly string positionKey;
 
         public string DisplayName => definition.DisplayName;
         public string IconPath { get; }
+        public string Description => definition.Description;
+        public bool HasDescription => !string.IsNullOrWhiteSpace(Description);
 
         public bool IsVisible
         {
@@ -24,18 +26,18 @@ namespace ToolBox.ViewModel
                 if (value && current == null)
                 {
                     Point pos;
-                    if (settings.HiddenItemPositions.TryGetValue(positionKey, out var savedPos))
+                    if (panel.HiddenItemPositions.TryGetValue(positionKey, out var savedPos))
                     {
-                        bool occupied = settings.Items.Any(i => i.Position == savedPos);
+                        bool occupied = panel.Items.Any(i => i.Position == savedPos);
                         pos = occupied ? FindEmptyPosition() : savedPos;
-                        settings.HiddenItemPositions.Remove(positionKey);
+                        panel.HiddenItemPositions.Remove(positionKey);
                     }
                     else
                     {
                         pos = FindEmptyPosition();
                     }
                     
-                    settings.Items.Add(new ShortcutSettings
+                    panel.Items.Add(new ShortcutSettings
                     {
                         Position = pos,
                         CommandType = definition.CommandType,
@@ -44,15 +46,15 @@ namespace ToolBox.ViewModel
                 }
                 else if (!value && current != null)
                 {
-                    settings.HiddenItemPositions[positionKey] = current.Position;
-                    settings.Items.Remove(current);
+                    panel.HiddenItemPositions[positionKey] = current.Position;
+                    panel.Items.Remove(current);
                 }
                 NotifyAll();
             }
         }
 
         public ShortcutSettings? CurrentSettings =>
-            settings.Items.OfType<ShortcutSettings>()
+            panel.Items.OfType<ShortcutSettings>()
                 .FirstOrDefault(s => s.CommandType == definition.CommandType);
 
         public ToolItemSettings? SettingsInstance => CurrentSettings;
@@ -68,14 +70,14 @@ namespace ToolBox.ViewModel
             }
         }
 
-        public ShortcutEntryViewModel(ToolBoxSettings settingsObj, ShortcutDefinition definitionObj)
+        public ShortcutEntryViewModel(ToolBoxPanel panelObj, ShortcutDefinition definitionObj)
         {
-            settings = settingsObj;
+            panel = panelObj;
             definition = definitionObj;
             positionKey = "Shortcut_" + definition.CommandType.ToString();
             IconPath = definition.IconPath;
 
-            settings.Items.CollectionChanged += (_, _) => NotifyAll();
+            panel.Items.CollectionChanged += (_, _) => NotifyAll();
         }
 
         private void NotifyAll()
@@ -88,7 +90,7 @@ namespace ToolBox.ViewModel
 
         private Point FindEmptyPosition()
         {
-            var occupied = settings.Items.Select(i => i.Position).ToHashSet();
+            var occupied = panel.Items.Select(i => i.Position).ToHashSet();
             for (int y = 0; y < 10; y++)
                 for (int x = 0; x < 6; x++)
                 {

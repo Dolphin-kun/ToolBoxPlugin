@@ -4,7 +4,7 @@ using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.ViewModel
 {
-    public class ShortcutsGroupViewModel(ToolBoxSettings settings) : Bindable
+    public class ShortcutsGroupViewModel(ToolBoxPanel panel) : Bindable
     {
         public string CategoryName { get; } = "ショートカット";
 
@@ -15,6 +15,8 @@ namespace ToolBox.ViewModel
             set => Set(ref isExpanded, value);
         }
 
-        public IReadOnlyList<ShortcutEntryViewModel> Shortcuts { get; } = [.. ShortcutDefinitions.Allowed.Select(def => new ShortcutEntryViewModel(settings, def))];
+        public IReadOnlyList<ShortcutEntryViewModel> Shortcuts { get; } = [.. ShortcutDefinitions.Allowed.Select(def => new ShortcutEntryViewModel(panel, def))];
+
+        public bool HasChildren => Shortcuts.Count > 0;
     }
 }

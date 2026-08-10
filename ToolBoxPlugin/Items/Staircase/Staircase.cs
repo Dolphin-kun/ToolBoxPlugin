@@ -1,4 +1,5 @@
-﻿using ToolBox.Items.Staircase.Settings;
+﻿using ToolBox.Commons;
+using ToolBox.Items.Staircase.Settings;
 using ToolBox.Items.Staircase.Views;
 
 namespace ToolBox.Items.Staircase
@@ -15,10 +16,10 @@ namespace ToolBox.Items.Staircase
         [
             new("StaircaseItemCommand",
                 ctx => ctx.SelectedItems?.Any() == true,
-                ctx => StaircaseItemCommand.Staircase(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => StaircaseItemCommand.Staircase(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
             new("ReverseStaircaseItemCommand",
                 ctx => ctx.SelectedItems?.Any() == true,
-                ctx => StaircaseItemCommand.ReverseStaircase(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => StaircaseItemCommand.ReverseStaircase(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
         ];
     }
 }

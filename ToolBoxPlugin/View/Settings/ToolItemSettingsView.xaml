@@ -1,0 +1,49 @@
+<UserControl x:Class="ToolBox.View.Settings.ToolItemSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:ToolBox.ViewModel"
+             xmlns:view="clr-namespace:ToolBox.View"
+             mc:Ignorable="d"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=vm:ToolItemEntryViewModel}">
+
+    <StackPanel>
+        <TextBlock Text="{Binding DisplayName}"
+                   FontWeight="SemiBold" FontSize="13"
+                   Margin="0,0,0,4"/>
+
+        <TextBlock Text="{Binding Description}"
+                   FontSize="11" TextWrapping="Wrap"
+                   Margin="0,0,0,10"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasDescription}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <view:ToolItemCommonSettingsPanel Margin="0,0,0,8" />
+
+        <!-- アイテム固有の設定パネル (SettingsViewType を持つアイテムのみ) -->
+        <ContentControl Content="{Binding SettingsView}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasSettingsView}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+    </StackPanel>
+</UserControl>

@@ -3,8 +3,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ToolBox.Commons;
-using ToolBox.Items;
 using ToolBox.Settings;
+using ToolBox.ViewModel;
 
 namespace ToolBox.Controls
 {
@@ -71,8 +71,15 @@ namespace ToolBox.Controls
 
         private static void OnDropGridChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is DraggableItemControl item) item.UpdateSize();
+            if (d is not DraggableItemControl item) return;
+
+            if (e.OldValue is DropGrid oldGrid) oldGrid.GridChanged -= item.OnDropGridSizeChanged;
+            if (e.NewValue is DropGrid newGrid) newGrid.GridChanged += item.OnDropGridSizeChanged;
+
+            item.UpdateSize();
         }
+
+        private void OnDropGridSizeChanged(object? sender, EventArgs e) => UpdateSize();
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -84,6 +91,7 @@ namespace ToolBox.Controls
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             DetachWindowKeyHandlers();
+            DropGrid?.GridChanged -= OnDropGridSizeChanged;
         }
 
         private void UpdateSize()
@@ -130,11 +138,18 @@ namespace ToolBox.Controls
 
         private void OnParentWindowKeyChanged(object sender, KeyEventArgs e) => UpdateHandleVisibility();
 
+        private bool IsLocked => DataContext is ToolItemSettings settings && settings.IsLocked;
+
         private void UpdateHandleVisibility()
         {
             if (_isResizing) return;
             bool ctrlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (IsMouseOver && ctrlPressed)
+            if (IsMouseOver && ctrlPressed && IsLocked)
+            {
+                ResizeHandle.Visibility = Visibility.Collapsed;
+                Cursor = Cursors.No;
+            }
+            else if (IsMouseOver && ctrlPressed)
             {
                 ResizeHandle.Visibility = Visibility.Visible;
                 Cursor = Cursors.SizeAll;
@@ -149,7 +164,7 @@ namespace ToolBox.Controls
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             bool ctrlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (!ctrlPressed) return;
+            if (!ctrlPressed || IsLocked) return;
 
             if (e.OriginalSource is DependencyObject src && IsAncestorOf(ResizeHandle, src)) return;
 
@@ -232,7 +247,7 @@ namespace ToolBox.Controls
 
         private void ResizeHandle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ParentCanvas == null || DropGrid == null) return;
+            if (ParentCanvas == null || DropGrid == null || IsLocked) return;
 
             e.Handled = true;
             _isResizing = true;
@@ -343,6 +358,10 @@ namespace ToolBox.Controls
             settingsItem.Click += (s, args) => OpenItemSettings(settings);
             contextMenu.Items.Add(settingsItem);
 
+            var lockItem = new MenuItem { Header = settings.IsLocked ? "固定を解除" : "固定" };
+            lockItem.Click += (s, args) => settings.IsLocked = !settings.IsLocked;
+            contextMenu.Items.Add(lockItem);
+
             var hideItem = new MenuItem { Header = "非表示" };
             hideItem.Click += (s, args) => HideItem(settings);
             contextMenu.Items.Add(hideItem);
@@ -351,9 +370,23 @@ namespace ToolBox.Controls
             contextMenu.IsOpen = true;
         }
 
-        private static void HideItem(ToolItemSettings settings)
+        private void HideItem(ToolItemSettings settings)
         {
-            ToolBoxSettings.Default.Items.Remove(settings);
+            // アイテムはパネルごとに独立しているため、自分が乗っているパネルから取り除く
+            FindOwnerPanel()?.Items.Remove(settings);
+        }
+
+        private ToolBoxPanel? FindOwnerPanel()
+        {
+            DependencyObject? current = this;
+            while (current != null)
+            {
+                if (current is FrameworkElement { DataContext: ToolBoxViewModel vm })
+                    return vm.Panel;
+                current = VisualTreeHelper.GetParent(current);
+            }
+
+            return null;
         }
 
         private void OpenItemSettings(ToolItemSettings settings)

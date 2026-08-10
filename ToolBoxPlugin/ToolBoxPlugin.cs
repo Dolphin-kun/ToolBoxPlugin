@@ -9,5 +9,6 @@ namespace ToolBox
         public string Name => "ツールボックス";
         public Type ViewModelType => typeof(ToolBoxViewModel);
         public Type ViewType => typeof(ToolBoxView);
+        public bool AllowMultipleInstances => true;
     }
 }

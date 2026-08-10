@@ -27,6 +27,9 @@ namespace ToolBox.Items.Staircase.Settings
         public override string DisplayName => "階段状に配置";
 
         [JsonIgnore]
+        public override string Description => "選択したアイテムをレイヤー順に一定フレームずつずらして、階段状に配置します。";
+
+        [JsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("StaircaseItemCommand");
     }
 }

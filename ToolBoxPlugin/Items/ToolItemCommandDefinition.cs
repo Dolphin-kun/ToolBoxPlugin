@@ -1,3 +1,5 @@
+using ToolBox.Commons;
+
 namespace ToolBox.Items
 {
     public class ToolItemCommandDefinition(string name, Func<IToolBoxContext, object?, bool> canExecute, Action<IToolBoxContext, object?> execute)

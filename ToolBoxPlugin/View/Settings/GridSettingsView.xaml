@@ -1,0 +1,122 @@
+<UserControl x:Class="ToolBox.View.Settings.GridSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:vm="clr-namespace:ToolBox.ViewModel"
+             xmlns:settings="clr-namespace:ToolBox.Settings"
+             mc:Ignorable="d"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=vm:GeneralSettingsViewModel}">
+
+    <UserControl.Resources>
+        <!-- 「自動」のときだけ表示する行 (サイズ/配置のトグル) -->
+        <Style x:Key="VisibleWhenAuto" TargetType="Grid">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Settings.GridAdjustMode}" Value="{x:Static settings:GridAdjustMode.Auto}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 「指定」のときだけ表示する行 (縦/横のスライダー) -->
+        <Style x:Key="VisibleWhenManual" TargetType="Grid">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Settings.GridAdjustMode}" Value="{x:Static settings:GridAdjustMode.Manual}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock Text="グリッドの設定"
+                   FontWeight="SemiBold" FontSize="13"
+                   Margin="0,0,0,10"/>
+
+        <Grid Margin="0,0,0,8">
+            <TextBlock Text="グリッドの調整" VerticalAlignment="Center" FontSize="11"/>
+            <ComboBox SelectedValue="{Binding Settings.GridAdjustMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValuePath="Tag"
+                      HorizontalAlignment="Right" Width="200" FontSize="11">
+                <ComboBoxItem Content="自動" Tag="{x:Static settings:GridAdjustMode.Auto}"/>
+                <ComboBoxItem Content="指定" Tag="{x:Static settings:GridAdjustMode.Manual}"/>
+            </ComboBox>
+        </Grid>
+
+        <!-- 自動調整の対象をひとまとまりに見せるための見出し付き区切り -->
+        <Grid Margin="0,2,0,6" Style="{StaticResource VisibleWhenAuto}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="自動調整する項目"
+                       FontSize="10" VerticalAlignment="Center" Margin="0,0,8,0"
+                       Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            <Border Grid.Column="1" Height="1" VerticalAlignment="Center"
+                    Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+        </Grid>
+
+        <Grid Margin="12,0,0,8" Style="{StaticResource VisibleWhenAuto}">
+            <TextBlock Text="サイズ" VerticalAlignment="Center" FontSize="11"/>
+            <controls:ToggleSlider Value="{Binding Settings.AutoFitSize, Mode=TwoWay}"
+                                   HorizontalAlignment="Right" Width="40"/>
+        </Grid>
+
+        <Grid Margin="12,0,0,8" Style="{StaticResource VisibleWhenAuto}">
+            <TextBlock Text="配置" VerticalAlignment="Center" FontSize="11"/>
+            <controls:ToggleSlider Value="{Binding Settings.AutoFitLayout, Mode=TwoWay}"
+                                   HorizontalAlignment="Right" Width="40"/>
+        </Grid>
+
+        <Grid Margin="0,2,0,10" Style="{StaticResource VisibleWhenAuto}">
+            <Border Height="1" VerticalAlignment="Center"
+                    Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+        </Grid>
+
+        <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenManual}">
+            <TextBlock Text="縦" VerticalAlignment="Center" FontSize="11"/>
+            <controls:TextBoxSlider Value="{Binding Panel.GridRowCount, Mode=TwoWay}"
+                                    DefaultValue="6" StringFormat="F0"
+                                    Min="1" Max="50" HorizontalAlignment="Right" Width="200" Delta="1"/>
+        </Grid>
+
+        <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenManual}">
+            <TextBlock Text="横" VerticalAlignment="Center" FontSize="11"/>
+            <controls:TextBoxSlider Value="{Binding Panel.GridColumnCount, Mode=TwoWay}"
+                                    DefaultValue="6" StringFormat="F0"
+                                    Min="1" Max="50" HorizontalAlignment="Right" Width="200" Delta="1"/>
+        </Grid>
+
+        <Grid Margin="0,0,0,8">
+            <TextBlock Text="セルの枠線を常に表示" VerticalAlignment="Center" FontSize="11"/>
+            <controls:ToggleSlider Value="{Binding Settings.ShowGridLines, Mode=TwoWay}"
+                                   HorizontalAlignment="Right" Width="40"/>
+        </Grid>
+
+        <Grid Margin="0,0,0,8">
+            <TextBlock Text="ハイライトを表示" VerticalAlignment="Center" FontSize="11"/>
+            <controls:ToggleSlider Value="{Binding Settings.ShowHighlight, Mode=TwoWay}"
+                                   HorizontalAlignment="Right" Width="40"/>
+        </Grid>
+
+        <Grid Margin="0,0,0,8">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Settings.ShowHighlight}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <TextBlock Text="ハイライト色" VerticalAlignment="Center" FontSize="11"/>
+            <controls:ColorPicker Value="{Binding Settings.HighlightColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  HorizontalAlignment="Right" Width="200" Height="24"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

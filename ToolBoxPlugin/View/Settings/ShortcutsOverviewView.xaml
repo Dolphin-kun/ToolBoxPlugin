@@ -1,0 +1,25 @@
+<UserControl x:Class="ToolBox.View.Settings.ShortcutsOverviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:ToolBox.ViewModel"
+             mc:Ignorable="d"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=vm:ShortcutsGroupViewModel}">
+
+    <StackPanel>
+        <TextBlock Text="ショートカット"
+                   FontWeight="SemiBold" FontSize="13"
+                   Margin="0,0,0,10"/>
+        <TextBlock FontSize="11" TextWrapping="Wrap"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+            <Run Text="左のリストからショートカットを選択して、ツールボックスへの表示/非表示を切り替えられます。"/>
+            <LineBreak/>
+            <LineBreak/>
+            <Run Text="利用できるコマンドは "/>
+            <Run Text="ShortcutDefinitions.cs" FontWeight="SemiBold"/>
+            <Run Text=" のリストに登録されたもののみです。"/>
+        </TextBlock>
+    </StackPanel>
+</UserControl>

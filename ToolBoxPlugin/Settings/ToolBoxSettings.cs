@@ -98,6 +98,34 @@ namespace ToolBox.Settings
             set => Set(ref showGridLines, value);
         }
 
+        private GridAdjustMode gridAdjustMode = GridAdjustMode.Manual;
+        public GridAdjustMode GridAdjustMode
+        {
+            get => gridAdjustMode;
+            set => Set(ref gridAdjustMode, value);
+        }
+
+        private bool autoFitSize = false;
+        public bool AutoFitSize
+        {
+            get => autoFitSize;
+            set => Set(ref autoFitSize, value);
+        }
+
+        private bool autoFitLayout = false;
+        public bool AutoFitLayout
+        {
+            get => autoFitLayout;
+            set => Set(ref autoFitLayout, value);
+        }
+
+        private bool showLockBadge = true;
+        public bool ShowLockBadge
+        {
+            get => showLockBadge;
+            set => Set(ref showLockBadge, value);
+        }
+
         public Dictionary<string, Point> HiddenItemPositions { get; set; } = [];
 
         public override void Initialize()

@@ -21,6 +21,13 @@ namespace ToolBox.Settings
             set => Set(ref displayMode, value);
         }
 
+        private bool isLocked;
+        public bool IsLocked
+        {
+            get => isLocked;
+            set => Set(ref isLocked, value);
+        }
+
         private string customImagePath = string.Empty;
         public string CustomImagePath
         {
@@ -46,6 +53,10 @@ namespace ToolBox.Settings
 
         [JsonIgnore]
         public virtual string DisplayName => Name;
+
+        /// <summary>設定画面でアイテム名の下に表示される説明。アドオンでも上書きできる。</summary>
+        [JsonIgnore]
+        public virtual string Description => string.Empty;
 
         [JsonIgnore]
         public virtual string Name

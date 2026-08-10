@@ -6,6 +6,7 @@ namespace ToolBox.ViewModel
     {
         public string CategoryName { get; } = categoryName;
         public IReadOnlyList<ToolItemEntryViewModel> Items { get; } = items;
+        public bool HasChildren => Items.Count > 0;
 
         private bool isExpanded = true;
         public bool IsExpanded

@@ -5,6 +5,8 @@ VisualStudioVersion = 18.0.11222.15 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBox", "ToolBoxPlugin\ToolBox.csproj", "{BE210999-0376-482D-82A0-F2D779890F8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAddon", "SampleAddon\SampleAddon.csproj", "{C1D69636-6EBB-44B4-9E7A-83D7C0BC0551}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BE210999-0376-482D-82A0-F2D779890F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE210999-0376-482D-82A0-F2D779890F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE210999-0376-482D-82A0-F2D779890F8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D69636-6EBB-44B4-9E7A-83D7C0BC0551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D69636-6EBB-44B4-9E7A-83D7C0BC0551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D69636-6EBB-44B4-9E7A-83D7C0BC0551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D69636-6EBB-44B4-9E7A-83D7C0BC0551}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

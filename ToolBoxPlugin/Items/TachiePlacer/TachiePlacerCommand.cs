@@ -1,8 +1,8 @@
-using ToolBox.Items.TachiePlacer.Settings;
-using ToolBox.Settings;
+﻿using ToolBox.Items.TachiePlacer.Settings;
 using YukkuriMovieMaker.Project;
 using YukkuriMovieMaker.Project.Items;
 using YukkuriMovieMaker.UndoRedo;
+using ToolBox.Commons;
 
 namespace ToolBox.Items.TachiePlacer
 {
@@ -13,16 +13,14 @@ namespace ToolBox.Items.TachiePlacer
             return selectedItems.Any(item => item is VoiceItem voiceItem && voiceItem.Character != null);
         }
 
-        private static TachiePlacerSettings GetSettings()
-            => ToolBoxSettings.Default.Items
-                .OfType<TachiePlacerSettings>()
-                .FirstOrDefault() ?? new TachiePlacerSettings();
+        private static TachiePlacerSettings GetSettings(IToolBoxContext ctx)
+            => ctx.FindItemSettings<TachiePlacerSettings>() ?? new TachiePlacerSettings();
 
-        public static void AddTachie(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
+        public static void AddTachie(IToolBoxContext ctx, IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
         {
             if (timeline is null || undoRedoManager is null || selectedItems.Count == 0) return;
 
-            var settings = GetSettings();
+            var settings = GetSettings(ctx);
 
             var voices = selectedItems
                 .OfType<VoiceItem>()

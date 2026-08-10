@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using ToolBox.Settings;
@@ -43,6 +43,9 @@ namespace ToolBox.Items.TextSplitter.Settings
 
         [JsonIgnore]
         public override string DisplayName => "テキスト分割";
+
+        [JsonIgnore]
+        public override string Description => "選択したテキスト・音声アイテムを分割し、縦または横に並べます。";
 
         [JsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("TextSplitterItemCommand");

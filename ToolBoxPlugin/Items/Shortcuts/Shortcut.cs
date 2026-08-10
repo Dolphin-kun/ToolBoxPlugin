@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
+using ToolBox.Commons;
 using ToolBox.Items.Shortcuts.Settings;
 using ToolBox.Items.Shortcuts.Views;
 using YukkuriMovieMaker.Settings;

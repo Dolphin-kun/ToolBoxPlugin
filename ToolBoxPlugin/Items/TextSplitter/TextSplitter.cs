@@ -1,4 +1,5 @@
-﻿using ToolBox.Items.TextSplitter.Settings;
+﻿using ToolBox.Commons;
+using ToolBox.Items.TextSplitter.Settings;
 using ToolBox.Items.TextSplitter.Views;
 
 namespace ToolBox.Items.TextSplitter
@@ -15,7 +16,7 @@ namespace ToolBox.Items.TextSplitter
         [
             new("TextSplitterItemCommand",
                 ctx => TextSplitterCommand.CanExecute(ctx.SelectedItems ?? []),
-                ctx => TextSplitterCommand.SplitText(ctx.SelectedItems ?? [], ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => TextSplitterCommand.SplitText(ctx, ctx.SelectedItems ?? [], ctx.Timeline, ctx.UndoRedoManager)),
         ];
     }
 }

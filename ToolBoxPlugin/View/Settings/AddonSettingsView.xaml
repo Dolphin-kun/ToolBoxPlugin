@@ -1,0 +1,103 @@
+<UserControl x:Class="ToolBox.View.Settings.AddonSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:ToolBox.ViewModel"
+             xmlns:commons="clr-namespace:ToolBox.Commons"
+             xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             mc:Ignorable="d"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=vm:AddonSettingsViewModel}">
+
+    <StackPanel>
+        <TextBlock Text="アドオンの一覧"
+                   FontWeight="SemiBold" FontSize="13"
+                   Margin="0,0,0,10"/>
+
+        <TextBlock Text="読み込まれているアドオンを表示します。DLL を追加したあとに自動更新されます。"
+                   FontSize="11"
+                   Margin="0,0,0,10"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+
+        <TextBlock Text="アドオンがありません。"
+                   FontSize="11"
+                   Margin="0,0,0,10"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LoadedAddons.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <ItemsControl ItemsSource="{Binding LoadedAddons}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <!-- アドオン 1 件分のカード -->
+                    <Border BorderThickness="1"
+                            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                            Padding="8"
+                            Margin="0,0,0,8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"/>
+                                    <TextBlock Text="{Binding Version}"
+                                               FontSize="11"
+                                               Margin="6,0,0,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Author}"
+                                           FontSize="11"
+                                           Margin="0,2,0,0"
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                <TextBlock Text="{Binding Description}"
+                                           FontSize="11"
+                                           Margin="0,4,0,0"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding SourcePath}"
+                                           FontSize="10"
+                                           Margin="0,4,0,0"
+                                           TextWrapping="NoWrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           ToolTip="{Binding SourcePath}"
+                                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </StackPanel>
+
+                            <!-- 削除 -->
+                            <Button Grid.Column="1"
+                                    Command="{Binding DataContext.DeleteAddonCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    ToolTip="このアドオンを削除"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Right"
+                                    Width="22" Height="22"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
+                                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                                     Width="14" Height="14"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

@@ -1,10 +1,20 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
 
 namespace ToolBox.Items.Ruby.Settings
 {
+    public enum RubyType
+    {
+        [Display(Name = "ひらがな", Description = "ひらがなでルビを振ります")]
+        Hiragana,
+
+        [Display(Name = "カタカナ", Description = "カタカナでルビを振ります")]
+        Katakana,
+    }
+
     public class RubySettings : ToolItemSettings
     {
         private RubyType rubyType = RubyType.Hiragana;
@@ -30,6 +40,9 @@ namespace ToolBox.Items.Ruby.Settings
 
         [JsonIgnore]
         public override string DisplayName => "ルビ振り";
+
+        [JsonIgnore]
+        public override string Description => "選択したアイテムの漢字にルビを振ります。";
 
         [JsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("RubyItemCommand");

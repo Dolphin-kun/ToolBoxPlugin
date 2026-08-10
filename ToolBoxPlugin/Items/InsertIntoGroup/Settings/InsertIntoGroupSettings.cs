@@ -20,6 +20,9 @@ namespace ToolBox.Items.InsertIntoGroup.Settings
         public override string DisplayName => "グループ化";
 
         [JsonIgnore]
+        public override string Description => "選択したアイテム全体を覆うグループ制御を追加して、まとめて扱えるようにします。";
+
+        [JsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("InsertIntoGroupItemCommand");
     }
 }

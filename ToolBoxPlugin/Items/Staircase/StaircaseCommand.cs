@@ -4,6 +4,7 @@ using ToolBox.Settings;
 using YukkuriMovieMaker.Project;
 using YukkuriMovieMaker.Project.Items;
 using YukkuriMovieMaker.UndoRedo;
+using ToolBox.Commons;
 
 namespace ToolBox.Items.Staircase
 {
@@ -14,7 +15,7 @@ namespace ToolBox.Items.Staircase
             return selectedItems.Any();
         }
 
-        public static void Staircase(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
+        public static void Staircase(IToolBoxContext ctx, IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
         {
             if (timeline is null) return;
             if (undoRedoManager is null) return;
@@ -27,7 +28,7 @@ namespace ToolBox.Items.Staircase
             foreach (var item in items)
             {
                 var relativeLayer = maxLayer - item.Layer;
-                item.Frame += relativeLayer * GetStaircaseOffset();
+                item.Frame += relativeLayer * GetStaircaseOffset(ctx);
             }
 
             timeline.ResolveAllItemsCollision();
@@ -35,7 +36,7 @@ namespace ToolBox.Items.Staircase
             undoRedoManager.Record();
         }
 
-        public static void ReverseStaircase(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
+        public static void ReverseStaircase(IToolBoxContext ctx, IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
         {
             if (timeline is null) return;
             if (undoRedoManager is null) return;
@@ -48,7 +49,7 @@ namespace ToolBox.Items.Staircase
             foreach (var item in items)
             {
                 var relativeLayer = item.Layer - minLayer;
-                item.Frame += relativeLayer * GetStaircaseOffset();
+                item.Frame += relativeLayer * GetStaircaseOffset(ctx);
             }
 
             timeline.ResolveAllItemsCollision();
@@ -56,9 +57,7 @@ namespace ToolBox.Items.Staircase
             undoRedoManager.Record();
         }
 
-        private static int GetStaircaseOffset()
-            => ToolBoxSettings.Default.Items
-                .OfType<StaircaseSettings>()
-                .FirstOrDefault()?.Offset ?? 20;
+        private static int GetStaircaseOffset(IToolBoxContext ctx)
+            => ctx.FindItemSettings<StaircaseSettings>()?.Offset ?? 20;
     }
 }

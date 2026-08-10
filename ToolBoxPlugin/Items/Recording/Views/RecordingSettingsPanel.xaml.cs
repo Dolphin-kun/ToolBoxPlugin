@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -38,6 +40,22 @@ namespace ToolBox.Items.Recording.Views
             DeviceList = [.. devices.Select((name, index) => new KeyValuePair<int, string>(index, name))];
 
             Loaded += (_, _) => AttachDropDownHandlers();
+        }
+
+        private void OnOpenRecordingFolderClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            try
+            {
+                var directory = RecordingCommand.RecordingDirectory;
+                Directory.CreateDirectory(directory);
+                Process.Start(new ProcessStartInfo { FileName = directory, UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"録音フォルダを開けませんでした。\n\n{ex.Message}", "録音", MessageBoxButton.OK);
+            }
         }
 
         private void AttachDropDownHandlers()

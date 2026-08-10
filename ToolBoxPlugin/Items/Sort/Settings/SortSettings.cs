@@ -24,6 +24,9 @@ namespace ToolBox.Items.Sort.Settings
         public override string DisplayName => "整列";
 
         [JsonIgnore]
+        public override string Description => "選択したアイテムを開始位置の早い順・遅い順にレイヤーへ並べ直します。";
+
+        [JsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("SortAscendingItemCommand");
     }
 }

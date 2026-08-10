@@ -16,6 +16,8 @@ namespace ToolBox.ViewModel
         public ToolBoxSettings Settings { get; }
         public string CategoryName { get; } = "基本設定";
 
+        public static string CurrentVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
+
         private bool isExpanded = true;
         public bool IsExpanded
         {

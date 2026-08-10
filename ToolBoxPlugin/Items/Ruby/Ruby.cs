@@ -1,4 +1,5 @@
-﻿using ToolBox.Items.Ruby.Settings;
+﻿using ToolBox.Commons;
+using ToolBox.Items.Ruby.Settings;
 using ToolBox.Items.Ruby.Views;
 
 namespace ToolBox.Items.Ruby
@@ -15,7 +16,7 @@ namespace ToolBox.Items.Ruby
         [
             new("RubyItemCommand",
                 ctx => RubyCommand.CanExecute(ctx.SelectedItems ?? []),
-                ctx => _ = RubyCommand.AddRuby(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => _ = RubyCommand.AddRuby(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
         ];
     }
 }

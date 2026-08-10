@@ -27,6 +27,9 @@ namespace ToolBox.Items.Recording.Settings
         public override string DisplayName => "録音";
 
         [JsonIgnore]
+        public override string Description => "マイクから録音し、録音した音声をタイムラインへ音声アイテムとして追加します。";
+
+        [JsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("RecordingItemCommand");
     }
 }

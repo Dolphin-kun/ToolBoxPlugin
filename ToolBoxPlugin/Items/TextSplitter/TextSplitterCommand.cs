@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using ToolBox.Items.TextSplitter.Settings;
-using ToolBox.Settings;
 using YukkuriMovieMaker.Project;
 using YukkuriMovieMaker.Project.Items;
 using YukkuriMovieMaker.UndoRedo;
+using ToolBox.Commons;
 
 namespace ToolBox.Items.TextSplitter
 {
@@ -30,18 +27,16 @@ namespace ToolBox.Items.TextSplitter
             });
         }
 
-        private static TextSplitterSettings GetSettings()
-            => ToolBoxSettings.Default.Items
-                .OfType<TextSplitterSettings>()
-                .FirstOrDefault() ?? new TextSplitterSettings();
+        private static TextSplitterSettings GetSettings(IToolBoxContext ctx)
+            => ctx.FindItemSettings<TextSplitterSettings>() ?? new TextSplitterSettings();
 
-        public static void SplitText(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
+        public static void SplitText(IToolBoxContext ctx, IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
         {
             if (timeline is null) return;
             if (undoRedoManager is null) return;
             if (selectedItems.Count == 0) return;
 
-            var settings = GetSettings();
+            var settings = GetSettings(ctx);
 
             var itemsToSplit = selectedItems
                 .Where(item => item is TextItem || item is VoiceItem)
@@ -56,8 +51,6 @@ namespace ToolBox.Items.TextSplitter
 
             undoRedoManager.Record();
         }
-
-
 
         private static List<string> SplitWithTags(string text, bool ignoreTags)
         {

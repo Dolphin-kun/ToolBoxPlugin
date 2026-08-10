@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Win32;
@@ -12,6 +12,7 @@ using YukkuriMovieMaker.UndoRedo;
 using ToolBox.Settings;
 using ToolBox.Items.Ruby.Settings;
 using IFELanguage = YukkuriMovieMaker.KanjiToYomi.Core.IME.IFELanguage;
+using ToolBox.Commons;
 
 namespace ToolBox.Items.Ruby
 {
@@ -33,10 +34,8 @@ namespace ToolBox.Items.Ruby
             });
         }
 
-        private static RubySettings GetSettings()
-            => ToolBoxSettings.Default.Items
-                .OfType<RubySettings>()
-                .FirstOrDefault() ?? new RubySettings();
+        private static RubySettings GetSettings(IToolBoxContext ctx)
+            => ctx.FindItemSettings<RubySettings>() ?? new RubySettings();
 
         private static string RemoveRuby(string text)
         {
@@ -44,7 +43,7 @@ namespace ToolBox.Items.Ruby
             return RubyRegex().Replace(text, "$1");
         }
 
-        public static async Task AddRuby(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
+        public static async Task AddRuby(IToolBoxContext ctx, IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
         {
             if (timeline is null || undoRedoManager is null) return;
 
@@ -55,7 +54,7 @@ namespace ToolBox.Items.Ruby
 
             if (itemsToRuby.Count == 0) return;
 
-            var settings = GetSettings();
+            var settings = GetSettings(ctx);
 
             foreach (var item in itemsToRuby)
             {

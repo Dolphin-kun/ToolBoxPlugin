@@ -1,4 +1,5 @@
-﻿using ToolBox.Items.Sort.Settings;
+﻿using ToolBox.Commons;
+using ToolBox.Items.Sort.Settings;
 using ToolBox.Items.Sort.Views;
 
 namespace ToolBox.Items.Sort

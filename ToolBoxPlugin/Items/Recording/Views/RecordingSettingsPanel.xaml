@@ -26,6 +26,12 @@
                                      DisplayMemberPath="Value"
                                      Value="{Binding RecordingDeviceIndex, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" />
+
+            <Button Content="録音フォルダを開く"
+                    Click="OnOpenRecordingFolderClick"
+                    Margin="0,8,0,0"
+                    Padding="8,4"
+                    HorizontalAlignment="Stretch" />
         </StackPanel>
     </Border>
 </UserControl>

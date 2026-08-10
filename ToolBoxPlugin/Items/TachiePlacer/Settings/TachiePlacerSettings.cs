@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -31,10 +31,13 @@ namespace ToolBox.Items.TachiePlacer.Settings
         public override string Name => "TachiePlacer";
 
         [JsonIgnore]
-        public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.Account;
+        public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.AccountPlus;
         
         [JsonIgnore]
         public override string DisplayName => "立ち絵配置";
+
+        [JsonIgnore]
+        public override string Description => "選択した音声アイテムのキャラクターに対応する立ち絵アイテムを、上下いずれかの隣接レイヤーへ配置します。";
 
         [JsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("TachiePlacerItemCommand");

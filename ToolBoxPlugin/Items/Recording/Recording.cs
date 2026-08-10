@@ -1,4 +1,5 @@
-﻿using ToolBox.Items.Recording.Settings;
+﻿using ToolBox.Commons;
+using ToolBox.Items.Recording.Settings;
 using ToolBox.Items.Recording.ViewModels;
 using ToolBox.Items.Recording.Views;
 using ToolBox.Settings;
@@ -20,7 +21,7 @@ namespace ToolBox.Items.Recording
                 ctx => RecordingCommand.ToggleRecording(
                     ctx.Timeline,
                     ctx.UndoRedoManager,
-                    ToolBoxSettings.Default.Items.OfType<RecordingSettings>().FirstOrDefault()?.RecordingDeviceIndex ?? 0)),
+                    ctx.FindItemSettings<RecordingSettings>()?.RecordingDeviceIndex ?? 0)),
         ];
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ToolBox.Commons;
 using ToolBox.Items.TachiePlacer.Settings;
 using ToolBox.Items.TachiePlacer.Views;
 
@@ -13,13 +12,11 @@ namespace ToolBox.Items.TachiePlacer
         public override Type? SettingsViewType => typeof(TachiePlacerSettingsPanel);
         public override Type? SettingsViewModelType => null;
 
-
-
         public override IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions() =>
         [
             new("TachiePlacerItemCommand",
                 ctx => TachiePlacerCommand.CanExecute(ctx.SelectedItems ?? []),
-                ctx => TachiePlacerCommand.AddTachie(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => TachiePlacerCommand.AddTachie(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
         ];
     }
 }

@@ -1,20 +1,28 @@
 using System.Windows.Input;
+using ToolBox.Commons;
 using ToolBox.Items;
 using ToolBox.Items.Shortcuts.Settings;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
+using System.Windows;
 
 namespace ToolBox.ViewModel
 {
     public class ToolBoxSettingsViewModel : Bindable
     {
-        private readonly ToolBoxSettings settings;
+        private readonly ToolBoxPanel panel;
+        private readonly BasicSettingsViewModel basicSettings;
+        private readonly GeneralSettingsViewModel generalSettings;
+        private readonly AddonSettingsViewModel addonSettings;
 
-        public IReadOnlyList<object> Groups { get; }
+        private IReadOnlyList<object> groups = [];
+        public IReadOnlyList<object> Groups
+        {
+            get => groups;
+            private set => Set(ref groups, value);
+        }
 
         public ICommand CloseCommand { get; }
-
-        public static string Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
 
         private object? selectedDetail;
         public object? SelectedDetail
@@ -28,20 +36,56 @@ namespace ToolBox.ViewModel
         public ShortcutsGroupViewModel? SelectedShortcutsGroup => SelectedDetail as ShortcutsGroupViewModel;
         public GeneralSettingsViewModel? SelectedGeneralSettings => SelectedDetail as GeneralSettingsViewModel;
         public BasicSettingsViewModel? SelectedBasicSettings => SelectedDetail as BasicSettingsViewModel;
+        public AddonSettingsViewModel? SelectedAddonSettings => SelectedDetail as AddonSettingsViewModel;
 
-        public ToolBoxSettingsViewModel(ToolBoxSettings settings, Action closeAction)
+        public ToolBoxSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel, Action closeAction)
         {
-            this.settings = settings;
+            this.panel = panel;
+            basicSettings = new BasicSettingsViewModel(settings);
+            generalSettings = new GeneralSettingsViewModel(settings, panel);
+            addonSettings = new AddonSettingsViewModel();
             CloseCommand = new ActionCommand(_ => true, _ => closeAction());
             Groups = BuildGroups();
+            AddonLoader.AddonsChanged += OnAddonsChanged;
 
-            var basicSettings = Groups.OfType<RootCategoryGroupViewModel>()
+            var initialBasicSettings = Groups.OfType<RootCategoryGroupViewModel>()
                 .FirstOrDefault(g => g.CategoryName == "設定")?
                 .SubGroups.OfType<BasicSettingsViewModel>()
                 .FirstOrDefault();
-            if (basicSettings != null)
+            if (initialBasicSettings != null)
+            {
+                SelectedDetail = initialBasicSettings;
+            }
+        }
+
+        private void OnAddonsChanged(object? sender, EventArgs e)
+        {
+            var dispatcher = Application.Current?.Dispatcher;
+            if (dispatcher != null && !dispatcher.CheckAccess())
+            {
+                dispatcher.Invoke(ReloadGroups);
+                return;
+            }
+
+            ReloadGroups();
+        }
+
+        private void ReloadGroups()
+        {
+            var currentSelection = SelectedDetail;
+            Groups = BuildGroups();
+
+            if (currentSelection is BasicSettingsViewModel)
             {
                 SelectedDetail = basicSettings;
+            }
+            else if (currentSelection is GeneralSettingsViewModel)
+            {
+                SelectedDetail = generalSettings;
+            }
+            else if (currentSelection is AddonSettingsViewModel)
+            {
+                SelectedDetail = addonSettings;
             }
         }
 
@@ -61,6 +105,8 @@ namespace ToolBox.ViewModel
                 .Select(t => (ToolItemSettings)Activator.CreateInstance(t)!)
                 .ToList();
 
+            allSettingsTypes.AddRange(AddonLoader.GetAllSettings());
+
             var categoryOrder = new Dictionary<ItemCategory, (int Order, string JaName)>
             {
                 { ItemCategory.Timeline, (0, "タイムライン") },
@@ -71,8 +117,9 @@ namespace ToolBox.ViewModel
             };
 
             var settingsRoot = new RootCategoryGroupViewModel("設定", [
-                new BasicSettingsViewModel(settings),
-                new GeneralSettingsViewModel(settings)
+                basicSettings,
+                generalSettings,
+                addonSettings
             ]);
 
             var itemGroups = new List<object>();
@@ -87,7 +134,7 @@ namespace ToolBox.ViewModel
                         .Select(s =>
                         {
                             draggableItems.TryGetValue(s.GetType(), out var item);
-                            return new ToolItemEntryViewModel(settings, s.GetType(), s.DisplayName, s.IconPath, item?.SettingsViewType);
+                            return new ToolItemEntryViewModel(panel, s.GetType(), s.DisplayName, s.IconPath, s.Description, item?.SettingsViewType);
                         })
                         .ToList();
                     return new ToolItemGroupViewModel(jaName, entries);
@@ -95,7 +142,7 @@ namespace ToolBox.ViewModel
 
             itemGroups.AddRange(toolGroups);
 
-            itemGroups.Add(new ShortcutsGroupViewModel(settings));
+            itemGroups.Add(new ShortcutsGroupViewModel(panel));
 
             var itemsRoot = new RootCategoryGroupViewModel("アイテム", itemGroups);
 
@@ -139,6 +186,14 @@ namespace ToolBox.ViewModel
             selectBasicSettingsCommand ??= new ActionCommand(_ => true, param =>
             {
                 if (param is BasicSettingsViewModel group)
+                    SelectedDetail = group;
+            });
+
+        private ICommand? selectAddonSettingsCommand;
+        public ICommand SelectAddonSettingsCommand =>
+            selectAddonSettingsCommand ??= new ActionCommand(_ => true, param =>
+            {
+                if (param is AddonSettingsViewModel group)
                     SelectedDetail = group;
             });
     }

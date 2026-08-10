@@ -6,6 +6,7 @@ namespace ToolBox.ViewModel
     {
         public string CategoryName { get; } = categoryName;
         public IReadOnlyList<object> SubGroups { get; } = subGroups;
+        public bool HasChildren => SubGroups.Count > 0;
 
         private bool isExpanded = true;
         public bool IsExpanded
