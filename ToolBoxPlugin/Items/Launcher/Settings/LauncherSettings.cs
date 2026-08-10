@@ -19,7 +19,7 @@ namespace ToolBox.Items.Launcher.Settings
 
         [JsonIgnore, NJsonIgnore]
         public override string Description =>
-            "指定したファイル・フォルダー・URL を開きます。素材フォルダーや外部ツールへの入口として使えます。";
+            "指定したファイル・フォルダー を開きます。素材フォルダーや外部ツールへの入口として使えます。";
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.OpenInNew;
