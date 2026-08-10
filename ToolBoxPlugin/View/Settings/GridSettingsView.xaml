@@ -11,7 +11,6 @@
              d:DataContext="{d:DesignInstance Type=vm:GeneralSettingsViewModel}">
 
     <UserControl.Resources>
-        <!-- 「自動」のときだけ表示する行 (サイズ/配置のトグル) -->
         <Style x:Key="VisibleWhenAuto" TargetType="Grid">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
@@ -21,7 +20,6 @@
             </Style.Triggers>
         </Style>
 
-        <!-- 「指定」のときだけ表示する行 (縦/横のスライダー) -->
         <Style x:Key="VisibleWhenManual" TargetType="Grid">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
@@ -47,7 +45,6 @@
             </ComboBox>
         </Grid>
 
-        <!-- 自動調整の対象をひとまとまりに見せるための見出し付き区切り -->
         <Grid Margin="0,2,0,6" Style="{StaticResource VisibleWhenAuto}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -80,15 +77,17 @@
         <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenManual}">
             <TextBlock Text="縦" VerticalAlignment="Center" FontSize="11"/>
             <controls:TextBoxSlider Value="{Binding Panel.GridRowCount, Mode=TwoWay}"
-                                    DefaultValue="6" StringFormat="F0"
-                                    Min="1" Max="50" HorizontalAlignment="Right" Width="200" Delta="1"/>
+                                    DefaultValue="6" StringFormat="F0" IsUnitVisible="False"
+                                    Min="1" Max="50" DefaultMin="1" DefaultMax="50" Delta="1"
+                                    HorizontalAlignment="Right" Width="200"/>
         </Grid>
 
         <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenManual}">
             <TextBlock Text="横" VerticalAlignment="Center" FontSize="11"/>
             <controls:TextBoxSlider Value="{Binding Panel.GridColumnCount, Mode=TwoWay}"
-                                    DefaultValue="6" StringFormat="F0"
-                                    Min="1" Max="50" HorizontalAlignment="Right" Width="200" Delta="1"/>
+                                    DefaultValue="6" StringFormat="F0" IsUnitVisible="False"
+                                    Min="1" Max="50" DefaultMin="1" DefaultMax="50" Delta="1"
+                                    HorizontalAlignment="Right" Width="200"/>
         </Grid>
 
         <Grid Margin="0,0,0,8">

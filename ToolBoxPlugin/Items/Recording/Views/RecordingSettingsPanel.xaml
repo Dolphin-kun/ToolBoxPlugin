@@ -6,32 +6,23 @@
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
              xmlns:recSetting="clr-namespace:ToolBox.Items.Recording.Settings"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=recSetting:RecordingSettings}"
-             Width="280">
+             d:DataContext="{d:DesignInstance Type=recSetting:RecordingSettings}">
 
+    <StackPanel>
+        <TextBlock Text="録音の設定" FontWeight="SemiBold" Margin="0,0,0,6" />
 
-    <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-            BorderThickness="1"
-            CornerRadius="4"
-            Padding="8">
+        <TextBlock Text="入力デバイス" FontSize="11" Margin="0,0,0,2" />
+        <controls:CommonComboBox x:Name="DeviceComboBox"
+                                 ItemsSource="{Binding DeviceList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                 SelectedValuePath="Key"
+                                 DisplayMemberPath="Value"
+                                 Value="{Binding RecordingDeviceIndex, Mode=TwoWay}"
+                                 HorizontalAlignment="Stretch" />
 
-        <StackPanel>
-            <TextBlock Text="録音の設定" FontWeight="SemiBold" Margin="0,0,0,6" />
-
-            <TextBlock Text="入力デバイス" FontSize="11" Margin="0,0,0,2" />
-            <controls:CommonComboBox x:Name="DeviceComboBox"
-                                     ItemsSource="{Binding DeviceList, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                     SelectedValuePath="Key"
-                                     DisplayMemberPath="Value"
-                                     Value="{Binding RecordingDeviceIndex, Mode=TwoWay}"
-                                     HorizontalAlignment="Stretch" />
-
-            <Button Content="録音フォルダを開く"
-                    Click="OnOpenRecordingFolderClick"
-                    Margin="0,8,0,0"
-                    Padding="8,4"
-                    HorizontalAlignment="Stretch" />
-        </StackPanel>
-    </Border>
+        <Button Content="録音フォルダを開く"
+                Click="OnOpenRecordingFolderClick"
+                Margin="0,8,0,0"
+                Padding="8,4"
+                HorizontalAlignment="Stretch" />
+    </StackPanel>
 </UserControl>

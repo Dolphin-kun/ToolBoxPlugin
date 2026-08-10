@@ -16,8 +16,6 @@
 
     <Button Command="{Binding ShortcutCommand, ElementName=Root}" CommandParameter="{Binding}" ToolTip="{Binding Label}">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-            <!-- Icon Mode -->
-            <!-- Icon Mode -->
             <commons:IconControl IconData="{Binding IconPath}"
                   Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -33,7 +31,6 @@
                 </commons:IconControl.Style>
             </commons:IconControl>
 
-            <!-- Custom Mode: Image -->
             <Image Source="{Binding CustomImagePath}"
                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
                 <Image.Style>
@@ -48,7 +45,6 @@
                 </Image.Style>
             </Image>
 
-            <!-- Custom Mode: Text -->
             <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">

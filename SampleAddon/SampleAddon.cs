@@ -13,6 +13,10 @@ public sealed class SampleAddonPlugin : IToolBoxAddon
     public string Description => "サンプル用の追加アドオンです。";
     public string Author => "いるかぁぁ";
     public string Version => Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
+    /// <summary>
+    /// 「アドオンを探す」で導入済みかどうかを判定するために使われる。
+    /// 公開するときはリポジトリに ymm4-toolbox-addon トピックを付けたうえで、ここに URL を書く。
+    /// </summary>
     public string? RepositoryUrl => null;
 
     public IReadOnlyList<DraggableItem> GetDraggableItems() =>

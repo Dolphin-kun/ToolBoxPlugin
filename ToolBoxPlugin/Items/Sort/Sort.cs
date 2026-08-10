@@ -16,10 +16,12 @@ namespace ToolBox.Items.Sort
         [
             new("SortAscendingItemCommand",
                 ctx => ctx.SelectedItems?.Any() == true,
-                ctx => SortCommand.SortByFrameAscending(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => SortCommand.SortByFrameAscending(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
+                displayName: "早い順に整列"),
             new("SortDescendingItemCommand",
                 ctx => ctx.SelectedItems?.Any() == true,
-                ctx => SortCommand.SortByFrameDescending(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => SortCommand.SortByFrameDescending(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
+                displayName: "遅い順に整列"),
         ];
     }
 }

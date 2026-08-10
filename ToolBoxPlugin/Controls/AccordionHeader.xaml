@@ -16,7 +16,6 @@
                     <ColumnDefinition Width="16"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <!-- 子要素を持たない項目では矢印を出さない (列幅はラベルを揃えるため残す) -->
                 <TextBlock x:Name="Arrow" Grid.Column="0" Text="▾"
                            FontSize="9" VerticalAlignment="Center"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>

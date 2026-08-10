@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
              xmlns:commons="clr-namespace:ToolBox.Commons"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
              mc:Ignorable="d"
@@ -16,11 +17,18 @@
                    FontWeight="SemiBold" FontSize="13"
                    Margin="0,0,0,10"/>
 
-        <TextBlock Text="読み込まれているアドオンを表示します。DLL を追加したあとに自動更新されます。"
+        <TextBlock Text="導入されているアドオンを表示します。DLL を追加すると自動で読み込まれます。無効にしたアドオンはファイルを残したまま読み込みだけを止めます。"
                    FontSize="11"
                    Margin="0,0,0,10"
                    TextWrapping="Wrap"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="フォルダーを開く" Command="{Binding OpenAddonFolderCommand}"
+                    Padding="8,3" FontSize="11"/>
+            <Button Content="再読み込み" Command="{Binding ReloadCommand}"
+                    Padding="8,3" FontSize="11" Margin="6,0,0,0"/>
+        </StackPanel>
 
         <TextBlock Text="アドオンがありません。"
                    FontSize="11"
@@ -30,7 +38,7 @@
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding LoadedAddons.Count}" Value="0">
+                        <DataTrigger Binding="{Binding HasAddons}" Value="False">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -38,10 +46,9 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <ItemsControl ItemsSource="{Binding LoadedAddons}">
+        <ItemsControl ItemsSource="{Binding Addons}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <!-- アドオン 1 件分のカード -->
                     <Border BorderThickness="1"
                             BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                             Padding="8"
@@ -78,22 +85,25 @@
                                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                             </StackPanel>
 
-                            <!-- 削除 -->
-                            <Button Grid.Column="1"
-                                    Command="{Binding DataContext.DeleteAddonCommand,
-                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}"
-                                    ToolTip="このアドオンを削除"
-                                    VerticalAlignment="Top"
-                                    HorizontalAlignment="Right"
-                                    Width="22" Height="22"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    BorderThickness="0">
-                                <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
-                                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                                     Width="14" Height="14"/>
-                            </Button>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                <Button Command="{Binding DataContext.DeleteAddonCommand,
+                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="このアドオンを削除"
+                                        HorizontalAlignment="Right"
+                                        Width="22" Height="22"
+                                        Padding="0"
+                                        Background="Transparent"
+                                        BorderThickness="0">
+                                    <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
+                                                         Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                                         Width="14" Height="14"/>
+                                </Button>
+
+                                <controls:ToggleSlider Value="{Binding IsEnabled, Mode=TwoWay}"
+                                                       ToolTip="読み込みの有効 / 無効"
+                                                       Width="40" Margin="0,6,0,0"/>
+                            </StackPanel>
                         </Grid>
                     </Border>
                 </DataTemplate>

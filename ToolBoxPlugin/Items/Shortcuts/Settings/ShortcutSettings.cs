@@ -27,7 +27,7 @@ namespace ToolBox.Items.Shortcuts.Settings
             .FirstOrDefault(d => d.CommandType == commandType)?.Description ?? string.Empty;
 
         [JsonIgnore]
-        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("Shortcut");
+        public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("ShortcutCommand");
 
         public ShortcutSettings()
         {

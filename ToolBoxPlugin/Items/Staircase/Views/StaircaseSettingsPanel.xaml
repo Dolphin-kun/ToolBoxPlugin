@@ -6,27 +6,18 @@
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
              xmlns:setting="clr-namespace:ToolBox.Items.Staircase.Settings"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=setting:StaircaseSettings}"
-             Width="220">
+             d:DataContext="{d:DesignInstance Type=setting:StaircaseSettings}">
 
+    <StackPanel>
+        <TextBlock Text="階段化の設定" FontWeight="SemiBold" Margin="0,0,0,6" />
 
-    <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-            BorderThickness="1"
-            CornerRadius="4"
-            Padding="8">
-
-        <StackPanel>
-            <TextBlock Text="階段化の設定" FontWeight="SemiBold" Margin="0,0,0,6" />
-
-            <TextBlock Text="オフセット (フレーム)" FontSize="11" Margin="0,0,0,2" />
-            <controls:TextBoxSlider Value="{Binding Offset, Mode=TwoWay}"
-                                    DefaultValue="20"
-                                    StringFormat="F0"
-                                    Unit="F"
-                                    DefaultMin="0" DefaultMax="50"
-                                    Min="1" Max="10000"
-                                    HorizontalAlignment="Stretch" />
-        </StackPanel>
-    </Border>
+        <TextBlock Text="オフセット (フレーム)" FontSize="11" Margin="0,0,0,2" />
+        <controls:TextBoxSlider Value="{Binding Offset, Mode=TwoWay}"
+                                DefaultValue="20"
+                                StringFormat="F0"
+                                Unit="F"
+                                DefaultMin="0" DefaultMax="50"
+                                Min="1" Max="10000"
+                                HorizontalAlignment="Stretch" />
+    </StackPanel>
 </UserControl>

@@ -33,7 +33,9 @@ namespace ToolBox.Items.Shortcuts
                             routedCmd.Execute(null, mainWindow);
                         }
                     }
-                })
+                },
+                displayName: "ショートカットを実行",
+                requiresItemParameter: true)
         ];
     }
 }

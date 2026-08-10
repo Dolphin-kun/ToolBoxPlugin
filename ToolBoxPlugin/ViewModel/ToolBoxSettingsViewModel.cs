@@ -14,6 +14,7 @@ namespace ToolBox.ViewModel
         private readonly BasicSettingsViewModel basicSettings;
         private readonly GeneralSettingsViewModel generalSettings;
         private readonly AddonSettingsViewModel addonSettings;
+        private readonly AddonMarketplaceViewModel addonMarketplace;
 
         private IReadOnlyList<object> groups = [];
         public IReadOnlyList<object> Groups
@@ -37,6 +38,7 @@ namespace ToolBox.ViewModel
         public GeneralSettingsViewModel? SelectedGeneralSettings => SelectedDetail as GeneralSettingsViewModel;
         public BasicSettingsViewModel? SelectedBasicSettings => SelectedDetail as BasicSettingsViewModel;
         public AddonSettingsViewModel? SelectedAddonSettings => SelectedDetail as AddonSettingsViewModel;
+        public AddonMarketplaceViewModel? SelectedAddonMarketplace => SelectedDetail as AddonMarketplaceViewModel;
 
         public ToolBoxSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel, Action closeAction)
         {
@@ -44,6 +46,7 @@ namespace ToolBox.ViewModel
             basicSettings = new BasicSettingsViewModel(settings);
             generalSettings = new GeneralSettingsViewModel(settings, panel);
             addonSettings = new AddonSettingsViewModel();
+            addonMarketplace = new AddonMarketplaceViewModel();
             CloseCommand = new ActionCommand(_ => true, _ => closeAction());
             Groups = BuildGroups();
             AddonLoader.AddonsChanged += OnAddonsChanged;
@@ -87,39 +90,33 @@ namespace ToolBox.ViewModel
             {
                 SelectedDetail = addonSettings;
             }
+            else if (currentSelection is AddonMarketplaceViewModel)
+            {
+                SelectedDetail = addonMarketplace;
+            }
         }
 
         private IReadOnlyList<object> BuildGroups()
         {
-            var draggableItems = typeof(DraggableItem).Assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && typeof(DraggableItem).IsAssignableFrom(t))
-                .Select(t => (DraggableItem)Activator.CreateInstance(t)!)
-                .ToDictionary(item => item.SettingsType, item => item);
-
-            var allSettingsTypes = typeof(ToolItemSettings).Assembly
-                .GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract
-                    && typeof(ToolItemSettings).IsAssignableFrom(t)
-                    && t != typeof(ToolItemSettings)
-                    && t != typeof(ShortcutSettings))
-                .Select(t => (ToolItemSettings)Activator.CreateInstance(t)!)
-                .ToList();
-
-            allSettingsTypes.AddRange(AddonLoader.GetAllSettings());
+            var draggableItems = ItemCatalog.GetDraggableItemsBySettingsType();
+            var allSettingsTypes = ItemCatalog.GetSettingsPrototypes();
 
             var categoryOrder = new Dictionary<ItemCategory, (int Order, string JaName)>
             {
-                { ItemCategory.Timeline, (0, "タイムライン") },
-                { ItemCategory.Layout,   (1, "レイアウト") },
-                { ItemCategory.Text,     (2, "テキスト") },
-                { ItemCategory.Audio,    (3, "オーディオ") },
-                { ItemCategory.None,     (99, "その他") },
+                { ItemCategory.Timeline,   (0, "タイムライン") },
+                { ItemCategory.Layout,     (1, "レイアウト") },
+                { ItemCategory.Text,       (2, "テキスト") },
+                { ItemCategory.Audio,      (3, "オーディオ") },
+                { ItemCategory.Utility,    (4, "ユーティリティ") },
+                { ItemCategory.Decoration, (5, "装飾") },
+                { ItemCategory.None,       (99, "その他") },
             };
 
             var settingsRoot = new RootCategoryGroupViewModel("設定", [
                 basicSettings,
                 generalSettings,
-                addonSettings
+                addonSettings,
+                addonMarketplace
             ]);
 
             var itemGroups = new List<object>();
@@ -186,6 +183,14 @@ namespace ToolBox.ViewModel
             selectBasicSettingsCommand ??= new ActionCommand(_ => true, param =>
             {
                 if (param is BasicSettingsViewModel group)
+                    SelectedDetail = group;
+            });
+
+        private ICommand? selectAddonMarketplaceCommand;
+        public ICommand SelectAddonMarketplaceCommand =>
+            selectAddonMarketplaceCommand ??= new ActionCommand(_ => true, param =>
+            {
+                if (param is AddonMarketplaceViewModel group)
                     SelectedDetail = group;
             });
 

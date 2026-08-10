@@ -62,6 +62,42 @@ namespace ToolBox.Controls
             InitializeComponent();
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private ToolItemSettings? appearanceSource;
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (appearanceSource != null)
+                appearanceSource.PropertyChanged -= OnSettingsPropertyChanged;
+
+            appearanceSource = e.NewValue as ToolItemSettings;
+
+            if (appearanceSource != null)
+                appearanceSource.PropertyChanged += OnSettingsPropertyChanged;
+
+            ApplyIconBrushOverride();
+        }
+
+        private void OnSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is nameof(ToolItemSettings.AppearanceForeground)
+                or nameof(ToolItemSettings.UseCustomAppearance))
+            {
+                ApplyIconBrushOverride();
+            }
+        }
+
+        private void ApplyIconBrushOverride()
+        {
+            var key = YukkuriMovieMaker.Theme.YMM4Colors.IconBrushKey;
+            var brush = appearanceSource?.AppearanceForeground;
+
+            if (brush == null)
+                Resources.Remove(key);
+            else
+                Resources[key] = brush;
         }
 
         private static void OnCellSpanChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -372,7 +408,6 @@ namespace ToolBox.Controls
 
         private void HideItem(ToolItemSettings settings)
         {
-            // アイテムはパネルごとに独立しているため、自分が乗っているパネルから取り除く
             FindOwnerPanel()?.Items.Remove(settings);
         }
 
@@ -391,8 +426,7 @@ namespace ToolBox.Controls
 
         private void OpenItemSettings(ToolItemSettings settings)
         {
-            var draggableItem = DiscoverDraggableItems()
-                .FirstOrDefault(i => i.SettingsType == settings.GetType());
+            ItemCatalog.GetDraggableItemsBySettingsType().TryGetValue(settings.GetType(), out var draggableItem);
 
             if (draggableItem?.SettingsViewType != null)
             {
@@ -402,13 +436,6 @@ namespace ToolBox.Controls
                 var adornerUtil = new AdornerUtil();
                 adornerUtil.Toggle(this, () => panel);
             }
-        }
-
-        private static List<DraggableItem> DiscoverDraggableItems()
-        {
-            return [.. typeof(DraggableItem).Assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && typeof(DraggableItem).IsAssignableFrom(t))
-                .Select(t => (DraggableItem)Activator.CreateInstance(t)!)];
         }
 
         public class ResizeEventArgs(Size startSize, Size currentSize) : EventArgs

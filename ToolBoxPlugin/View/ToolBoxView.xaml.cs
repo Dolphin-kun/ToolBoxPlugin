@@ -44,12 +44,37 @@ namespace ToolBox.View
             {
                 subscribedPanel = vm.Panel;
                 subscribedPanel.PropertyChanged += OnPanelPropertyChanged;
+
+                vm.EnableHotkeys();
             }
 
             hwndSource = PresentationSource.FromVisual(this) as HwndSource;
             hwndSource?.AddHook(OnWindowMessage);
 
+            ToolBox.Commons.PanelKeyRouter.Add(OnRoutedKey);
+
             UpdateAutoFit();
+        }
+
+        private bool OnRoutedKey(Key key, ModifierKeys modifiers)
+        {
+            if (!IsMouseOver || modifiers != ModifierKeys.Control)
+                return false;
+
+            if (DataContext is not ToolBoxViewModel vm)
+                return false;
+
+            switch (key)
+            {
+                case Key.Z when vm.UndoLayoutCommand.CanExecute(null):
+                    vm.UndoLayoutCommand.Execute(null);
+                    return true;
+                case Key.Y when vm.RedoLayoutCommand.CanExecute(null):
+                    vm.RedoLayoutCommand.Execute(null);
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         private IntPtr OnWindowMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -80,6 +105,8 @@ namespace ToolBox.View
 
             hwndSource?.RemoveHook(OnWindowMessage);
             hwndSource = null;
+
+            ToolBox.Commons.PanelKeyRouter.Remove(OnRoutedKey);
         }
 
         private void OnPanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -105,6 +132,14 @@ namespace ToolBox.View
 
             e.Handled = true;
             vm.AddPanel();
+        }
+
+        private void OnDuplicatePanelClick(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not ToolBoxViewModel vm) return;
+
+            e.Handled = true;
+            vm.DuplicatePanel();
         }
 
         private void OnRenamePanelClick(object sender, RoutedEventArgs e)

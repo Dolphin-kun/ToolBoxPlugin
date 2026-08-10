@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
              xmlns:view="clr-namespace:ToolBox.View"
+             xmlns:settingsView="clr-namespace:ToolBox.View.Settings"
              mc:Ignorable="d"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=vm:ToolItemEntryViewModel}">
@@ -30,12 +31,11 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <view:ToolItemCommonSettingsPanel Margin="0,0,0,8" />
+        <settingsView:ToolItemInstancesPanel />
 
-        <!-- アイテム固有の設定パネル (SettingsViewType を持つアイテムのみ) -->
-        <ContentControl Content="{Binding SettingsView}">
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
+        <StackPanel>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding HasSettingsView}" Value="True">
@@ -43,7 +43,19 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </ContentControl.Style>
-        </ContentControl>
+            </StackPanel.Style>
+
+            <Expander IsExpanded="True" Style="{DynamicResource ToolBoxSettingsSection}">
+                <Expander.Header>
+                    <TextBlock FontSize="11" FontWeight="SemiBold">
+                        <Run Text="{Binding DisplayName, Mode=OneWay}"/>
+                        <Run Text="の設定"/>
+                    </TextBlock>
+                </Expander.Header>
+                <ContentControl Content="{Binding SettingsView}"/>
+            </Expander>
+        </StackPanel>
+
+        <view:ToolItemCommonSettingsPanel />
     </StackPanel>
 </UserControl>

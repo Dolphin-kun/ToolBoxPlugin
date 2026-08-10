@@ -12,7 +12,6 @@
 
     <Grid Background="Transparent">
 
-        <!-- メインコンテンツ (設定パネル表示中は非表示になるため、右クリックメニューもここにぶら下げて連動させる) -->
         <Grid Background="Transparent">
             <Grid.Style>
                 <Style TargetType="Grid">
@@ -27,7 +26,13 @@
 
             <Grid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="配置を元に戻す" InputGestureText="パネル上で Ctrl+Z"
+                              Command="{Binding UndoLayoutCommand}" />
+                    <MenuItem Header="配置をやり直す" InputGestureText="パネル上で Ctrl+Y"
+                              Command="{Binding RedoLayoutCommand}" />
+                    <Separator />
                     <MenuItem Header="パネルの追加" Click="OnAddPanelClick" />
+                    <MenuItem Header="パネルの複製" Click="OnDuplicatePanelClick" />
                     <MenuItem Header="パネル名の編集" Click="OnRenamePanelClick" />
                     <Separator />
                     <MenuItem Header="設定" Click="OnSettingsClick" />
@@ -59,14 +64,12 @@
                 </controls:DraggableCanvas.ItemsPanel>
             </controls:DraggableCanvas>
 
-            <!-- ドラッグ中のセルハイライト。DraggableCanvas より後に置くことで常に最前面に表示する -->
             <controls:DropGridHighlightOverlay DropGrid="{Binding ElementName=DropGrid}"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Top"
                                                 IsHitTestVisible="False" />
         </Grid>
 
-        <!-- 設定パネル -->
         <view:ToolBoxSettingsPanel 
             DataContext="{Binding SettingsViewModel}"
             HorizontalAlignment="Stretch"

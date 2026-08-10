@@ -19,20 +19,23 @@ namespace ToolBox.ViewModel
     {
         private static readonly List<ToolBoxViewModel> instances = [];
 
-        /// <summary>
-        /// 生存しているパネルのいずれか。ToolItemSettings.DefaultCommand から参照される。
-        /// コマンドはどのパネルのものでも同じタイムラインに対して動くため、最後に開かれたパネルを返す。
-        /// </summary>
         public static ToolBoxViewModel? Instance => instances.Count > 0 ? instances[^1] : null;
 
         private readonly DisposeCollector disposer = new();
         public DisposeCollector Disposer => disposer;
 
-        /// <summary>全パネル共通の設定 (色・セルサイズなど)。</summary>
         public static ToolBoxSettings ToolBoxSettings => ToolBoxSettings.Default;
 
-        /// <summary>このパネル固有の状態 (アイテム配置・グリッド数)。</summary>
         public ToolBoxPanel Panel { get; }
+
+        public PanelHistory History { get; }
+
+        private readonly PanelHotkeyRegistrar hotkeyRegistrar;
+
+        public ICommand UndoLayoutCommand { get; }
+        public ICommand RedoLayoutCommand { get; }
+
+        public void EnableHotkeys() => hotkeyRegistrar.Enable();
 
         private bool isSettingsVisible = false;
         public bool IsSettingsVisible
@@ -74,15 +77,10 @@ namespace ToolBox.ViewModel
 
         private const string BaseTitle = "ツールボックス";
 
-        /// <summary>ツールウィンドウのタイトル。パネル名が付いていれば「ツールボックス / 名前」になる。</summary>
         public string Title => string.IsNullOrWhiteSpace(Panel.PanelName)
             ? BaseTitle
             : $"{BaseTitle} / {Panel.PanelName}";
 
-        // CanSuspend は IToolViewModel の既定実装 (true) をそのまま使う。
-        // false にするとツールウィンドウを閉じられなくなる。
-
-        /// <summary>新しいパネルを開くよう YMM4 へ要求するためのイベント。</summary>
         public event EventHandler<CreateNewToolViewRequestedEventArgs>? CreateNewToolViewRequested;
 
         public ToolState SaveState() => new()
@@ -91,9 +89,6 @@ namespace ToolBox.ViewModel
             SavedState = Panel.ToJson(),
         };
 
-        /// <summary>
-        /// 空のパネルを新しく開く。アイテムは引き継がず、グリッド数と見た目だけ現在のパネルに合わせる。
-        /// </summary>
         public void AddPanel()
         {
             var newPanel = new ToolBoxPanel
@@ -102,6 +97,23 @@ namespace ToolBox.ViewModel
                 GridColumnCount = Panel.GridColumnCount,
             };
 
+            RequestNewPanel(newPanel);
+        }
+
+        public void DuplicatePanel()
+        {
+            var copy = new ToolBoxPanel();
+            copy.LoadJson(Panel.ToJson());
+            copy.PanelName = BuildCopyName(Panel.PanelName);
+
+            RequestNewPanel(copy);
+        }
+
+        private static string BuildCopyName(string original) =>
+            string.IsNullOrWhiteSpace(original) ? "コピー" : $"{original} のコピー";
+
+        private void RequestNewPanel(ToolBoxPanel newPanel)
+        {
             CreateNewToolViewRequested?.Invoke(this, new CreateNewToolViewRequestedEventArgs(new ToolState
             {
                 Title = Title,
@@ -111,12 +123,13 @@ namespace ToolBox.ViewModel
 
         public void LoadState(ToolState stateData)
         {
-            // タイトルは Panel.PanelName から組み立てるので、状態は SavedState だけ復元すればよい
             if (!string.IsNullOrEmpty(stateData.SavedState))
                 Panel.LoadJson(stateData.SavedState);
 
             RegisterNewAddonItems();
             RemoveOrphanedPlacedItems();
+
+            History.Reset();
         }
 
         #endregion
@@ -128,20 +141,31 @@ namespace ToolBox.ViewModel
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             ToolBoxSettings.Default.Migrate();
 
-            // アドオンが提供する設定型を復元できるよう、パネルを組み立てる前に読み込んでおく
             AddonLoader.LoadAddons();
             Panel = ToolBoxPanel.CreateDefault();
             Panel.PropertyChanged += OnPanelPropertyChanged;
 
-            foreach (var item in DiscoverDraggableItems())
+            foreach (var item in ItemCatalog.GetDraggableItems())
             {
                 RegisterItem(item);
             }
 
-            // 前回起動時に配置され、その後アドオンが削除された残骸アイテムを掃除する
             RemoveOrphanedPlacedItems();
 
+            History = new PanelHistory(Panel);
+            hotkeyRegistrar = new PanelHotkeyRegistrar(Panel);
+
+            UndoLayoutCommand = new ActionCommand(_ => History.CanUndo, _ => History.Undo());
+            RedoLayoutCommand = new ActionCommand(_ => History.CanRedo, _ => History.Redo());
+            History.PropertyChanged += OnHistoryChanged;
+
             AddonLoader.AddonsChanged += OnAddonsChanged;
+        }
+
+        private void OnHistoryChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            (UndoLayoutCommand as ActionCommand)?.RaiseCanExecuteChanged();
+            (RedoLayoutCommand as ActionCommand)?.RaiseCanExecuteChanged();
         }
 
         private void OnPanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -168,10 +192,6 @@ namespace ToolBox.ViewModel
             RemoveOrphanedPlacedItems();
         }
 
-        /// <summary>
-        /// 実行中に追加/更新されたアドオンのアイテムをツールボックスへ反映する。
-        /// 既に登録済みの型は触らないため、配置済みの既存アイテムには影響しない。
-        /// </summary>
         private void RegisterNewAddonItems()
         {
             foreach (var item in AddonLoader.GetAllDraggableItems())
@@ -180,18 +200,9 @@ namespace ToolBox.ViewModel
             }
         }
 
-        /// <summary>
-        /// アドオンが削除されて存在しなくなった SettingsType のアイテムをパネルから取り除く。
-        /// 対応するアドオンが無くなったアイテムは操作も設定変更もできない残骸になるため。
-        /// </summary>
         private void RemoveOrphanedPlacedItems()
         {
-            var validTypes = new HashSet<Type>(
-                typeof(DraggableItem).Assembly.GetTypes()
-                    .Where(t => t.IsClass && !t.IsAbstract && typeof(ToolItemSettings).IsAssignableFrom(t)));
-
-            foreach (var settings in AddonLoader.GetAllSettings())
-                validTypes.Add(settings.GetType());
+            var validTypes = ItemCatalog.GetKnownSettingsTypes();
 
             for (var i = Panel.Items.Count - 1; i >= 0; i--)
             {
@@ -200,9 +211,6 @@ namespace ToolBox.ViewModel
             }
         }
 
-        /// <summary>
-        /// アイテムのコマンドと DataTemplate を登録する。同じ SettingsType は一度しか登録しない。
-        /// </summary>
         private void RegisterItem(DraggableItem item)
         {
             if (!registeredSettingsTypes.Add(item.SettingsType))
@@ -210,21 +218,6 @@ namespace ToolBox.ViewModel
 
             RegisterCommands(item);
             RegisterDataTemplate(item);
-        }
-
-        private static List<DraggableItem> DiscoverDraggableItems()
-        {
-            var items = new List<DraggableItem>();
-
-            foreach (var item in typeof(DraggableItem).Assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && typeof(DraggableItem).IsAssignableFrom(t))
-                .Select(t => (DraggableItem)Activator.CreateInstance(t)!))
-            {
-                items.Add(item);
-            }
-
-            items.AddRange(AddonLoader.GetAllDraggableItems());
-            return items;
         }
 
         private void RegisterCommands(DraggableItem item)
@@ -318,6 +311,9 @@ namespace ToolBox.ViewModel
         {
             AddonLoader.AddonsChanged -= OnAddonsChanged;
             Panel.PropertyChanged -= OnPanelPropertyChanged;
+            History.PropertyChanged -= OnHistoryChanged;
+            History.Dispose();
+            hotkeyRegistrar.Dispose();
             timeline?.PropertyChanged -= Timeline_PropertyChanged;
             disposer.Dispose();
             instances.Remove(this);

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
              xmlns:view="clr-namespace:ToolBox.View"
+             xmlns:settingsView="clr-namespace:ToolBox.View.Settings"
              mc:Ignorable="d"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=vm:ShortcutEntryViewModel}">
@@ -29,6 +30,8 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
+
+        <settingsView:ToolItemInstancesPanel />
 
         <view:ToolItemCommonSettingsPanel />
     </StackPanel>

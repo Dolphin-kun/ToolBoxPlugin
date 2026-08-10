@@ -1,0 +1,53 @@
+<UserControl x:Class="ToolBox.Items.Decorations.Views.SeparatorItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ToolBox.Items.Decorations.Settings"
+             mc:Ignorable="d"
+             x:Name="Root"
+             d:DataContext="{d:DesignInstance Type=local:SeparatorSettings}"
+             ToolTip="{Binding DisplayName}">
+
+    <Grid Background="Transparent">
+        <Border Height="{Binding LineThickness}"
+                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                Margin="4,0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="Background"
+                            Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Orientation}" Value="Horizontal">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding UseCustomAppearance}" Value="True">
+                            <Setter Property="Background" Value="{Binding AppearanceForeground}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+
+        <Border Width="{Binding LineThickness}"
+                HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                Margin="0,4">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="Background"
+                            Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Orientation}" Value="Vertical">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding UseCustomAppearance}" Value="True">
+                            <Setter Property="Background" Value="{Binding AppearanceForeground}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+    </Grid>
+</UserControl>

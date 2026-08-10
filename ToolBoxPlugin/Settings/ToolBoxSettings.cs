@@ -128,6 +128,8 @@ namespace ToolBox.Settings
 
         public Dictionary<string, Point> HiddenItemPositions { get; set; } = [];
 
+        public List<string> DisabledAddonFileNames { get; set; } = [];
+
         public override void Initialize()
         {
             Migrate();

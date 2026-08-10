@@ -2,7 +2,6 @@ using System.Windows;
 
 namespace ToolBox.View
 {
-    /// <summary>パネル名を入力するための小さなダイアログ。</summary>
     public partial class PanelNameDialog : Window
     {
         public string PanelName => NameTextBox.Text.Trim();

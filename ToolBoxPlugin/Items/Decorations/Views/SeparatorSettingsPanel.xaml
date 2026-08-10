@@ -1,0 +1,45 @@
+<UserControl x:Class="ToolBox.Items.Decorations.Views.SeparatorSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sysControls="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:local="clr-namespace:ToolBox.Items.Decorations.Settings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:SeparatorSettings}">
+
+    <StackPanel>
+        <TextBlock Text="区切り線の設定" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+        <Grid Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="90"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="向き" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+            <ComboBox Grid.Column="1" FontSize="11"
+                      SelectedValue="{Binding Orientation, Mode=TwoWay}"
+                      SelectedValuePath="Tag">
+                <ComboBoxItem Content="横" Tag="{x:Static sysControls:Orientation.Horizontal}"/>
+                <ComboBoxItem Content="縦" Tag="{x:Static sysControls:Orientation.Vertical}"/>
+            </ComboBox>
+        </Grid>
+
+        <Grid Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="90"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="線の太さ" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+            <controls:TextBoxSlider Grid.Column="1"
+                                    Value="{Binding LineThickness, Mode=TwoWay}"
+                                    DefaultValue="1" StringFormat="F0" Unit="px"
+                                    Min="1" Max="10" DefaultMin="1" DefaultMax="10" Delta="1"/>
+        </Grid>
+
+        <TextBlock Text="線の色は共通設定の「配色」で変えられます。"
+                   FontSize="10" TextWrapping="Wrap"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+    </StackPanel>
+</UserControl>

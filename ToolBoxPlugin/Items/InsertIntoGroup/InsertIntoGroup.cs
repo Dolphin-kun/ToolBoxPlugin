@@ -16,7 +16,8 @@ namespace ToolBox.Items.InsertIntoGroup
         [
             new("InsertIntoGroupItemCommand",
                 ctx => ctx.SelectedItems?.Any() == true,
-                ctx => InsertIntoGroupItemCommand.InsertIntoGroup(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => InsertIntoGroupItemCommand.InsertIntoGroup(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
+                displayName: "グループ化"),
         ];
     }
 }

@@ -77,6 +77,8 @@ namespace ToolBox.Commons
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .ToList();
 
+                files.RemoveAll(IsDisabled);
+
                 var currentPaths = new HashSet<string>(files, StringComparer.OrdinalIgnoreCase);
 
                 for (var index = loadedAddons.Count - 1; index >= 0; index--)
@@ -124,18 +126,55 @@ namespace ToolBox.Commons
             AddonsChanged?.Invoke(null, EventArgs.Empty);
         }
 
-        public static bool DeleteAddon(LoadedAddon addon)
+        public static IReadOnlyList<string> GetDisabledAddonFiles()
+        {
+            var directory = AddonDirectory;
+            if (!Directory.Exists(directory))
+                return [];
+
+            return [.. Directory.EnumerateFiles(directory, "*.dll", SearchOption.TopDirectoryOnly)
+                .Where(file => !ShouldSkipAssembly(file) && IsDisabled(file))];
+        }
+
+        public static bool IsDisabled(string assemblyPath) =>
+            ToolBoxSettings.Default.DisabledAddonFileNames
+                .Contains(Path.GetFileName(assemblyPath), StringComparer.OrdinalIgnoreCase);
+
+        public static void SetAddonEnabled(string assemblyPath, bool enabled)
+        {
+            var fileName = Path.GetFileName(assemblyPath);
+            var disabled = ToolBoxSettings.Default.DisabledAddonFileNames;
+
+            if (enabled)
+                disabled.RemoveAll(name => string.Equals(name, fileName, StringComparison.OrdinalIgnoreCase));
+            else if (!disabled.Contains(fileName, StringComparer.OrdinalIgnoreCase))
+                disabled.Add(fileName);
+
+            ToolBoxSettings.Default.Save();
+            LoadAddons();
+        }
+
+        public static bool DeleteAddon(LoadedAddon addon) => DeleteAddonFile(addon.SourcePath);
+
+        public static bool DeleteAddonFile(string assemblyPath)
         {
             bool deleted;
             try
             {
-                File.Delete(addon.SourcePath);
+                File.Delete(assemblyPath);
                 deleted = true;
             }
             catch (Exception)
             {
-                File.Move(addon.SourcePath, GetPendingDeletePath(addon.SourcePath), overwrite: true);
+                File.Move(assemblyPath, GetPendingDeletePath(assemblyPath), overwrite: true);
                 deleted = false;
+            }
+
+            var fileName = Path.GetFileName(assemblyPath);
+            if (ToolBoxSettings.Default.DisabledAddonFileNames
+                    .RemoveAll(name => string.Equals(name, fileName, StringComparison.OrdinalIgnoreCase)) > 0)
+            {
+                ToolBoxSettings.Default.Save();
             }
 
             LoadAddons();

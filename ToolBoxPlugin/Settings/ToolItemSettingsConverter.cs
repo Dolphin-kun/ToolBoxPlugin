@@ -23,12 +23,6 @@ namespace ToolBox.Settings
             return dict;
         });
 
-        /// <summary>
-        /// 判別子から具象型を解決して読み込む。
-        /// 解決できない場合 (アドオンが削除された等) は null を返して読み飛ばす。
-        /// ここで ToolItemSettings 自身へフォールバックすると、
-        /// クラスに付いた [JsonConverter] 属性経由でこのコンバーターが再突入し無限再帰になるため行わない。
-        /// </summary>
         public override ToolItemSettings? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             using var doc = JsonDocument.ParseValue(ref reader);
@@ -52,7 +46,6 @@ namespace ToolBox.Settings
             if (BuiltInTypeMap.Value.TryGetValue(typeName, out var builtIn))
                 return builtIn;
 
-            // アドオンが提供する設定型は別アセンブリにあり、読み込み状況で変わるため都度探す
             foreach (var settings in AddonLoader.GetAllSettings())
             {
                 var addonType = settings.GetType();
@@ -66,9 +59,8 @@ namespace ToolBox.Settings
         public override void Write(Utf8JsonWriter writer, ToolItemSettings value, JsonSerializerOptions options)
         {
             var type = value.GetType();
-            var discriminator = string.IsNullOrWhiteSpace(value.Name)
-                ? GetDiscriminator(type)
-                : value.Name;
+
+            var discriminator = GetDiscriminator(type);
             var safeOptions = CreateOptionsWithoutSelf(options);
             var element = JsonSerializer.SerializeToElement(value, type, safeOptions);
 

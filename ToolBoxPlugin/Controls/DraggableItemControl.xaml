@@ -9,14 +9,22 @@
              xmlns:settings="clr-namespace:ToolBox.Settings"
              mc:Ignorable="d"
              d:DesignHeight="40" d:DesignWidth="40"
-             Cursor="Hand">
+             Cursor="Hand"
+             ToolTip="{Binding Label}"
+             ToolTipService.ShowOnDisabled="True">
 
     <UserControl.Resources>
         <commons:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     </UserControl.Resources>
 
     <Grid>
-        <!-- Iconモード -->
+        <Border Margin="2"
+                Background="{Binding AppearanceBackground}"
+                BorderBrush="{Binding AppearanceBorderBrush}"
+                BorderThickness="{Binding AppearanceBorderThickness}"
+                CornerRadius="{Binding AppearanceCornerRadius}"
+                IsHitTestVisible="False"/>
+
         <Border Margin="2" x:Name="IconViewBorder">
             <Border.Style>
                 <Style TargetType="Border">
@@ -31,9 +39,9 @@
             <ContentPresenter Content="{Binding}" />
         </Border>
 
-        <!-- Customモード -->
         <Button x:Name="CustomButton"
                 Command="{Binding DefaultCommand}"
+                CommandParameter="{Binding}"
                 ToolTip="{Binding Label}"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Margin="2">
@@ -51,7 +59,6 @@
                 </Style>
             </Button.Style>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <!-- Image -->
                 <Image Source="{Binding CustomImagePath}"
                        Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Image.Style>
@@ -66,7 +73,6 @@
                     </Image.Style>
                 </Image>
 
-                <!-- Text -->
                 <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" FontSize="11" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -75,6 +81,9 @@
                                 <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Text}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding UseCustomAppearance}" Value="True">
+                                    <Setter Property="Foreground" Value="{Binding AppearanceForeground}"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
@@ -82,7 +91,6 @@
             </Grid>
         </Button>
 
-        <!-- 固定バッジ -->
         <Border Width="14" Height="14"
                 CornerRadius="7"
                 HorizontalAlignment="Right" VerticalAlignment="Top"

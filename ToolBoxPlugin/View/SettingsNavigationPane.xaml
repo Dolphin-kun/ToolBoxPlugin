@@ -12,7 +12,6 @@
              d:DataContext="{d:DesignInstance Type=vm:ToolBoxSettingsViewModel}">
 
     <UserControl.Resources>
-        <!-- 展開時かつ子要素があるときだけ表示する入れ子リストの共通スタイル -->
         <Style x:Key="CollapsibleChildren" TargetType="Grid">
             <Setter Property="Visibility" Value="Visible"/>
             <Style.Triggers>
@@ -76,6 +75,17 @@
                                                         RelativeSource={RelativeSource AncestorType=UserControl}}"
                                               CommandParameter="{Binding}">
                                     <TextBlock Text="アドオン"
+                                               FontWeight="SemiBold" FontSize="11"/>
+                                </tbControls:AccordionHeader>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type vm:AddonMarketplaceViewModel}">
+                                <tbControls:AccordionHeader IsChecked="{Binding IsExpanded, Mode=TwoWay}"
+                                              ShowArrow="False"
+                                              Command="{Binding DataContext.SelectAddonMarketplaceCommand,
+                                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                              CommandParameter="{Binding}">
+                                    <TextBlock Text="アドオンを探す"
                                                FontWeight="SemiBold" FontSize="11"/>
                                 </tbControls:AccordionHeader>
                             </DataTemplate>

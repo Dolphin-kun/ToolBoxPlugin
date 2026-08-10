@@ -16,7 +16,8 @@ namespace ToolBox.Items.TextSplitter
         [
             new("TextSplitterItemCommand",
                 ctx => TextSplitterCommand.CanExecute(ctx.SelectedItems ?? []),
-                ctx => TextSplitterCommand.SplitText(ctx, ctx.SelectedItems ?? [], ctx.Timeline, ctx.UndoRedoManager)),
+                ctx => TextSplitterCommand.SplitText(ctx, ctx.SelectedItems ?? [], ctx.Timeline, ctx.UndoRedoManager),
+                displayName: "テキストを分割"),
         ];
     }
 }

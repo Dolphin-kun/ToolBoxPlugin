@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -7,8 +9,6 @@ namespace ToolBox.ViewModel
 {
     public class AddonSettingsViewModel : Bindable
     {
-        private IReadOnlyList<AddonLoader.LoadedAddon> loadedAddons = [];
-
         public string CategoryName { get; } = "アドオン";
 
         private bool isExpanded = true;
@@ -18,29 +18,54 @@ namespace ToolBox.ViewModel
             set => Set(ref isExpanded, value);
         }
 
-        public IReadOnlyList<AddonLoader.LoadedAddon> LoadedAddons
-        {
-            get => loadedAddons;
-            private set => Set(ref loadedAddons, value);
-        }
+        public ObservableCollection<AddonEntryViewModel> Addons { get; } = [];
+
+        public bool HasAddons => Addons.Count > 0;
 
         public ICommand DeleteAddonCommand { get; }
+        public ICommand OpenAddonFolderCommand { get; }
+        public ICommand ReloadCommand { get; }
 
         public AddonSettingsViewModel()
         {
             DeleteAddonCommand = new ActionCommand(
-                param => param is AddonLoader.LoadedAddon,
+                param => param is AddonEntryViewModel,
                 param =>
                 {
-                    if (param is AddonLoader.LoadedAddon addon)
+                    if (param is AddonEntryViewModel addon)
                         DeleteAddon(addon);
                 });
+
+            OpenAddonFolderCommand = new ActionCommand(_ => true, _ => OpenAddonFolder());
+            ReloadCommand = new ActionCommand(_ => true, _ => AddonLoader.LoadAddons());
 
             Refresh();
             AddonLoader.AddonsChanged += OnAddonsChanged;
         }
 
-        private static void DeleteAddon(AddonLoader.LoadedAddon addon)
+        private static void OpenAddonFolder()
+        {
+            var directory = AddonLoader.AddonDirectory;
+            Directory.CreateDirectory(directory);
+
+            try
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(directory)
+                {
+                    UseShellExecute = true,
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"フォルダーを開けませんでした。\n\n{directory}\n\n{ex.Message}",
+                    "アドオン",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+        }
+
+        private static void DeleteAddon(AddonEntryViewModel addon)
         {
             var confirm = MessageBox.Show(
                 $"アドオン「{addon.Name}」を削除します。\n\n{addon.SourcePath}",
@@ -52,7 +77,7 @@ namespace ToolBox.ViewModel
 
             try
             {
-                if (!AddonLoader.DeleteAddon(addon))
+                if (!AddonLoader.DeleteAddonFile(addon.SourcePath))
                 {
                     MessageBox.Show(
                         $"アドオン「{addon.Name}」を無効化しました。\n" +
@@ -72,7 +97,15 @@ namespace ToolBox.ViewModel
 
         public void Refresh()
         {
-            LoadedAddons = AddonLoader.GetLoadedAddons();
+            Addons.Clear();
+
+            foreach (var addon in AddonLoader.GetLoadedAddons())
+                Addons.Add(AddonEntryViewModel.FromLoaded(addon));
+
+            foreach (var path in AddonLoader.GetDisabledAddonFiles())
+                Addons.Add(AddonEntryViewModel.FromDisabled(path));
+
+            OnPropertyChanged(nameof(HasAddons));
         }
 
         private void OnAddonsChanged(object? sender, EventArgs e)
@@ -86,5 +119,56 @@ namespace ToolBox.ViewModel
 
             Refresh();
         }
+    }
+
+    public class AddonEntryViewModel : Bindable
+    {
+        public required string Name { get; init; }
+        public required string SourcePath { get; init; }
+        public string Version { get; init; } = string.Empty;
+        public string Author { get; init; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
+        public string? RepositoryUrl { get; init; }
+
+        public bool HasRepository => !string.IsNullOrWhiteSpace(RepositoryUrl);
+
+        private bool isEnabled = true;
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                if (isEnabled == value)
+                    return;
+
+                isEnabled = value;
+                OnPropertyChanged();
+
+                var dispatcher = Application.Current?.Dispatcher;
+                if (dispatcher != null)
+                    dispatcher.BeginInvoke(() => AddonLoader.SetAddonEnabled(SourcePath, value));
+                else
+                    AddonLoader.SetAddonEnabled(SourcePath, value);
+            }
+        }
+
+        public static AddonEntryViewModel FromLoaded(AddonLoader.LoadedAddon addon) => new()
+        {
+            Name = addon.Name,
+            SourcePath = addon.SourcePath,
+            Version = addon.Version,
+            Author = addon.Author,
+            Description = addon.Description,
+            RepositoryUrl = addon.RepositoryUrl,
+            isEnabled = true,
+        };
+
+        public static AddonEntryViewModel FromDisabled(string path) => new()
+        {
+            Name = Path.GetFileNameWithoutExtension(path),
+            SourcePath = path,
+            Description = "無効にしています。有効に戻すと次の読み込みで反映されます。",
+            isEnabled = false,
+        };
     }
 }

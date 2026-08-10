@@ -17,9 +17,26 @@ namespace ToolBox.Controls
         public SettingsAdorner(UIElement adornedElement, UIElement content) : base(adornedElement)
         {
             visuals = new VisualCollection(this);
-            presenter = new ContentPresenter { Content = content };
+            presenter = new ContentPresenter { Content = CreateChrome(content) };
             visuals.Add(presenter);
             IsHitTestVisible = true;
+        }
+
+        private static Border CreateChrome(UIElement content)
+        {
+            var border = new Border
+            {
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(4),
+                Padding = new Thickness(8),
+                Width = 260,
+                Child = content,
+            };
+
+            border.SetResourceReference(Border.BackgroundProperty, SystemColors.ControlBrushKey);
+            border.SetResourceReference(Border.BorderBrushProperty, SystemColors.ActiveBorderBrushKey);
+
+            return border;
         }
 
         protected override int VisualChildrenCount => visuals.Count;
