@@ -1,4 +1,4 @@
-<UserControl x:Class="ToolBox.Items.Macro.Views.MacroSettingsPanel"
+﻿<UserControl x:Class="ToolBox.Items.Macro.Views.MacroSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -58,7 +58,7 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <TextBlock Text="手順" FontSize="11" Margin="0,0,0,4"/>
+        <TextBlock Text="手順" Margin="0,0,0,4"/>
 
         <ListBox x:Name="StepList"
                  tbControls:ScrollBubbling.IsEnabled="True"
@@ -70,7 +70,7 @@
                  Margin="0,0,0,4">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="11" TextTrimming="CharacterEllipsis"
+                    <TextBlock TextTrimming="CharacterEllipsis"
                                Text="{Binding DisplayText}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -118,36 +118,35 @@
             <Border BorderThickness="0,1,0,0" Margin="0,0,0,8"
                     BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
 
-            <TextBlock Text="選択中の手順" FontSize="11" Margin="0,0,0,6"/>
+            <TextBlock Text="選択中の手順" Margin="0,0,0,6"/>
 
-            <Grid Margin="0,0,0,8">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="種類" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="0" Text="種類" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <ComboBox Grid.Column="1"
                           SelectedValue="{Binding Kind, Mode=TwoWay}"
-                          SelectedValuePath="Tag" FontSize="11">
+                          SelectedValuePath="Tag" Height="24" VerticalContentAlignment="Center">
                     <ComboBoxItem Content="ツールボックスの操作" Tag="{x:Static macro:MacroStepKind.Command}"/>
-                    <ComboBoxItem Content="YMM4 のショートカット" Tag="{x:Static macro:MacroStepKind.Shortcut}"/>
+                    <ComboBoxItem Content="ショートカット" Tag="{x:Static macro:MacroStepKind.Shortcut}"/>
                     <ComboBoxItem Content="パネル上のアイテム" Tag="{x:Static macro:MacroStepKind.PanelItem}"/>
                     <ComboBoxItem Content="待つ" Tag="{x:Static macro:MacroStepKind.Wait}"/>
                 </ComboBox>
             </Grid>
 
-            <Grid Margin="0,0,0,8" Style="{StaticResource VisibleForCommand}">
+            <Grid Style="{StaticResource VisibleForCommand}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="操作" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="0" Text="操作" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <ComboBox Grid.Column="1"
                           ItemsSource="{Binding AvailableCommands, ElementName=Root}"
                           DisplayMemberPath="FullDisplayName"
                           SelectedValuePath="CommandName"
-                          SelectedValue="{Binding CommandName, Mode=TwoWay}"
-                          FontSize="11"/>
+                          SelectedValue="{Binding CommandName, Mode=TwoWay}" Height="24" VerticalContentAlignment="Center"/>
             </Grid>
 
             <Grid Margin="0,0,0,8" Style="{StaticResource VisibleForShortcut}">
@@ -155,13 +154,12 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="操作" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="0" Text="操作" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <ComboBox Grid.Column="1"
                           ItemsSource="{Binding AvailableShortcuts, ElementName=Root}"
                           DisplayMemberPath="DisplayName"
                           SelectedValuePath="CommandType"
-                          SelectedValue="{Binding ShortcutCommand, Mode=TwoWay}"
-                          FontSize="11"/>
+                          SelectedValue="{Binding ShortcutCommand, Mode=TwoWay}" Height="24" VerticalContentAlignment="Center"/>
             </Grid>
 
             <StackPanel Style="{StaticResource VisibleForPanelItem}" Margin="0,0,0,8">
@@ -170,13 +168,12 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" MinWidth="90"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="アイテム" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+                    <TextBlock Grid.Column="0" Text="アイテム" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <ComboBox Grid.Column="1"
                               ItemsSource="{Binding AvailablePanelItems, ElementName=Root}"
                               DisplayMemberPath="DisplayText"
                               SelectedValuePath="Id"
-                              SelectedValue="{Binding PanelItemId, Mode=TwoWay}"
-                              FontSize="11"/>
+                              SelectedValue="{Binding PanelItemId, Mode=TwoWay}" Height="24" VerticalContentAlignment="Center"/>
                 </Grid>
                 <TextBlock Text="開いているパネルに置かれているアイテムを、そのアイテム自身の設定で実行します。"
                            FontSize="10" TextWrapping="Wrap" Margin="0,4,0,0"
@@ -188,11 +185,11 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="待ち時間" VerticalAlignment="Center" FontSize="11" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="0" Text="待ち時間" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <controls:TextBoxSlider Grid.Column="1"
                                         Value="{Binding WaitMilliseconds, Mode=TwoWay}"
                                         DefaultValue="200" StringFormat="F0" Unit="ms"
-                                        Min="0" Max="5000" DefaultMin="0" DefaultMax="5000" Delta="50"/>
+                                        Min="0" Max="5000" DefaultMin="0" DefaultMax="5000" Delta="50" Height="24" VerticalContentAlignment="Center"/>
             </Grid>
         </StackPanel>
 

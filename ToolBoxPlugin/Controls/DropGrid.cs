@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -158,15 +158,10 @@ namespace ToolBox.Controls
 
         private void OnParentWindowKeyChanged(object sender, KeyEventArgs e) => UpdateCtrlState();
 
-        /// <summary>
-        /// コンテキストメニューは別ウィンドウなので、開いている間に Ctrl を離してもキーイベントが届かない。
-        /// メニューを閉じたあとのマウス操作で取りこぼしを拾い直す。
-        /// </summary>
         private void OnParentWindowMouseMove(object sender, MouseEventArgs e) => UpdateCtrlState();
 
         private void OnParentWindowDeactivated(object? sender, EventArgs e) => SetCtrlPressed(false);
 
-        /// <summary>Ctrl の押下状態を今の実際のキー状態に合わせ直す。</summary>
         public void RefreshCtrlState() => UpdateCtrlState();
 
         private void UpdateCtrlState() => SetCtrlPressed(

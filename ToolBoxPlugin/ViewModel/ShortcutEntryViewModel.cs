@@ -1,4 +1,4 @@
-using ToolBox.Items.Shortcuts;
+﻿using ToolBox.Items.Shortcuts;
 using ToolBox.Items.Shortcuts.Settings;
 using ToolBox.Settings;
 
@@ -29,6 +29,5 @@ namespace ToolBox.ViewModel
             CommandType = definition.CommandType,
             Label = definition.DefaultLabel,
         };
-
     }
 }

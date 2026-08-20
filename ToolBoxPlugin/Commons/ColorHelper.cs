@@ -1,6 +1,6 @@
 using System.Windows.Media;
 
-namespace ToolBox.Settings
+namespace ToolBox.Commons
 {
     internal static class ColorHelper
     {

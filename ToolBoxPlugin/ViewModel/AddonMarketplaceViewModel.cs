@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -81,9 +81,6 @@ namespace ToolBox.ViewModel
             }
         }
 
-        /// <summary>
-        /// 問い合わせ回数の上限が近いので、取得したてなのかキャッシュなのかを分かるようにしておく。
-        /// </summary>
         private static string BuildStatusMessage(SearchResponse response)
         {
             if (response.Addons.Count == 0)
@@ -117,8 +114,7 @@ namespace ToolBox.ViewModel
                 MessageBox.Show(
                     $"アドオンを導入できませんでした。\n\n{ex.Message}",
                     "アドオンを探す",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                    MessageBoxButton.OK);
             }
             finally
             {

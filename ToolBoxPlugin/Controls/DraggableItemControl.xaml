@@ -1,4 +1,4 @@
-<UserControl x:Class="ToolBox.Controls.DraggableItemControl"
+﻿<UserControl x:Class="ToolBox.Controls.DraggableItemControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -69,7 +69,7 @@
                     </Image.Style>
                 </Image>
 
-                <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" FontSize="11" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>

@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -70,9 +70,9 @@ namespace ToolBox.Commons
                     Data = geometry,
                     Stretch = Stretch.Uniform
                 };
-                
+
                 path.SetBinding(Shape.FillProperty, new Binding("Foreground") { Source = this });
-                
+
                 Content = path;
             }
             catch

@@ -1,7 +1,8 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using ToolBox.Commons;
 using YukkuriMovieMaker.Commons;
 using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
@@ -10,7 +11,6 @@ namespace ToolBox.Settings
     [JsonConverter(typeof(ToolItemSettingsConverter))]
     public class ToolItemSettings : Bindable
     {
-        /// <summary>配置された 1 個ごとに割り振られる識別子。マクロの参照先などに使う。</summary>
         private Guid id = Guid.NewGuid();
         public Guid Id
         {
@@ -183,19 +183,15 @@ namespace ToolBox.Settings
         [JsonIgnore, NJsonIgnore]
         public virtual string DisplayName => Name;
 
-        /// <summary>設定画面でアイテム名の下に表示される説明。アドオンでも上書きできる。</summary>
         [JsonIgnore, NJsonIgnore]
         public virtual string Description => string.Empty;
 
-        /// <summary>非表示にしたアイテムを控えておくときの区分。同じ種類なら同じ値を返すこと。</summary>
         [JsonIgnore, NJsonIgnore]
         public virtual string HiddenKey => GetType().FullName ?? GetType().Name;
 
-        /// <summary>設定画面の一覧で個体を見分けるための表示名。</summary>
         [JsonIgnore, NJsonIgnore]
         public virtual string InstanceSummary => Label;
 
-        /// <summary>クリックしても何も実行しないアイテムは false にする。</summary>
         [JsonIgnore, NJsonIgnore]
         public virtual bool IsInvokable => true;
 

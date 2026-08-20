@@ -1,4 +1,4 @@
-<UserControl x:Class="ToolBox.View.Settings.AddonMarketplaceView"
+﻿<UserControl x:Class="ToolBox.View.Settings.AddonMarketplaceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,20 +13,22 @@
                    FontWeight="SemiBold" FontSize="13"
                    Margin="0,0,0,10"/>
 
-        <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,10"
+        <TextBlock TextWrapping="Wrap" Margin="0,0,0,8"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
             <Run Text="GitHub のトピックに"/>
             <Run Text="ymm4-toolbox-addon" FontWeight="SemiBold"/>
             <Run Text="が付いているリポジトリを一覧にします。「導入」を押すと最新リリースの zip か dll を取り込みます。"/>
         </TextBlock>
 
+        <Border Style="{DynamicResource SettingsHeaderSeparator}"/>
+
         <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
             <Button Content="一覧を取得" Command="{Binding RefreshCommand}"
-                    Padding="10,3" FontSize="11"/>
+                    Padding="10,3"/>
         </StackPanel>
 
         <TextBlock Text="{Binding StatusMessage}"
-                   FontSize="11" TextWrapping="Wrap" Margin="0,0,0,10"
+                   TextWrapping="Wrap" Margin="0,0,0,10"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
 
         <ItemsControl ItemsSource="{Binding Addons}" IsEnabled="{Binding IsIdle}">
@@ -60,16 +62,16 @@
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
-                                    <TextBlock Text="{Binding Owner}" FontSize="11"
+                                    <TextBlock Text="{Binding Owner}"
                                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                    <TextBlock Text="{Binding StarsText}" FontSize="11" Margin="8,0,0,0"
+                                    <TextBlock Text="{Binding StarsText}" Margin="8,0,0,0"
                                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                    <TextBlock Text="{Binding UpdatedText}" FontSize="11" Margin="8,0,0,0"
+                                    <TextBlock Text="{Binding UpdatedText}" Margin="8,0,0,0"
                                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                                 </StackPanel>
 
                                 <TextBlock Text="{Binding Description}"
-                                           FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap"/>
+                                           Margin="0,4,0,0" TextWrapping="Wrap"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Top">
@@ -77,12 +79,12 @@
                                         Command="{Binding DataContext.InstallCommand,
                                                   RelativeSource={RelativeSource AncestorType=UserControl}}"
                                         CommandParameter="{Binding}"
-                                        Padding="10,3" FontSize="11"/>
+                                        Padding="10,3"/>
                                 <Button Content="GitHub"
                                         Command="{Binding DataContext.OpenRepositoryCommand,
                                                   RelativeSource={RelativeSource AncestorType=UserControl}}"
                                         CommandParameter="{Binding}"
-                                        Padding="10,3" FontSize="11" Margin="0,4,0,0"/>
+                                        Padding="10,3" Margin="0,4,0,0"/>
                             </StackPanel>
                         </Grid>
                     </Border>

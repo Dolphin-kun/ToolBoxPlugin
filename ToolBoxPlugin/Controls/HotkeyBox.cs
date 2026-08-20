@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -40,10 +40,6 @@ namespace ToolBox.Controls
         private void UpdateText() =>
             SetCurrentValue(TextProperty, string.IsNullOrEmpty(Gesture) ? "(未設定)" : Gesture);
 
-        /// <summary>
-        /// 本体がキー入力を先に処理してしまうため、この欄の PreviewKeyDown までキーが届かないことがある。
-        /// フォーカスがある間だけ <see cref="PanelKeyRouter"/> に割り込んで、本体より先に受け取る。
-        /// </summary>
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
@@ -83,7 +79,6 @@ namespace ToolBox.Controls
             e.Handled = Capture(key, Keyboard.Modifiers);
         }
 
-        /// <summary>キーを取り込めたら true。呼び出し元はそれ以上イベントを流さない。</summary>
         private bool Capture(Key key, ModifierKeys modifiers)
         {
             if (key is Key.Escape or Key.Back or Key.Delete)

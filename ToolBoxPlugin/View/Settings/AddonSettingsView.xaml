@@ -1,4 +1,4 @@
-<UserControl x:Class="ToolBox.View.Settings.AddonSettingsView"
+﻿<UserControl x:Class="ToolBox.View.Settings.AddonSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,23 +15,18 @@
     <StackPanel>
         <TextBlock Text="アドオンの一覧"
                    FontWeight="SemiBold" FontSize="13"
-                   Margin="0,0,0,10"/>
+                   Margin="0,0,0,8"/>
 
-        <TextBlock Text="導入されているアドオンを表示します。DLL を追加すると自動で読み込まれます。無効にしたアドオンはファイルを残したまま読み込みだけを止めます。"
-                   FontSize="11"
-                   Margin="0,0,0,10"
-                   TextWrapping="Wrap"
-                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+        <Border Style="{DynamicResource SettingsHeaderSeparator}"/>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
             <Button Content="フォルダーを開く" Command="{Binding OpenAddonFolderCommand}"
-                    Padding="8,3" FontSize="11"/>
+                    Padding="8,3"/>
             <Button Content="再読み込み" Command="{Binding ReloadCommand}"
-                    Padding="8,3" FontSize="11" Margin="6,0,0,0"/>
+                    Padding="8,3"/>
         </StackPanel>
 
         <TextBlock Text="アドオンがありません。"
-                   FontSize="11"
                    Margin="0,0,0,10"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
             <TextBlock.Style>
@@ -64,12 +59,10 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"/>
                                     <TextBlock Text="{Binding Version}"
-                                               FontSize="11"
                                                Margin="6,0,0,0"
                                                VerticalAlignment="Center"
                                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                                     <TextBlock Text="{Binding Author}"
-                                               FontSize="11"
                                                Margin="6,0,0,0"
                                                VerticalAlignment="Center"
                                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
@@ -85,7 +78,6 @@
                                     </TextBlock>
                                 </StackPanel>
                                 <TextBlock Text="{Binding Description}"
-                                           FontSize="11"
                                            Margin="0,3,0,0"
                                            TextWrapping="Wrap">
                                     <TextBlock.Style>
@@ -103,7 +95,6 @@
                             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                 <controls:ToggleSlider Value="{Binding IsEnabled, Mode=TwoWay}"
                                                        ToolTip="読み込みの有効 / 無効"
-                                                       Width="40"
                                                        VerticalAlignment="Center"/>
 
                                 <Button Command="{Binding DataContext.DeleteAddonCommand,
@@ -111,7 +102,6 @@
                                         CommandParameter="{Binding}"
                                         ToolTip="このアドオンを削除"
                                         Width="24" Height="24"
-                                        Margin="10,0,0,0"
                                         Padding="0"
                                         VerticalAlignment="Center"
                                         Background="Transparent"

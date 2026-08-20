@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using ToolBox.Commons;
 using ToolBox.Items.Macro.Settings;
@@ -13,7 +13,6 @@ namespace ToolBox.Items.Macro
 
         public static bool CanRun(MacroSettings settings) => !isRunning && settings.Steps.Count > 0;
 
-        /// <summary>マクロの実行を始める。待ち時間があるので完了は待たない。</summary>
         public static void Run(MacroSettings settings) => _ = RunAsync(settings);
 
         private static async Task RunAsync(MacroSettings settings)
@@ -65,8 +64,7 @@ namespace ToolBox.Items.Macro
                     $"マクロ「{settings.Label}」の手順「{commandName}」が見つかりませんでした。\n" +
                     "提供元のアドオンが外されている可能性があります。",
                     "マクロ",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                    MessageBoxButton.OK);
                 return false;
             }
 
@@ -76,10 +74,6 @@ namespace ToolBox.Items.Macro
             return true;
         }
 
-        /// <summary>
-        /// パネルに置かれているアイテムを、そのアイテム自身の設定で実行する。
-        /// 開く対象やラベルなどアイテム固有の設定が要る操作を、マクロから呼べるようにするための手順。
-        /// </summary>
         private static void RunPanelItem(Guid itemId)
         {
             var item = ToolBoxViewModel.FindPlacedItem(itemId);

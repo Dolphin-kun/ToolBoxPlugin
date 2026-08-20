@@ -1,7 +1,8 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
+using ToolBox.Commons;
 using ToolBox.Items.SeparateAudio.Settings;
 using ToolBox.Items.InsertIntoGroup.Settings;
 using ToolBox.Items.Ruby.Settings;
@@ -18,7 +19,7 @@ namespace ToolBox.Settings
     public class ToolBoxSettings : SettingsBase<ToolBoxSettings>
     {
         public override SettingsCategory Category => SettingsCategory.Tool;
-        public override string Name => "ツールボックス";
+        public override string Name => Texts.PluginName;
         public override bool HasSettingView => false;
         public override object? SettingView => null;
 
@@ -96,6 +97,35 @@ namespace ToolBox.Settings
         {
             get => autoFitLayout;
             set => Set(ref autoFitLayout, value);
+        }
+
+        #endregion
+
+        #region 円形ランチャー
+
+        private bool isRadialLauncherEnabled = true;
+        public bool IsRadialLauncherEnabled
+        {
+            get => isRadialLauncherEnabled;
+            set => Set(ref isRadialLauncherEnabled, value);
+        }
+
+        private ObservableCollection<LauncherNode> launcherNodes = [];
+        public ObservableCollection<LauncherNode> LauncherNodes
+        {
+            get => launcherNodes;
+            set => Set(ref launcherNodes, value ?? []);
+        }
+
+        #endregion
+
+        #region 保存したアイテム
+
+        private ObservableCollection<ItemStockEntry> itemStocks = [];
+        public ObservableCollection<ItemStockEntry> ItemStocks
+        {
+            get => itemStocks;
+            set => Set(ref itemStocks, value ?? []);
         }
 
         #endregion

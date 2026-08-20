@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using ToolBox.Commons;
 using ToolBox.Items.Shortcuts.Settings;
@@ -19,12 +19,12 @@ namespace ToolBox.Items.Shortcuts
         [
             new("ShortcutCommand",
                 (ctx, param) => true,
-                (ctx, param) => 
+                (ctx, param) =>
                 {
                     if (param is not ShortcutSettings settings) return;
-                    
+
                     var cmdObj = CommandSettings.Default[settings.CommandType];
-                    
+
                     if (cmdObj is RoutedCommand routedCmd)
                     {
                         var mainWindow = Application.Current.MainWindow;

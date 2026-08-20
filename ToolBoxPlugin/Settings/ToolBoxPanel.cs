@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Windows;
 using YukkuriMovieMaker.Commons;
@@ -37,10 +37,6 @@ namespace ToolBox.Settings
 
         public Dictionary<string, Point> HiddenItemPositions { get; } = [];
 
-        /// <summary>
-        /// 非表示にしたアイテムの控え。もう一度表示したときに設定ごと戻せるように、
-        /// 位置だけでなくアイテムそのものを取っておく。
-        /// </summary>
         public Dictionary<string, ToolItemSettings> HiddenItems { get; } = [];
 
         public void HideItem(ToolItemSettings settings)
@@ -52,7 +48,6 @@ namespace ToolBox.Settings
             HiddenItemPositions[settings.HiddenKey] = settings.Position;
         }
 
-        /// <summary>控えてある同じ種類のアイテムを取り出す。無ければ null。</summary>
         public ToolItemSettings? TakeHiddenItem(string key)
         {
             if (!HiddenItems.Remove(key, out var settings))
@@ -113,6 +108,67 @@ namespace ToolBox.Settings
             Items.Clear();
             foreach (var item in state.Items.OfType<ToolItemSettings>())
                 Items.Add(item);
+
+            HiddenItemPositions.Clear();
+            foreach (var (key, position) in state.HiddenItemPositions)
+                HiddenItemPositions[key] = position;
+
+            HiddenItems.Clear();
+            foreach (var (key, settings) in state.HiddenItems)
+            {
+                if (settings != null)
+                    HiddenItems[key] = settings;
+            }
+        }
+
+        public void RestoreLayout(string json)
+        {
+            PanelState? state;
+            try
+            {
+                state = JsonSerializer.Deserialize<PanelState>(json, JsonOptions);
+            }
+            catch (JsonException ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to restore the panel layout: {ex}");
+                return;
+            }
+
+            if (state == null)
+                return;
+
+            PanelName = state.PanelName;
+            GridRowCount = state.GridRowCount;
+            GridColumnCount = state.GridColumnCount;
+
+            var restored = state.Items.OfType<ToolItemSettings>().ToList();
+            var restoredById = new Dictionary<Guid, ToolItemSettings>();
+            foreach (var item in restored)
+                restoredById.TryAdd(item.Id, item);
+
+            for (var index = Items.Count - 1; index >= 0; index--)
+            {
+                if (!restoredById.ContainsKey(Items[index].Id))
+                    Items.RemoveAt(index);
+            }
+
+            var currentById = new Dictionary<Guid, ToolItemSettings>();
+            foreach (var item in Items)
+                currentById.TryAdd(item.Id, item);
+
+            foreach (var item in restored)
+            {
+                if (currentById.TryGetValue(item.Id, out var existing))
+                {
+                    existing.Position = item.Position;
+                    existing.Size = item.Size;
+                    existing.IsLocked = item.IsLocked;
+                }
+                else
+                {
+                    Items.Add(item);
+                }
+            }
 
             HiddenItemPositions.Clear();
             foreach (var (key, position) in state.HiddenItemPositions)

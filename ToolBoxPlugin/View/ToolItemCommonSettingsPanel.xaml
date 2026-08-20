@@ -1,4 +1,4 @@
-<UserControl x:Class="ToolBox.View.ToolItemCommonSettingsPanel"
+﻿<UserControl x:Class="ToolBox.View.ToolItemCommonSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -27,21 +27,21 @@
 
             <Expander Style="{DynamicResource ToolBoxSettingsSection}">
                 <Expander.Header>
-                    <TextBlock Text="表示" FontSize="11" FontWeight="SemiBold"/>
+                    <TextBlock Text="表示" FontWeight="SemiBold"/>
                 </Expander.Header>
                 <StackPanel>
-                    <Grid Margin="0,0,0,8">
-                        <TextBlock Text="表示設定" VerticalAlignment="Center" FontSize="11"/>
+                    <Grid>
+                        <TextBlock Text="表示設定" VerticalAlignment="Center"/>
                         <ComboBox SelectedValue="{Binding SettingsInstance.DisplayMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedValuePath="Tag"
-                                  HorizontalAlignment="Right" Width="180" FontSize="11">
+                                  HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="180" Height="24" >
                             <ComboBoxItem Content="アイコン" Tag="{x:Static settings:ToolItemDisplayMode.Icon}"/>
                             <ComboBoxItem Content="テキスト" Tag="{x:Static settings:ToolItemDisplayMode.Text}"/>
                             <ComboBoxItem Content="画像" Tag="{x:Static settings:ToolItemDisplayMode.Image}"/>
                         </ComboBox>
                     </Grid>
 
-                    <Grid Margin="0,0,0,8">
+                    <Grid>
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -52,69 +52,69 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-                        <TextBlock Text="画像ファイル" VerticalAlignment="Center" FontSize="11"/>
+                        <TextBlock Text="画像ファイル" VerticalAlignment="Center" />
                         <controls:FileSelector Value="{Binding SettingsInstance.CustomImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                Filter="画像ファイル|*.png;*.jpg;*.jpeg;*.bmp|すべてのファイル|*.*"
-                                               HorizontalAlignment="Right" Width="180" Height="24" FontSize="11" />
+                                               HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"  />
                     </Grid>
 
                     <Grid>
-                        <TextBlock Text="ボタンのラベル" VerticalAlignment="Center" FontSize="11"/>
+                        <TextBlock Text="ボタンのラベル" VerticalAlignment="Center"/>
                         <TextBox Text="{Binding SettingsInstance.Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 HorizontalAlignment="Right" Width="180" FontSize="11"/>
+                                 HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="180" Height="24"/>
                     </Grid>
                 </StackPanel>
             </Expander>
 
             <Expander Style="{DynamicResource ToolBoxSettingsSection}">
                 <Expander.Header>
-                    <TextBlock Text="配色" FontSize="11" FontWeight="SemiBold"/>
+                    <TextBlock Text="配色" FontWeight="SemiBold"/>
                 </Expander.Header>
                 <StackPanel>
-                    <Grid Margin="0,0,0,8">
-                        <TextBlock Text="配色を変更する" VerticalAlignment="Center" FontSize="11"/>
+                    <Grid>
+                        <TextBlock Text="配色を変更する" VerticalAlignment="Center"/>
                         <controls:ToggleSlider Value="{Binding SettingsInstance.UseCustomAppearance, Mode=TwoWay}"
-                                               HorizontalAlignment="Right" Width="40"/>
+                                               HorizontalAlignment="Right"/>
                     </Grid>
 
-                    <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenCustomAppearance}">
-                        <TextBlock Text="背景色" VerticalAlignment="Center" FontSize="11"/>
+                    <Grid Style="{StaticResource VisibleWhenCustomAppearance}">
+                        <TextBlock Text="背景色" VerticalAlignment="Center"/>
                         <controls:ColorPicker Value="{Binding SettingsInstance.BackgroundColor, Mode=TwoWay}"
-                                              HorizontalAlignment="Right" Width="180"/>
+                                              HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
                     </Grid>
 
-                    <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenCustomAppearance}">
-                        <TextBlock Text="枠の色" VerticalAlignment="Center" FontSize="11"/>
+                    <Grid Style="{StaticResource VisibleWhenCustomAppearance}">
+                        <TextBlock Text="枠の色" VerticalAlignment="Center"/>
                         <controls:ColorPicker Value="{Binding SettingsInstance.BorderColor, Mode=TwoWay}"
-                                              HorizontalAlignment="Right" Width="180"/>
+                                              HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
                     </Grid>
 
-                    <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenCustomAppearance}">
-                        <TextBlock Text="アイコン・文字の色" VerticalAlignment="Center" FontSize="11"/>
+                    <Grid Style="{StaticResource VisibleWhenCustomAppearance}">
+                        <TextBlock Text="アイコン・文字の色" VerticalAlignment="Center"/>
                         <controls:ColorPicker Value="{Binding SettingsInstance.ForegroundColor, Mode=TwoWay}"
-                                              HorizontalAlignment="Right" Width="180"/>
+                                              HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
                     </Grid>
 
-                    <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenCustomAppearance}">
-                        <TextBlock Text="枠の太さ" VerticalAlignment="Center" FontSize="11"/>
+                    <Grid Style="{StaticResource VisibleWhenCustomAppearance}">
+                        <TextBlock Text="枠の太さ" VerticalAlignment="Center"/>
                         <controls:TextBoxSlider Value="{Binding SettingsInstance.BorderThickness, Mode=TwoWay}"
                                                 DefaultValue="1" StringFormat="F0" Unit="px"
                                                 Min="0" Max="8" DefaultMin="0" DefaultMax="8" Delta="1"
-                                                HorizontalAlignment="Right" Width="180"/>
+                                                HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
                     </Grid>
 
                     <Grid Margin="0,0,0,8" Style="{StaticResource VisibleWhenCustomAppearance}">
-                        <TextBlock Text="角の丸み" VerticalAlignment="Center" FontSize="11"/>
+                        <TextBlock Text="角の丸み" VerticalAlignment="Center"/>
                         <controls:TextBoxSlider Value="{Binding SettingsInstance.CornerRadius, Mode=TwoWay}"
                                                 DefaultValue="0" StringFormat="F0" Unit="px"
                                                 Min="0" Max="20" DefaultMin="0" DefaultMax="20" Delta="1"
-                                                HorizontalAlignment="Right" Width="180"/>
+                                                HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
                     </Grid>
 
                     <Button Content="配色をリセット"
                             Command="{Binding ResetAppearanceCommand}"
                             HorizontalAlignment="Right"
-                            Padding="8,3" FontSize="11"/>
+                            Padding="8,3"/>
                 </StackPanel>
             </Expander>
 
@@ -132,13 +132,13 @@
 
                 <Expander Style="{DynamicResource ToolBoxSettingsSection}">
                     <Expander.Header>
-                        <TextBlock Text="ホットキー" FontSize="11" FontWeight="SemiBold"/>
+                        <TextBlock Text="ホットキー" FontWeight="SemiBold"/>
                     </Expander.Header>
                     <StackPanel>
                         <Grid Margin="0,0,0,4">
-                            <TextBlock Text="ホットキー" VerticalAlignment="Center" FontSize="11"/>
+                            <TextBlock Text="ホットキー" VerticalAlignment="Center"/>
                             <tbControls:HotkeyBox Gesture="{Binding SettingsInstance.HotkeyGesture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  HorizontalAlignment="Right" Width="180" FontSize="11"/>
+                                                  HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
                         </Grid>
 
                         <TextBlock Text="{Binding HotkeyConflictMessage}"
@@ -156,7 +156,7 @@
                             </TextBlock.Style>
                         </TextBlock>
 
-                        <TextBlock Text="欄を選んでキーを押すと割り当てます。Esc で解除します。文字入力と区別するため、Ctrl か Alt を含む組み合わせだけ設定できます。YMM4 のウィンドウが前面にあるときだけ働きます。"
+                        <TextBlock Text="欄を選んでキーを押すと割り当てます。Esc で解除します。文字入力と区別するため、Ctrl か Alt を含む組み合わせだけ設定できます。アプリが前面にあるときだけ働きます。"
                                    FontSize="10" TextWrapping="Wrap"
                                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                     </StackPanel>

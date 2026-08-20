@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -400,8 +400,6 @@ namespace ToolBox.Controls
             hideItem.Click += (s, args) => HideItem(settings);
             contextMenu.Items.Add(hideItem);
 
-            // メニューを開いている間に Ctrl を離すとキーイベントがこちらへ届かないため、
-            // 閉じた時点で押下状態を取り直してグリッド表示を合わせる
             contextMenu.Closed += (s, args) =>
                 Dispatcher.BeginInvoke(() => DropGrid?.RefreshCtrlState());
 

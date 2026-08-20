@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using YukkuriMovieMaker.Settings;
 using YukkuriMovieMaker.Resources.Icons;
@@ -13,7 +13,10 @@ namespace ToolBox.Items.Shortcuts
         string IconPath,
         string Description,
         string Group
-    );
+    )
+    {
+        public string FullDisplayName => $"{Group} / {DisplayName}";
+    }
 
     public static class ShortcutDefinitions
     {
@@ -31,7 +34,7 @@ namespace ToolBox.Items.Shortcuts
                 cmd,
                 customLabel ?? displayName,
                 icon,
-                description ?? $"YMM4 の「{displayName}」を実行します。",
+                description ?? $"本体の「{displayName}」を実行します。",
                 CurrentGroup);
         }
 

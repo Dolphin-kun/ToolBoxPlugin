@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
 using ToolBox.Controls;
 
@@ -25,7 +25,7 @@ namespace ToolBox.Commons
             adorner.DismissRequested += (_, _) => Hide();
 
             adornerLayer.Add(adorner);
-            
+
             var window = Window.GetWindow(owner);
             if (window != null)
                 adorner.AttachDismissHandler(window);

@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Windows.Controls;
 using YukkuriMovieMaker.Resources.Localization;
 
@@ -9,13 +9,13 @@ namespace ToolBox.Items.Shortcuts.Views
         public ShortcutSettingsPanel()
         {
             InitializeComponent();
-            
+
             var commandTypes = Enum.GetValues<YukkuriMovieMaker.Settings.CommandType>()
                 .Cast<YukkuriMovieMaker.Settings.CommandType>()
-                .Select(e => new 
-                { 
-                    Value = e, 
-                    DisplayName = GetEnumDisplayName(e) 
+                .Select(e => new
+                {
+                    Value = e,
+                    DisplayName = GetEnumDisplayName(e)
                 })
                 .Where(x => x.DisplayName != null)
                 .ToList();

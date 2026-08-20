@@ -1,15 +1,10 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 namespace ToolBox.Commons
 {
-    /// <summary>
-    /// 画像のパスを <see cref="System.Windows.Controls.Image"/> に渡すための変換。
-    /// パスが未設定だったり見つからなかったりしたときは null を返す。
-    /// 変換せずに直接束縛すると、空文字のときに WPF 既定の変換が例外を出してしまう。
-    /// </summary>
     public sealed class ImagePathConverter : IValueConverter
     {
         public static ImagePathConverter Instance { get; } = new();
@@ -29,7 +24,7 @@ namespace ToolBox.Commons
             {
                 var image = new BitmapImage();
                 image.BeginInit();
-                // 読み込んだ後もファイルを掴んだままにしないための指定
+
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.UriSource = uri;
                 image.EndInit();

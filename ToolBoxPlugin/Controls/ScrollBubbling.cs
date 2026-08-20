@@ -1,14 +1,10 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace ToolBox.Controls
 {
-    /// <summary>
-    /// 内側のリストがホイールを独り占めして、外側の設定画面がスクロールできなくなるのを防ぐ。
-    /// 内側でまだスクロールできるときだけそちらに任せ、端まで来たら外側へ流す。
-    /// </summary>
     public static class ScrollBubbling
     {
         public static readonly DependencyProperty IsEnabledProperty =

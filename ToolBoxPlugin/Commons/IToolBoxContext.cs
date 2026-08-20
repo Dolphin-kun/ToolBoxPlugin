@@ -9,6 +9,7 @@ namespace ToolBox.Commons
     {
         IReadOnlyList<IItem>? SelectedItems { get; }
         Timeline? Timeline { get; }
+        Scenes? Scenes { get; }
         UndoRedoManager? UndoRedoManager { get; }
         T? FindItemSettings<T>() where T : ToolItemSettings;
     }

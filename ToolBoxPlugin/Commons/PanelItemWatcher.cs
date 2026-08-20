@@ -9,13 +9,19 @@ namespace ToolBox.Commons
         private readonly ToolBoxPanel panel;
         private readonly HashSet<string> watchedProperties;
         private readonly Action onChanged;
+        private readonly Action? onOtherChanged;
         private readonly HashSet<ToolItemSettings> watchedItems = [];
 
-        public PanelItemWatcher(ToolBoxPanel panel, IEnumerable<string> watchedProperties, Action onChanged)
+        public PanelItemWatcher(
+            ToolBoxPanel panel,
+            IEnumerable<string> watchedProperties,
+            Action onChanged,
+            Action? onOtherChanged = null)
         {
             this.panel = panel;
             this.watchedProperties = [.. watchedProperties];
             this.onChanged = onChanged;
+            this.onOtherChanged = onOtherChanged;
 
             panel.Items.CollectionChanged += OnItemsChanged;
             Rewatch();
@@ -45,6 +51,8 @@ namespace ToolBox.Commons
         {
             if (e.PropertyName != null && watchedProperties.Contains(e.PropertyName))
                 onChanged();
+            else
+                onOtherChanged?.Invoke();
         }
 
         public void Dispose()

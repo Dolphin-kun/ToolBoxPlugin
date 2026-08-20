@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
@@ -42,7 +42,6 @@ namespace ToolBox.ViewModel
 
         private string? positionKey;
 
-        /// <summary>非表示にしたときの控え先。アイテム側の区分と必ず一致させるため見本から取る。</summary>
         protected string PositionKey => positionKey ??= CreateInstance().HiddenKey;
 
         public abstract string DisplayName { get; }
@@ -93,10 +92,6 @@ namespace ToolBox.ViewModel
                 UpdateHotkeyConflict();
         }
 
-        /// <summary>
-        /// 同じキーを割り当てているアイテムが他にあれば知らせる。
-        /// 実行時は先に置かれている 1 つだけが反応するため、気付けないと原因が分かりにくい。
-        /// </summary>
         private void UpdateHotkeyConflict()
         {
             var current = selectedInstance;
@@ -143,7 +138,6 @@ namespace ToolBox.ViewModel
 
         public void AddInstance()
         {
-            // 非表示にしただけのアイテムがあれば、設定を持ったまま戻す
             var restored = Panel.TakeHiddenItem(PositionKey);
             var settings = restored != null && Owns(restored) ? restored : CreateInstance();
 
@@ -157,7 +151,6 @@ namespace ToolBox.ViewModel
             if (!Panel.Items.Contains(settings))
                 return;
 
-            // 最後の 1 個なら設定ごと控えておき、再表示したときに元の状態へ戻せるようにする
             if (Instances.Count == 1)
                 Panel.HideItem(settings);
             else

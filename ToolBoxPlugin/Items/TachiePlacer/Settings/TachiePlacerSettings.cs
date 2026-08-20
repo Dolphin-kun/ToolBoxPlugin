@@ -12,7 +12,7 @@ namespace ToolBox.Items.TachiePlacer.Settings
     {
         [Display(Name = "下のレイヤー", Description = "音声の1つ下のレイヤー")]
         Below = 0,
-        
+
         [Display(Name = "上のレイヤー", Description = "音声の1つ上のレイヤー")]
         Above = 1
     }
@@ -33,7 +33,7 @@ namespace ToolBox.Items.TachiePlacer.Settings
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.AccountPlus;
-        
+
         [JsonIgnore, NJsonIgnore]
         public override string DisplayName => "立ち絵配置";
 

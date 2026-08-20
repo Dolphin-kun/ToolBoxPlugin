@@ -1,4 +1,4 @@
-<UserControl x:Class="ToolBox.View.Settings.ToolItemInstancesPanel"
+﻿<UserControl x:Class="ToolBox.View.Settings.ToolItemInstancesPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,7 +15,7 @@
 
     <Expander IsExpanded="True" Style="{DynamicResource ToolBoxSettingsSection}">
         <Expander.Header>
-            <TextBlock FontSize="11" FontWeight="SemiBold">
+            <TextBlock FontWeight="SemiBold">
                 <Run Text="アイテム"/>
                 <Run Text="{Binding InstanceCount, Mode=OneWay, StringFormat=({0})}"
                      Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -24,9 +24,9 @@
 
         <StackPanel>
             <Grid Margin="0,0,0,6">
-                <TextBlock Text="ツールボックスに表示" VerticalAlignment="Center" FontSize="11"/>
+                <TextBlock Text="ツールボックスに表示" VerticalAlignment="Center"/>
                 <controls:ToggleSlider Value="{Binding IsVisible, Mode=TwoWay}"
-                                       HorizontalAlignment="Right" Width="40"/>
+                                       HorizontalAlignment="Right"/>
             </Grid>
 
             <ListBox tbControls:ScrollBubbling.IsEnabled="True"
@@ -34,8 +34,7 @@
                      SelectedItem="{Binding SelectedInstance, Mode=TwoWay}"
                      BorderThickness="0" Background="Transparent"
                      HorizontalContentAlignment="Stretch"
-                     MaxHeight="140"
-                     Margin="0,0,0,4">
+                     MaxHeight="140">
                 <ListBox.Style>
                     <Style TargetType="ListBox">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -54,7 +53,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" FontSize="11" VerticalAlignment="Center"
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center"
                                        TextTrimming="CharacterEllipsis">
                                 <Run Text="{Binding InstanceSummary, Mode=OneWay}"/>
                                 <Run Text="{Binding Position, Mode=OneWay}"
@@ -79,7 +78,7 @@
 
             <Button Command="{Binding AddInstanceCommand}"
                     ToolTip="このアイテムをもう 1 つ追加"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Right"
                     Width="24" Height="24" Padding="0">
                 <tbCommons:IconControl IconData="{x:Static icons:IconKeys.PlusThick}"
                                        Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"

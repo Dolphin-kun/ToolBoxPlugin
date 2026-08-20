@@ -1,4 +1,4 @@
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ToolBox.Commons;
 using ToolBox.Items.Shortcuts;
 using ToolBox.Settings;
@@ -11,6 +11,8 @@ namespace ToolBox.ViewModel
         private readonly ToolBoxPanel panel;
         private readonly BasicSettingsViewModel basicSettings;
         private readonly GeneralSettingsViewModel generalSettings;
+        private readonly LauncherSettingsViewModel launcherSettings;
+        private readonly ItemStockSettingsViewModel itemStockSettings;
         private readonly AddonSettingsViewModel addonSettings;
         private readonly AddonMarketplaceViewModel addonMarketplace;
 
@@ -35,6 +37,8 @@ namespace ToolBox.ViewModel
             this.panel = panel;
             basicSettings = new BasicSettingsViewModel(settings);
             generalSettings = new GeneralSettingsViewModel(settings, panel);
+            launcherSettings = new LauncherSettingsViewModel(settings, panel);
+            itemStockSettings = new ItemStockSettingsViewModel();
             addonSettings = new AddonSettingsViewModel();
             addonMarketplace = new AddonMarketplaceViewModel();
             CloseCommand = new ActionCommand(_ => true, _ => closeAction());
@@ -69,6 +73,14 @@ namespace ToolBox.ViewModel
             {
                 SelectedDetail = generalSettings;
             }
+            else if (currentSelection is LauncherSettingsViewModel)
+            {
+                SelectedDetail = launcherSettings;
+            }
+            else if (currentSelection is ItemStockSettingsViewModel)
+            {
+                SelectedDetail = itemStockSettings;
+            }
             else if (currentSelection is AddonSettingsViewModel)
             {
                 SelectedDetail = addonSettings;
@@ -98,6 +110,8 @@ namespace ToolBox.ViewModel
             var settingsRoot = new RootCategoryGroupViewModel("設定", [
                 basicSettings,
                 generalSettings,
+                launcherSettings,
+                itemStockSettings,
                 addonSettings,
                 addonMarketplace
             ]);
@@ -136,6 +150,5 @@ namespace ToolBox.ViewModel
         private ICommand? selectDetailCommand;
         public ICommand SelectDetailCommand =>
             selectDetailCommand ??= new ActionCommand(_ => true, param => SelectedDetail = param);
-
     }
 }

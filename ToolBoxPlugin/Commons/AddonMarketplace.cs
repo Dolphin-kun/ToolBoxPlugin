@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,18 +11,10 @@ namespace ToolBox.Commons
     {
         public const string Topic = "ymm4-toolbox-addon";
 
-        /// <summary>
-        /// このプラグイン本体のリポジトリ。トピックは付いているがアドオンではないので一覧から外す。
-        /// </summary>
         private const string SelfRepository = "Dolphin-kun/ToolBoxPlugin";
 
-        /// <summary>1 回の問い合わせで取れる最大件数 (GitHub の上限)。</summary>
         private const int PageSize = 100;
 
-        /// <summary>
-        /// 検索 API は合計 1000 件までしか辿れない。
-        /// 1 ページ 100 件なので、10 ページで打ち止めになる。
-        /// </summary>
         private const int MaxPages = 10;
 
         private static string BuildSearchUrl(int page) =>
@@ -44,16 +36,8 @@ namespace ToolBox.Commons
         private static SearchResponse? cachedResponse;
         private static DateTimeOffset cacheExpiresAt;
 
-        /// <summary>
-        /// 検索 API は認証なしだと 1 分あたり 10 回までなので、
-        /// 一度取得した一覧はしばらく使い回して無駄な問い合わせを避ける。
-        /// </summary>
         private static readonly TimeSpan CacheLifetime = TimeSpan.FromMinutes(10);
 
-        /// <summary>
-        /// トピックの付いたリポジトリをすべて取得する。
-        /// 1 ページ 100 件で、まだ残りがあれば次のページも取りに行く。
-        /// </summary>
         public static async Task<SearchResponse> SearchAsync(CancellationToken cancellationToken = default)
         {
             if (cachedResponse != null && DateTimeOffset.UtcNow < cacheExpiresAt)
@@ -86,7 +70,6 @@ namespace ToolBox.Commons
                     addons.Add(ToAddon(repo));
                 }
 
-                // 一覧から外した分も取得済みなので、取得件数で残りを判断する
                 if (fetchedCount >= totalCount)
                     break;
             }
@@ -113,10 +96,6 @@ namespace ToolBox.Commons
             repo.StargazersCount,
             repo.PushedAt);
 
-        /// <summary>
-        /// 回数制限に当たったときは HTTP 403 と共に X-RateLimit-Remaining: 0 が返る。
-        /// そのまま例外を投げると原因が分からないので、いつ回復するかを添えて伝える。
-        /// </summary>
         private static async Task<string> GetStringAsync(string url, CancellationToken cancellationToken)
         {
             using var response = await Client.Value.GetAsync(url, cancellationToken).ConfigureAwait(false);
@@ -268,7 +247,6 @@ namespace ToolBox.Commons
         #endregion
     }
 
-    /// <param name="TotalCount">GitHub 側の総件数。取得できた件数より多い場合は 1000 件の上限に当たっている。</param>
     public record SearchResponse(
         IReadOnlyList<MarketplaceAddon> Addons,
         int TotalCount,

@@ -64,7 +64,7 @@ namespace ToolBox.Items.Ruby
                     bool alreadyHasRuby = currentSerif.Contains("<rb", StringComparison.OrdinalIgnoreCase);
                     string plainText = RemoveRuby(currentSerif);
                     string rubyText = await GetRubyTextAsync(plainText, settings.RubyType);
-                    
+
                     if (voiceItem.Serif != rubyText)
                     {
                         voiceItem.Serif = rubyText;
@@ -80,7 +80,7 @@ namespace ToolBox.Items.Ruby
                     bool alreadyHasRuby = currentText.Contains("<rb", StringComparison.OrdinalIgnoreCase);
                     string plainText = RemoveRuby(currentText);
                     string rubyText = await GetRubyTextAsync(plainText, settings.RubyType);
-                    
+
                     if (textItem.Text != rubyText)
                     {
                         textItem.Text = rubyText;

@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using ToolBox.Settings;
 
 namespace ToolBox.Commons
@@ -14,7 +14,6 @@ namespace ToolBox.Commons
             copiedJson = JsonSerializer.Serialize<ToolItemSettings>(settings);
         }
 
-        /// <summary>控えた内容から新しいアイテムを作る。貼り付けるたび別個体になるよう識別子は振り直す。</summary>
         public static ToolItemSettings? CreateCopy()
         {
             if (copiedJson == null)

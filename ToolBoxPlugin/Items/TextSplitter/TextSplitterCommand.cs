@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
@@ -127,17 +127,12 @@ namespace ToolBox.Items.TextSplitter
             return wrapped;
         }
 
-        /// <summary>
-        /// 分割した要素を行ごとにまとめる。
-        /// 改行そのものはアイテムにしないが、空の行として残しておくことで元の行の高さを保つ。
-        /// </summary>
         private static List<List<string>> BuildLines(string text, TextSplitterSettings settings)
         {
             var lines = new List<List<string>>();
 
             if (settings.SplitMode == SplitMode.PerLine)
             {
-                // 1 行がそのまま 1 アイテムになるので、分割結果の 1 要素が 1 行にあたる
                 foreach (var line in text.Split(["\r\n", "\r", "\n"], StringSplitOptions.None))
                     lines.Add(HasContent(line) ? [line] : []);
             }
@@ -165,7 +160,6 @@ namespace ToolBox.Items.TextSplitter
             return lines;
         }
 
-        /// <summary>タグを取り除いても中身が残るかどうか。ルビは中身があるものとして扱う。</summary>
         private static bool HasContent(string element) =>
             element.Contains("<rb ") || element.Contains("<ruby ")
             || !string.IsNullOrWhiteSpace(TagRegex().Replace(element, ""));
@@ -282,9 +276,6 @@ namespace ToolBox.Items.TextSplitter
             timeline.TryAddItems(itemsArray, targetStartFrame, startLayer);
         }
 
-        /// <summary>
-        /// 元の文字が並んでいた位置に重なるように、要素ごとの中心のずれを求める。
-        /// </summary>
         private static void LayOutLines(
             IItem selectedItem,
             List<List<string>> lines,

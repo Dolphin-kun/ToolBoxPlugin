@@ -1,9 +1,8 @@
-using ToolBox.Items;
+﻿using ToolBox.Items;
 using ToolBox.Settings;
 
 namespace ToolBox.Commons
 {
-    /// <summary>本体組み込みのアイテムとアドオンのアイテムをまとめて列挙する。</summary>
     public static class ItemCatalog
     {
         public static IReadOnlyList<DraggableItem> GetDraggableItems()

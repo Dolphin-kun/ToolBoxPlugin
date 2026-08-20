@@ -1,8 +1,8 @@
-using ToolBox.Settings;
+﻿using ToolBox.Settings;
 
 namespace ToolBox.Commons
 {
-    public record CommandCatalogEntry(string CommandName, string DisplayName, string GroupName)
+    public record CommandCatalogEntry(string CommandName, string DisplayName, string GroupName, string IconPath)
     {
         public string FullDisplayName => $"{GroupName} / {DisplayName}";
     }
@@ -16,7 +16,7 @@ namespace ToolBox.Commons
 
             foreach (var item in ItemCatalog.GetDraggableItems())
             {
-                var groupName = ResolveGroupName(item);
+                var (groupName, iconPath) = ResolveOwner(item);
 
                 foreach (var definition in item.GetCommandDefinitions())
                 {
@@ -26,7 +26,7 @@ namespace ToolBox.Commons
                     if (!seen.Add(definition.Name))
                         continue;
 
-                    entries.Add(new CommandCatalogEntry(definition.Name, definition.DisplayName, groupName));
+                    entries.Add(new CommandCatalogEntry(definition.Name, definition.DisplayName, groupName, iconPath));
                 }
             }
 
@@ -37,19 +37,19 @@ namespace ToolBox.Commons
         public static CommandCatalogEntry? Find(string commandName) =>
             GetEntries().FirstOrDefault(e => e.CommandName == commandName);
 
-        private static string ResolveGroupName(DraggableItem item)
+        private static (string GroupName, string IconPath) ResolveOwner(DraggableItem item)
         {
             try
             {
                 if (Activator.CreateInstance(item.SettingsType) is ToolItemSettings settings)
-                    return settings.DisplayName;
+                    return (settings.DisplayName, settings.IconPath);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to resolve group name for {item.SettingsType}: {ex}");
+                System.Diagnostics.Debug.WriteLine($"Failed to resolve owner for {item.SettingsType}: {ex}");
             }
 
-            return item.SettingsType.Name;
+            return (item.SettingsType.Name, string.Empty);
         }
     }
 }

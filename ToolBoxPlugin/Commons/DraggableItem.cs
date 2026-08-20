@@ -1,4 +1,4 @@
-using ToolBox.Items;
+﻿using ToolBox.Items;
 
 namespace ToolBox.Commons
 {
@@ -10,9 +10,6 @@ namespace ToolBox.Commons
         public abstract Type? SettingsViewType { get; }
         public abstract Type? SettingsViewModelType { get; }
 
-        /// <summary>
-        /// コマンド名は View 側の ICommand DependencyProperty 名と一致させること。
-        /// </summary>
         public abstract IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions();
     }
 }

@@ -15,6 +15,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\YukkuriMovieMaker.Generator\YukkuriMovieMaker.Generator\YukkuriMovieMaker.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<AdditionalFiles Include="**/*.csv" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Reference Include="NAudio">
 		  <HintPath>$(YMM4DirPath)NAudio.dll</HintPath>
 		</Reference>
@@ -38,8 +43,20 @@
 		</Reference>
 	</ItemGroup>
 
-	<!--ビルド後にYMM4のプラグインフォルダにdllをコピーする-->
+	<!--ビルド後にYMM4のプラグインフォルダにdllと言語別リソースをコピーする-->
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="mkdir &quot;$(YMM4DirPath)user\plugin\$(ProjectName)&quot; &gt; NUL 2&gt;&amp;1&#xD;&#xA;copy &quot;$(TargetPath)&quot; &quot;$(YMM4DirPath)user\plugin\$(ProjectName)\&quot;" />
+		<PropertyGroup>
+			<PluginOutputDir>$(YMM4DirPath)user\plugin\$(ProjectName)\</PluginOutputDir>
+		</PropertyGroup>
+		<ItemGroup>
+			<SatelliteAssemblyOutput Include="$(TargetDir)**\$(TargetName).resources.dll" />
+		</ItemGroup>
+		<MakeDir Directories="$(PluginOutputDir)" />
+		<Copy SourceFiles="$(TargetPath)"
+			  DestinationFolder="$(PluginOutputDir)"
+			  ContinueOnError="WarnAndContinue" />
+		<Copy SourceFiles="@(SatelliteAssemblyOutput)"
+			  DestinationFiles="@(SatelliteAssemblyOutput->'$(PluginOutputDir)%(RecursiveDir)%(Filename)%(Extension)')"
+			  ContinueOnError="WarnAndContinue" />
 	</Target>
 </Project>

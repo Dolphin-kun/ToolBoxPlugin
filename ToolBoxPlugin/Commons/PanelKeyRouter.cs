@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace ToolBox.Commons
@@ -14,10 +14,6 @@ namespace ToolBox.Commons
             handlers.Add(handler);
         }
 
-        /// <summary>
-        /// 他のどのハンドラーよりも先にキーを受け取る。
-        /// ホットキーを設定している最中に、そのキーが割り当て済みの操作を起動しないようにするために使う。
-        /// </summary>
         public static void AddFirst(Func<Key, ModifierKeys, bool> handler)
         {
             EnsureInstalled();

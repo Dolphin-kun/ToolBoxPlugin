@@ -1,0 +1,232 @@
+﻿<UserControl x:Class="ToolBox.View.Settings.LauncherSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:tbControls="clr-namespace:ToolBox.Controls"
+             xmlns:commons="clr-namespace:ToolBox.Commons"
+             xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:vm="clr-namespace:ToolBox.ViewModel"
+             xmlns:settings="clr-namespace:ToolBox.Settings"
+             mc:Ignorable="d"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=vm:LauncherSettingsViewModel}">
+
+    <UserControl.Resources>
+        <Style x:Key="VisibleForPanelItem" TargetType="ComboBox">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.PanelItem}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="VisibleForCommand" TargetType="ComboBox">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Command}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="VisibleForShortcut" TargetType="ComboBox">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Shortcut}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HiddenForFolder" TargetType="Grid">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Folder}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock Text="ランチャーの設定"
+                   FontWeight="SemiBold" FontSize="13"
+                   Margin="0,0,0,10"/>
+
+        <Grid Margin="0,0,0,10">
+            <TextBlock Text="ランチャーを使う" VerticalAlignment="Center"/>
+            <controls:ToggleSlider Value="{Binding Settings.IsRadialLauncherEnabled, Mode=TwoWay}"
+                                   HorizontalAlignment="Right"/>
+        </Grid>
+
+        <TextBlock Text="プレビュー"
+                   FontWeight="SemiBold"
+                   Margin="0,4,0,4"/>
+
+        <Border BorderThickness="1"
+                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                Padding="10"
+                Margin="0,0,0,4">
+            <tbControls:RadialMenuPreview Nodes="{Binding Nodes}" Height="220"/>
+        </Border>
+
+        <TextBlock Text="並び"
+                   FontWeight="SemiBold"
+                   Margin="0,4,0,4"/>
+
+        <Border BorderThickness="1"
+                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                Height="180"
+                Margin="0,0,0,0">
+            <TreeView x:Name="NodeTree"
+                      ItemsSource="{Binding Nodes}"
+                      SelectedItemChanged="OnSelectedNodeChanged"
+                      tbControls:ScrollBubbling.IsEnabled="True"
+                      BorderThickness="0"
+                      Background="Transparent">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                        <Setter Property="IsExpanded" Value="True"/>
+                        <EventSetter Event="MouseDoubleClick" Handler="OnNodeDoubleClick"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type settings:LauncherNode}"
+                                              ItemsSource="{Binding Children}">
+                        <Grid Background="Transparent" Margin="0,2" MinWidth="80">
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="名前を変更" Click="OnRenameClick"/>
+                                    <MenuItem Header="削除" Click="OnRemoveClick"/>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+
+                            <TextBlock Text="{Binding DisplayLabel}" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsVisibleChanged="OnRenameBoxVisibleChanged"
+                                     KeyDown="OnRenameBoxKeyDown"
+                                     LostFocus="OnRenameBoxLostFocus" Height="24" VerticalContentAlignment="Center">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Border>
+
+        <Grid Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Command="{Binding MoveUpCommand}"
+                Width="28" Padding="0,3" ToolTip="上へ">
+                <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronUp}"
+                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                     Width="14" Height="14"/>
+            </Button>
+            <Button Grid.Column="1" Command="{Binding MoveDownCommand}"
+                Width="28" Padding="0,3" ToolTip="下へ">
+                <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronDown}"
+                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                     Width="14" Height="14"/>
+            </Button>
+            <Button Grid.Column="2" Command="{Binding RemoveCommand}"
+                Width="28" Padding="0,3" ToolTip="削除">
+                <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
+                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                                     Width="14" Height="14"/>
+            </Button>
+
+            <Button Grid.Column="4" Content="すべて消す" Command="{Binding ClearCommand}"
+                Padding="8,3"
+                ToolTip="空にすると、今のパネルのアイテムが自動で並ぶ状態に戻ります"/>
+            
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+               Text="種類"
+               VerticalAlignment="Center"
+               Margin="0,0,8,0"/>
+
+            <ComboBox Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              SelectedValue="{Binding AddKind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              SelectedValuePath="Tag" Height="24" VerticalContentAlignment="Center">
+                <ComboBoxItem Content="パネルのアイテム"
+                      Tag="{x:Static settings:LauncherNodeKind.PanelItem}"/>
+                <ComboBoxItem Content="ツールボックスの操作"
+                      Tag="{x:Static settings:LauncherNodeKind.Command}"/>
+                <ComboBoxItem Content="ショートカット"
+                      Tag="{x:Static settings:LauncherNodeKind.Shortcut}"/>
+                <ComboBoxItem Content="グループ"
+                      Tag="{x:Static settings:LauncherNodeKind.Folder}"/>
+            </ComboBox>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="対象" VerticalAlignment="Center" Margin="0,0,8,0"
+                       Visibility="{Binding Visibility, ElementName=TargetArea}"/>
+
+            <Grid Grid.Column="1" x:Name="TargetArea" Style="{StaticResource HiddenForFolder}">
+                <ComboBox ItemsSource="{Binding AvailableItems}"
+                          SelectedItem="{Binding SelectedAvailableItem, Mode=TwoWay}"
+                          DisplayMemberPath="Label"
+                          Style="{StaticResource VisibleForPanelItem}" Height="24" VerticalContentAlignment="Center"/>
+
+                <ComboBox ItemsSource="{Binding AvailableCommands}"
+                          SelectedItem="{Binding SelectedAvailableCommand, Mode=TwoWay}"
+                          DisplayMemberPath="FullDisplayName"
+                          Style="{StaticResource VisibleForCommand}" Height="24" VerticalContentAlignment="Center"/>
+
+                <ComboBox ItemsSource="{Binding AvailableShortcuts}"
+                          SelectedItem="{Binding SelectedAvailableShortcut, Mode=TwoWay}"
+                          DisplayMemberPath="FullDisplayName"
+                          Style="{StaticResource VisibleForShortcut}" Height="24" VerticalContentAlignment="Center"/>
+            </Grid>
+        </Grid>
+
+        <Button Content="追加" Command="{Binding AddCommand}"
+                HorizontalAlignment="Right" Padding="12,3"/>
+    </StackPanel>
+</UserControl>

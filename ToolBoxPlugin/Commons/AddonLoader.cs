@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 using ToolBox.Settings;
@@ -308,7 +308,7 @@ namespace ToolBox.Commons
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Failed to load addon {assemblyPath}: {ex}");
-                try { context.Unload(); } catch { /* ignore */ }
+                try { context.Unload(); } catch {  }
             }
         }
 

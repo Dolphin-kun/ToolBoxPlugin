@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
@@ -19,14 +19,20 @@ namespace ToolBox.ViewModel
     {
         private static readonly List<ToolBoxViewModel> instances = [];
 
-        public static ToolBoxViewModel? Instance => instances.Count > 0 ? instances[^1] : null;
+        public static ToolBoxViewModel? Instance =>
+            instances.LastOrDefault(vm => vm.timeline != null) ?? instances.LastOrDefault();
 
-        /// <summary>開いているすべてのパネルに置かれているアイテム。パネルをまたぐ参照や重複判定に使う。</summary>
         public static IEnumerable<ToolItemSettings> GetAllPlacedItems() =>
             instances.Where(vm => vm.Panel != null).SelectMany(vm => vm.Panel.Items);
 
         public static ToolItemSettings? FindPlacedItem(Guid id) =>
             GetAllPlacedItems().FirstOrDefault(item => item.Id == id);
+
+        public static void RefreshAllCommands()
+        {
+            foreach (var instance in instances.ToList())
+                instance.RaiseAllCanExecuteChanged();
+        }
 
         private readonly DisposeCollector disposer = new();
         public DisposeCollector Disposer => disposer;
@@ -66,11 +72,13 @@ namespace ToolBox.ViewModel
         }
 
         private Timeline? timeline;
+        private Scenes? scenes;
         private UndoRedoManager? undoRedoManager;
         private IReadOnlyList<IItem>? selectedItems;
 
         IReadOnlyList<IItem>? IToolBoxContext.SelectedItems => selectedItems;
         Timeline? IToolBoxContext.Timeline => timeline;
+        Scenes? IToolBoxContext.Scenes => scenes;
         UndoRedoManager? IToolBoxContext.UndoRedoManager => undoRedoManager;
 
         T? IToolBoxContext.FindItemSettings<T>() where T : class => Panel.Items.OfType<T>().FirstOrDefault();
@@ -107,7 +115,6 @@ namespace ToolBox.ViewModel
             RequestNewPanel(newPanel);
         }
 
-        /// <summary>控えてあるアイテムをこのパネルの空いている場所へ複製する。パネルをまたいで持ち込める。</summary>
         public void PasteItem()
         {
             var copy = ItemClipboard.CreateCopy();
@@ -192,8 +199,6 @@ namespace ToolBox.ViewModel
 
             AddonLoader.AddonsChanged += OnAddonsChanged;
 
-            // Panel を組み立てる前に登録すると、AddonsChanged をきっかけに
-            // 他のパネルから GetAllPlacedItems() で覗かれたときに Panel が null のまま参照される
             instances.Add(this);
         }
 
@@ -308,6 +313,7 @@ namespace ToolBox.ViewModel
             UpdateSelectedItems(null);
 
             timeline = info.Timeline;
+            scenes = info.Scenes;
             undoRedoManager = info.UndoRedoManager;
 
             if (timeline != null)

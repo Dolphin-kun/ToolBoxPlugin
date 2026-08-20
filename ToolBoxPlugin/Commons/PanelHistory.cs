@@ -1,7 +1,7 @@
-using ToolBox.Commons;
+using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
 
-namespace ToolBox.Settings
+namespace ToolBox.Commons
 {
     public sealed class PanelHistory : Bindable, IDisposable
     {
@@ -23,7 +23,8 @@ namespace ToolBox.Settings
             watcher = new PanelItemWatcher(
                 panel,
                 [nameof(ToolItemSettings.Position), nameof(ToolItemSettings.Size), nameof(ToolItemSettings.IsLocked)],
-                Commit);
+                Commit,
+                Touch);
         }
 
         public bool CanUndo => undoStack.Count > 0;
@@ -54,8 +55,8 @@ namespace ToolBox.Settings
             isRestoring = true;
             try
             {
-                panel.LoadJson(target);
-                currentSnapshot = target;
+                panel.RestoreLayout(target);
+                currentSnapshot = panel.ToJson();
                 watcher.Rewatch();
             }
             finally
@@ -64,6 +65,14 @@ namespace ToolBox.Settings
             }
 
             NotifyAvailability();
+        }
+
+        private void Touch()
+        {
+            if (isRestoring)
+                return;
+
+            currentSnapshot = panel.ToJson();
         }
 
         private void Commit()

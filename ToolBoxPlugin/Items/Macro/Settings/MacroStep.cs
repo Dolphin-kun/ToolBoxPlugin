@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using ToolBox.Commons;
 using ToolBox.ViewModel;
 using YukkuriMovieMaker.Commons;
@@ -45,7 +45,6 @@ namespace ToolBox.Items.Macro.Settings
             set => Set(ref waitMilliseconds, value, etcChangedPropertyNames: nameof(DisplayText));
         }
 
-        /// <summary>実行するアイテム。パネルをまたいで参照できる。</summary>
         private Guid panelItemId;
         public Guid PanelItemId
         {

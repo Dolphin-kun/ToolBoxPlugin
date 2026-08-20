@@ -1,4 +1,4 @@
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ToolBox.Settings;
 
 namespace ToolBox.Commons
@@ -56,7 +56,6 @@ namespace ToolBox.Commons
             }
         }
 
-        /// <summary>実際に割り当てとして使えるジェスチャなら返す。使えない場合は null。</summary>
         public static KeyGesture? ParseAssignable(ToolItemSettings item)
         {
             if (!item.IsInvokable)

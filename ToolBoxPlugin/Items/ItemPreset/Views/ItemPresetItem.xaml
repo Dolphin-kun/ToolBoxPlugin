@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="ToolBox.Items.ItemPreset.Views.ItemPresetItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:commons="clr-namespace:ToolBox.Commons"
+             xmlns:local="clr-namespace:ToolBox.Items.ItemPreset.Settings"
+             mc:Ignorable="d"
+             x:Name="Root"
+             d:DataContext="{d:DesignInstance Type=local:ItemPresetSettings}">
+
+    <Button Command="{Binding AddPresetItemCommand, ElementName=Root}"
+            CommandParameter="{Binding}"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+        <Button.ToolTip>
+            <TextBlock>
+                <Run Text="{Binding Label, Mode=OneWay}"/>
+                <LineBreak/>
+                <Run Text="{Binding InstanceSummary, Mode=OneWay}"/>
+            </TextBlock>
+        </Button.ToolTip>
+        <commons:IconControl IconData="{Binding IconPath}"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    </Button>
+</UserControl>

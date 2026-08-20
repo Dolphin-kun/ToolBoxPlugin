@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -54,7 +54,7 @@ namespace ToolBox.Controls
         protected override Size ArrangeOverride(Size finalSize)
         {
             presenter.Arrange(new Rect(new Point(0, 0), presenter.DesiredSize));
-            
+
             return new Size(
                 Math.Max(finalSize.Width, presenter.DesiredSize.Width),
                 Math.Max(finalSize.Height, presenter.DesiredSize.Height));
@@ -80,7 +80,7 @@ namespace ToolBox.Controls
                 return;
 
             var point = e.GetPosition(presenter);
-            
+
             var rect = new Rect(0, 0, presenter.RenderSize.Width, presenter.RenderSize.Height);
             if (!rect.Contains(point))
             {

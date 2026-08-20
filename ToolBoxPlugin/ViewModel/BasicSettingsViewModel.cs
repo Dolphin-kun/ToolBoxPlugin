@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
 using System.Windows.Input;
@@ -74,7 +74,7 @@ namespace ToolBox.ViewModel
 
                     var currentVersionString = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
                     var cleanApiVersionString = apiVersionString?.TrimStart('v', 'V');
-                    
+
                     if (Version.TryParse(cleanApiVersionString, out var apiVersion) &&
                         Version.TryParse(currentVersionString, out var currentVersion))
                     {

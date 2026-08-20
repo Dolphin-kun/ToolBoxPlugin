@@ -2,6 +2,8 @@
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:local="clr-namespace:ToolBox.Controls"
+              xmlns:commons="clr-namespace:ToolBox.Commons"
+              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
               HorizontalAlignment="Stretch"
               HorizontalContentAlignment="Left"
               Background="Transparent"
@@ -16,14 +18,16 @@
                     <ColumnDefinition Width="16"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="Arrow" Grid.Column="0" Text="▾"
-                           FontSize="9" VerticalAlignment="Center"
-                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                <commons:IconControl x:Name="Arrow" Grid.Column="0"
+                                     IconData="{x:Static icons:IconKeys.ChevronDown}"
+                                     Width="10" Height="10"
+                                     HorizontalAlignment="Left" VerticalAlignment="Center"
+                                     Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                 <ContentPresenter Grid.Column="1" Content="{Binding}" VerticalAlignment="Center"/>
             </Grid>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}" Value="False">
-                    <Setter TargetName="Arrow" Property="Text" Value="▸"/>
+                    <Setter TargetName="Arrow" Property="commons:IconControl.IconData" Value="{x:Static icons:IconKeys.ChevronRight}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding ShowArrow, RelativeSource={RelativeSource AncestorType=local:AccordionHeader}}" Value="False">
                     <Setter TargetName="Arrow" Property="Visibility" Value="Collapsed"/>

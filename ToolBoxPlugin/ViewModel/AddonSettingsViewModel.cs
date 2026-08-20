@@ -51,8 +51,7 @@ namespace ToolBox.ViewModel
                 MessageBox.Show(
                     $"フォルダーを開けませんでした。\n\n{directory}\n\n{ex.Message}",
                     "アドオン",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                    MessageBoxButton.OK);
             }
         }
 
@@ -72,7 +71,7 @@ namespace ToolBox.ViewModel
                 {
                     MessageBox.Show(
                         $"アドオン「{addon.Name}」を無効化しました。\n" +
-                        "読み込み済みのため、ファイルの削除と機能の解放は YMM4 の再起動時に完了します。",
+                        "読み込み済みのため、ファイルの削除と機能の解放は 本体の再起動時に完了します。",
                         "アドオンの削除",
                         MessageBoxButton.OK);
                 }

@@ -1,10 +1,9 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.Settings
 {
-    /// <summary>新しく開くパネルの初期状態。</summary>
     public class DefaultPanelSettings : Bindable
     {
         private ObservableCollection<ToolItemSettings> items = [];
