@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 
 namespace ToolBox.Controls
@@ -15,9 +15,6 @@ namespace ToolBox.Controls
             set => SetValue(ShowArrowProperty, value);
         }
 
-        public AccordionHeader()
-        {
-            InitializeComponent();
-        }
+        public AccordionHeader() => InitializeComponent();
     }
 }

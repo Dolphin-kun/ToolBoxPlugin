@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -54,7 +54,7 @@ namespace ToolBox.Items.Recording.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"録音フォルダを開けませんでした。\n\n{ex.Message}", "録音", MessageBoxButton.OK);
+                MessageBox.Show($"{Texts.RecordingOpenFolderFailed}\n\n{ex.Message}", Texts.RecordingDisplayName, MessageBoxButton.OK);
             }
         }
 

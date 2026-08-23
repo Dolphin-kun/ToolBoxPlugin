@@ -41,10 +41,15 @@ namespace ToolBox.Settings
             return (ToolItemSettings?)JsonSerializer.Deserialize(doc.RootElement.GetRawText(), targetType, options);
         }
 
+        private const string LegacyShortcutDiscriminator = "Delete";
+
         private static Type? ResolveType(string typeName)
         {
             if (BuiltInTypeMap.Value.TryGetValue(typeName, out var builtIn))
                 return builtIn;
+
+            if (string.Equals(typeName, LegacyShortcutDiscriminator, StringComparison.OrdinalIgnoreCase))
+                return typeof(Items.Shortcuts.Settings.ShortcutSettings);
 
             foreach (var settings in AddonLoader.GetAllSettings())
             {

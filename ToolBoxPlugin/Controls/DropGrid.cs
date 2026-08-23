@@ -93,10 +93,15 @@ namespace ToolBox.Controls
 
         public void ClearHighlight() => HighlightCleared?.Invoke(this, EventArgs.Empty);
 
+        private const double CellEpsilon = 1e-6;
+
+        public static int ToCellIndex(double offset, double cellSize)
+            => (int)Math.Floor(offset / cellSize + CellEpsilon);
+
         public (int row, int col)? GetCellPosition(Point position)
         {
-            int col = (int)(position.X / CellSize);
-            int row = (int)(position.Y / CellSize);
+            int col = ToCellIndex(position.X, CellSize);
+            int row = ToCellIndex(position.Y, CellSize);
 
             if (row < 0 || row >= RowCount || col < 0 || col >= ColumnCount)
                 return null;

@@ -17,7 +17,7 @@ namespace ToolBox.ViewModel
 
         public static string CurrentVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
 
-        private string latestVersion = "取得中...";
+        private string latestVersion = Texts.VersionChecking;
         public string LatestVersion
         {
             get => latestVersion;
@@ -35,7 +35,7 @@ namespace ToolBox.ViewModel
 
         public ICommand OpenUpdateUrlCommand { get; }
 
-        public BasicSettingsViewModel(ToolBoxSettings settings) : base("基本設定")
+        public BasicSettingsViewModel(ToolBoxSettings settings) : base(Texts.BasicSettingsTitle)
         {
             Settings = settings;
             OpenUpdateUrlCommand = new ActionCommand(
@@ -70,7 +70,7 @@ namespace ToolBox.ViewModel
                     var apiVersionString = versionElement.GetString();
                     downloadUrl = urlElement.GetString() ?? "";
 
-                    LatestVersion = apiVersionString ?? "不明";
+                    LatestVersion = apiVersionString ?? Texts.VersionUnknown;
 
                     var currentVersionString = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
                     var cleanApiVersionString = apiVersionString?.TrimStart('v', 'V');
@@ -87,7 +87,7 @@ namespace ToolBox.ViewModel
             }
             catch
             {
-                LatestVersion = "取得失敗";
+                LatestVersion = Texts.VersionFetchFailed;
             }
         }
     }

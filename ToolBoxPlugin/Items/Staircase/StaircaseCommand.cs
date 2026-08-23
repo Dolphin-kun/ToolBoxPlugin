@@ -24,11 +24,12 @@ namespace ToolBox.Items.Staircase
             if (items.Count == 0) return;
 
             var maxLayer = items.Max(item => item.Layer);
+            var settings = GetSettings(ctx);
 
             foreach (var item in items)
             {
                 var relativeLayer = maxLayer - item.Layer;
-                item.Frame += relativeLayer * GetStaircaseOffset(ctx);
+                item.Frame += GetStep(relativeLayer, settings);
             }
 
             timeline.ResolveAllItemsCollision();
@@ -45,11 +46,12 @@ namespace ToolBox.Items.Staircase
             if (items.Count == 0) return;
 
             var minLayer = items.Min(item => item.Layer);
+            var settings = GetSettings(ctx);
 
             foreach (var item in items)
             {
                 var relativeLayer = item.Layer - minLayer;
-                item.Frame += relativeLayer * GetStaircaseOffset(ctx);
+                item.Frame += GetStep(relativeLayer, settings);
             }
 
             timeline.ResolveAllItemsCollision();
@@ -57,7 +59,15 @@ namespace ToolBox.Items.Staircase
             undoRedoManager.Record();
         }
 
-        private static int GetStaircaseOffset(IToolBoxContext ctx)
-            => ctx.FindItemSettings<StaircaseSettings>()?.Offset ?? 20;
+        private static StaircaseSettings? GetSettings(IToolBoxContext ctx)
+            => ctx.FindItemSettings<StaircaseSettings>();
+
+        private static int GetStep(int relativeLayer, StaircaseSettings? settings)
+        {
+            var offset = settings?.Offset ?? 20;
+            var amount = Math.Max(1, settings?.Amount ?? 1);
+
+            return relativeLayer / amount * offset;
+        }
     }
 }

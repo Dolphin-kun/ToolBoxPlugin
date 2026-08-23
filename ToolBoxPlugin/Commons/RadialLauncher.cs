@@ -19,7 +19,8 @@ namespace ToolBox.Commons
 
         private static readonly List<IReadOnlyList<RadialEntry>> path = [];
 
-        private static bool skipNextRightButtonUp;
+        private static MouseButton? openedWith;
+        private static bool skipNextButtonUp;
 
         private static bool IsOpen => popup != null;
 
@@ -43,20 +44,14 @@ namespace ToolBox.Commons
         {
             EventManager.RegisterClassHandler(
                 typeof(Window),
-                UIElement.PreviewMouseRightButtonDownEvent,
-                new MouseButtonEventHandler(OnRightButtonDown),
+                UIElement.PreviewMouseDownEvent,
+                new MouseButtonEventHandler(OnMouseDown),
                 handledEventsToo: true);
 
             EventManager.RegisterClassHandler(
                 typeof(Window),
-                UIElement.PreviewMouseRightButtonUpEvent,
-                new MouseButtonEventHandler(OnRightButtonUp),
-                handledEventsToo: true);
-
-            EventManager.RegisterClassHandler(
-                typeof(Window),
-                UIElement.PreviewMouseLeftButtonDownEvent,
-                new MouseButtonEventHandler(OnLeftButtonDown),
+                UIElement.PreviewMouseUpEvent,
+                new MouseButtonEventHandler(OnMouseUp),
                 handledEventsToo: true);
 
             EventManager.RegisterClassHandler(
@@ -66,11 +61,20 @@ namespace ToolBox.Commons
                 handledEventsToo: true);
         }
 
-        private static void OnRightButtonDown(object sender, MouseButtonEventArgs e)
+        private static HotkeyTrigger? Trigger =>
+            HotkeyGesture.ParseAssignable(
+                ToolBoxSettings.Default.RadialLauncherGesture,
+                HotkeyScope.RadialLauncher);
+
+        private static void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (IsOpen)
             {
                 e.Handled = true;
+
+                if (e.ChangedButton == MouseButton.Left)
+                    Close();
+
                 return;
             }
 
@@ -80,7 +84,13 @@ namespace ToolBox.Commons
             if (!ToolBoxSettings.Default.IsRadialLauncherEnabled)
                 return;
 
-            if (Keyboard.Modifiers != ModifierKeys.Control || !IsOnTimeline(e.OriginalSource))
+            if (Trigger is not { } trigger)
+                return;
+
+            if (HotkeyTrigger.FromMouse(e.ChangedButton, Keyboard.Modifiers) != trigger)
+                return;
+
+            if (!IsOnTimeline(e.OriginalSource))
                 return;
 
             var entries = RadialEntryBuilder.BuildRoot();
@@ -91,33 +101,25 @@ namespace ToolBox.Commons
 
             window = sourceWindow;
             center = e.GetPosition(sourceWindow);
+            openedWith = e.ChangedButton;
 
             Open(entries);
         }
 
-        private static void OnRightButtonUp(object sender, MouseButtonEventArgs e)
+        private static void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (!IsOpen)
+            if (!IsOpen || e.ChangedButton != openedWith)
                 return;
 
             e.Handled = true;
 
-            if (skipNextRightButtonUp)
+            if (skipNextButtonUp)
             {
-                skipNextRightButtonUp = false;
+                skipNextButtonUp = false;
                 return;
             }
 
             GoBack();
-        }
-
-        private static void OnLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (!IsOpen)
-                return;
-
-            e.Handled = true;
-            Close();
         }
 
         private static void OnContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -131,7 +133,7 @@ namespace ToolBox.Commons
             if (window == null || IsOpen)
                 return;
 
-            skipNextRightButtonUp = true;
+            skipNextButtonUp = true;
 
             path.Clear();
             path.Add(entries);
@@ -207,7 +209,8 @@ namespace ToolBox.Commons
 
         private static void Close()
         {
-            skipNextRightButtonUp = false;
+            skipNextButtonUp = false;
+            openedWith = null;
             path.Clear();
 
             if (window != null)

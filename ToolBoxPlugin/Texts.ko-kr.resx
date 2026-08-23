@@ -61,4 +61,453 @@
 <data name="CurrentCulture" xml:space="preserve"><value>ko-kr</value></data>
 <data name="PluginName" xml:space="preserve"><value>툴박스</value></data>
 <data name="SettingsTitle" xml:space="preserve"><value>툴박스 설정</value></data>
+<data name="CommonUnset" xml:space="preserve"><value>(설정 안 됨)</value></data>
+<data name="CommonNotFound" xml:space="preserve"><value>(찾을 수 없음)</value></data>
+<data name="CommonNoName" xml:space="preserve"><value>(이름 없음)</value></data>
+<data name="CommonSettings" xml:space="preserve"><value>설정</value></data>
+<data name="CommonCopy" xml:space="preserve"><value>복사</value></data>
+<data name="CommonCancel" xml:space="preserve"><value>취소</value></data>
+<data name="CommonAdd" xml:space="preserve"><value>추가</value></data>
+<data name="CommonDelete" xml:space="preserve"><value>삭제</value></data>
+<data name="CommonRename" xml:space="preserve"><value>이름 변경</value></data>
+<data name="CommonOverwrite" xml:space="preserve"><value>덮어쓰기</value></data>
+<data name="CommonMoveUp" xml:space="preserve"><value>위로</value></data>
+<data name="CommonMoveDown" xml:space="preserve"><value>아래로</value></data>
+<data name="CommonClearAll" xml:space="preserve"><value>모두 지우기</value></data>
+<data name="ToolBoxNotReady" xml:space="preserve"><value>툴박스가 아직 초기화되지 않았습니다.</value></data>
+<data name="FilterAllFiles" xml:space="preserve"><value>모든 파일|*.*</value></data>
+<data name="FilterImageFiles" xml:space="preserve"><value>이미지 파일|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|모든 파일|*.*</value></data>
+<data name="UnitTimes" xml:space="preserve"><value>배</value></data>
+<data name="AddonMarketplaceNoResponse" xml:space="preserve"><value>GitHub에서 응답이 없습니다 ({0}).</value></data>
+<data name="AddonMarketplaceRateLimitedUntil" xml:space="preserve"><value>GitHub 요청 횟수 한도에 도달했습니다. {0} 이후에 다시 시도해 주세요.</value></data>
+<data name="AddonMarketplaceRateLimited" xml:space="preserve"><value>GitHub 요청 횟수 한도에 도달했습니다. 잠시 후 다시 시도해 주세요.</value></data>
+<data name="AddonMarketplaceReleaseUnreadable" xml:space="preserve"><value>릴리스 정보를 읽을 수 없습니다.</value></data>
+<data name="AddonMarketplaceNoAsset" xml:space="preserve"><value>최신 릴리스에 .zip이나 .dll이 첨부되어 있지 않습니다.</value></data>
+<data name="AddonMarketplaceNoDll" xml:space="preserve"><value>다운로드한 파일에 DLL이 없습니다.</value></data>
+<data name="AddonMarketplaceLastUpdated" xml:space="preserve"><value>최종 업데이트 {0}</value></data>
+<data name="AddonMarketplaceTitle" xml:space="preserve"><value>애드온 찾기</value></data>
+<data name="AddonMarketplaceHintPrefix" xml:space="preserve"><value>GitHub 토픽</value></data>
+<data name="AddonMarketplaceHintSuffix" xml:space="preserve"><value>이 붙은 저장소를 나열합니다. [설치]를 누르면 최신 릴리스의 zip 또는 dll을 가져옵니다.</value></data>
+<data name="AddonMarketplaceRefresh" xml:space="preserve"><value>목록 가져오기</value></data>
+<data name="AddonMarketplaceInstall" xml:space="preserve"><value>설치</value></data>
+<data name="AddonMarketplaceInstalled" xml:space="preserve"><value>설치됨</value></data>
+<data name="AddonMarketplaceInitialStatus" xml:space="preserve"><value>[목록 가져오기]를 누르면 GitHub에서 애드온을 검색합니다.</value></data>
+<data name="AddonMarketplaceLoading" xml:space="preserve"><value>GitHub에서 목록을 가져오는 중...</value></data>
+<data name="AddonMarketplaceLoadFailed" xml:space="preserve"><value>목록을 가져오지 못했습니다: {0}</value></data>
+<data name="AddonMarketplaceNoResults" xml:space="preserve"><value>토픽 [{0}]이(가) 붙은 저장소를 찾지 못했습니다.</value></data>
+<data name="AddonMarketplaceFound" xml:space="preserve"><value>{0}개를 찾았습니다.</value></data>
+<data name="AddonMarketplaceTruncated" xml:space="preserve"><value>(GitHub 전체 개수는 {0}개이지만 검색 API 한도로 일부만 표시합니다)</value></data>
+<data name="AddonMarketplaceCached" xml:space="preserve"><value>이전에 가져온 목록을 표시하고 있습니다 ({0}까지).</value></data>
+<data name="AddonMarketplaceInstalling" xml:space="preserve"><value>[{0}]을(를) 가져오는 중...</value></data>
+<data name="AddonMarketplaceInstallSucceeded" xml:space="preserve"><value>[{0}]을(를) 설치했습니다 ({1}).</value></data>
+<data name="AddonMarketplaceInstallFailedStatus" xml:space="preserve"><value>[{0}]을(를) 설치하지 못했습니다: {1}</value></data>
+<data name="AddonMarketplaceInstallFailed" xml:space="preserve"><value>애드온을 설치하지 못했습니다.</value></data>
+<data name="AddonSettingsTitle" xml:space="preserve"><value>애드온</value></data>
+<data name="AddonListTitle" xml:space="preserve"><value>애드온 목록</value></data>
+<data name="AddonListEmpty" xml:space="preserve"><value>애드온이 없습니다.</value></data>
+<data name="AddonOpenFolder" xml:space="preserve"><value>폴더 열기</value></data>
+<data name="AddonReload" xml:space="preserve"><value>다시 불러오기</value></data>
+<data name="AddonEnableTip" xml:space="preserve"><value>불러오기 사용 / 사용 안 함</value></data>
+<data name="AddonDeleteTip" xml:space="preserve"><value>이 애드온 삭제</value></data>
+<data name="AddonOpenFolderFailed" xml:space="preserve"><value>폴더를 열 수 없습니다.</value></data>
+<data name="AddonDeleteCaption" xml:space="preserve"><value>애드온 삭제</value></data>
+<data name="AddonDeleteConfirm" xml:space="preserve"><value>애드온 [{0}]을(를) 삭제합니다.</value></data>
+<data name="AddonDisabled" xml:space="preserve"><value>애드온 [{0}]을(를) 비활성화했습니다.</value></data>
+<data name="AddonDisabledHint" xml:space="preserve"><value>이미 불러온 상태이므로 파일 삭제는 YMM4를 다시 시작할 때 완료됩니다.</value></data>
+<data name="AddonDeleteFailed" xml:space="preserve"><value>애드온 [{0}]을(를) 삭제하지 못했습니다.</value></data>
+<data name="AddonDisabledDescription" xml:space="preserve"><value>사용 안 함 상태입니다. 다시 사용하면 다음 불러오기에 반영됩니다.</value></data>
+<data name="LabelDisplayName" xml:space="preserve"><value>라벨</value></data>
+<data name="LabelDescription" xml:space="preserve"><value>패널에 제목 문자를 배치합니다. 클릭해도 아무것도 실행하지 않습니다.</value></data>
+<data name="LabelDefaultText" xml:space="preserve"><value>제목</value></data>
+<data name="LabelSettingsTitle" xml:space="preserve"><value>라벨 설정</value></data>
+<data name="LabelTextLabel" xml:space="preserve"><value>표시할 문자</value></data>
+<data name="LabelFontLabel" xml:space="preserve"><value>글꼴</value></data>
+<data name="LabelFontSizeLabel" xml:space="preserve"><value>글자 크기</value></data>
+<data name="LabelBoldLabel" xml:space="preserve"><value>굵게</value></data>
+<data name="LabelAlignmentLabel" xml:space="preserve"><value>문자 위치</value></data>
+<data name="AlignLeft" xml:space="preserve"><value>왼쪽 정렬</value></data>
+<data name="AlignCenter" xml:space="preserve"><value>가운데 정렬</value></data>
+<data name="AlignRight" xml:space="preserve"><value>오른쪽 정렬</value></data>
+<data name="SeparatorDisplayName" xml:space="preserve"><value>구분선</value></data>
+<data name="SeparatorDescription" xml:space="preserve"><value>패널에 구분선을 그립니다. 아이템 묶음을 나누기 위한 장식입니다.</value></data>
+<data name="SeparatorSettingsTitle" xml:space="preserve"><value>구분선 설정</value></data>
+<data name="SeparatorOrientationLabel" xml:space="preserve"><value>방향</value></data>
+<data name="SeparatorHorizontal" xml:space="preserve"><value>가로</value></data>
+<data name="SeparatorVertical" xml:space="preserve"><value>세로</value></data>
+<data name="SeparatorThicknessLabel" xml:space="preserve"><value>선 굵기</value></data>
+<data name="SeparatorColorHint" xml:space="preserve"><value>선 색은 공통 설정의 [배색]에서 변경할 수 있습니다.</value></data>
+<data name="InsertIntoGroupDisplayName" xml:space="preserve"><value>그룹화</value></data>
+<data name="InsertIntoGroupDescription" xml:space="preserve"><value>선택한 아이템 전체를 덮는 그룹 제어를 추가하여 한꺼번에 다룰 수 있게 합니다.</value></data>
+<data name="ItemStockTitle" xml:space="preserve"><value>저장한 아이템</value></data>
+<data name="ItemStockHint" xml:space="preserve"><value>타임라인에서 선택한 아이템을 여기에 모아 둘 수 있습니다. 패널에 [저장한 아이템 추가]를 두면 그중 하나를 연결해 불러올 수 있습니다.</value></data>
+<data name="ItemStockEmpty" xml:space="preserve"><value>아직 아무것도 저장되지 않았습니다.</value></data>
+<data name="ItemStockSaveSelected" xml:space="preserve"><value>선택한 아이템 저장</value></data>
+<data name="ItemStockSaveTip" xml:space="preserve"><value>타임라인에서 선택 중인 아이템을 새로 저장합니다</value></data>
+<data name="ItemStockOverwriteTip" xml:space="preserve"><value>선택한 저장 내용을 지금 타임라인에서 선택 중인 아이템으로 바꿉니다</value></data>
+<data name="ItemStockSaveFailed" xml:space="preserve"><value>이 아이템은 저장할 수 없었습니다.</value></data>
+<data name="ItemStockSelectFirst" xml:space="preserve"><value>먼저 타임라인에서 아이템을 선택해 주세요.</value></data>
+<data name="ItemStockSummaryMore" xml:space="preserve"><value>{0} 외 {1}건</value></data>
+<data name="ItemStockOverwriteConfirm" xml:space="preserve"><value>[{0}]의 내용을 지금 선택한 아이템으로 바꿉니다.</value></data>
+<data name="ItemStockDeleteConfirm" xml:space="preserve"><value>[{0}]을(를) 삭제합니다.</value></data>
+<data name="ItemStockDeleteConfirmUsers" xml:space="preserve"><value>이 아이템을 사용하는 버튼이 {0}개 있습니다.</value></data>
+<data name="ItemStockClearConfirm" xml:space="preserve"><value>저장한 아이템을 모두 삭제합니다.</value></data>
+<data name="ItemStockClearConfirmHint" xml:space="preserve"><value>버튼에 연결된 것도 사용할 수 없게 됩니다.</value></data>
+<data name="ItemPresetDisplayName" xml:space="preserve"><value>저장한 아이템 추가</value></data>
+<data name="ItemPresetDescription" xml:space="preserve"><value>[저장한 아이템]에 모아 둔 것 중 하나를 이 버튼에 연결하여 클릭 한 번으로 타임라인에 추가합니다.</value></data>
+<data name="ItemPresetSaveCommandName" xml:space="preserve"><value>선택한 아이템을 저장하고 연결</value></data>
+<data name="ItemPresetOverwriteCommandName" xml:space="preserve"><value>연결된 대상을 선택한 아이템으로 덮어쓰기</value></data>
+<data name="ItemPresetSettingsTitle" xml:space="preserve"><value>저장한 아이템 설정</value></data>
+<data name="ItemPresetStockLabel" xml:space="preserve"><value>이 버튼에 연결할 아이템</value></data>
+<data name="ItemPresetSaveButtonTip" xml:space="preserve"><value>타임라인에서 선택 중인 아이템을 새로 저장하고 이 버튼에 연결합니다</value></data>
+<data name="ItemPresetOverwriteButtonTip" xml:space="preserve"><value>연결된 저장 내용을 지금 선택한 아이템으로 바꿉니다</value></data>
+<data name="ItemPresetManageHint" xml:space="preserve"><value>추가·이름 변경·삭제는 툴박스 설정의 [저장한 아이템]에서 한꺼번에 할 수 있습니다.</value></data>
+<data name="ItemPresetUseCurrentFrame" xml:space="preserve"><value>현재 재생 위치에 추가</value></data>
+<data name="ItemPresetUseCurrentLayer" xml:space="preserve"><value>현재 레이어에 추가</value></data>
+<data name="ItemPresetSelectAfterAdd" xml:space="preserve"><value>추가한 아이템을 선택</value></data>
+<data name="ItemPresetLoadFailed" xml:space="preserve"><value>[{0}]을(를) 불러올 수 없습니다. 다시 저장해 주세요.</value></data>
+<data name="LauncherDisplayName" xml:space="preserve"><value>파일·폴더 열기</value></data>
+<data name="LauncherDescription" xml:space="preserve"><value>지정한 파일·폴더를 엽니다. 소재 폴더나 외부 도구로 가는 입구로 쓸 수 있습니다.</value></data>
+<data name="LauncherOpenCommandName" xml:space="preserve"><value>열기</value></data>
+<data name="LauncherTargetLabel" xml:space="preserve"><value>열 대상</value></data>
+<data name="LauncherBrowseFolder" xml:space="preserve"><value>폴더 선택...</value></data>
+<data name="LauncherFolderDialogTitle" xml:space="preserve"><value>열 폴더를 선택</value></data>
+<data name="LauncherOpenNotFound" xml:space="preserve"><value>열 수 없습니다. 다음 위치를 찾을 수 없습니다.</value></data>
+<data name="LauncherOpenFailed" xml:space="preserve"><value>열 수 없습니다.</value></data>
+<data name="LauncherNodeGroup" xml:space="preserve"><value>그룹</value></data>
+<data name="LauncherSettingsNodeTitle" xml:space="preserve"><value>런처</value></data>
+<data name="LauncherSettingsTitle" xml:space="preserve"><value>런처 설정</value></data>
+<data name="LauncherEnableLabel" xml:space="preserve"><value>런처 사용</value></data>
+<data name="LauncherTriggerLabel" xml:space="preserve"><value>여는 조작</value></data>
+<data name="LauncherImageFillsSectorLabel" xml:space="preserve"><value>이미지 크게 표시</value></data>
+<data name="LauncherPreviewLabel" xml:space="preserve"><value>미리 보기</value></data>
+<data name="LauncherOrderLabel" xml:space="preserve"><value>순서</value></data>
+<data name="LauncherClearTip" xml:space="preserve"><value>비우면 현재 패널의 아이템이 자동으로 배열되는 상태로 돌아갑니다</value></data>
+<data name="LauncherNodeKindLabel" xml:space="preserve"><value>종류</value></data>
+<data name="LauncherKindPanelItem" xml:space="preserve"><value>패널 아이템</value></data>
+<data name="LauncherTargetNodeLabel" xml:space="preserve"><value>대상</value></data>
+<data name="LauncherNewGroup" xml:space="preserve"><value>새 그룹</value></data>
+<data name="LauncherClearConfirm" xml:space="preserve"><value>런처의 배열을 모두 삭제합니다.</value></data>
+<data name="LauncherClearConfirmHint" xml:space="preserve"><value>삭제 후에는 현재 패널의 아이템이 자동으로 배열되는 상태로 돌아갑니다.</value></data>
+<data name="RadialMenuBack" xml:space="preserve"><value>뒤로</value></data>
+<data name="RadialMenuClose" xml:space="preserve"><value>닫기</value></data>
+<data name="RadialMenuPrevious" xml:space="preserve"><value>이전</value></data>
+<data name="RadialMenuNext" xml:space="preserve"><value>다음</value></data>
+<data name="RadialMenuPreviewEmpty" xml:space="preserve"><value>배열할 아이템이 없습니다.</value></data>
+<data name="MacroDisplayName" xml:space="preserve"><value>매크로</value></data>
+<data name="MacroDescription" xml:space="preserve"><value>등록한 조작을 위에서부터 순서대로 실행합니다. 자주 쓰는 절차를 버튼 하나로 묶을 수 있습니다.</value></data>
+<data name="MacroRunCommandName" xml:space="preserve"><value>매크로 실행</value></data>
+<data name="MacroSummaryNoSteps" xml:space="preserve"><value>{0} (단계 없음)</value></data>
+<data name="MacroSummarySteps" xml:space="preserve"><value>{0} ({1}단계)</value></data>
+<data name="MacroStepNotFound" xml:space="preserve"><value>매크로 [{0}]의 단계 [{1}]을(를) 찾을 수 없습니다.</value></data>
+<data name="MacroStepNotFoundHint" xml:space="preserve"><value>제공한 애드온이 제거되었을 수 있습니다.</value></data>
+<data name="MacroStepsLabel" xml:space="preserve"><value>단계</value></data>
+<data name="MacroSelectedStepLabel" xml:space="preserve"><value>선택한 단계</value></data>
+<data name="MacroMoveUpTip" xml:space="preserve"><value>한 칸 위로</value></data>
+<data name="MacroMoveDownTip" xml:space="preserve"><value>한 칸 아래로</value></data>
+<data name="MacroAddStepTip" xml:space="preserve"><value>단계 추가</value></data>
+<data name="MacroRemoveStepTip" xml:space="preserve"><value>선택한 단계 삭제</value></data>
+<data name="MacroStepKindLabel" xml:space="preserve"><value>종류</value></data>
+<data name="StepKindCommand" xml:space="preserve"><value>툴박스 조작</value></data>
+<data name="StepKindShortcut" xml:space="preserve"><value>단축키</value></data>
+<data name="StepKindPanelItem" xml:space="preserve"><value>패널 위의 아이템</value></data>
+<data name="StepKindWait" xml:space="preserve"><value>대기</value></data>
+<data name="MacroCommandLabel" xml:space="preserve"><value>조작</value></data>
+<data name="MacroPanelItemLabel" xml:space="preserve"><value>아이템</value></data>
+<data name="MacroPanelItemHint" xml:space="preserve"><value>열려 있는 패널에 놓인 아이템을 그 아이템 자신의 설정으로 실행합니다.</value></data>
+<data name="MacroWaitLabel" xml:space="preserve"><value>대기 시간</value></data>
+<data name="MacroStepsHint" xml:space="preserve"><value>단계는 위에서부터 순서대로 실행됩니다. 실행할 수 없는 단계 (선택이 없는 경우 등) 는 건너뜁니다.</value></data>
+<data name="MacroStepWait" xml:space="preserve"><value>{0}밀리초 대기</value></data>
+<data name="MacroStepNew" xml:space="preserve"><value>새 단계 (조작을 선택하세요)</value></data>
+<data name="MacroStepUnknown" xml:space="preserve"><value>(알 수 없는 조작: {0})</value></data>
+<data name="MacroStepChooseItem" xml:space="preserve"><value>(아이템을 선택하세요)</value></data>
+<data name="RecordingDisplayName" xml:space="preserve"><value>녹음</value></data>
+<data name="RecordingDescription" xml:space="preserve"><value>마이크로 녹음하고 녹음한 음성을 타임라인에 음성 아이템으로 추가합니다.</value></data>
+<data name="RecordingToggleCommandName" xml:space="preserve"><value>녹음 시작/정지</value></data>
+<data name="RecordingSettingsTitle" xml:space="preserve"><value>녹음 설정</value></data>
+<data name="RecordingDeviceLabel" xml:space="preserve"><value>입력 장치</value></data>
+<data name="RecordingOpenFolder" xml:space="preserve"><value>녹음 폴더 열기</value></data>
+<data name="RecordingOpenFolderFailed" xml:space="preserve"><value>녹음 폴더를 열 수 없습니다.</value></data>
+<data name="RubyDisplayName" xml:space="preserve"><value>루비 달기</value></data>
+<data name="RubyDescription" xml:space="preserve"><value>선택한 아이템의 한자에 루비를 답니다.</value></data>
+<data name="RubyApplyCommandName" xml:space="preserve"><value>루비 달기</value></data>
+<data name="RubySettingsTitle" xml:space="preserve"><value>루비 설정</value></data>
+<data name="RubyTypeLabel" xml:space="preserve"><value>루비 종류</value></data>
+<data name="RubyTypeHiragana" xml:space="preserve"><value>히라가나</value></data>
+<data name="RubyTypeHiraganaDescription" xml:space="preserve"><value>히라가나로 루비를 답니다</value></data>
+<data name="RubyTypeKatakana" xml:space="preserve"><value>가타카나</value></data>
+<data name="RubyTypeKatakanaDescription" xml:space="preserve"><value>가타카나로 루비를 답니다</value></data>
+<data name="RubyAutoLineHeight" xml:space="preserve"><value>행 높이 자동 조정</value></data>
+<data name="RubyLineHeightScale" xml:space="preserve"><value>행 높이 배율</value></data>
+<data name="SceneMoverDisplayName" xml:space="preserve"><value>씬으로 이동</value></data>
+<data name="SceneMoverDescription" xml:space="preserve"><value>선택한 아이템을 새 씬이나 기존 씬으로 한꺼번에 옮깁니다. 클릭하면 이동할 곳을 고르는 메뉴가 열립니다.</value></data>
+<data name="SceneMoverToNewSceneCommandName" xml:space="preserve"><value>새 씬으로 이동</value></data>
+<data name="SceneMoverToSceneCommandName" xml:space="preserve"><value>지정한 씬으로 이동</value></data>
+<data name="SceneMoverSettingsTitle" xml:space="preserve"><value>씬으로 이동 설정</value></data>
+<data name="SceneMoverDuplicateLabel" xml:space="preserve"><value>이동하지 않고 복제</value></data>
+<data name="SceneMoverAlignLabel" xml:space="preserve"><value>씬의 앞쪽에 맞춤</value></data>
+<data name="SceneMoverSwitchLabel" xml:space="preserve"><value>이동한 씬으로 전환</value></data>
+<data name="SceneMoverToNewSceneTip" xml:space="preserve"><value>타임라인에서 선택 중인 아이템을 새 씬으로 옮깁니다</value></data>
+<data name="SceneMoverSummaryDuplicate" xml:space="preserve"><value>복제</value></data>
+<data name="SceneMoverSummaryMove" xml:space="preserve"><value>이동</value></data>
+<data name="SceneMoverNoTimeline" xml:space="preserve"><value>타임라인을 가져올 수 없습니다.</value></data>
+<data name="SceneMoverNoSelection" xml:space="preserve"><value>타임라인에서 아이템을 선택해 주세요.</value></data>
+<data name="SceneMoverNoScenes" xml:space="preserve"><value>씬 목록을 가져올 수 없습니다.</value></data>
+<data name="SceneMoverAlreadyHere" xml:space="preserve"><value>이미 이 씬에 있습니다.</value></data>
+<data name="SceneMoverAddFailed" xml:space="preserve"><value>이동할 곳에 아이템을 놓을 수 없습니다.</value></data>
+<data name="SceneMoverMoveFailed" xml:space="preserve"><value>아이템을 옮길 수 없습니다.</value></data>
+<data name="SceneMoverCreateFailed" xml:space="preserve"><value>새 씬을 만들 수 없습니다.</value></data>
+<data name="SceneMoverMenuFailed" xml:space="preserve"><value>이동할 곳 목록을 열 수 없습니다.</value></data>
+<data name="SceneMoverMenuNewScene" xml:space="preserve"><value>새 씬으로</value></data>
+<data name="SceneMoverMenuNoOtherScenes" xml:space="preserve"><value>다른 씬이 없습니다</value></data>
+<data name="SceneMoverSceneWord" xml:space="preserve"><value>씬</value></data>
+<data name="SceneMoverNewSceneName" xml:space="preserve"><value>씬 {0}</value></data>
+<data name="SeparateAudioDisplayName" xml:space="preserve"><value>음성 분리</value></data>
+<data name="SeparateAudioDescription" xml:space="preserve"><value>선택한 동영상 아이템의 음량을 0으로 만들고 같은 음성을 별도의 음성 아이템으로 한 레이어 아래에 추가합니다.</value></data>
+<data name="SeparateAudioCommandName" xml:space="preserve"><value>음성 분리</value></data>
+<data name="ShortcutRunCommandName" xml:space="preserve"><value>단축키 실행</value></data>
+<data name="ShortcutsRootTitle" xml:space="preserve"><value>단축키</value></data>
+<data name="ShortcutSettingsTitle" xml:space="preserve"><value>단축키 설정</value></data>
+<data name="ShortcutLabelLabel" xml:space="preserve"><value>표시 라벨</value></data>
+<data name="ShortcutCommandLabel" xml:space="preserve"><value>실행할 명령</value></data>
+<data name="ShortcutDefaultDescription" xml:space="preserve"><value>본체의 [{0}]을(를) 실행합니다.</value></data>
+<data name="ShortcutGroupEdit" xml:space="preserve"><value>편집</value></data>
+<data name="ShortcutGroupItem" xml:space="preserve"><value>아이템</value></data>
+<data name="ShortcutGroupArrange" xml:space="preserve"><value>정렬·이동</value></data>
+<data name="ShortcutGroupSelection" xml:space="preserve"><value>선택</value></data>
+<data name="ShortcutGroupAddItem" xml:space="preserve"><value>아이템 추가</value></data>
+<data name="ShortcutGroupMidpoint" xml:space="preserve"><value>중간점</value></data>
+<data name="ShortcutGroupPlayback" xml:space="preserve"><value>재생</value></data>
+<data name="ShortcutGroupView" xml:space="preserve"><value>표시</value></data>
+<data name="ShortcutGroupLayer" xml:space="preserve"><value>레이어</value></data>
+<data name="ShortcutGroupCharacterScene" xml:space="preserve"><value>캐릭터·씬</value></data>
+<data name="ShortcutGroupProject" xml:space="preserve"><value>프로젝트</value></data>
+<data name="ShortcutGroupWindowFolder" xml:space="preserve"><value>창·폴더</value></data>
+<data name="SortDisplayName" xml:space="preserve"><value>정렬</value></data>
+<data name="SortDescription" xml:space="preserve"><value>선택한 아이템을 시작 위치가 빠른 순·늦은 순으로 레이어에 다시 배열합니다.</value></data>
+<data name="SortAscendingCommandName" xml:space="preserve"><value>빠른 순으로 정렬</value></data>
+<data name="SortDescendingCommandName" xml:space="preserve"><value>늦은 순으로 정렬</value></data>
+<data name="SortAscendingTip" xml:space="preserve"><value>빠른 순으로 정렬</value></data>
+<data name="SortDescendingTip" xml:space="preserve"><value>늦은 순으로 정렬</value></data>
+<data name="StaircaseDisplayName" xml:space="preserve"><value>계단식 배치</value></data>
+<data name="StaircaseDescription" xml:space="preserve"><value>선택한 아이템을 레이어 순으로 일정 프레임씩 어긋나게 하여 계단 모양으로 배치합니다.</value></data>
+<data name="StaircaseReverseCommandName" xml:space="preserve"><value>역방향으로 계단식 배치</value></data>
+<data name="StaircaseSettingsTitle" xml:space="preserve"><value>계단화 설정</value></data>
+<data name="StaircaseOffsetLabel" xml:space="preserve"><value>오프셋</value></data>
+<data name="TachiePlacerDisplayName" xml:space="preserve"><value>립화 배치</value></data>
+<data name="TachiePlacerDescription" xml:space="preserve"><value>선택한 음성 아이템의 캐릭터에 대응하는 립화 아이템을 위 또는 아래 인접 레이어에 배치합니다.</value></data>
+<data name="TachiePlacerCommandName" xml:space="preserve"><value>립화 배치</value></data>
+<data name="TachiePlacerSettingsTitle" xml:space="preserve"><value>립화 배치 설정</value></data>
+<data name="TachiePlacerPlacementLabel" xml:space="preserve"><value>배치 레이어</value></data>
+<data name="TachiePlacementBelow" xml:space="preserve"><value>아래 레이어</value></data>
+<data name="TachiePlacementBelowDescription" xml:space="preserve"><value>음성보다 한 레이어 아래</value></data>
+<data name="TachiePlacementAbove" xml:space="preserve"><value>위 레이어</value></data>
+<data name="TachiePlacementAboveDescription" xml:space="preserve"><value>음성보다 한 레이어 위</value></data>
+<data name="TextSplitterDisplayName" xml:space="preserve"><value>텍스트 분할</value></data>
+<data name="TextSplitterDescription" xml:space="preserve"><value>선택한 텍스트·음성 아이템을 분할하여 세로 또는 가로로 배열합니다.</value></data>
+<data name="TextSplitterCommandName" xml:space="preserve"><value>텍스트 분할</value></data>
+<data name="TextSplitterSettingsTitle" xml:space="preserve"><value>텍스트 분할 설정</value></data>
+<data name="TextSplitterDeleteOriginal" xml:space="preserve"><value>원래 아이템 삭제</value></data>
+<data name="TextSplitterModeLabel" xml:space="preserve"><value>분할 모드</value></data>
+<data name="TextSplitterDirectionLabel" xml:space="preserve"><value>분할 방향</value></data>
+<data name="TextSplitterKeepPosition" xml:space="preserve"><value>원래 표시 위치 유지</value></data>
+<data name="TextSplitterIgnoreTags" xml:space="preserve"><value>&lt;rb&gt; 등의 태그 무시</value></data>
+<data name="TextSplitterIgnoreTagsTip" xml:space="preserve"><value>켜면 YMM 태그 (&lt;rb&gt; 등) 를 분할하지 않고 한 덩어리로 유지합니다</value></data>
+<data name="TextSplitterOffsetLabel" xml:space="preserve"><value>어긋남 폭 (프레임)</value></data>
+<data name="TextSplitterKeepDuration" xml:space="preserve"><value>전체 길이 유지</value></data>
+<data name="SplitModeByCharacter" xml:space="preserve"><value>한 글자씩 분할</value></data>
+<data name="SplitModeByCharacterDescription" xml:space="preserve"><value>한 글자씩 분할</value></data>
+<data name="SplitModeByLine" xml:space="preserve"><value>줄바꿈으로 분할</value></data>
+<data name="SplitModeByLineDescription" xml:space="preserve"><value>줄바꿈으로 분할</value></data>
+<data name="SplitDirectionVertical" xml:space="preserve"><value>세로</value></data>
+<data name="SplitDirectionVerticalDescription" xml:space="preserve"><value>레이어 방향</value></data>
+<data name="SplitDirectionHorizontal" xml:space="preserve"><value>가로</value></data>
+<data name="SplitDirectionHorizontalDescription" xml:space="preserve"><value>프레임 방향</value></data>
+<data name="ItemContextLock" xml:space="preserve"><value>고정</value></data>
+<data name="ItemContextUnlock" xml:space="preserve"><value>고정 해제</value></data>
+<data name="ItemContextHide" xml:space="preserve"><value>숨기기</value></data>
+<data name="HotkeyWinKeyNotAllowed" xml:space="preserve"><value>Win 키는 사용할 수 없습니다</value></data>
+<data name="HotkeyNeedCtrlOrAlt" xml:space="preserve"><value>Ctrl 또는 Alt를 포함해 주세요</value></data>
+<data name="HotkeyMouseX1" xml:space="preserve"><value>사이드 버튼 1</value></data>
+<data name="HotkeyMouseX2" xml:space="preserve"><value>사이드 버튼 2</value></data>
+<data name="HotkeyMouseLeft" xml:space="preserve"><value>왼쪽 클릭</value></data>
+<data name="HotkeyMouseMiddle" xml:space="preserve"><value>가운데 클릭</value></data>
+<data name="HotkeyMouseRight" xml:space="preserve"><value>오른쪽 클릭</value></data>
+<data name="HotkeyNeedMouseButton" xml:space="preserve"><value>왼쪽 버튼 이외의 마우스 버튼을 눌러 주세요</value></data>
+<data name="HotkeyConflict" xml:space="preserve"><value>[{0}]과(와) 중복됩니다. 먼저 배치된 쪽만 반응합니다.</value></data>
+<data name="PanelUndoLayout" xml:space="preserve"><value>배치 되돌리기</value></data>
+<data name="PanelUndoGesture" xml:space="preserve"><value>패널 위에서 Ctrl+Z</value></data>
+<data name="PanelRedoLayout" xml:space="preserve"><value>배치 다시 실행</value></data>
+<data name="PanelRedoGesture" xml:space="preserve"><value>패널 위에서 Ctrl+Y</value></data>
+<data name="PanelPasteItem" xml:space="preserve"><value>아이템 붙여넣기</value></data>
+<data name="PanelAdd" xml:space="preserve"><value>패널 추가</value></data>
+<data name="PanelDuplicate" xml:space="preserve"><value>패널 복제</value></data>
+<data name="PanelRenameTitle" xml:space="preserve"><value>패널 이름 편집</value></data>
+<data name="PanelCopySuffix" xml:space="preserve"><value>{0} 복사본</value></data>
+<data name="ItemCommonDisplaySection" xml:space="preserve"><value>표시</value></data>
+<data name="ItemCommonDisplayModeLabel" xml:space="preserve"><value>표시 방식</value></data>
+<data name="DisplayModeIcon" xml:space="preserve"><value>아이콘</value></data>
+<data name="DisplayModeText" xml:space="preserve"><value>텍스트</value></data>
+<data name="DisplayModeImage" xml:space="preserve"><value>이미지</value></data>
+<data name="ItemCommonImageFileLabel" xml:space="preserve"><value>이미지 파일</value></data>
+<data name="ItemCommonImageFitLabel" xml:space="preserve"><value>이미지 맞춤</value></data>
+<data name="ImageFitUniform" xml:space="preserve"><value>전체 표시</value></data>
+<data name="ImageFitFill" xml:space="preserve"><value>늘이기</value></data>
+<data name="ImageFitUniformToFill" xml:space="preserve"><value>잘라서 채우기</value></data>
+<data name="ItemCommonButtonLabel" xml:space="preserve"><value>버튼 라벨</value></data>
+<data name="ItemCommonColorSection" xml:space="preserve"><value>배색</value></data>
+<data name="ItemCommonUseCustomColor" xml:space="preserve"><value>배색 변경</value></data>
+<data name="ItemCommonBackground" xml:space="preserve"><value>배경색</value></data>
+<data name="ItemCommonBorder" xml:space="preserve"><value>테두리 색</value></data>
+<data name="ItemCommonForeground" xml:space="preserve"><value>아이콘·문자 색</value></data>
+<data name="ItemCommonBorderThickness" xml:space="preserve"><value>테두리 굵기</value></data>
+<data name="ItemCommonCornerRadius" xml:space="preserve"><value>모서리 둥글기</value></data>
+<data name="ItemCommonResetColors" xml:space="preserve"><value>배색 초기화</value></data>
+<data name="ItemCommonHotkey" xml:space="preserve"><value>단축키</value></data>
+<data name="ItemCommonHotkeyHint" xml:space="preserve"><value>칸을 선택하고 키를 누르면 할당됩니다. Esc로 해제합니다. 문자 입력과 구분하기 위해 Ctrl 또는 Alt를 포함한 조합만 설정할 수 있습니다. 마우스 사이드 버튼은 단독으로도 할당할 수 있습니다. 앱이 앞에 있을 때만 동작합니다.</value></data>
+<data name="BasicSettingsTitle" xml:space="preserve"><value>기본 설정</value></data>
+<data name="BasicShowLockBadge" xml:space="preserve"><value>고정한 아이템에 자물쇠 표시</value></data>
+<data name="BasicCurrentVersion" xml:space="preserve"><value>현재 버전</value></data>
+<data name="BasicLatestVersion" xml:space="preserve"><value>최신 버전</value></data>
+<data name="BasicDownloadUpdate" xml:space="preserve"><value>업데이트 다운로드</value></data>
+<data name="VersionChecking" xml:space="preserve"><value>확인 중...</value></data>
+<data name="VersionUnknown" xml:space="preserve"><value>알 수 없음</value></data>
+<data name="VersionFetchFailed" xml:space="preserve"><value>확인 실패</value></data>
+<data name="GridSettingsNodeTitle" xml:space="preserve"><value>그리드</value></data>
+<data name="GridSettingsTitle" xml:space="preserve"><value>그리드 설정</value></data>
+<data name="GridAdjustLabel" xml:space="preserve"><value>그리드 조정</value></data>
+<data name="GridAdjustAuto" xml:space="preserve"><value>자동</value></data>
+<data name="GridAdjustManual" xml:space="preserve"><value>수동 지정</value></data>
+<data name="GridSizeLabel" xml:space="preserve"><value>크기</value></data>
+<data name="GridLayoutLabel" xml:space="preserve"><value>배치</value></data>
+<data name="GridRowsLabel" xml:space="preserve"><value>행</value></data>
+<data name="GridColumnsLabel" xml:space="preserve"><value>열</value></data>
+<data name="GridShowLines" xml:space="preserve"><value>셀 테두리 항상 표시</value></data>
+<data name="GridShowHighlight" xml:space="preserve"><value>하이라이트 표시</value></data>
+<data name="GridHighlightColor" xml:space="preserve"><value>하이라이트 색</value></data>
+<data name="SettingsRootTitle" xml:space="preserve"><value>설정</value></data>
+<data name="ItemsRootTitle" xml:space="preserve"><value>아이템</value></data>
+<data name="CategoryTimeline" xml:space="preserve"><value>타임라인</value></data>
+<data name="CategoryLayout" xml:space="preserve"><value>레이아웃</value></data>
+<data name="CategoryText" xml:space="preserve"><value>텍스트</value></data>
+<data name="CategoryAudio" xml:space="preserve"><value>오디오</value></data>
+<data name="CategoryUtility" xml:space="preserve"><value>유틸리티</value></data>
+<data name="CategoryDecoration" xml:space="preserve"><value>장식</value></data>
+<data name="CategoryOther" xml:space="preserve"><value>기타</value></data>
+<data name="ToolItemInstancesHeaderFormat" xml:space="preserve"><value>아이템 ({0})</value></data>
+<data name="ToolItemShowInToolBox" xml:space="preserve"><value>툴박스에 표시</value></data>
+<data name="ToolItemRemovePlacement" xml:space="preserve"><value>이 배치를 제거</value></data>
+<data name="ToolItemAddAnother" xml:space="preserve"><value>이 아이템을 하나 더 추가</value></data>
+<data name="ToolItemSettingsHeaderFormat" xml:space="preserve"><value>{0} 설정</value></data>
+<data name="ShortcutsOverviewHint" xml:space="preserve"><value>왼쪽 목록에서 단축키를 선택하여 툴박스에 표시할지 여부를 전환할 수 있습니다.</value></data>
+<data name="ShortcutsOverviewAvailablePrefix" xml:space="preserve"><value>사용할 수 있는 명령은</value></data>
+<data name="ShortcutsOverviewAvailableSuffix" xml:space="preserve"><value>의 목록에 등록된 것만입니다.</value></data>
+<data name="StaircaseAmountLabel" xml:space="preserve"><value>단마다 레이어 수</value></data>
+<data name="GridCellSizeLabel" xml:space="preserve"><value>셀 크기</value></data>
+<data name="GridCellMarginLabel" xml:space="preserve"><value>셀 여백</value></data>
+<data name="GapCheckDisplayName" xml:space="preserve"><value>틈 검사</value></data>
+<data name="GapCheckDescription" xml:space="preserve"><value>같은 레이어에서 이웃한 아이템 사이의 작은 틈을 찾습니다. 1F나 2F를 메우는 것을 잊은 곳을 찾기 위한 기능입니다.</value></data>
+<data name="GapCheckNextCommandName" xml:space="preserve"><value>다음 틈으로</value></data>
+<data name="GapCheckPreviousCommandName" xml:space="preserve"><value>이전 틈으로</value></data>
+<data name="GapCheckSummaryCommandName" xml:space="preserve"><value>틈 확인</value></data>
+<data name="GapCheckSettingsTitle" xml:space="preserve"><value>틈 검사 설정</value></data>
+<data name="GapCheckMaxFramesLabel" xml:space="preserve"><value>틈으로 볼 길이</value></data>
+<data name="GapCheckSelectedLayersOnlyLabel" xml:space="preserve"><value>선택한 레이어만</value></data>
+<data name="GapCheckNotFound" xml:space="preserve"><value>틈을 찾지 못했습니다.</value></data>
+<data name="GapCheckFoundSummary" xml:space="preserve"><value>{0}개의 틈을 찾았습니다.</value></data>
+<data name="GapCheckFoundLine" xml:space="preserve"><value>레이어 {0}: {1}프레임부터 {2}프레임</value></data>
+<data name="GapCheckFoundMore" xml:space="preserve"><value>외 {0}건</value></data>
+<data name="BookmarkDisplayName" xml:space="preserve"><value>북마크</value></data>
+<data name="BookmarkDescription" xml:space="preserve"><value>자주 돌아가는 위치를 기억해 두고 앞뒤 북마크로 한 번에 이동합니다.</value></data>
+<data name="BookmarkToggleCommandName" xml:space="preserve"><value>여기를 북마크</value></data>
+<data name="BookmarkNextCommandName" xml:space="preserve"><value>다음 북마크로</value></data>
+<data name="BookmarkPreviousCommandName" xml:space="preserve"><value>이전 북마크로</value></data>
+<data name="BookmarkClearCommandName" xml:space="preserve"><value>모두 삭제</value></data>
+<data name="BookmarkSettingsTitle" xml:space="preserve"><value>북마크</value></data>
+<data name="BookmarkEmpty" xml:space="preserve"><value>아직 북마크가 없습니다.</value></data>
+<data name="BookmarkJump" xml:space="preserve"><value>여기로 이동</value></data>
+<data name="BookmarkRemove" xml:space="preserve"><value>삭제</value></data>
+<data name="BookmarkClearConfirm" xml:space="preserve"><value>북마크를 모두 삭제할까요?</value></data>
+<data name="BookmarkDefaultName" xml:space="preserve"><value>북마크 {0}</value></data>
+<data name="BookmarkFrameFormat" xml:space="preserve"><value>{0}F</value></data>
+<data name="LayerEditorDisplayName" xml:space="preserve"><value>레이어 일괄 편집</value></data>
+<data name="LayerEditorDescription" xml:space="preserve"><value>여러 레이어의 이름과 색을 한 번에 바꿉니다.</value></data>
+<data name="LayerEditorApplyCommandName" xml:space="preserve"><value>적용</value></data>
+<data name="LayerEditorResetCommandName" xml:space="preserve"><value>초기화</value></data>
+<data name="LayerEditorScopeLabel" xml:space="preserve"><value>대상</value></data>
+<data name="LayerEditorScopeSelected" xml:space="preserve"><value>선택한 레이어</value></data>
+<data name="LayerEditorScopeRange" xml:space="preserve"><value>범위 지정</value></data>
+<data name="LayerEditorFromLabel" xml:space="preserve"><value>시작 레이어</value></data>
+<data name="LayerEditorToLabel" xml:space="preserve"><value>끝 레이어</value></data>
+<data name="LayerEditorNameLabel" xml:space="preserve"><value>레이어 이름</value></data>
+<data name="LayerEditorNameHint" xml:space="preserve"><value>{0}은 레이어 번호로, {1}은 위에서부터 센 일련번호로 바뀝니다.</value></data>
+<data name="LayerEditorColorLabel" xml:space="preserve"><value>배경색</value></data>
+<data name="LayerEditorNoTarget" xml:space="preserve"><value>바꿀 레이어가 없습니다.</value></data>
+<data name="LayerEditorNothingToDo" xml:space="preserve"><value>변경할 항목이 선택되지 않았습니다.</value></data>
+<data name="LayerEditorApplied" xml:space="preserve"><value>{0}개의 레이어를 바꿨습니다.</value></data>
+<data name="LayerEditorResetConfirm" xml:space="preserve"><value>대상 레이어의 설정을 기본값으로 되돌릴까요?</value></data>
+<data name="GapCheckFoundLineAll" xml:space="preserve"><value>모든 레이어: {0}프레임부터 {1}프레임</value></data>
+<data name="GapCheckModeLabel" xml:space="preserve"><value>찾는 방법</value></data>
+<data name="GapCheckModePerLayer" xml:space="preserve"><value>레이어별</value></data>
+<data name="GapCheckModeAcrossLayers" xml:space="preserve"><value>레이어 전체</value></data>
+<data name="GapCheckModeAll" xml:space="preserve"><value>전체</value></data>
+<data name="LayerEditorDialogTitle" xml:space="preserve"><value>레이어 설정 일괄 변경</value></data>
+<data name="LayerEditorEnabledLabel" xml:space="preserve"><value>유효</value></data>
+<data name="LayerEditorVolumeLabel" xml:space="preserve"><value>음량</value></data>
+<data name="LayerEditorColorClearTip" xml:space="preserve"><value>배경색 지우기</value></data>
+<data name="TextTagDisplayName" xml:space="preserve"><value>문자 태그</value></data>
+<data name="TextTagDescription" xml:space="preserve"><value>대사나 텍스트에 색·크기·루비·대기 등의 문자 태그를 붙입니다.</value></data>
+<data name="TextTagWindowTitle" xml:space="preserve"><value>문자 태그</value></data>
+<data name="TextTagTargetLabel" xml:space="preserve"><value>대상</value></data>
+<data name="TextTagNoTarget" xml:space="preserve"><value>편집할 대사나 텍스트 아이템이 없습니다.</value></data>
+<data name="TextTagRangeTab" xml:space="preserve"><value>범위에 적용</value></data>
+<data name="TextTagInsertTab" xml:space="preserve"><value>커서 위치에 삽입</value></data>
+<data name="TextTagRangeHint" xml:space="preserve"><value>아래 문장에서 범위를 선택하면 버튼을 누를 수 있습니다.</value></data>
+<data name="TextTagRangeReady" xml:space="preserve"><value>선택한 범위에 태그를 붙입니다.</value></data>
+<data name="TextTagInsertHint" xml:space="preserve"><value>커서 위치에 태그를 넣습니다. 범위를 선택 중이면 그 바로 뒤에 들어갑니다.</value></data>
+<data name="TextTagSampleBody" xml:space="preserve"><value>가나다라</value></data>
+<data name="TextTagCommit" xml:space="preserve"><value>확인</value></data>
+<data name="TextTagRevert" xml:space="preserve"><value>처음으로 되돌리기</value></data>
+<data name="TextTagInsertButton" xml:space="preserve"><value>넣기</value></data>
+<data name="TextTagColorLabel" xml:space="preserve"><value>색</value></data>
+<data name="TextTagSizeLabel" xml:space="preserve"><value>크기</value></data>
+<data name="TextTagFontLabel" xml:space="preserve"><value>글꼴</value></data>
+<data name="TextTagPositionLabel" xml:space="preserve"><value>위치</value></data>
+<data name="TextTagPositionByFontLabel" xml:space="preserve"><value>위치（글자 비）</value></data>
+<data name="TextTagRotateLabel" xml:space="preserve"><value>회전</value></data>
+<data name="TextTagLetterSpacingLabel" xml:space="preserve"><value>자간</value></data>
+<data name="TextTagRubyLabel" xml:space="preserve"><value>루비</value></data>
+<data name="TextTagSpeedLabel" xml:space="preserve"><value>표시 속도</value></data>
+<data name="TextTagWaitLabel" xml:space="preserve"><value>대기</value></data>
+<data name="TextTagClearLabel" xml:space="preserve"><value>지우기</value></data>
+<data name="TextTagFieldColor" xml:space="preserve"><value>글자색</value></data>
+<data name="TextTagFieldUseDecorationColor" xml:space="preserve"><value>장식색도 지정</value></data>
+<data name="TextTagFieldDecorationColor" xml:space="preserve"><value>장식색</value></data>
+<data name="TextTagFieldFontSize" xml:space="preserve"><value>크기</value></data>
+<data name="TextTagFieldFontFamily" xml:space="preserve"><value>글꼴</value></data>
+<data name="TextTagFieldStyle" xml:space="preserve"><value>스타일</value></data>
+<data name="TextTagFieldDecorationType" xml:space="preserve"><value>장식</value></data>
+<data name="TextTagFieldX" xml:space="preserve"><value>X</value></data>
+<data name="TextTagFieldY" xml:space="preserve"><value>Y</value></data>
+<data name="TextTagFieldRelative" xml:space="preserve"><value>현재 위치 기준</value></data>
+<data name="TextTagFieldAngle" xml:space="preserve"><value>각도</value></data>
+<data name="TextTagFieldSpacing" xml:space="preserve"><value>자간</value></data>
+<data name="TextTagFieldRubyText" xml:space="preserve"><value>읽기</value></data>
+<data name="TextTagFieldRubyScale" xml:space="preserve"><value>루비 크기</value></data>
+<data name="TextTagFieldSpeed" xml:space="preserve"><value>글자／초</value></data>
+<data name="TextTagFieldSeconds" xml:space="preserve"><value>초</value></data>
+<data name="TextTagFieldPerCharacter" xml:space="preserve"><value>글자 수만큼 대기</value></data>
+<data name="TextTagDecorationNone" xml:space="preserve"><value>바꾸지 않음</value></data>
+<data name="TextTagDecoration0" xml:space="preserve"><value>없음</value></data>
+<data name="TextTagDecoration1" xml:space="preserve"><value>그림자</value></data>
+<data name="TextTagDecoration2" xml:space="preserve"><value>그림자（옅음）</value></data>
+<data name="TextTagDecoration3" xml:space="preserve"><value>둥근 테두리</value></data>
+<data name="TextTagDecoration4" xml:space="preserve"><value>둥근 테두리（옅음）</value></data>
+<data name="TextTagDecoration5" xml:space="preserve"><value>각진 테두리</value></data>
+<data name="TextTagDecoration6" xml:space="preserve"><value>각진 테두리（옅음）</value></data>
+<data name="TextTagFieldUseColor" xml:space="preserve"><value>글자색도 지정</value></data>
+<data name="TextTagEmptyTarget" xml:space="preserve"><value>（내용 없음）</value></data>
+<data name="TextTagLiveNotice" xml:space="preserve"><value>변경한 텍스트는 즉시 아이템에 반영됩니다. 취소하면 원래대로 돌아갑니다.</value></data>
+<data name="TextTagUndo" xml:space="preserve"><value>한 단계 취소</value></data>
+<data name="TextTagUndoTip" xml:space="preserve"><value>직전 조작을 하나 취소합니다（Ctrl+Z）</value></data>
+<data name="TextTagFieldUseFontFamily" xml:space="preserve"><value>글꼴도 변경</value></data>
 </root>

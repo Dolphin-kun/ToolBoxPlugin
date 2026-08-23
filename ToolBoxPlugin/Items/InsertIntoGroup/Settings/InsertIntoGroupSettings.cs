@@ -18,10 +18,10 @@ namespace ToolBox.Items.InsertIntoGroup.Settings
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.Group;
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "グループ化";
+        public override string DisplayName => Texts.InsertIntoGroupDisplayName;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => "選択したアイテム全体を覆うグループ制御を追加して、まとめて扱えるようにします。";
+        public override string Description => Texts.InsertIntoGroupDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("InsertIntoGroupItemCommand");

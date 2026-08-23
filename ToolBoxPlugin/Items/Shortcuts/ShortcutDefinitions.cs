@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using YukkuriMovieMaker.Settings;
 using YukkuriMovieMaker.Resources.Icons;
-using YukkuriMovieMaker.Resources.Localization;
+using YmmTexts = YukkuriMovieMaker.Resources.Localization.Texts;
 
 namespace ToolBox.Items.Shortcuts
 {
@@ -27,14 +27,14 @@ namespace ToolBox.Items.Shortcuts
             var field = typeof(CommandType).GetField(cmd.ToString());
             var displayAttr = field?.GetCustomAttribute<DisplayAttribute>();
             var name = displayAttr?.Name ?? cmd.ToString();
-            var displayName = Texts.GetString(name);
+            var displayName = YmmTexts.GetString(name) ?? cmd.ToString();
 
             return new ShortcutDefinition(
                 displayName,
                 cmd,
                 customLabel ?? displayName,
                 icon,
-                description ?? $"本体の「{displayName}」を実行します。",
+                description ?? string.Format(Texts.ShortcutDefaultDescription, displayName),
                 CurrentGroup);
         }
 
@@ -50,7 +50,7 @@ namespace ToolBox.Items.Shortcuts
         {
             var all = new List<ShortcutDefinition>();
 
-            CurrentGroup = "編集";
+            CurrentGroup = Texts.ShortcutGroupEdit;
             all.AddRange(
             [
                 Create(CommandType.Undo, IconKeys.Undo),
@@ -66,7 +66,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.AddTimelineSpace, IconKeys.ArrowExpandHorizontal),
             ]);
 
-            CurrentGroup = "アイテム";
+            CurrentGroup = Texts.ShortcutGroupItem;
             all.AddRange(
             [
                 Create(CommandType.SplitCurrentPosition, IconKeys.PaperCutVertical),
@@ -83,7 +83,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.CreateFaceItemFromVoiceItem, IconKeys.EmoticonOutline),
             ]);
 
-            CurrentGroup = "整列・移動";
+            CurrentGroup = Texts.ShortcutGroupArrange;
             all.AddRange(
             [
                 Create(CommandType.AlignItemsLeft, IconKeys.AlignHorizontalLeft),
@@ -101,7 +101,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.MoveSelectedItemsToNextSecond, IconKeys.ChevronDoubleRight),
             ]);
 
-            CurrentGroup = "選択";
+            CurrentGroup = Texts.ShortcutGroupSelection;
             all.AddRange(
             [
                 Create(CommandType.SelectAll, IconKeys.SelectAll),
@@ -114,7 +114,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.SelectCurrentPositionItems, IconKeys.SelectAll),
             ]);
 
-            CurrentGroup = "アイテムの追加";
+            CurrentGroup = Texts.ShortcutGroupAddItem;
             all.AddRange(
             [
                 Create(CommandType.AddVoiceItem, IconKeys.MessageTextOutline),
@@ -133,7 +133,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.AddFileItem, IconKeys.FilePlusOutline),
             ]);
 
-            CurrentGroup = "中間点";
+            CurrentGroup = Texts.ShortcutGroupMidpoint;
             all.AddRange(
             [
                 Create(CommandType.AddKeyFrameAtCurrentFrame, IconKeys.PlusThick),
@@ -143,7 +143,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.RemoveAllKeyFrames, IconKeys.Delete),
             ]);
 
-            CurrentGroup = "再生";
+            CurrentGroup = Texts.ShortcutGroupPlayback;
             all.AddRange(
             [
                 Create(CommandType.PlayPause, IconKeys.Play),
@@ -160,7 +160,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.PlaybackRateReset, IconKeys.Restore),
             ]);
 
-            CurrentGroup = "表示";
+            CurrentGroup = Texts.ShortcutGroupView;
             all.AddRange(
             [
                 Create(CommandType.ZoomInTimeline, IconKeys.MagnifyPlusOutline),
@@ -174,7 +174,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.SwitchControlPointVisibility, IconKeys.VectorPolyline),
             ]);
 
-            CurrentGroup = "レイヤー";
+            CurrentGroup = Texts.ShortcutGroupLayer;
             all.AddRange(
             [
                 Create(CommandType.AddLayer, IconKeys.PlusThick),
@@ -186,7 +186,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.EnableAllLayers, IconKeys.EyeOutline),
             ]);
 
-            CurrentGroup = "キャラクター・シーン";
+            CurrentGroup = Texts.ShortcutGroupCharacterScene;
             all.AddRange(
             [
                 Create(CommandType.ChangePreviousCharacter, IconKeys.AccountArrowLeft),
@@ -196,7 +196,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.SelectNextScene, IconKeys.ChevronRight),
             ]);
 
-            CurrentGroup = "プロジェクト";
+            CurrentGroup = Texts.ShortcutGroupProject;
             all.AddRange(
             [
                 Create(CommandType.SaveProject, IconKeys.ContentSave),
@@ -208,7 +208,7 @@ namespace ToolBox.Items.Shortcuts
                 Create(CommandType.SaveThumbnailToClipboard, IconKeys.CameraOutline),
             ]);
 
-            CurrentGroup = "ウィンドウ・フォルダ";
+            CurrentGroup = Texts.ShortcutGroupWindowFolder;
             all.AddRange(
             [
                 Create(CommandType.OpenSettingWindow, IconKeys.Cog),

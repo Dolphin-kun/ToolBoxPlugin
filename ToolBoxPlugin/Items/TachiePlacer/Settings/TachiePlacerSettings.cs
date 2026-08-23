@@ -10,10 +10,10 @@ namespace ToolBox.Items.TachiePlacer.Settings
 {
     public enum TachiePlacement
     {
-        [Display(Name = "下のレイヤー", Description = "音声の1つ下のレイヤー")]
+        [Display(Name = nameof(Texts.TachiePlacementBelow), Description = nameof(Texts.TachiePlacementBelowDescription), ResourceType = typeof(Texts))]
         Below = 0,
 
-        [Display(Name = "上のレイヤー", Description = "音声の1つ上のレイヤー")]
+        [Display(Name = nameof(Texts.TachiePlacementAbove), Description = nameof(Texts.TachiePlacementAboveDescription), ResourceType = typeof(Texts))]
         Above = 1
     }
 
@@ -35,10 +35,10 @@ namespace ToolBox.Items.TachiePlacer.Settings
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.AccountPlus;
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "立ち絵配置";
+        public override string DisplayName => Texts.TachiePlacerDisplayName;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => "選択した音声アイテムのキャラクターに対応する立ち絵アイテムを、上下いずれかの隣接レイヤーへ配置します。";
+        public override string Description => Texts.TachiePlacerDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("TachiePlacerItemCommand");

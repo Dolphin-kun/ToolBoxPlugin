@@ -6,6 +6,7 @@
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
              xmlns:commons="clr-namespace:ToolBox.Commons"
+             xmlns:tbControls="clr-namespace:ToolBox.Controls"
              xmlns:settings="clr-namespace:ToolBox.Settings"
              mc:Ignorable="d"
              d:DesignHeight="40" d:DesignWidth="40"
@@ -54,11 +55,11 @@
                     </Style.Triggers>
                 </Style>
             </Button.Style>
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image Source="{Binding CustomImagePath, Converter={x:Static commons:ImagePathConverter.Instance}}"
-                       Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Image.Style>
-                        <Style TargetType="Image">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True">
+                <tbControls:AnimatedImage SourcePath="{Binding CustomImagePath}"
+                       Stretch="{Binding ImageStretch}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <tbControls:AnimatedImage.Style>
+                        <Style TargetType="tbControls:AnimatedImage">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Image}">
@@ -66,8 +67,8 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Image.Style>
-                </Image>
+                    </tbControls:AnimatedImage.Style>
+                </tbControls:AnimatedImage>
 
                 <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock.Style>

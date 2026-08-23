@@ -34,7 +34,7 @@ namespace ToolBox.Items.Shortcuts
                         }
                     }
                 },
-                displayName: "ショートカットを実行",
+                displayName: Texts.ShortcutRunCommandName,
                 requiresItemParameter: true)
         ];
     }

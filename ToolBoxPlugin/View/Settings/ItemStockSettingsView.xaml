@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="ToolBox.View.Settings.ItemStockSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:tbControls="clr-namespace:ToolBox.Controls"
@@ -14,9 +15,9 @@
              d:DataContext="{d:DesignInstance Type=vm:ItemStockSettingsViewModel}">
 
     <StackPanel>
-        <TextBlock Text="保存したアイテム"
+        <TextBlock Text="{x:Static toolbox:Texts.ItemStockTitle}"
                    FontWeight="SemiBold" FontSize="13"/>
-        <TextBlock Text="タイムラインで選んだアイテムをここに貯めておけます。パネルに「保存したアイテムを追加」を置くと、貯めたものを 1 つ紐づけて呼び出せます。"
+        <TextBlock Text="{x:Static toolbox:Texts.ItemStockHint}"
                    TextWrapping="Wrap"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
         <Border Style="{DynamicResource SettingsHeaderSeparator}"/>
@@ -25,7 +26,7 @@
                 BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                 Height="200">
             <Grid>
-                <TextBlock Text="まだ何も保存されていません。"
+                <TextBlock Text="{x:Static toolbox:Texts.ItemStockEmpty}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            TextWrapping="Wrap" TextAlignment="Center"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
@@ -59,8 +60,8 @@
                             <Grid Background="Transparent" Margin="0,2">
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="名前を変更" Click="OnRenameClick"/>
-                                        <MenuItem Header="削除" Click="OnRemoveClick"/>
+                                        <MenuItem Header="{x:Static toolbox:Texts.CommonRename}" Click="OnRenameClick"/>
+                                        <MenuItem Header="{x:Static toolbox:Texts.CommonDelete}" Click="OnRemoveClick"/>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
 
@@ -84,7 +85,7 @@
                                          KeyDown="OnRenameBoxKeyDown"
                                          LostFocus="OnRenameBoxLostFocus" Height="24" VerticalContentAlignment="Center">
                                     <TextBox.Style>
-                                        <Style TargetType="TextBox">
+                                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                                             <Setter Property="Visibility" Value="Collapsed"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsEditing}" Value="True">
@@ -111,25 +112,25 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Command="{Binding MoveUpCommand}"
-                    Width="28" Padding="0,3" ToolTip="上へ">
+                    Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveUp}">
                 <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronUp}"
                                      Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                      Width="14" Height="14"/>
             </Button>
             <Button Grid.Column="1" Command="{Binding MoveDownCommand}"
-                    Width="28" Padding="0,3" ToolTip="下へ">
+                    Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveDown}">
                 <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronDown}"
                                      Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                      Width="14" Height="14"/>
             </Button>
             <Button Grid.Column="2" Command="{Binding RemoveCommand}"
-                    Width="28" Padding="0,3" ToolTip="削除">
+                    Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonDelete}">
                 <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
                                      Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                      Width="14" Height="14"/>
             </Button>
 
-            <Button Grid.Column="4" Content="すべて消す" Command="{Binding ClearCommand}"
+            <Button Grid.Column="4" Content="{x:Static toolbox:Texts.CommonClearAll}" Command="{Binding ClearCommand}"
                     Padding="8,3"/>
         </Grid>
 
@@ -139,14 +140,14 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="選んでいるアイテムを保存"
+            <Button Grid.Column="0" Content="{x:Static toolbox:Texts.ItemStockSaveSelected}"
                     Command="{Binding AddCommand}"
                     Padding="8,3"
-                    ToolTip="タイムラインで選んでいるアイテムを、新しく保存します"/>
-            <Button Grid.Column="1" Content="上書き"
+                    ToolTip="{x:Static toolbox:Texts.ItemStockSaveTip}"/>
+            <Button Grid.Column="1" Content="{x:Static toolbox:Texts.CommonOverwrite}"
                     Command="{Binding OverwriteCommand}"
                     Padding="8,3"
-                    ToolTip="選んでいる保存内容を、今タイムラインで選んでいるアイテムで置き換えます"/>
+                    ToolTip="{x:Static toolbox:Texts.ItemStockOverwriteTip}"/>
         </Grid>
     </StackPanel>
 </UserControl>

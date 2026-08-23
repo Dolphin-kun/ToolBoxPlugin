@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="ToolBox.Items.Launcher.Views.LauncherSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
@@ -10,15 +11,15 @@
              d:DataContext="{d:DesignInstance Type=local:LauncherSettings}">
 
     <StackPanel>
-        <TextBlock Text="開く対象" Margin="0,0,0,4"/>
+        <TextBlock Text="{x:Static toolbox:Texts.LauncherTargetLabel}" Margin="0,0,0,4"/>
 
         <controls:FileSelector Value="{Binding TargetPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Filter="すべてのファイル|*.*"
+                               Filter="{x:Static toolbox:Texts.FilterAllFiles}"
                                AllowEmptyFilePath="True"
                                Height="24" VerticalContentAlignment="Center"
                                Margin="0,0,0,4"/>
 
-        <Button Content="フォルダーを選ぶ..." Click="OnBrowseFolderClick"
+        <Button Content="{x:Static toolbox:Texts.LauncherBrowseFolder}" Click="OnBrowseFolderClick"
                 HorizontalAlignment="Left" Padding="8,3"
                 Margin="0,0,0,6"/>
     </StackPanel>

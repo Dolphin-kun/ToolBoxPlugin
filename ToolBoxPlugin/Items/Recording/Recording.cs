@@ -22,7 +22,7 @@ namespace ToolBox.Items.Recording
                     ctx.Timeline,
                     ctx.UndoRedoManager,
                     ctx.FindItemSettings<RecordingSettings>()?.RecordingDeviceIndex ?? 0),
-                displayName: "録音の開始/停止"),
+                displayName: Texts.RecordingToggleCommandName),
         ];
     }
 }

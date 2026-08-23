@@ -16,7 +16,7 @@ namespace ToolBox.Items.SeparateAudio
             new("SeparateAudioItemCommand",
                 ctx => ctx.SelectedItems?.Any(item => item is VideoItem videoItem && !string.IsNullOrEmpty(videoItem.FilePath)) == true,
                 ctx => AudioCommand.DetachAudioFromVideoItem(ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
-                displayName: "音声を分離"),
+                displayName: Texts.SeparateAudioCommandName),
         ];
     }
 }

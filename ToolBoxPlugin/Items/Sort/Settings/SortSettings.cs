@@ -22,10 +22,10 @@ namespace ToolBox.Items.Sort.Settings
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.Sort;
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "整列";
+        public override string DisplayName => Texts.SortDisplayName;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => "選択したアイテムを開始位置の早い順・遅い順にレイヤーへ並べ直します。";
+        public override string Description => Texts.SortDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("SortAscendingItemCommand");

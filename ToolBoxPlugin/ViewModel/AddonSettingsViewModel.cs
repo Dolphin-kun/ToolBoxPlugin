@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -17,7 +17,7 @@ namespace ToolBox.ViewModel
         public ICommand OpenAddonFolderCommand { get; }
         public ICommand ReloadCommand { get; }
 
-        public AddonSettingsViewModel() : base("アドオン")
+        public AddonSettingsViewModel() : base(Texts.AddonSettingsTitle)
         {
             DeleteAddonCommand = new ActionCommand(
                 param => param is AddonEntryViewModel,
@@ -49,8 +49,8 @@ namespace ToolBox.ViewModel
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"フォルダーを開けませんでした。\n\n{directory}\n\n{ex.Message}",
-                    "アドオン",
+                    $"{Texts.AddonOpenFolderFailed}\n\n{directory}\n\n{ex.Message}",
+                    Texts.AddonSettingsTitle,
                     MessageBoxButton.OK);
             }
         }
@@ -58,8 +58,8 @@ namespace ToolBox.ViewModel
         private static void DeleteAddon(AddonEntryViewModel addon)
         {
             var confirm = MessageBox.Show(
-                $"アドオン「{addon.Name}」を削除します。\n\n{addon.SourcePath}",
-                "アドオンの削除",
+                $"{string.Format(Texts.AddonDeleteConfirm, addon.Name)}\n\n{addon.SourcePath}",
+                Texts.AddonDeleteCaption,
                 MessageBoxButton.OKCancel);
 
             if (confirm != MessageBoxResult.OK)
@@ -70,17 +70,17 @@ namespace ToolBox.ViewModel
                 if (!AddonLoader.DeleteAddonFile(addon.SourcePath))
                 {
                     MessageBox.Show(
-                        $"アドオン「{addon.Name}」を無効化しました。\n" +
-                        "読み込み済みのため、ファイルの削除と機能の解放は 本体の再起動時に完了します。",
-                        "アドオンの削除",
+                        $"{string.Format(Texts.AddonDisabled, addon.Name)}\n" +
+                        Texts.AddonDisabledHint,
+                        Texts.AddonDeleteCaption,
                         MessageBoxButton.OK);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"アドオン「{addon.Name}」を削除できませんでした。\n\n{ex.Message}",
-                    "アドオンの削除",
+                    $"{string.Format(Texts.AddonDeleteFailed, addon.Name)}\n\n{ex.Message}",
+                    Texts.AddonDeleteCaption,
                     MessageBoxButton.OK);
             }
         }
@@ -146,7 +146,7 @@ namespace ToolBox.ViewModel
         {
             Name = Path.GetFileNameWithoutExtension(path),
             SourcePath = path,
-            Description = "無効にしています。有効に戻すと次の読み込みで反映されます。",
+            Description = Texts.AddonDisabledDescription,
             isEnabled = false,
         };
     }

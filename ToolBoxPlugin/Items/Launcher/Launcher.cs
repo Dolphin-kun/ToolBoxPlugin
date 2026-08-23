@@ -1,4 +1,4 @@
-using ToolBox.Commons;
+﻿using ToolBox.Commons;
 using ToolBox.Items.Launcher.Settings;
 using ToolBox.Items.Launcher.Views;
 
@@ -21,7 +21,7 @@ namespace ToolBox.Items.Launcher
                     if (param is LauncherSettings settings)
                         LauncherCommand.Launch(settings);
                 },
-                displayName: "開く",
+                displayName: Texts.LauncherOpenCommandName,
                 requiresItemParameter: true),
         ];
     }

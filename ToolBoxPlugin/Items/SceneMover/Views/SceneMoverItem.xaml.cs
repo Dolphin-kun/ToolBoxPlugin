@@ -1,35 +1,20 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using ToolBox.Commons;
+using ToolBox.Controls;
 using ToolBox.Items.SceneMover.Settings;
 using ToolBox.ViewModel;
 
 namespace ToolBox.Items.SceneMover.Views
 {
-    public partial class SceneMoverItem : UserControl
+    public partial class SceneMoverItem : ToolItemView
     {
-        private const string Caption = "シーンへ移動";
+        private static string Caption => Texts.SceneMoverDisplayName;
 
-        private readonly AdornerUtil adornerUtil = new();
-
-        public SceneMoverItem()
-        {
-            InitializeComponent();
-            MouseRightButtonDown += OnMouseRightButtonDown;
-        }
-
-        private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (DataContext is not SceneMoverSettings settings)
-                return;
-
-            e.Handled = true;
-            adornerUtil.Toggle(this, () => new SceneMoverSettingsPanel { DataContext = settings });
-        }
-
+        public SceneMoverItem() => InitializeComponent();
         private void OnOpenMenu(object sender, MouseButtonEventArgs e)
         {
             try
@@ -48,7 +33,7 @@ namespace ToolBox.Items.SceneMover.Views
             {
                 System.Diagnostics.Debug.WriteLine($"Failed to open the scene menu: {ex}");
                 MessageBox.Show(
-                    $"移動先の一覧を開けませんでした。\n{ex.Message}",
+                    $"{Texts.SceneMoverMenuFailed}\n{ex.Message}",
                     Caption,
                     MessageBoxButton.OK);
             }
@@ -61,11 +46,11 @@ namespace ToolBox.Items.SceneMover.Views
 
             if (context == null)
             {
-                menu.Items.Add(new MenuItem { Header = "ツールボックスを初期化できていません。", IsEnabled = false });
+                menu.Items.Add(new MenuItem { Header = Texts.ToolBoxNotReady, IsEnabled = false });
                 return menu;
             }
 
-            var newScene = new MenuItem { Header = "新しいシーンへ" };
+            var newScene = new MenuItem { Header = Texts.SceneMoverMenuNewScene };
             newScene.Click += (_, _) => SceneMoverCommand.MoveToNewScene(context, settings);
             menu.Items.Add(newScene);
 
@@ -73,7 +58,7 @@ namespace ToolBox.Items.SceneMover.Views
             if (others.Count == 0)
             {
                 menu.Items.Add(new Separator());
-                menu.Items.Add(new MenuItem { Header = "ほかのシーンはありません", IsEnabled = false });
+                menu.Items.Add(new MenuItem { Header = Texts.SceneMoverMenuNoOtherScenes, IsEnabled = false });
                 return menu;
             }
 
@@ -82,7 +67,7 @@ namespace ToolBox.Items.SceneMover.Views
             foreach (var timeline in others)
             {
                 var target = timeline;
-                var entry = new MenuItem { Header = string.IsNullOrWhiteSpace(target.Name) ? "(名前なし)" : target.Name };
+                var entry = new MenuItem { Header = string.IsNullOrWhiteSpace(target.Name) ? Texts.CommonNoName : target.Name };
                 entry.Click += (_, _) => SceneMoverCommand.MoveToScene(context, settings, target);
                 menu.Items.Add(entry);
             }

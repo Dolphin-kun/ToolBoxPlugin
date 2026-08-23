@@ -8,6 +8,10 @@ namespace ToolBox.Controls
 
         public string IconPath { get; init; } = string.Empty;
 
+        public string ImagePath { get; init; } = string.Empty;
+
+        public Stretch ImageStretch { get; init; } = Stretch.Uniform;
+
         public IReadOnlyList<RadialEntry> Children { get; init; } = [];
 
         public Action? Invoke { get; init; }

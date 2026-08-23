@@ -55,11 +55,11 @@ namespace ToolBox.Items.Macro.Settings
         [JsonIgnore, NJsonIgnore]
         public string DisplayText => Kind switch
         {
-            MacroStepKind.Wait => $"{WaitMilliseconds} ミリ秒待つ",
-            MacroStepKind.Shortcut => "ショートカット / " + ShortcutDisplayName(),
-            MacroStepKind.PanelItem => "アイテム / " + PanelItemDisplayName(),
-            _ when string.IsNullOrEmpty(CommandName) => "新しい手順 (操作を選んでください)",
-            _ => CommandCatalog.Find(CommandName)?.FullDisplayName ?? $"(不明な操作: {CommandName})",
+            MacroStepKind.Wait => string.Format(Texts.MacroStepWait, WaitMilliseconds),
+            MacroStepKind.Shortcut => Texts.StepKindShortcut + " / " + ShortcutDisplayName(),
+            MacroStepKind.PanelItem => Texts.MacroPanelItemLabel + " / " + PanelItemDisplayName(),
+            _ when string.IsNullOrEmpty(CommandName) => Texts.MacroStepNew,
+            _ => CommandCatalog.Find(CommandName)?.FullDisplayName ?? string.Format(Texts.MacroStepUnknown, CommandName),
         };
 
         private string ShortcutDisplayName() =>
@@ -69,6 +69,6 @@ namespace ToolBox.Items.Macro.Settings
 
         private string PanelItemDisplayName() =>
             ToolBoxViewModel.FindPlacedItem(PanelItemId)?.InstanceSummary
-            ?? (PanelItemId == Guid.Empty ? "(アイテムを選んでください)" : "(見つかりません)");
+            ?? (PanelItemId == Guid.Empty ? Texts.MacroStepChooseItem : Texts.CommonNotFound);
     }
 }

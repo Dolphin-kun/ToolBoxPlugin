@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -9,7 +9,7 @@ namespace ToolBox.ViewModel
 {
     public class ItemStockSettingsViewModel : SettingsNodeViewModel
     {
-        private const string Caption = "保存したアイテム";
+        private static string Caption => Texts.ItemStockTitle;
 
         public ObservableCollection<ItemStockEntry> Stocks => ItemStockStore.Entries;
 
@@ -33,7 +33,7 @@ namespace ToolBox.ViewModel
         public ICommand MoveDownCommand { get; }
         public ICommand ClearCommand { get; }
 
-        public ItemStockSettingsViewModel() : base("保存したアイテム")
+        public ItemStockSettingsViewModel() : base(Texts.ItemStockTitle)
         {
             AddCommand = new ActionCommand(_ => HasSelection(), _ => Add());
             OverwriteCommand = new ActionCommand(_ => HasSelection() && SelectedStock != null, _ => Overwrite());
@@ -75,7 +75,7 @@ namespace ToolBox.ViewModel
             if (items is null || items.Count == 0)
             {
                 MessageBox.Show(
-                    "タイムラインでアイテムを選んでから押してください。",
+                    Texts.ItemStockSelectFirst,
                     Caption,
                     MessageBoxButton.OK);
                 return;
@@ -85,7 +85,7 @@ namespace ToolBox.ViewModel
             if (entry == null)
             {
                 MessageBox.Show(
-                    "このアイテムは保存できませんでした。",
+                    Texts.ItemStockSaveFailed,
                     Caption,
                     MessageBoxButton.OK);
                 return;
@@ -103,7 +103,7 @@ namespace ToolBox.ViewModel
                 return;
 
             var confirm = MessageBox.Show(
-                $"「{entry.DisplayLabel}」の中身を、今選んでいるアイテムで置き換えます。",
+                string.Format(Texts.ItemStockOverwriteConfirm, entry.DisplayLabel),
                 Caption,
                 MessageBoxButton.OKCancel);
 
@@ -113,7 +113,7 @@ namespace ToolBox.ViewModel
             if (!ItemStockStore.Overwrite(entry, items))
             {
                 MessageBox.Show(
-                    "このアイテムは保存できませんでした。",
+                    Texts.ItemStockSaveFailed,
                     Caption,
                     MessageBoxButton.OK);
             }
@@ -123,8 +123,8 @@ namespace ToolBox.ViewModel
         {
             var users = CountUsers(entry);
             var message = users == 0
-                ? $"「{entry.DisplayLabel}」を消します。"
-                : $"「{entry.DisplayLabel}」を消します。\nこのアイテムを使っているボタンが {users} 個あります。";
+                ? string.Format(Texts.ItemStockDeleteConfirm, entry.DisplayLabel)
+                : $"{string.Format(Texts.ItemStockDeleteConfirm, entry.DisplayLabel)}\n{string.Format(Texts.ItemStockDeleteConfirmUsers, users)}";
 
             var confirm = MessageBox.Show(message, Caption, MessageBoxButton.OKCancel);
             if (confirm != MessageBoxResult.OK)
@@ -166,7 +166,7 @@ namespace ToolBox.ViewModel
         private void Clear()
         {
             var confirm = MessageBox.Show(
-                "保存したアイテムをすべて消します。\nボタンに紐づけているものも使えなくなります。",
+                $"{Texts.ItemStockClearConfirm}\n{Texts.ItemStockClearConfirmHint}",
                 Caption,
                 MessageBoxButton.OKCancel);
 

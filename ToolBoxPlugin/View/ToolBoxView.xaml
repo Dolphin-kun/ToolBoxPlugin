@@ -1,6 +1,7 @@
-<UserControl x:Class="ToolBox.View.ToolBoxView"
+﻿<UserControl x:Class="ToolBox.View.ToolBoxView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
@@ -26,18 +27,18 @@
 
             <Grid.ContextMenu>
                 <ContextMenu Closed="OnPanelContextMenuClosed" Opened="OnPanelContextMenuOpened">
-                    <MenuItem Header="配置を元に戻す" InputGestureText="パネル上で Ctrl+Z"
+                    <MenuItem Header="{x:Static toolbox:Texts.PanelUndoLayout}" InputGestureText="{x:Static toolbox:Texts.PanelUndoGesture}"
                               Command="{Binding UndoLayoutCommand}" />
-                    <MenuItem Header="配置をやり直す" InputGestureText="パネル上で Ctrl+Y"
+                    <MenuItem Header="{x:Static toolbox:Texts.PanelRedoLayout}" InputGestureText="{x:Static toolbox:Texts.PanelRedoGesture}"
                               Command="{Binding RedoLayoutCommand}" />
                     <Separator />
-                    <MenuItem x:Name="PasteItemMenuItem" Header="アイテムを貼り付け" Click="OnPasteItemClick" />
+                    <MenuItem x:Name="PasteItemMenuItem" Header="{x:Static toolbox:Texts.PanelPasteItem}" Click="OnPasteItemClick" />
                     <Separator />
-                    <MenuItem Header="パネルの追加" Click="OnAddPanelClick" />
-                    <MenuItem Header="パネルの複製" Click="OnDuplicatePanelClick" />
-                    <MenuItem Header="パネル名の編集" Click="OnRenamePanelClick" />
+                    <MenuItem Header="{x:Static toolbox:Texts.PanelAdd}" Click="OnAddPanelClick" />
+                    <MenuItem Header="{x:Static toolbox:Texts.PanelDuplicate}" Click="OnDuplicatePanelClick" />
+                    <MenuItem Header="{x:Static toolbox:Texts.PanelRenameTitle}" Click="OnRenamePanelClick" />
                     <Separator />
-                    <MenuItem Header="設定" Click="OnSettingsClick" />
+                    <MenuItem Header="{x:Static toolbox:Texts.CommonSettings}" Click="OnSettingsClick" />
                 </ContextMenu>
             </Grid.ContextMenu>
 

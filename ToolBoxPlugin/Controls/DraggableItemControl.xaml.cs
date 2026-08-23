@@ -268,8 +268,8 @@ namespace ToolBox.Controls
         private (int row, int col) PixelToClampedCell(double left, double top)
         {
             if (DropGrid == null) return (0, 0);
-            int col = (int)(left / DropGrid.CellSize);
-            int row = (int)(top / DropGrid.CellSize);
+            int col = Controls.DropGrid.ToCellIndex(left, DropGrid.CellSize);
+            int row = Controls.DropGrid.ToCellIndex(top, DropGrid.CellSize);
             col = Math.Max(0, Math.Min(col, DropGrid.ColumnCount - (int)CellSpan.Width));
             row = Math.Max(0, Math.Min(row, DropGrid.RowCount - (int)CellSpan.Height));
             return (row, col);
@@ -382,21 +382,21 @@ namespace ToolBox.Controls
 
             var contextMenu = new ContextMenu();
 
-            var settingsItem = new MenuItem { Header = "設定" };
+            var settingsItem = new MenuItem { Header = Texts.CommonSettings };
             settingsItem.Click += (s, args) => OpenItemSettings(settings);
             contextMenu.Items.Add(settingsItem);
 
-            var copyItem = new MenuItem { Header = "コピー" };
+            var copyItem = new MenuItem { Header = Texts.CommonCopy };
             copyItem.Click += (s, args) => ItemClipboard.Copy(settings);
             contextMenu.Items.Add(copyItem);
 
             contextMenu.Items.Add(new Separator());
 
-            var lockItem = new MenuItem { Header = settings.IsLocked ? "固定を解除" : "固定" };
+            var lockItem = new MenuItem { Header = settings.IsLocked ? Texts.ItemContextUnlock : Texts.ItemContextLock };
             lockItem.Click += (s, args) => settings.IsLocked = !settings.IsLocked;
             contextMenu.Items.Add(lockItem);
 
-            var hideItem = new MenuItem { Header = "非表示" };
+            var hideItem = new MenuItem { Header = Texts.ItemContextHide };
             hideItem.Click += (s, args) => HideItem(settings);
             contextMenu.Items.Add(hideItem);
 
@@ -427,16 +427,9 @@ namespace ToolBox.Controls
 
         private void OpenItemSettings(ToolItemSettings settings)
         {
-            ItemCatalog.GetDraggableItemsBySettingsType().TryGetValue(settings.GetType(), out var draggableItem);
+            if (ItemSettingsPanel.Create(settings) is not { } panel) return;
 
-            if (draggableItem?.SettingsViewType != null)
-            {
-                var panel = (FrameworkElement)Activator.CreateInstance(draggableItem.SettingsViewType)!;
-                panel.DataContext = settings;
-
-                var adornerUtil = new AdornerUtil();
-                adornerUtil.Toggle(this, () => panel);
-            }
+            new AdornerUtil().Show(this, () => panel);
         }
 
         public class ResizeEventArgs(Size startSize, Size currentSize) : EventArgs

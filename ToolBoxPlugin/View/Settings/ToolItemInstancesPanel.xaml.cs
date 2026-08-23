@@ -1,12 +1,9 @@
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace ToolBox.View.Settings
 {
     public partial class ToolItemInstancesPanel : UserControl
     {
-        public ToolItemInstancesPanel()
-        {
-            InitializeComponent();
-        }
+        public ToolItemInstancesPanel() => InitializeComponent();
     }
 }

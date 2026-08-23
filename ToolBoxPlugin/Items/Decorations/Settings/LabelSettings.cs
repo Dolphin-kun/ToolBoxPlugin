@@ -1,4 +1,6 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using System.Windows;
+using System.Windows.Media;
 using ToolBox.Settings;
 using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
@@ -13,10 +15,10 @@ namespace ToolBox.Items.Decorations.Settings
         public override string Name => "Label";
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "ラベル";
+        public override string DisplayName => Texts.LabelDisplayName;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => "パネルに見出しの文字を置きます。クリックしても何も実行しません。";
+        public override string Description => Texts.LabelDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.FormatText;
@@ -27,12 +29,30 @@ namespace ToolBox.Items.Decorations.Settings
         [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary => string.IsNullOrWhiteSpace(Text) ? DisplayName : Text;
 
-        private string text = "見出し";
+        private string text = Texts.LabelDefaultText;
         public string Text
         {
             get => text;
             set => Set(ref text, value, etcChangedPropertyNames: nameof(InstanceSummary));
         }
+
+        public const string DefaultFontFamily = "メイリオ";
+
+        private string fontFamily = DefaultFontFamily;
+
+        public string FontFamily
+        {
+            get => fontFamily;
+            set => Set(ref fontFamily, value ?? string.Empty,
+                etcChangedPropertyNames: [nameof(HasCustomFont), nameof(TextFontFamily)]);
+        }
+
+        [JsonIgnore, NJsonIgnore]
+        public bool HasCustomFont => !string.IsNullOrWhiteSpace(fontFamily);
+
+        [JsonIgnore, NJsonIgnore]
+        public FontFamily TextFontFamily =>
+            HasCustomFont ? new FontFamily(fontFamily) : SystemFonts.MessageFontFamily;
 
         private double fontSize = 12;
         public double FontSize

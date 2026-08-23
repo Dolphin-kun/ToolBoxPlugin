@@ -22,6 +22,9 @@ namespace ToolBox.Controls
             IsHitTestVisible = true;
         }
 
+        private const double MinPanelWidth = 260;
+        private const double MaxPanelWidth = 380;
+
         private static Border CreateChrome(UIElement content)
         {
             var border = new Border
@@ -29,7 +32,8 @@ namespace ToolBox.Controls
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(4),
                 Padding = new Thickness(8),
-                Width = 260,
+                MinWidth = MinPanelWidth,
+                MaxWidth = MaxPanelWidth,
                 Child = content,
             };
 

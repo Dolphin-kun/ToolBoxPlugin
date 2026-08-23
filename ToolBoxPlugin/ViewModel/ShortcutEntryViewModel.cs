@@ -27,7 +27,6 @@ namespace ToolBox.ViewModel
         protected override ToolItemSettings CreateInstance() => new ShortcutSettings
         {
             CommandType = definition.CommandType,
-            Label = definition.DefaultLabel,
         };
     }
 }

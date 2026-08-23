@@ -20,7 +20,7 @@ namespace ToolBox.ViewModel
 
         public bool IsIdle => !IsBusy;
 
-        private string statusMessage = "「一覧を取得」を押すと GitHub からアドオンを探します。";
+        private string statusMessage = Texts.AddonMarketplaceInitialStatus;
         public string StatusMessage
         {
             get => statusMessage;
@@ -33,7 +33,7 @@ namespace ToolBox.ViewModel
         public ICommand InstallCommand { get; }
         public ICommand OpenRepositoryCommand { get; }
 
-        public AddonMarketplaceViewModel() : base("アドオンを探す")
+        public AddonMarketplaceViewModel() : base(Texts.AddonMarketplaceTitle)
         {
             RefreshCommand = new ActionCommand(_ => !IsBusy, _ => _ = RefreshAsync());
             InstallCommand = new ActionCommand(
@@ -57,7 +57,7 @@ namespace ToolBox.ViewModel
         private async Task RefreshAsync()
         {
             IsBusy = true;
-            StatusMessage = "GitHub から一覧を取得しています...";
+            StatusMessage = Texts.AddonMarketplaceLoading;
 
             try
             {
@@ -71,7 +71,7 @@ namespace ToolBox.ViewModel
             }
             catch (Exception ex)
             {
-                StatusMessage = $"一覧を取得できませんでした: {ex.Message}";
+                StatusMessage = string.Format(Texts.AddonMarketplaceLoadFailed, ex.Message);
             }
             finally
             {
@@ -84,15 +84,15 @@ namespace ToolBox.ViewModel
         private static string BuildStatusMessage(SearchResponse response)
         {
             if (response.Addons.Count == 0)
-                return $"トピック「{AddonMarketplace.Topic}」が付いたリポジトリは見つかりませんでした。";
+                return string.Format(Texts.AddonMarketplaceNoResults, AddonMarketplace.Topic);
 
-            var message = $"{response.Addons.Count} 件見つかりました。";
+            var message = string.Format(Texts.AddonMarketplaceFound, response.Addons.Count);
 
             if (response.IsTruncated)
-                message += $" (GitHub 側の総数は {response.TotalCount} 件ですが、検索 API の上限により一部のみ表示しています)";
+                message += " " + string.Format(Texts.AddonMarketplaceTruncated, response.TotalCount);
 
             message += response.IsFromCache
-                ? $" 前回取得した一覧を表示しています ({response.CacheExpiresAt.LocalDateTime:HH:mm} まで)。"
+                ? " " + string.Format(Texts.AddonMarketplaceCached, response.CacheExpiresAt.LocalDateTime.ToString("HH:mm"))
                 : string.Empty;
 
             return message;
@@ -101,19 +101,19 @@ namespace ToolBox.ViewModel
         private async Task InstallAsync(MarketplaceAddonViewModel addon)
         {
             IsBusy = true;
-            StatusMessage = $"「{addon.Source.Name}」を取得しています...";
+            StatusMessage = string.Format(Texts.AddonMarketplaceInstalling, addon.Source.Name);
 
             try
             {
                 var installed = await AddonMarketplace.InstallAsync(addon.Source);
-                StatusMessage = $"「{addon.Source.Name}」を導入しました ({string.Join(", ", installed)})。";
+                StatusMessage = string.Format(Texts.AddonMarketplaceInstallSucceeded, addon.Source.Name, string.Join(", ", installed));
             }
             catch (Exception ex)
             {
-                StatusMessage = $"「{addon.Source.Name}」を導入できませんでした: {ex.Message}";
+                StatusMessage = string.Format(Texts.AddonMarketplaceInstallFailedStatus, addon.Source.Name, ex.Message);
                 MessageBox.Show(
-                    $"アドオンを導入できませんでした。\n\n{ex.Message}",
-                    "アドオンを探す",
+                    $"{Texts.AddonMarketplaceInstallFailed}\n\n{ex.Message}",
+                    Texts.AddonMarketplaceTitle,
                     MessageBoxButton.OK);
             }
             finally

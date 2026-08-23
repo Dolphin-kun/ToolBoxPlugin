@@ -1,4 +1,4 @@
-﻿using YukkuriMovieMaker.Generator;
+using YukkuriMovieMaker.Generator;
 
 namespace ToolBox
 {

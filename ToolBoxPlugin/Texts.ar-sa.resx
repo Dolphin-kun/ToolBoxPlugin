@@ -61,4 +61,453 @@
 <data name="CurrentCulture" xml:space="preserve"><value>ar-sa</value></data>
 <data name="PluginName" xml:space="preserve"><value>صندوق الأدوات</value></data>
 <data name="SettingsTitle" xml:space="preserve"><value>إعدادات صندوق الأدوات</value></data>
+<data name="CommonUnset" xml:space="preserve"><value>(غير محدد)</value></data>
+<data name="CommonNotFound" xml:space="preserve"><value>(غير موجود)</value></data>
+<data name="CommonNoName" xml:space="preserve"><value>(بلا اسم)</value></data>
+<data name="CommonSettings" xml:space="preserve"><value>الإعدادات</value></data>
+<data name="CommonCopy" xml:space="preserve"><value>نسخ</value></data>
+<data name="CommonCancel" xml:space="preserve"><value>إلغاء</value></data>
+<data name="CommonAdd" xml:space="preserve"><value>إضافة</value></data>
+<data name="CommonDelete" xml:space="preserve"><value>حذف</value></data>
+<data name="CommonRename" xml:space="preserve"><value>إعادة تسمية</value></data>
+<data name="CommonOverwrite" xml:space="preserve"><value>استبدال</value></data>
+<data name="CommonMoveUp" xml:space="preserve"><value>لأعلى</value></data>
+<data name="CommonMoveDown" xml:space="preserve"><value>لأسفل</value></data>
+<data name="CommonClearAll" xml:space="preserve"><value>مسح الكل</value></data>
+<data name="ToolBoxNotReady" xml:space="preserve"><value>لم تتم تهيئة صندوق الأدوات بعد.</value></data>
+<data name="FilterAllFiles" xml:space="preserve"><value>كل الملفات|*.*</value></data>
+<data name="FilterImageFiles" xml:space="preserve"><value>ملفات الصور|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|كل الملفات|*.*</value></data>
+<data name="UnitTimes" xml:space="preserve"><value>×</value></data>
+<data name="AddonMarketplaceNoResponse" xml:space="preserve"><value>لا يوجد رد من GitHub ({0}).</value></data>
+<data name="AddonMarketplaceRateLimitedUntil" xml:space="preserve"><value>تم بلوغ حد طلبات GitHub. حاول مرة أخرى بعد {0}.</value></data>
+<data name="AddonMarketplaceRateLimited" xml:space="preserve"><value>تم بلوغ حد طلبات GitHub. انتظر قليلاً ثم حاول مرة أخرى.</value></data>
+<data name="AddonMarketplaceReleaseUnreadable" xml:space="preserve"><value>تعذر قراءة معلومات الإصدار.</value></data>
+<data name="AddonMarketplaceNoAsset" xml:space="preserve"><value>لا يحتوي أحدث إصدار على ملف ‎.zip‎ أو ‎.dll‎.</value></data>
+<data name="AddonMarketplaceNoDll" xml:space="preserve"><value>لا يحتوي الملف الذي تم تنزيله على DLL.</value></data>
+<data name="AddonMarketplaceLastUpdated" xml:space="preserve"><value>آخر تحديث {0}</value></data>
+<data name="AddonMarketplaceTitle" xml:space="preserve"><value>البحث عن إضافات</value></data>
+<data name="AddonMarketplaceHintPrefix" xml:space="preserve"><value>يعرض مستودعات GitHub التي تحمل الوسم</value></data>
+<data name="AddonMarketplaceHintSuffix" xml:space="preserve"><value>. اضغط على «تثبيت» لجلب ملف zip أو dll من أحدث إصدار.</value></data>
+<data name="AddonMarketplaceRefresh" xml:space="preserve"><value>تحديث القائمة</value></data>
+<data name="AddonMarketplaceInstall" xml:space="preserve"><value>تثبيت</value></data>
+<data name="AddonMarketplaceInstalled" xml:space="preserve"><value>مثبَّت</value></data>
+<data name="AddonMarketplaceInitialStatus" xml:space="preserve"><value>اضغط «تحديث القائمة» للبحث عن إضافات في GitHub.</value></data>
+<data name="AddonMarketplaceLoading" xml:space="preserve"><value>جارٍ جلب القائمة من GitHub...</value></data>
+<data name="AddonMarketplaceLoadFailed" xml:space="preserve"><value>تعذر جلب القائمة: {0}</value></data>
+<data name="AddonMarketplaceNoResults" xml:space="preserve"><value>لم يتم العثور على مستودع يحمل الوسم «{0}».</value></data>
+<data name="AddonMarketplaceFound" xml:space="preserve"><value>تم العثور على {0}.</value></data>
+<data name="AddonMarketplaceTruncated" xml:space="preserve"><value>(يبلغ الإجمالي في GitHub ‏{0}، ويُعرض جزء منها فقط بسبب حد واجهة البحث)</value></data>
+<data name="AddonMarketplaceCached" xml:space="preserve"><value>يتم عرض القائمة التي جُلبت سابقًا (حتى {0}).</value></data>
+<data name="AddonMarketplaceInstalling" xml:space="preserve"><value>جارٍ جلب «{0}»...</value></data>
+<data name="AddonMarketplaceInstallSucceeded" xml:space="preserve"><value>تم تثبيت «{0}» ({1}).</value></data>
+<data name="AddonMarketplaceInstallFailedStatus" xml:space="preserve"><value>تعذر تثبيت «{0}»: {1}</value></data>
+<data name="AddonMarketplaceInstallFailed" xml:space="preserve"><value>تعذر تثبيت الإضافة.</value></data>
+<data name="AddonSettingsTitle" xml:space="preserve"><value>الإضافات</value></data>
+<data name="AddonListTitle" xml:space="preserve"><value>قائمة الإضافات</value></data>
+<data name="AddonListEmpty" xml:space="preserve"><value>لا توجد إضافات.</value></data>
+<data name="AddonOpenFolder" xml:space="preserve"><value>فتح المجلد</value></data>
+<data name="AddonReload" xml:space="preserve"><value>إعادة التحميل</value></data>
+<data name="AddonEnableTip" xml:space="preserve"><value>تفعيل / تعطيل التحميل</value></data>
+<data name="AddonDeleteTip" xml:space="preserve"><value>حذف هذه الإضافة</value></data>
+<data name="AddonOpenFolderFailed" xml:space="preserve"><value>تعذر فتح المجلد.</value></data>
+<data name="AddonDeleteCaption" xml:space="preserve"><value>حذف إضافة</value></data>
+<data name="AddonDeleteConfirm" xml:space="preserve"><value>سيتم حذف الإضافة «{0}».</value></data>
+<data name="AddonDisabled" xml:space="preserve"><value>تم تعطيل الإضافة «{0}».</value></data>
+<data name="AddonDisabledHint" xml:space="preserve"><value>هي محمَّلة بالفعل لذا يكتمل حذف الملف عند إعادة تشغيل YMM4.</value></data>
+<data name="AddonDeleteFailed" xml:space="preserve"><value>تعذر حذف الإضافة «{0}».</value></data>
+<data name="AddonDisabledDescription" xml:space="preserve"><value>معطَّلة. أعد تفعيلها ليتم تحميلها في المرة القادمة.</value></data>
+<data name="LabelDisplayName" xml:space="preserve"><value>تسمية</value></data>
+<data name="LabelDescription" xml:space="preserve"><value>يضع نص عنوان على اللوحة. النقر عليه لا يفعل شيئًا.</value></data>
+<data name="LabelDefaultText" xml:space="preserve"><value>عنوان</value></data>
+<data name="LabelSettingsTitle" xml:space="preserve"><value>إعدادات التسمية</value></data>
+<data name="LabelTextLabel" xml:space="preserve"><value>النص المعروض</value></data>
+<data name="LabelFontLabel" xml:space="preserve"><value>الخط</value></data>
+<data name="LabelFontSizeLabel" xml:space="preserve"><value>حجم النص</value></data>
+<data name="LabelBoldLabel" xml:space="preserve"><value>عريض</value></data>
+<data name="LabelAlignmentLabel" xml:space="preserve"><value>محاذاة النص</value></data>
+<data name="AlignLeft" xml:space="preserve"><value>يسار</value></data>
+<data name="AlignCenter" xml:space="preserve"><value>وسط</value></data>
+<data name="AlignRight" xml:space="preserve"><value>يمين</value></data>
+<data name="SeparatorDisplayName" xml:space="preserve"><value>فاصل</value></data>
+<data name="SeparatorDescription" xml:space="preserve"><value>يرسم خطًا فاصلًا على اللوحة. زخرفة لفصل مجموعات العناصر.</value></data>
+<data name="SeparatorSettingsTitle" xml:space="preserve"><value>إعدادات الفاصل</value></data>
+<data name="SeparatorOrientationLabel" xml:space="preserve"><value>الاتجاه</value></data>
+<data name="SeparatorHorizontal" xml:space="preserve"><value>أفقي</value></data>
+<data name="SeparatorVertical" xml:space="preserve"><value>رأسي</value></data>
+<data name="SeparatorThicknessLabel" xml:space="preserve"><value>سماكة الخط</value></data>
+<data name="SeparatorColorHint" xml:space="preserve"><value>يمكن تغيير لون الخط من «الألوان» في الإعدادات المشتركة.</value></data>
+<data name="InsertIntoGroupDisplayName" xml:space="preserve"><value>تجميع</value></data>
+<data name="InsertIntoGroupDescription" xml:space="preserve"><value>يضيف عنصر تجميع يغطي كل العناصر المحددة للتعامل معها معًا.</value></data>
+<data name="ItemStockTitle" xml:space="preserve"><value>العناصر المحفوظة</value></data>
+<data name="ItemStockHint" xml:space="preserve"><value>يمكنك تخزين العناصر المحددة في الخط الزمني هنا. ضع «إضافة عنصر محفوظ» على اللوحة لربط أحدها بزر.</value></data>
+<data name="ItemStockEmpty" xml:space="preserve"><value>لم يتم حفظ أي شيء بعد.</value></data>
+<data name="ItemStockSaveSelected" xml:space="preserve"><value>حفظ العناصر المحددة</value></data>
+<data name="ItemStockSaveTip" xml:space="preserve"><value>يحفظ العناصر المحددة حاليًا في الخط الزمني</value></data>
+<data name="ItemStockOverwriteTip" xml:space="preserve"><value>يستبدل الإدخال المحدد بالعناصر المحددة حاليًا في الخط الزمني</value></data>
+<data name="ItemStockSaveFailed" xml:space="preserve"><value>تعذر حفظ هذا العنصر.</value></data>
+<data name="ItemStockSelectFirst" xml:space="preserve"><value>حدد عناصر في الخط الزمني أولًا.</value></data>
+<data name="ItemStockSummaryMore" xml:space="preserve"><value>{0} و{1} أخرى</value></data>
+<data name="ItemStockOverwriteConfirm" xml:space="preserve"><value>سيتم استبدال محتوى «{0}» بالتحديد الحالي.</value></data>
+<data name="ItemStockDeleteConfirm" xml:space="preserve"><value>سيتم حذف «{0}».</value></data>
+<data name="ItemStockDeleteConfirmUsers" xml:space="preserve"><value>هناك {0} أزرار تستخدم هذا العنصر.</value></data>
+<data name="ItemStockClearConfirm" xml:space="preserve"><value>سيتم حذف كل العناصر المحفوظة.</value></data>
+<data name="ItemStockClearConfirmHint" xml:space="preserve"><value>كما ستتوقف الأزرار المرتبطة بها عن العمل.</value></data>
+<data name="ItemPresetDisplayName" xml:space="preserve"><value>إضافة عنصر محفوظ</value></data>
+<data name="ItemPresetDescription" xml:space="preserve"><value>يربط أحد إدخالات «العناصر المحفوظة» بهذا الزر ويضيفه إلى الخط الزمني بنقرة واحدة.</value></data>
+<data name="ItemPresetSaveCommandName" xml:space="preserve"><value>حفظ التحديد وربطه</value></data>
+<data name="ItemPresetOverwriteCommandName" xml:space="preserve"><value>استبدال الإدخال المرتبط بالتحديد</value></data>
+<data name="ItemPresetSettingsTitle" xml:space="preserve"><value>إعدادات العنصر المحفوظ</value></data>
+<data name="ItemPresetStockLabel" xml:space="preserve"><value>العنصر المرتبط بهذا الزر</value></data>
+<data name="ItemPresetSaveButtonTip" xml:space="preserve"><value>يحفظ التحديد الحالي كإدخال جديد ويربطه بهذا الزر</value></data>
+<data name="ItemPresetOverwriteButtonTip" xml:space="preserve"><value>يستبدل الإدخال المرتبط بالعناصر المحددة حاليًا</value></data>
+<data name="ItemPresetManageHint" xml:space="preserve"><value>يمكن إضافة الإدخالات وإعادة تسميتها وحذفها معًا من «العناصر المحفوظة» في إعدادات صندوق الأدوات.</value></data>
+<data name="ItemPresetUseCurrentFrame" xml:space="preserve"><value>الإضافة عند الموضع الحالي</value></data>
+<data name="ItemPresetUseCurrentLayer" xml:space="preserve"><value>الإضافة في الطبقة الحالية</value></data>
+<data name="ItemPresetSelectAfterAdd" xml:space="preserve"><value>تحديد العناصر المضافة</value></data>
+<data name="ItemPresetLoadFailed" xml:space="preserve"><value>تعذر تحميل «{0}». يرجى حفظه مرة أخرى.</value></data>
+<data name="LauncherDisplayName" xml:space="preserve"><value>فتح ملف أو مجلد</value></data>
+<data name="LauncherDescription" xml:space="preserve"><value>يفتح الملف أو المجلد المحدد. مفيد كمدخل إلى مجلدات الموارد أو الأدوات الخارجية.</value></data>
+<data name="LauncherOpenCommandName" xml:space="preserve"><value>فتح</value></data>
+<data name="LauncherTargetLabel" xml:space="preserve"><value>الهدف</value></data>
+<data name="LauncherBrowseFolder" xml:space="preserve"><value>اختيار مجلد...</value></data>
+<data name="LauncherFolderDialogTitle" xml:space="preserve"><value>اختر المجلد المراد فتحه</value></data>
+<data name="LauncherOpenNotFound" xml:space="preserve"><value>تعذر الفتح. لم يتم العثور على الموقع التالي.</value></data>
+<data name="LauncherOpenFailed" xml:space="preserve"><value>تعذر الفتح.</value></data>
+<data name="LauncherNodeGroup" xml:space="preserve"><value>مجموعة</value></data>
+<data name="LauncherSettingsNodeTitle" xml:space="preserve"><value>المشغّل</value></data>
+<data name="LauncherSettingsTitle" xml:space="preserve"><value>إعدادات المشغّل</value></data>
+<data name="LauncherEnableLabel" xml:space="preserve"><value>استخدام المشغّل</value></data>
+<data name="LauncherTriggerLabel" xml:space="preserve"><value>الفتح بواسطة</value></data>
+<data name="LauncherImageFillsSectorLabel" xml:space="preserve"><value>تكبير الصور</value></data>
+<data name="LauncherPreviewLabel" xml:space="preserve"><value>معاينة</value></data>
+<data name="LauncherOrderLabel" xml:space="preserve"><value>الترتيب</value></data>
+<data name="LauncherClearTip" xml:space="preserve"><value>إفراغه يعيد الترتيب التلقائي من اللوحة الحالية</value></data>
+<data name="LauncherNodeKindLabel" xml:space="preserve"><value>النوع</value></data>
+<data name="LauncherKindPanelItem" xml:space="preserve"><value>عنصر اللوحة</value></data>
+<data name="LauncherTargetNodeLabel" xml:space="preserve"><value>الهدف</value></data>
+<data name="LauncherNewGroup" xml:space="preserve"><value>مجموعة جديدة</value></data>
+<data name="LauncherClearConfirm" xml:space="preserve"><value>سيتم مسح ترتيب المشغّل بالكامل.</value></data>
+<data name="LauncherClearConfirmHint" xml:space="preserve"><value>بعد ذلك يتم ترتيب عناصر اللوحة الحالية تلقائيًا مرة أخرى.</value></data>
+<data name="RadialMenuBack" xml:space="preserve"><value>رجوع</value></data>
+<data name="RadialMenuClose" xml:space="preserve"><value>إغلاق</value></data>
+<data name="RadialMenuPrevious" xml:space="preserve"><value>السابق</value></data>
+<data name="RadialMenuNext" xml:space="preserve"><value>التالي</value></data>
+<data name="RadialMenuPreviewEmpty" xml:space="preserve"><value>لا توجد عناصر لترتيبها.</value></data>
+<data name="MacroDisplayName" xml:space="preserve"><value>ماكرو</value></data>
+<data name="MacroDescription" xml:space="preserve"><value>ينفذ الإجراءات المسجلة من الأعلى إلى الأسفل. يمكن تجميع الخطوات المتكررة في زر واحد.</value></data>
+<data name="MacroRunCommandName" xml:space="preserve"><value>تشغيل الماكرو</value></data>
+<data name="MacroSummaryNoSteps" xml:space="preserve"><value>{0} (بلا خطوات)</value></data>
+<data name="MacroSummarySteps" xml:space="preserve"><value>{0} ({1} خطوات)</value></data>
+<data name="MacroStepNotFound" xml:space="preserve"><value>لم يتم العثور على الخطوة «{1}» من الماكرو «{0}».</value></data>
+<data name="MacroStepNotFoundHint" xml:space="preserve"><value>ربما تمت إزالة الإضافة التي وفّرته.</value></data>
+<data name="MacroStepsLabel" xml:space="preserve"><value>الخطوات</value></data>
+<data name="MacroSelectedStepLabel" xml:space="preserve"><value>الخطوة المحددة</value></data>
+<data name="MacroMoveUpTip" xml:space="preserve"><value>لأعلى بمقدار واحد</value></data>
+<data name="MacroMoveDownTip" xml:space="preserve"><value>لأسفل بمقدار واحد</value></data>
+<data name="MacroAddStepTip" xml:space="preserve"><value>إضافة خطوة</value></data>
+<data name="MacroRemoveStepTip" xml:space="preserve"><value>حذف الخطوة المحددة</value></data>
+<data name="MacroStepKindLabel" xml:space="preserve"><value>النوع</value></data>
+<data name="StepKindCommand" xml:space="preserve"><value>إجراء صندوق الأدوات</value></data>
+<data name="StepKindShortcut" xml:space="preserve"><value>اختصار</value></data>
+<data name="StepKindPanelItem" xml:space="preserve"><value>عنصر على اللوحة</value></data>
+<data name="StepKindWait" xml:space="preserve"><value>انتظار</value></data>
+<data name="MacroCommandLabel" xml:space="preserve"><value>الإجراء</value></data>
+<data name="MacroPanelItemLabel" xml:space="preserve"><value>عنصر</value></data>
+<data name="MacroPanelItemHint" xml:space="preserve"><value>ينفذ عنصرًا موضوعًا على لوحة مفتوحة باستخدام إعدادات العنصر نفسه.</value></data>
+<data name="MacroWaitLabel" xml:space="preserve"><value>مدة الانتظار</value></data>
+<data name="MacroStepsHint" xml:space="preserve"><value>تُنفَّذ الخطوات من الأعلى إلى الأسفل. وتُتخطى الخطوات التي يتعذر تنفيذها (مثل عدم وجود تحديد).</value></data>
+<data name="MacroStepWait" xml:space="preserve"><value>انتظار {0} ملّي ثانية</value></data>
+<data name="MacroStepNew" xml:space="preserve"><value>خطوة جديدة (اختر إجراءً)</value></data>
+<data name="MacroStepUnknown" xml:space="preserve"><value>(إجراء غير معروف: {0})</value></data>
+<data name="MacroStepChooseItem" xml:space="preserve"><value>(اختر عنصرًا)</value></data>
+<data name="RecordingDisplayName" xml:space="preserve"><value>تسجيل</value></data>
+<data name="RecordingDescription" xml:space="preserve"><value>يسجّل من الميكروفون ويضيف التسجيل إلى الخط الزمني كعنصر صوتي.</value></data>
+<data name="RecordingToggleCommandName" xml:space="preserve"><value>بدء أو إيقاف التسجيل</value></data>
+<data name="RecordingSettingsTitle" xml:space="preserve"><value>إعدادات التسجيل</value></data>
+<data name="RecordingDeviceLabel" xml:space="preserve"><value>جهاز الإدخال</value></data>
+<data name="RecordingOpenFolder" xml:space="preserve"><value>فتح مجلد التسجيلات</value></data>
+<data name="RecordingOpenFolderFailed" xml:space="preserve"><value>تعذر فتح مجلد التسجيلات.</value></data>
+<data name="RubyDisplayName" xml:space="preserve"><value>نص روبي</value></data>
+<data name="RubyDescription" xml:space="preserve"><value>يضيف نص روبي فوق الكانجي في العناصر المحددة.</value></data>
+<data name="RubyApplyCommandName" xml:space="preserve"><value>إضافة نص روبي</value></data>
+<data name="RubySettingsTitle" xml:space="preserve"><value>إعدادات روبي</value></data>
+<data name="RubyTypeLabel" xml:space="preserve"><value>نمط روبي</value></data>
+<data name="RubyTypeHiragana" xml:space="preserve"><value>هيراغانا</value></data>
+<data name="RubyTypeHiraganaDescription" xml:space="preserve"><value>يضيف نص روبي بالهيراغانا</value></data>
+<data name="RubyTypeKatakana" xml:space="preserve"><value>كاتاكانا</value></data>
+<data name="RubyTypeKatakanaDescription" xml:space="preserve"><value>يضيف نص روبي بالكاتاكانا</value></data>
+<data name="RubyAutoLineHeight" xml:space="preserve"><value>ضبط ارتفاع السطر تلقائيًا</value></data>
+<data name="RubyLineHeightScale" xml:space="preserve"><value>معامل ارتفاع السطر</value></data>
+<data name="SceneMoverDisplayName" xml:space="preserve"><value>النقل إلى مشهد</value></data>
+<data name="SceneMoverDescription" xml:space="preserve"><value>ينقل العناصر المحددة معًا إلى مشهد جديد أو موجود. النقر يفتح قائمة لاختيار الوجهة.</value></data>
+<data name="SceneMoverToNewSceneCommandName" xml:space="preserve"><value>النقل إلى مشهد جديد</value></data>
+<data name="SceneMoverToSceneCommandName" xml:space="preserve"><value>النقل إلى المشهد المحدد</value></data>
+<data name="SceneMoverSettingsTitle" xml:space="preserve"><value>إعدادات النقل إلى مشهد</value></data>
+<data name="SceneMoverDuplicateLabel" xml:space="preserve"><value>النسخ بدلًا من النقل</value></data>
+<data name="SceneMoverAlignLabel" xml:space="preserve"><value>المحاذاة إلى بداية المشهد</value></data>
+<data name="SceneMoverSwitchLabel" xml:space="preserve"><value>التبديل إلى مشهد الوجهة</value></data>
+<data name="SceneMoverToNewSceneTip" xml:space="preserve"><value>ينقل العناصر المحددة في الخط الزمني إلى مشهد جديد</value></data>
+<data name="SceneMoverSummaryDuplicate" xml:space="preserve"><value>نسخ</value></data>
+<data name="SceneMoverSummaryMove" xml:space="preserve"><value>نقل</value></data>
+<data name="SceneMoverNoTimeline" xml:space="preserve"><value>تعذر الوصول إلى الخط الزمني.</value></data>
+<data name="SceneMoverNoSelection" xml:space="preserve"><value>حدد عناصر في الخط الزمني.</value></data>
+<data name="SceneMoverNoScenes" xml:space="preserve"><value>تعذر الحصول على قائمة المشاهد.</value></data>
+<data name="SceneMoverAlreadyHere" xml:space="preserve"><value>هي بالفعل في هذا المشهد.</value></data>
+<data name="SceneMoverAddFailed" xml:space="preserve"><value>تعذر وضع العناصر في الوجهة.</value></data>
+<data name="SceneMoverMoveFailed" xml:space="preserve"><value>تعذر نقل العناصر.</value></data>
+<data name="SceneMoverCreateFailed" xml:space="preserve"><value>تعذر إنشاء مشهد جديد.</value></data>
+<data name="SceneMoverMenuFailed" xml:space="preserve"><value>تعذر فتح قائمة الوجهات.</value></data>
+<data name="SceneMoverMenuNewScene" xml:space="preserve"><value>إلى مشهد جديد</value></data>
+<data name="SceneMoverMenuNoOtherScenes" xml:space="preserve"><value>لا توجد مشاهد أخرى</value></data>
+<data name="SceneMoverSceneWord" xml:space="preserve"><value>مشهد</value></data>
+<data name="SceneMoverNewSceneName" xml:space="preserve"><value>مشهد {0}</value></data>
+<data name="SeparateAudioDisplayName" xml:space="preserve"><value>فصل الصوت</value></data>
+<data name="SeparateAudioDescription" xml:space="preserve"><value>يكتم عنصر الفيديو المحدد ويضيف الصوت نفسه كعنصر صوتي منفصل في الطبقة الأدنى مباشرة.</value></data>
+<data name="SeparateAudioCommandName" xml:space="preserve"><value>فصل الصوت</value></data>
+<data name="ShortcutRunCommandName" xml:space="preserve"><value>تشغيل الاختصار</value></data>
+<data name="ShortcutsRootTitle" xml:space="preserve"><value>الاختصارات</value></data>
+<data name="ShortcutSettingsTitle" xml:space="preserve"><value>إعدادات الاختصار</value></data>
+<data name="ShortcutLabelLabel" xml:space="preserve"><value>التسمية</value></data>
+<data name="ShortcutCommandLabel" xml:space="preserve"><value>الأمر المراد تنفيذه</value></data>
+<data name="ShortcutDefaultDescription" xml:space="preserve"><value>ينفذ أمر YMM4 ‏«{0}».</value></data>
+<data name="ShortcutGroupEdit" xml:space="preserve"><value>تحرير</value></data>
+<data name="ShortcutGroupItem" xml:space="preserve"><value>العناصر</value></data>
+<data name="ShortcutGroupArrange" xml:space="preserve"><value>الترتيب والنقل</value></data>
+<data name="ShortcutGroupSelection" xml:space="preserve"><value>التحديد</value></data>
+<data name="ShortcutGroupAddItem" xml:space="preserve"><value>إضافة عناصر</value></data>
+<data name="ShortcutGroupMidpoint" xml:space="preserve"><value>النقاط الوسطى</value></data>
+<data name="ShortcutGroupPlayback" xml:space="preserve"><value>التشغيل</value></data>
+<data name="ShortcutGroupView" xml:space="preserve"><value>العرض</value></data>
+<data name="ShortcutGroupLayer" xml:space="preserve"><value>الطبقات</value></data>
+<data name="ShortcutGroupCharacterScene" xml:space="preserve"><value>الشخصيات والمشاهد</value></data>
+<data name="ShortcutGroupProject" xml:space="preserve"><value>المشروع</value></data>
+<data name="ShortcutGroupWindowFolder" xml:space="preserve"><value>النوافذ والمجلدات</value></data>
+<data name="SortDisplayName" xml:space="preserve"><value>فرز</value></data>
+<data name="SortDescription" xml:space="preserve"><value>يعيد ترتيب العناصر المحددة عبر الطبقات حسب موضع البداية تصاعديًا أو تنازليًا.</value></data>
+<data name="SortAscendingCommandName" xml:space="preserve"><value>الفرز من الأقدم</value></data>
+<data name="SortDescendingCommandName" xml:space="preserve"><value>الفرز من الأحدث</value></data>
+<data name="SortAscendingTip" xml:space="preserve"><value>الفرز من الأقدم</value></data>
+<data name="SortDescendingTip" xml:space="preserve"><value>الفرز من الأحدث</value></data>
+<data name="StaircaseDisplayName" xml:space="preserve"><value>ترتيب متدرج</value></data>
+<data name="StaircaseDescription" xml:space="preserve"><value>يزيح العناصر المحددة بعدد ثابت من الإطارات لكل طبقة لتشكّل درجًا.</value></data>
+<data name="StaircaseReverseCommandName" xml:space="preserve"><value>ترتيب متدرج معكوس</value></data>
+<data name="StaircaseSettingsTitle" xml:space="preserve"><value>إعدادات التدرج</value></data>
+<data name="StaircaseOffsetLabel" xml:space="preserve"><value>الإزاحة</value></data>
+<data name="TachiePlacerDisplayName" xml:space="preserve"><value>وضع رسم الشخصية</value></data>
+<data name="TachiePlacerDescription" xml:space="preserve"><value>يضع رسم الشخصية المطابق لعنصر الصوت المحدد في الطبقة المجاورة أعلى أو أسفل.</value></data>
+<data name="TachiePlacerCommandName" xml:space="preserve"><value>وضع رسم الشخصية</value></data>
+<data name="TachiePlacerSettingsTitle" xml:space="preserve"><value>إعدادات رسم الشخصية</value></data>
+<data name="TachiePlacerPlacementLabel" xml:space="preserve"><value>الطبقة الهدف</value></data>
+<data name="TachiePlacementBelow" xml:space="preserve"><value>الطبقة السفلى</value></data>
+<data name="TachiePlacementBelowDescription" xml:space="preserve"><value>طبقة واحدة أسفل الصوت</value></data>
+<data name="TachiePlacementAbove" xml:space="preserve"><value>الطبقة العليا</value></data>
+<data name="TachiePlacementAboveDescription" xml:space="preserve"><value>طبقة واحدة أعلى الصوت</value></data>
+<data name="TextSplitterDisplayName" xml:space="preserve"><value>تقسيم النص</value></data>
+<data name="TextSplitterDescription" xml:space="preserve"><value>يقسّم عناصر النص أو الصوت المحددة ويرتبها رأسيًا أو أفقيًا.</value></data>
+<data name="TextSplitterCommandName" xml:space="preserve"><value>تقسيم النص</value></data>
+<data name="TextSplitterSettingsTitle" xml:space="preserve"><value>إعدادات تقسيم النص</value></data>
+<data name="TextSplitterDeleteOriginal" xml:space="preserve"><value>حذف العنصر الأصلي</value></data>
+<data name="TextSplitterModeLabel" xml:space="preserve"><value>وضع التقسيم</value></data>
+<data name="TextSplitterDirectionLabel" xml:space="preserve"><value>اتجاه التقسيم</value></data>
+<data name="TextSplitterKeepPosition" xml:space="preserve"><value>الحفاظ على الموضع الأصلي</value></data>
+<data name="TextSplitterIgnoreTags" xml:space="preserve"><value>تجاهل الوسوم مثل &lt;rb&gt;</value></data>
+<data name="TextSplitterIgnoreTagsTip" xml:space="preserve"><value>عند التفعيل تبقى وسوم YMM4 مثل &lt;rb&gt; ككتلة واحدة بدل تقسيمها</value></data>
+<data name="TextSplitterOffsetLabel" xml:space="preserve"><value>مقدار الإزاحة (إطارات)</value></data>
+<data name="TextSplitterKeepDuration" xml:space="preserve"><value>الحفاظ على الطول الإجمالي</value></data>
+<data name="SplitModeByCharacter" xml:space="preserve"><value>التقسيم لكل حرف</value></data>
+<data name="SplitModeByCharacterDescription" xml:space="preserve"><value>التقسيم لكل حرف</value></data>
+<data name="SplitModeByLine" xml:space="preserve"><value>التقسيم عند فواصل الأسطر</value></data>
+<data name="SplitModeByLineDescription" xml:space="preserve"><value>التقسيم عند فواصل الأسطر</value></data>
+<data name="SplitDirectionVertical" xml:space="preserve"><value>رأسي</value></data>
+<data name="SplitDirectionVerticalDescription" xml:space="preserve"><value>باتجاه الطبقات</value></data>
+<data name="SplitDirectionHorizontal" xml:space="preserve"><value>أفقي</value></data>
+<data name="SplitDirectionHorizontalDescription" xml:space="preserve"><value>باتجاه الإطارات</value></data>
+<data name="ItemContextLock" xml:space="preserve"><value>تثبيت</value></data>
+<data name="ItemContextUnlock" xml:space="preserve"><value>إلغاء التثبيت</value></data>
+<data name="ItemContextHide" xml:space="preserve"><value>إخفاء</value></data>
+<data name="HotkeyWinKeyNotAllowed" xml:space="preserve"><value>لا يمكن استخدام مفتاح Win</value></data>
+<data name="HotkeyNeedCtrlOrAlt" xml:space="preserve"><value>يجب تضمين Ctrl أو Alt</value></data>
+<data name="HotkeyMouseX1" xml:space="preserve"><value>الزر الجانبي 1</value></data>
+<data name="HotkeyMouseX2" xml:space="preserve"><value>الزر الجانبي 2</value></data>
+<data name="HotkeyMouseLeft" xml:space="preserve"><value>النقر بالزر الأيسر</value></data>
+<data name="HotkeyMouseMiddle" xml:space="preserve"><value>النقر بالزر الأوسط</value></data>
+<data name="HotkeyMouseRight" xml:space="preserve"><value>النقر بالزر الأيمن</value></data>
+<data name="HotkeyNeedMouseButton" xml:space="preserve"><value>اضغط زر فأرة غير الزر الأيسر</value></data>
+<data name="HotkeyConflict" xml:space="preserve"><value>يتعارض مع «{0}». سيستجيب العنصر الذي وُضع أولًا فقط.</value></data>
+<data name="PanelUndoLayout" xml:space="preserve"><value>التراجع عن تغيير التخطيط</value></data>
+<data name="PanelUndoGesture" xml:space="preserve"><value>Ctrl+Z فوق اللوحة</value></data>
+<data name="PanelRedoLayout" xml:space="preserve"><value>إعادة تغيير التخطيط</value></data>
+<data name="PanelRedoGesture" xml:space="preserve"><value>Ctrl+Y فوق اللوحة</value></data>
+<data name="PanelPasteItem" xml:space="preserve"><value>لصق العنصر</value></data>
+<data name="PanelAdd" xml:space="preserve"><value>إضافة لوحة</value></data>
+<data name="PanelDuplicate" xml:space="preserve"><value>تكرار اللوحة</value></data>
+<data name="PanelRenameTitle" xml:space="preserve"><value>إعادة تسمية اللوحة</value></data>
+<data name="PanelCopySuffix" xml:space="preserve"><value>نسخة من {0}</value></data>
+<data name="ItemCommonDisplaySection" xml:space="preserve"><value>المظهر</value></data>
+<data name="ItemCommonDisplayModeLabel" xml:space="preserve"><value>وضع العرض</value></data>
+<data name="DisplayModeIcon" xml:space="preserve"><value>أيقونة</value></data>
+<data name="DisplayModeText" xml:space="preserve"><value>نص</value></data>
+<data name="DisplayModeImage" xml:space="preserve"><value>صورة</value></data>
+<data name="ItemCommonImageFileLabel" xml:space="preserve"><value>ملف الصورة</value></data>
+<data name="ItemCommonImageFitLabel" xml:space="preserve"><value>ملاءمة الصورة</value></data>
+<data name="ImageFitUniform" xml:space="preserve"><value>احتواء</value></data>
+<data name="ImageFitFill" xml:space="preserve"><value>تمديد</value></data>
+<data name="ImageFitUniformToFill" xml:space="preserve"><value>قص وملء</value></data>
+<data name="ItemCommonButtonLabel" xml:space="preserve"><value>تسمية الزر</value></data>
+<data name="ItemCommonColorSection" xml:space="preserve"><value>الألوان</value></data>
+<data name="ItemCommonUseCustomColor" xml:space="preserve"><value>استخدام ألوان مخصصة</value></data>
+<data name="ItemCommonBackground" xml:space="preserve"><value>الخلفية</value></data>
+<data name="ItemCommonBorder" xml:space="preserve"><value>لون الحد</value></data>
+<data name="ItemCommonForeground" xml:space="preserve"><value>لون الأيقونة والنص</value></data>
+<data name="ItemCommonBorderThickness" xml:space="preserve"><value>سماكة الحد</value></data>
+<data name="ItemCommonCornerRadius" xml:space="preserve"><value>نصف قطر الزاوية</value></data>
+<data name="ItemCommonResetColors" xml:space="preserve"><value>إعادة ضبط الألوان</value></data>
+<data name="ItemCommonHotkey" xml:space="preserve"><value>مفتاح سريع</value></data>
+<data name="ItemCommonHotkeyHint" xml:space="preserve"><value>اختر الحقل واضغط مفتاحًا لتعيينه. ويمسحه Esc. وللتمييز عن الكتابة لا يمكن تعيين سوى التركيبات التي تتضمن Ctrl أو Alt. ويمكن تعيين أزرار الفأرة الجانبية بمفردها. ويعمل فقط عندما يكون التطبيق في المقدمة.</value></data>
+<data name="BasicSettingsTitle" xml:space="preserve"><value>الإعدادات الأساسية</value></data>
+<data name="BasicShowLockBadge" xml:space="preserve"><value>إظهار شارة قفل على العناصر المثبتة</value></data>
+<data name="BasicCurrentVersion" xml:space="preserve"><value>الإصدار الحالي</value></data>
+<data name="BasicLatestVersion" xml:space="preserve"><value>أحدث إصدار</value></data>
+<data name="BasicDownloadUpdate" xml:space="preserve"><value>تنزيل التحديث</value></data>
+<data name="VersionChecking" xml:space="preserve"><value>جارٍ التحقق...</value></data>
+<data name="VersionUnknown" xml:space="preserve"><value>غير معروف</value></data>
+<data name="VersionFetchFailed" xml:space="preserve"><value>فشل التحقق</value></data>
+<data name="GridSettingsNodeTitle" xml:space="preserve"><value>الشبكة</value></data>
+<data name="GridSettingsTitle" xml:space="preserve"><value>إعدادات الشبكة</value></data>
+<data name="GridAdjustLabel" xml:space="preserve"><value>ضبط الشبكة</value></data>
+<data name="GridAdjustAuto" xml:space="preserve"><value>تلقائي</value></data>
+<data name="GridAdjustManual" xml:space="preserve"><value>يدوي</value></data>
+<data name="GridSizeLabel" xml:space="preserve"><value>الحجم</value></data>
+<data name="GridLayoutLabel" xml:space="preserve"><value>التخطيط</value></data>
+<data name="GridRowsLabel" xml:space="preserve"><value>الصفوف</value></data>
+<data name="GridColumnsLabel" xml:space="preserve"><value>الأعمدة</value></data>
+<data name="GridShowLines" xml:space="preserve"><value>إظهار حدود الخلايا دائمًا</value></data>
+<data name="GridShowHighlight" xml:space="preserve"><value>إظهار التمييز</value></data>
+<data name="GridHighlightColor" xml:space="preserve"><value>لون التمييز</value></data>
+<data name="SettingsRootTitle" xml:space="preserve"><value>الإعدادات</value></data>
+<data name="ItemsRootTitle" xml:space="preserve"><value>العناصر</value></data>
+<data name="CategoryTimeline" xml:space="preserve"><value>الخط الزمني</value></data>
+<data name="CategoryLayout" xml:space="preserve"><value>التخطيط</value></data>
+<data name="CategoryText" xml:space="preserve"><value>النص</value></data>
+<data name="CategoryAudio" xml:space="preserve"><value>الصوت</value></data>
+<data name="CategoryUtility" xml:space="preserve"><value>أدوات مساعدة</value></data>
+<data name="CategoryDecoration" xml:space="preserve"><value>زخرفة</value></data>
+<data name="CategoryOther" xml:space="preserve"><value>أخرى</value></data>
+<data name="ToolItemInstancesHeaderFormat" xml:space="preserve"><value>العناصر ({0})</value></data>
+<data name="ToolItemShowInToolBox" xml:space="preserve"><value>إظهار في صندوق الأدوات</value></data>
+<data name="ToolItemRemovePlacement" xml:space="preserve"><value>إزالة هذا الموضع</value></data>
+<data name="ToolItemAddAnother" xml:space="preserve"><value>إضافة نسخة أخرى من هذا العنصر</value></data>
+<data name="ToolItemSettingsHeaderFormat" xml:space="preserve"><value>إعدادات {0}</value></data>
+<data name="ShortcutsOverviewHint" xml:space="preserve"><value>اختر اختصارًا من القائمة على اليسار لإظهاره أو إخفائه في صندوق الأدوات.</value></data>
+<data name="ShortcutsOverviewAvailablePrefix" xml:space="preserve"><value>الأوامر المتاحة هي فقط تلك المسجلة في قائمة</value></data>
+<data name="ShortcutsOverviewAvailableSuffix" xml:space="preserve"><value>.</value></data>
+<data name="StaircaseAmountLabel" xml:space="preserve"><value>الطبقات لكل درجة</value></data>
+<data name="GridCellSizeLabel" xml:space="preserve"><value>حجم الخلية</value></data>
+<data name="GridCellMarginLabel" xml:space="preserve"><value>تباعد الخلايا</value></data>
+<data name="GapCheckDisplayName" xml:space="preserve"><value>فحص الفجوات</value></data>
+<data name="GapCheckDescription" xml:space="preserve"><value>يبحث عن الفجوات الصغيرة بين العناصر المتجاورة في الطبقة نفسها، لاكتشاف الإطار أو الإطارين اللذين نسيت سدّهما.</value></data>
+<data name="GapCheckNextCommandName" xml:space="preserve"><value>الفجوة التالية</value></data>
+<data name="GapCheckPreviousCommandName" xml:space="preserve"><value>الفجوة السابقة</value></data>
+<data name="GapCheckSummaryCommandName" xml:space="preserve"><value>التحقق من الفجوات</value></data>
+<data name="GapCheckSettingsTitle" xml:space="preserve"><value>إعدادات فحص الفجوات</value></data>
+<data name="GapCheckMaxFramesLabel" xml:space="preserve"><value>الإبلاغ عن فجوات حتى</value></data>
+<data name="GapCheckSelectedLayersOnlyLabel" xml:space="preserve"><value>الطبقات المحددة فقط</value></data>
+<data name="GapCheckNotFound" xml:space="preserve"><value>لم يتم العثور على فجوات.</value></data>
+<data name="GapCheckFoundSummary" xml:space="preserve"><value>تم العثور على {0} فجوة.</value></data>
+<data name="GapCheckFoundLine" xml:space="preserve"><value>الطبقة {0}: من الإطار {1} إلى {2}</value></data>
+<data name="GapCheckFoundMore" xml:space="preserve"><value>و{0} أخرى</value></data>
+<data name="BookmarkDisplayName" xml:space="preserve"><value>العلامات</value></data>
+<data name="BookmarkDescription" xml:space="preserve"><value>يحفظ المواضع التي تعود إليها كثيرًا وينتقل بينها.</value></data>
+<data name="BookmarkToggleCommandName" xml:space="preserve"><value>ضع علامة هنا</value></data>
+<data name="BookmarkNextCommandName" xml:space="preserve"><value>العلامة التالية</value></data>
+<data name="BookmarkPreviousCommandName" xml:space="preserve"><value>العلامة السابقة</value></data>
+<data name="BookmarkClearCommandName" xml:space="preserve"><value>حذف الكل</value></data>
+<data name="BookmarkSettingsTitle" xml:space="preserve"><value>العلامات</value></data>
+<data name="BookmarkEmpty" xml:space="preserve"><value>لا توجد علامات بعد.</value></data>
+<data name="BookmarkJump" xml:space="preserve"><value>الانتقال هنا</value></data>
+<data name="BookmarkRemove" xml:space="preserve"><value>حذف</value></data>
+<data name="BookmarkClearConfirm" xml:space="preserve"><value>هل تريد حذف كل العلامات؟</value></data>
+<data name="BookmarkDefaultName" xml:space="preserve"><value>العلامة {0}</value></data>
+<data name="BookmarkFrameFormat" xml:space="preserve"><value>الإطار {0}</value></data>
+<data name="LayerEditorDisplayName" xml:space="preserve"><value>تحرير الطبقات دفعةً</value></data>
+<data name="LayerEditorDescription" xml:space="preserve"><value>يغيّر أسماء وألوان عدة طبقات دفعة واحدة.</value></data>
+<data name="LayerEditorApplyCommandName" xml:space="preserve"><value>تطبيق</value></data>
+<data name="LayerEditorResetCommandName" xml:space="preserve"><value>إعادة تعيين</value></data>
+<data name="LayerEditorScopeLabel" xml:space="preserve"><value>الهدف</value></data>
+<data name="LayerEditorScopeSelected" xml:space="preserve"><value>الطبقات المحددة</value></data>
+<data name="LayerEditorScopeRange" xml:space="preserve"><value>نطاق محدد</value></data>
+<data name="LayerEditorFromLabel" xml:space="preserve"><value>من الطبقة</value></data>
+<data name="LayerEditorToLabel" xml:space="preserve"><value>إلى الطبقة</value></data>
+<data name="LayerEditorNameLabel" xml:space="preserve"><value>اسم الطبقة</value></data>
+<data name="LayerEditorNameHint" xml:space="preserve"><value>يُستبدل {0} برقم الطبقة و{1} بترقيم تسلسلي من الأعلى.</value></data>
+<data name="LayerEditorColorLabel" xml:space="preserve"><value>لون الخلفية</value></data>
+<data name="LayerEditorNoTarget" xml:space="preserve"><value>لا توجد طبقات لتغييرها.</value></data>
+<data name="LayerEditorNothingToDo" xml:space="preserve"><value>لم يتم تحديد أي حقل للتغيير.</value></data>
+<data name="LayerEditorApplied" xml:space="preserve"><value>تم تغيير {0} طبقة.</value></data>
+<data name="LayerEditorResetConfirm" xml:space="preserve"><value>هل تريد استعادة الإعدادات الافتراضية للطبقات المستهدفة؟</value></data>
+<data name="GapCheckFoundLineAll" xml:space="preserve"><value>كل الطبقات: من الإطار {0} إلى {1}</value></data>
+<data name="GapCheckModeLabel" xml:space="preserve"><value>طريقة البحث</value></data>
+<data name="GapCheckModePerLayer" xml:space="preserve"><value>لكل طبقة</value></data>
+<data name="GapCheckModeAcrossLayers" xml:space="preserve"><value>عبر الطبقات</value></data>
+<data name="GapCheckModeAll" xml:space="preserve"><value>الكل</value></data>
+<data name="LayerEditorDialogTitle" xml:space="preserve"><value>إعدادات الطبقات دفعةً</value></data>
+<data name="LayerEditorEnabledLabel" xml:space="preserve"><value>مفعّلة</value></data>
+<data name="LayerEditorVolumeLabel" xml:space="preserve"><value>مستوى الصوت</value></data>
+<data name="LayerEditorColorClearTip" xml:space="preserve"><value>مسح لون الخلفية</value></data>
+<data name="TextTagDisplayName" xml:space="preserve"><value>وسوم النص</value></data>
+<data name="TextTagDescription" xml:space="preserve"><value>يضيف وسوم تحكم مثل اللون والحجم والروبي والانتظار إلى النص.</value></data>
+<data name="TextTagWindowTitle" xml:space="preserve"><value>وسوم النص</value></data>
+<data name="TextTagTargetLabel" xml:space="preserve"><value>الهدف</value></data>
+<data name="TextTagNoTarget" xml:space="preserve"><value>لا يوجد عنصر صوت أو نص للتحرير.</value></data>
+<data name="TextTagRangeTab" xml:space="preserve"><value>على نطاق</value></data>
+<data name="TextTagInsertTab" xml:space="preserve"><value>عند المؤشر</value></data>
+<data name="TextTagRangeHint" xml:space="preserve"><value>حدّد نصًا في الأسفل لتفعيل هذه الأزرار.</value></data>
+<data name="TextTagRangeReady" xml:space="preserve"><value>سيُطبَّق الوسم على النطاق المحدد.</value></data>
+<data name="TextTagInsertHint" xml:space="preserve"><value>يُدرَج الوسم عند المؤشر، أو بعد التحديد مباشرة إن وُجد.</value></data>
+<data name="TextTagSampleBody" xml:space="preserve"><value>مثال</value></data>
+<data name="TextTagCommit" xml:space="preserve"><value>موافق</value></data>
+<data name="TextTagRevert" xml:space="preserve"><value>العودة إلى البداية</value></data>
+<data name="TextTagInsertButton" xml:space="preserve"><value>إضافة</value></data>
+<data name="TextTagColorLabel" xml:space="preserve"><value>اللون</value></data>
+<data name="TextTagSizeLabel" xml:space="preserve"><value>الحجم</value></data>
+<data name="TextTagFontLabel" xml:space="preserve"><value>الخط</value></data>
+<data name="TextTagPositionLabel" xml:space="preserve"><value>الموضع</value></data>
+<data name="TextTagPositionByFontLabel" xml:space="preserve"><value>الموضع (نسبي)</value></data>
+<data name="TextTagRotateLabel" xml:space="preserve"><value>التدوير</value></data>
+<data name="TextTagLetterSpacingLabel" xml:space="preserve"><value>التباعد</value></data>
+<data name="TextTagRubyLabel" xml:space="preserve"><value>روبي</value></data>
+<data name="TextTagSpeedLabel" xml:space="preserve"><value>السرعة</value></data>
+<data name="TextTagWaitLabel" xml:space="preserve"><value>انتظار</value></data>
+<data name="TextTagClearLabel" xml:space="preserve"><value>مسح</value></data>
+<data name="TextTagFieldColor" xml:space="preserve"><value>لون النص</value></data>
+<data name="TextTagFieldUseDecorationColor" xml:space="preserve"><value>تحديد لون الزخرفة أيضًا</value></data>
+<data name="TextTagFieldDecorationColor" xml:space="preserve"><value>لون الزخرفة</value></data>
+<data name="TextTagFieldFontSize" xml:space="preserve"><value>الحجم</value></data>
+<data name="TextTagFieldFontFamily" xml:space="preserve"><value>الخط</value></data>
+<data name="TextTagFieldStyle" xml:space="preserve"><value>النمط</value></data>
+<data name="TextTagFieldDecorationType" xml:space="preserve"><value>الزخرفة</value></data>
+<data name="TextTagFieldX" xml:space="preserve"><value>X</value></data>
+<data name="TextTagFieldY" xml:space="preserve"><value>Y</value></data>
+<data name="TextTagFieldRelative" xml:space="preserve"><value>نسبي</value></data>
+<data name="TextTagFieldAngle" xml:space="preserve"><value>الزاوية</value></data>
+<data name="TextTagFieldSpacing" xml:space="preserve"><value>التباعد</value></data>
+<data name="TextTagFieldRubyText" xml:space="preserve"><value>القراءة</value></data>
+<data name="TextTagFieldRubyScale" xml:space="preserve"><value>حجم الروبي</value></data>
+<data name="TextTagFieldSpeed" xml:space="preserve"><value>حرف/ثانية</value></data>
+<data name="TextTagFieldSeconds" xml:space="preserve"><value>ثانية</value></data>
+<data name="TextTagFieldPerCharacter" xml:space="preserve"><value>الضرب في عدد الأحرف</value></data>
+<data name="TextTagDecorationNone" xml:space="preserve"><value>دون تغيير</value></data>
+<data name="TextTagDecoration0" xml:space="preserve"><value>بلا</value></data>
+<data name="TextTagDecoration1" xml:space="preserve"><value>ظل</value></data>
+<data name="TextTagDecoration2" xml:space="preserve"><value>ظل (خفيف)</value></data>
+<data name="TextTagDecoration3" xml:space="preserve"><value>حد دائري</value></data>
+<data name="TextTagDecoration4" xml:space="preserve"><value>حد دائري (خفيف)</value></data>
+<data name="TextTagDecoration5" xml:space="preserve"><value>حد مربع</value></data>
+<data name="TextTagDecoration6" xml:space="preserve"><value>حد مربع (خفيف)</value></data>
+<data name="TextTagFieldUseColor" xml:space="preserve"><value>تحديد لون النص أيضًا</value></data>
+<data name="TextTagEmptyTarget" xml:space="preserve"><value>(فارغ)</value></data>
+<data name="TextTagLiveNotice" xml:space="preserve"><value>تُطبَّق تعديلاتك على العنصر فورًا. الإلغاء يعيد النص الأصلي.</value></data>
+<data name="TextTagUndo" xml:space="preserve"><value>تراجع خطوة</value></data>
+<data name="TextTagUndoTip" xml:space="preserve"><value>يتراجع عن آخر تغيير (Ctrl+Z)</value></data>
+<data name="TextTagFieldUseFontFamily" xml:space="preserve"><value>تغيير الخط أيضًا</value></data>
 </root>

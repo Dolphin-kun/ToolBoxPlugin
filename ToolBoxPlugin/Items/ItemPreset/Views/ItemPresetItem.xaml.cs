@@ -1,12 +1,10 @@
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
-using ToolBox.Commons;
-using ToolBox.Items.ItemPreset.Settings;
+using ToolBox.Controls;
 
 namespace ToolBox.Items.ItemPreset.Views
 {
-    public partial class ItemPresetItem : UserControl
+    public partial class ItemPresetItem : ToolItemView
     {
         public static readonly DependencyProperty AddPresetItemCommandProperty =
             DependencyProperty.Register(nameof(AddPresetItemCommand), typeof(ICommand), typeof(ItemPresetItem));
@@ -17,21 +15,6 @@ namespace ToolBox.Items.ItemPreset.Views
             set => SetValue(AddPresetItemCommandProperty, value);
         }
 
-        private readonly AdornerUtil adornerUtil = new();
-
-        public ItemPresetItem()
-        {
-            InitializeComponent();
-            MouseRightButtonDown += OnMouseRightButtonDown;
-        }
-
-        private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (DataContext is not ItemPresetSettings settings)
-                return;
-
-            e.Handled = true;
-            adornerUtil.Toggle(this, () => new ItemPresetSettingsPanel { DataContext = settings });
-        }
-    }
+        public ItemPresetItem() => InitializeComponent();
+    }
 }

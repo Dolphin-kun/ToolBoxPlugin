@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="ToolBox.Items.TachiePlacer.Views.TachiePlacerSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
@@ -9,11 +11,10 @@
              d:DataContext="{d:DesignInstance Type=local:TachiePlacerSettings}">
 
     <StackPanel>
-        <TextBlock Text="立ち絵配置の設定" FontWeight="SemiBold" Margin="0,0,0,8" />
+        <TextBlock Text="{x:Static toolbox:Texts.TachiePlacerSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,8" />
 
-        <Grid Margin="0,0,0,6">
-            <TextBlock Text="配置レイヤー" VerticalAlignment="Center"/>
-            <controls:EnumComboBox Value="{Binding Placement, Mode=TwoWay}" EnumType="{x:Type local:TachiePlacement}" Width="120" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
-        </Grid>
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.TachiePlacerPlacementLabel}" Margin="0,0,0,6">
+            <controls:EnumComboBox Value="{Binding Placement, Mode=TwoWay}" EnumType="{x:Type local:TachiePlacement}" Width="150" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
+        </tbRow:SettingsRow>
     </StackPanel>
 </UserControl>

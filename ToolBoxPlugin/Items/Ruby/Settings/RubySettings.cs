@@ -9,10 +9,10 @@ namespace ToolBox.Items.Ruby.Settings
 {
     public enum RubyType
     {
-        [Display(Name = "ひらがな", Description = "ひらがなでルビを振ります")]
+        [Display(Name = nameof(Texts.RubyTypeHiragana), Description = nameof(Texts.RubyTypeHiraganaDescription), ResourceType = typeof(Texts))]
         Hiragana,
 
-        [Display(Name = "カタカナ", Description = "カタカナでルビを振ります")]
+        [Display(Name = nameof(Texts.RubyTypeKatakana), Description = nameof(Texts.RubyTypeKatakanaDescription), ResourceType = typeof(Texts))]
         Katakana,
     }
 
@@ -40,10 +40,10 @@ namespace ToolBox.Items.Ruby.Settings
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.FuriganaHorizontal;
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "ルビ振り";
+        public override string DisplayName => Texts.RubyDisplayName;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => "選択したアイテムの漢字にルビを振ります。";
+        public override string Description => Texts.RubyDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("RubyItemCommand");

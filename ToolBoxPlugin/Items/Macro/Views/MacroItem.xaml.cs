@@ -1,12 +1,10 @@
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
-using ToolBox.Commons;
-using ToolBox.Items.Macro.Settings;
+using ToolBox.Controls;
 
 namespace ToolBox.Items.Macro.Views
 {
-    public partial class MacroItem : UserControl
+    public partial class MacroItem : ToolItemView
     {
         public static readonly DependencyProperty RunMacroItemCommandProperty =
             DependencyProperty.Register(nameof(RunMacroItemCommand), typeof(ICommand), typeof(MacroItem));
@@ -17,20 +15,6 @@ namespace ToolBox.Items.Macro.Views
             set => SetValue(RunMacroItemCommandProperty, value);
         }
 
-        private readonly AdornerUtil adornerUtil = new();
-
-        public MacroItem()
-        {
-            InitializeComponent();
-            MouseRightButtonDown += OnMouseRightButtonDown;
-        }
-
-        private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (DataContext is not MacroSettings settings) return;
-
-            e.Handled = true;
-            adornerUtil.Toggle(this, () => new MacroSettingsPanel { DataContext = settings });
-        }
+        public MacroItem() => InitializeComponent();
     }
 }

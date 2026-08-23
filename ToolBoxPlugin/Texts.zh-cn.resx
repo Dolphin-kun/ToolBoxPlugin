@@ -61,4 +61,453 @@
 <data name="CurrentCulture" xml:space="preserve"><value>zh-cn</value></data>
 <data name="PluginName" xml:space="preserve"><value>工具箱</value></data>
 <data name="SettingsTitle" xml:space="preserve"><value>工具箱设置</value></data>
+<data name="CommonUnset" xml:space="preserve"><value>(未设置)</value></data>
+<data name="CommonNotFound" xml:space="preserve"><value>(未找到)</value></data>
+<data name="CommonNoName" xml:space="preserve"><value>(无名称)</value></data>
+<data name="CommonSettings" xml:space="preserve"><value>设置</value></data>
+<data name="CommonCopy" xml:space="preserve"><value>复制</value></data>
+<data name="CommonCancel" xml:space="preserve"><value>取消</value></data>
+<data name="CommonAdd" xml:space="preserve"><value>添加</value></data>
+<data name="CommonDelete" xml:space="preserve"><value>删除</value></data>
+<data name="CommonRename" xml:space="preserve"><value>重命名</value></data>
+<data name="CommonOverwrite" xml:space="preserve"><value>覆盖</value></data>
+<data name="CommonMoveUp" xml:space="preserve"><value>上移</value></data>
+<data name="CommonMoveDown" xml:space="preserve"><value>下移</value></data>
+<data name="CommonClearAll" xml:space="preserve"><value>全部清除</value></data>
+<data name="ToolBoxNotReady" xml:space="preserve"><value>工具箱尚未初始化。</value></data>
+<data name="FilterAllFiles" xml:space="preserve"><value>所有文件|*.*</value></data>
+<data name="FilterImageFiles" xml:space="preserve"><value>图像文件|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|所有文件|*.*</value></data>
+<data name="UnitTimes" xml:space="preserve"><value>倍</value></data>
+<data name="AddonMarketplaceNoResponse" xml:space="preserve"><value>没有收到 GitHub 的响应 ({0})。</value></data>
+<data name="AddonMarketplaceRateLimitedUntil" xml:space="preserve"><value>已达到 GitHub 请求次数上限。请在 {0} 之后重试。</value></data>
+<data name="AddonMarketplaceRateLimited" xml:space="preserve"><value>已达到 GitHub 请求次数上限。请稍后重试。</value></data>
+<data name="AddonMarketplaceReleaseUnreadable" xml:space="preserve"><value>无法读取发布信息。</value></data>
+<data name="AddonMarketplaceNoAsset" xml:space="preserve"><value>最新发布中没有附带 .zip 或 .dll。</value></data>
+<data name="AddonMarketplaceNoDll" xml:space="preserve"><value>下载的文件中不包含 DLL。</value></data>
+<data name="AddonMarketplaceLastUpdated" xml:space="preserve"><value>最后更新 {0}</value></data>
+<data name="AddonMarketplaceTitle" xml:space="preserve"><value>查找附加组件</value></data>
+<data name="AddonMarketplaceHintPrefix" xml:space="preserve"><value>列出带有 GitHub 主题</value></data>
+<data name="AddonMarketplaceHintSuffix" xml:space="preserve"><value>的仓库。按下「安装」即可获取最新发布的 zip 或 dll。</value></data>
+<data name="AddonMarketplaceRefresh" xml:space="preserve"><value>获取列表</value></data>
+<data name="AddonMarketplaceInstall" xml:space="preserve"><value>安装</value></data>
+<data name="AddonMarketplaceInstalled" xml:space="preserve"><value>已安装</value></data>
+<data name="AddonMarketplaceInitialStatus" xml:space="preserve"><value>按下「获取列表」即可从 GitHub 搜索附加组件。</value></data>
+<data name="AddonMarketplaceLoading" xml:space="preserve"><value>正在从 GitHub 获取列表...</value></data>
+<data name="AddonMarketplaceLoadFailed" xml:space="preserve"><value>无法获取列表: {0}</value></data>
+<data name="AddonMarketplaceNoResults" xml:space="preserve"><value>未找到带有主题「{0}」的仓库。</value></data>
+<data name="AddonMarketplaceFound" xml:space="preserve"><value>找到 {0} 个。</value></data>
+<data name="AddonMarketplaceTruncated" xml:space="preserve"><value>(GitHub 上共有 {0} 个，受搜索 API 上限限制仅显示部分)</value></data>
+<data name="AddonMarketplaceCached" xml:space="preserve"><value>正在显示上次获取的列表 (至 {0})。</value></data>
+<data name="AddonMarketplaceInstalling" xml:space="preserve"><value>正在获取「{0}」...</value></data>
+<data name="AddonMarketplaceInstallSucceeded" xml:space="preserve"><value>已安装「{0}」({1})。</value></data>
+<data name="AddonMarketplaceInstallFailedStatus" xml:space="preserve"><value>无法安装「{0}」: {1}</value></data>
+<data name="AddonMarketplaceInstallFailed" xml:space="preserve"><value>无法安装附加组件。</value></data>
+<data name="AddonSettingsTitle" xml:space="preserve"><value>附加组件</value></data>
+<data name="AddonListTitle" xml:space="preserve"><value>附加组件列表</value></data>
+<data name="AddonListEmpty" xml:space="preserve"><value>没有附加组件。</value></data>
+<data name="AddonOpenFolder" xml:space="preserve"><value>打开文件夹</value></data>
+<data name="AddonReload" xml:space="preserve"><value>重新加载</value></data>
+<data name="AddonEnableTip" xml:space="preserve"><value>启用 / 禁用加载</value></data>
+<data name="AddonDeleteTip" xml:space="preserve"><value>删除此附加组件</value></data>
+<data name="AddonOpenFolderFailed" xml:space="preserve"><value>无法打开文件夹。</value></data>
+<data name="AddonDeleteCaption" xml:space="preserve"><value>删除附加组件</value></data>
+<data name="AddonDeleteConfirm" xml:space="preserve"><value>将删除附加组件「{0}」。</value></data>
+<data name="AddonDisabled" xml:space="preserve"><value>已禁用附加组件「{0}」。</value></data>
+<data name="AddonDisabledHint" xml:space="preserve"><value>由于已被加载，文件删除将在重启本体后完成。</value></data>
+<data name="AddonDeleteFailed" xml:space="preserve"><value>无法删除附加组件「{0}」。</value></data>
+<data name="AddonDisabledDescription" xml:space="preserve"><value>已禁用。重新启用后将在下次加载时生效。</value></data>
+<data name="LabelDisplayName" xml:space="preserve"><value>标签</value></data>
+<data name="LabelDescription" xml:space="preserve"><value>在面板上放置标题文字。点击不会执行任何操作。</value></data>
+<data name="LabelDefaultText" xml:space="preserve"><value>标题</value></data>
+<data name="LabelSettingsTitle" xml:space="preserve"><value>标签设置</value></data>
+<data name="LabelTextLabel" xml:space="preserve"><value>显示的文字</value></data>
+<data name="LabelFontLabel" xml:space="preserve"><value>字体</value></data>
+<data name="LabelFontSizeLabel" xml:space="preserve"><value>文字大小</value></data>
+<data name="LabelBoldLabel" xml:space="preserve"><value>加粗</value></data>
+<data name="LabelAlignmentLabel" xml:space="preserve"><value>文字位置</value></data>
+<data name="AlignLeft" xml:space="preserve"><value>左对齐</value></data>
+<data name="AlignCenter" xml:space="preserve"><value>居中</value></data>
+<data name="AlignRight" xml:space="preserve"><value>右对齐</value></data>
+<data name="SeparatorDisplayName" xml:space="preserve"><value>分隔线</value></data>
+<data name="SeparatorDescription" xml:space="preserve"><value>在面板上绘制分隔线。用于分隔项目组的装饰。</value></data>
+<data name="SeparatorSettingsTitle" xml:space="preserve"><value>分隔线设置</value></data>
+<data name="SeparatorOrientationLabel" xml:space="preserve"><value>方向</value></data>
+<data name="SeparatorHorizontal" xml:space="preserve"><value>横向</value></data>
+<data name="SeparatorVertical" xml:space="preserve"><value>纵向</value></data>
+<data name="SeparatorThicknessLabel" xml:space="preserve"><value>线条粗细</value></data>
+<data name="SeparatorColorHint" xml:space="preserve"><value>线条颜色可在通用设置的「配色」中更改。</value></data>
+<data name="InsertIntoGroupDisplayName" xml:space="preserve"><value>分组</value></data>
+<data name="InsertIntoGroupDescription" xml:space="preserve"><value>添加覆盖所选全部项目的分组控制，使其可以统一处理。</value></data>
+<data name="ItemStockTitle" xml:space="preserve"><value>已保存的项目</value></data>
+<data name="ItemStockHint" xml:space="preserve"><value>可以将在时间轴上选择的项目存放在这里。在面板上放置「添加已保存的项目」，即可绑定其中一个并调用。</value></data>
+<data name="ItemStockEmpty" xml:space="preserve"><value>尚未保存任何内容。</value></data>
+<data name="ItemStockSaveSelected" xml:space="preserve"><value>保存所选项目</value></data>
+<data name="ItemStockSaveTip" xml:space="preserve"><value>将时间轴上当前选择的项目保存为新条目</value></data>
+<data name="ItemStockOverwriteTip" xml:space="preserve"><value>用时间轴上当前选择的项目替换所选的保存内容</value></data>
+<data name="ItemStockSaveFailed" xml:space="preserve"><value>无法保存此项目。</value></data>
+<data name="ItemStockSelectFirst" xml:space="preserve"><value>请先在时间轴上选择项目。</value></data>
+<data name="ItemStockSummaryMore" xml:space="preserve"><value>{0} 等 {1} 项</value></data>
+<data name="ItemStockOverwriteConfirm" xml:space="preserve"><value>将用当前所选项目替换「{0}」的内容。</value></data>
+<data name="ItemStockDeleteConfirm" xml:space="preserve"><value>将删除「{0}」。</value></data>
+<data name="ItemStockDeleteConfirmUsers" xml:space="preserve"><value>有 {0} 个按钮正在使用此项目。</value></data>
+<data name="ItemStockClearConfirm" xml:space="preserve"><value>将删除所有已保存的项目。</value></data>
+<data name="ItemStockClearConfirmHint" xml:space="preserve"><value>绑定到按钮的项目也将无法使用。</value></data>
+<data name="ItemPresetDisplayName" xml:space="preserve"><value>添加已保存的项目</value></data>
+<data name="ItemPresetDescription" xml:space="preserve"><value>将「已保存的项目」中的一个绑定到此按钮，单击即可添加到时间轴。</value></data>
+<data name="ItemPresetSaveCommandName" xml:space="preserve"><value>保存所选项目并绑定</value></data>
+<data name="ItemPresetOverwriteCommandName" xml:space="preserve"><value>用所选项目覆盖绑定的条目</value></data>
+<data name="ItemPresetSettingsTitle" xml:space="preserve"><value>已保存项目的设置</value></data>
+<data name="ItemPresetStockLabel" xml:space="preserve"><value>绑定到此按钮的项目</value></data>
+<data name="ItemPresetSaveButtonTip" xml:space="preserve"><value>将时间轴上当前选择的项目保存为新条目并绑定到此按钮</value></data>
+<data name="ItemPresetOverwriteButtonTip" xml:space="preserve"><value>用当前所选项目替换绑定条目的内容</value></data>
+<data name="ItemPresetManageHint" xml:space="preserve"><value>添加、重命名和删除条目可在工具箱设置的「已保存的项目」中统一进行。</value></data>
+<data name="ItemPresetUseCurrentFrame" xml:space="preserve"><value>添加到当前播放位置</value></data>
+<data name="ItemPresetUseCurrentLayer" xml:space="preserve"><value>添加到当前图层</value></data>
+<data name="ItemPresetSelectAfterAdd" xml:space="preserve"><value>选中添加的项目</value></data>
+<data name="ItemPresetLoadFailed" xml:space="preserve"><value>无法加载「{0}」。请重新保存。</value></data>
+<data name="LauncherDisplayName" xml:space="preserve"><value>打开文件或文件夹</value></data>
+<data name="LauncherDescription" xml:space="preserve"><value>打开指定的文件或文件夹。可作为素材文件夹或外部工具的入口。</value></data>
+<data name="LauncherOpenCommandName" xml:space="preserve"><value>打开</value></data>
+<data name="LauncherTargetLabel" xml:space="preserve"><value>打开对象</value></data>
+<data name="LauncherBrowseFolder" xml:space="preserve"><value>选择文件夹...</value></data>
+<data name="LauncherFolderDialogTitle" xml:space="preserve"><value>选择要打开的文件夹</value></data>
+<data name="LauncherOpenNotFound" xml:space="preserve"><value>无法打开。找不到以下位置。</value></data>
+<data name="LauncherOpenFailed" xml:space="preserve"><value>无法打开。</value></data>
+<data name="LauncherNodeGroup" xml:space="preserve"><value>分组</value></data>
+<data name="LauncherSettingsNodeTitle" xml:space="preserve"><value>启动器</value></data>
+<data name="LauncherSettingsTitle" xml:space="preserve"><value>启动器设置</value></data>
+<data name="LauncherEnableLabel" xml:space="preserve"><value>使用启动器</value></data>
+<data name="LauncherTriggerLabel" xml:space="preserve"><value>呼出操作</value></data>
+<data name="LauncherImageFillsSectorLabel" xml:space="preserve"><value>放大图像</value></data>
+<data name="LauncherPreviewLabel" xml:space="preserve"><value>预览</value></data>
+<data name="LauncherOrderLabel" xml:space="preserve"><value>排列</value></data>
+<data name="LauncherClearTip" xml:space="preserve"><value>清空后将恢复为按当前面板项目自动排列的状态</value></data>
+<data name="LauncherNodeKindLabel" xml:space="preserve"><value>类型</value></data>
+<data name="LauncherKindPanelItem" xml:space="preserve"><value>面板项目</value></data>
+<data name="LauncherTargetNodeLabel" xml:space="preserve"><value>对象</value></data>
+<data name="LauncherNewGroup" xml:space="preserve"><value>新建分组</value></data>
+<data name="LauncherClearConfirm" xml:space="preserve"><value>将清除启动器的全部排列。</value></data>
+<data name="LauncherClearConfirmHint" xml:space="preserve"><value>清除后将恢复为按当前面板项目自动排列的状态。</value></data>
+<data name="RadialMenuBack" xml:space="preserve"><value>返回</value></data>
+<data name="RadialMenuClose" xml:space="preserve"><value>关闭</value></data>
+<data name="RadialMenuPrevious" xml:space="preserve"><value>上一页</value></data>
+<data name="RadialMenuNext" xml:space="preserve"><value>下一页</value></data>
+<data name="RadialMenuPreviewEmpty" xml:space="preserve"><value>没有可排列的项目。</value></data>
+<data name="MacroDisplayName" xml:space="preserve"><value>宏</value></data>
+<data name="MacroDescription" xml:space="preserve"><value>按从上到下的顺序执行已登记的操作。可将常用步骤汇总为一个按钮。</value></data>
+<data name="MacroRunCommandName" xml:space="preserve"><value>执行宏</value></data>
+<data name="MacroSummaryNoSteps" xml:space="preserve"><value>{0} (无步骤)</value></data>
+<data name="MacroSummarySteps" xml:space="preserve"><value>{0} ({1} 个步骤)</value></data>
+<data name="MacroStepNotFound" xml:space="preserve"><value>未找到宏「{0}」的步骤「{1}」。</value></data>
+<data name="MacroStepNotFoundHint" xml:space="preserve"><value>提供该功能的附加组件可能已被移除。</value></data>
+<data name="MacroStepsLabel" xml:space="preserve"><value>步骤</value></data>
+<data name="MacroSelectedStepLabel" xml:space="preserve"><value>选中的步骤</value></data>
+<data name="MacroMoveUpTip" xml:space="preserve"><value>上移一个</value></data>
+<data name="MacroMoveDownTip" xml:space="preserve"><value>下移一个</value></data>
+<data name="MacroAddStepTip" xml:space="preserve"><value>添加步骤</value></data>
+<data name="MacroRemoveStepTip" xml:space="preserve"><value>删除选中的步骤</value></data>
+<data name="MacroStepKindLabel" xml:space="preserve"><value>类型</value></data>
+<data name="StepKindCommand" xml:space="preserve"><value>工具箱操作</value></data>
+<data name="StepKindShortcut" xml:space="preserve"><value>快捷键</value></data>
+<data name="StepKindPanelItem" xml:space="preserve"><value>面板上的项目</value></data>
+<data name="StepKindWait" xml:space="preserve"><value>等待</value></data>
+<data name="MacroCommandLabel" xml:space="preserve"><value>操作</value></data>
+<data name="MacroPanelItemLabel" xml:space="preserve"><value>项目</value></data>
+<data name="MacroPanelItemHint" xml:space="preserve"><value>使用项目自身的设置执行放置在已打开面板上的项目。</value></data>
+<data name="MacroWaitLabel" xml:space="preserve"><value>等待时间</value></data>
+<data name="MacroStepsHint" xml:space="preserve"><value>步骤按从上到下的顺序执行。无法执行的步骤 (例如没有选择) 将被跳过。</value></data>
+<data name="MacroStepWait" xml:space="preserve"><value>等待 {0} 毫秒</value></data>
+<data name="MacroStepNew" xml:space="preserve"><value>新步骤 (请选择操作)</value></data>
+<data name="MacroStepUnknown" xml:space="preserve"><value>(未知操作: {0})</value></data>
+<data name="MacroStepChooseItem" xml:space="preserve"><value>(请选择项目)</value></data>
+<data name="RecordingDisplayName" xml:space="preserve"><value>录音</value></data>
+<data name="RecordingDescription" xml:space="preserve"><value>从麦克风录音，并将录制的声音作为音频项目添加到时间轴。</value></data>
+<data name="RecordingToggleCommandName" xml:space="preserve"><value>开始/停止录音</value></data>
+<data name="RecordingSettingsTitle" xml:space="preserve"><value>录音设置</value></data>
+<data name="RecordingDeviceLabel" xml:space="preserve"><value>输入设备</value></data>
+<data name="RecordingOpenFolder" xml:space="preserve"><value>打开录音文件夹</value></data>
+<data name="RecordingOpenFolderFailed" xml:space="preserve"><value>无法打开录音文件夹。</value></data>
+<data name="RubyDisplayName" xml:space="preserve"><value>注音标注</value></data>
+<data name="RubyDescription" xml:space="preserve"><value>为所选项目中的汉字添加注音。</value></data>
+<data name="RubyApplyCommandName" xml:space="preserve"><value>添加注音</value></data>
+<data name="RubySettingsTitle" xml:space="preserve"><value>注音设置</value></data>
+<data name="RubyTypeLabel" xml:space="preserve"><value>注音类型</value></data>
+<data name="RubyTypeHiragana" xml:space="preserve"><value>平假名</value></data>
+<data name="RubyTypeHiraganaDescription" xml:space="preserve"><value>以平假名添加注音</value></data>
+<data name="RubyTypeKatakana" xml:space="preserve"><value>片假名</value></data>
+<data name="RubyTypeKatakanaDescription" xml:space="preserve"><value>以片假名添加注音</value></data>
+<data name="RubyAutoLineHeight" xml:space="preserve"><value>自动调整行高</value></data>
+<data name="RubyLineHeightScale" xml:space="preserve"><value>行高倍率</value></data>
+<data name="SceneMoverDisplayName" xml:space="preserve"><value>移动到场景</value></data>
+<data name="SceneMoverDescription" xml:space="preserve"><value>将所选项目一并移动到新场景或已有场景。点击后会打开选择目标的菜单。</value></data>
+<data name="SceneMoverToNewSceneCommandName" xml:space="preserve"><value>移动到新场景</value></data>
+<data name="SceneMoverToSceneCommandName" xml:space="preserve"><value>移动到指定场景</value></data>
+<data name="SceneMoverSettingsTitle" xml:space="preserve"><value>移动到场景的设置</value></data>
+<data name="SceneMoverDuplicateLabel" xml:space="preserve"><value>复制而不移动</value></data>
+<data name="SceneMoverAlignLabel" xml:space="preserve"><value>对齐到场景开头</value></data>
+<data name="SceneMoverSwitchLabel" xml:space="preserve"><value>切换到目标场景</value></data>
+<data name="SceneMoverToNewSceneTip" xml:space="preserve"><value>将时间轴上所选的项目移动到新场景</value></data>
+<data name="SceneMoverSummaryDuplicate" xml:space="preserve"><value>复制</value></data>
+<data name="SceneMoverSummaryMove" xml:space="preserve"><value>移动</value></data>
+<data name="SceneMoverNoTimeline" xml:space="preserve"><value>无法获取时间轴。</value></data>
+<data name="SceneMoverNoSelection" xml:space="preserve"><value>请在时间轴上选择项目。</value></data>
+<data name="SceneMoverNoScenes" xml:space="preserve"><value>无法获取场景列表。</value></data>
+<data name="SceneMoverAlreadyHere" xml:space="preserve"><value>已经在此场景中。</value></data>
+<data name="SceneMoverAddFailed" xml:space="preserve"><value>无法在目标位置放置项目。</value></data>
+<data name="SceneMoverMoveFailed" xml:space="preserve"><value>无法移动项目。</value></data>
+<data name="SceneMoverCreateFailed" xml:space="preserve"><value>无法创建新场景。</value></data>
+<data name="SceneMoverMenuFailed" xml:space="preserve"><value>无法打开目标列表。</value></data>
+<data name="SceneMoverMenuNewScene" xml:space="preserve"><value>到新场景</value></data>
+<data name="SceneMoverMenuNoOtherScenes" xml:space="preserve"><value>没有其他场景</value></data>
+<data name="SceneMoverSceneWord" xml:space="preserve"><value>场景</value></data>
+<data name="SceneMoverNewSceneName" xml:space="preserve"><value>场景 {0}</value></data>
+<data name="SeparateAudioDisplayName" xml:space="preserve"><value>分离音频</value></data>
+<data name="SeparateAudioDescription" xml:space="preserve"><value>将所选视频项目的音量设为 0，并将相同的声音作为独立的音频项目添加到下一图层。</value></data>
+<data name="SeparateAudioCommandName" xml:space="preserve"><value>分离音频</value></data>
+<data name="ShortcutRunCommandName" xml:space="preserve"><value>执行快捷键</value></data>
+<data name="ShortcutsRootTitle" xml:space="preserve"><value>快捷键</value></data>
+<data name="ShortcutSettingsTitle" xml:space="preserve"><value>快捷键设置</value></data>
+<data name="ShortcutLabelLabel" xml:space="preserve"><value>显示标签</value></data>
+<data name="ShortcutCommandLabel" xml:space="preserve"><value>要执行的命令</value></data>
+<data name="ShortcutDefaultDescription" xml:space="preserve"><value>执行本体的「{0}」。</value></data>
+<data name="ShortcutGroupEdit" xml:space="preserve"><value>编辑</value></data>
+<data name="ShortcutGroupItem" xml:space="preserve"><value>项目</value></data>
+<data name="ShortcutGroupArrange" xml:space="preserve"><value>排列与移动</value></data>
+<data name="ShortcutGroupSelection" xml:space="preserve"><value>选择</value></data>
+<data name="ShortcutGroupAddItem" xml:space="preserve"><value>添加项目</value></data>
+<data name="ShortcutGroupMidpoint" xml:space="preserve"><value>中间点</value></data>
+<data name="ShortcutGroupPlayback" xml:space="preserve"><value>播放</value></data>
+<data name="ShortcutGroupView" xml:space="preserve"><value>显示</value></data>
+<data name="ShortcutGroupLayer" xml:space="preserve"><value>图层</value></data>
+<data name="ShortcutGroupCharacterScene" xml:space="preserve"><value>角色与场景</value></data>
+<data name="ShortcutGroupProject" xml:space="preserve"><value>项目文件</value></data>
+<data name="ShortcutGroupWindowFolder" xml:space="preserve"><value>窗口与文件夹</value></data>
+<data name="SortDisplayName" xml:space="preserve"><value>排序</value></data>
+<data name="SortDescription" xml:space="preserve"><value>按开始位置的先后顺序将所选项目重新排列到各图层。</value></data>
+<data name="SortAscendingCommandName" xml:space="preserve"><value>按从早到晚排序</value></data>
+<data name="SortDescendingCommandName" xml:space="preserve"><value>按从晚到早排序</value></data>
+<data name="SortAscendingTip" xml:space="preserve"><value>按从早到晚排序</value></data>
+<data name="SortDescendingTip" xml:space="preserve"><value>按从晚到早排序</value></data>
+<data name="StaircaseDisplayName" xml:space="preserve"><value>阶梯式排列</value></data>
+<data name="StaircaseDescription" xml:space="preserve"><value>按图层顺序将所选项目逐一偏移固定帧数，排成阶梯状。</value></data>
+<data name="StaircaseReverseCommandName" xml:space="preserve"><value>反向阶梯式排列</value></data>
+<data name="StaircaseSettingsTitle" xml:space="preserve"><value>阶梯化设置</value></data>
+<data name="StaircaseOffsetLabel" xml:space="preserve"><value>偏移</value></data>
+<data name="TachiePlacerDisplayName" xml:space="preserve"><value>放置立绘</value></data>
+<data name="TachiePlacerDescription" xml:space="preserve"><value>将与所选音频项目角色对应的立绘项目放置到上方或下方的相邻图层。</value></data>
+<data name="TachiePlacerCommandName" xml:space="preserve"><value>放置立绘</value></data>
+<data name="TachiePlacerSettingsTitle" xml:space="preserve"><value>立绘放置设置</value></data>
+<data name="TachiePlacerPlacementLabel" xml:space="preserve"><value>放置图层</value></data>
+<data name="TachiePlacementBelow" xml:space="preserve"><value>下方图层</value></data>
+<data name="TachiePlacementBelowDescription" xml:space="preserve"><value>音频下方一层</value></data>
+<data name="TachiePlacementAbove" xml:space="preserve"><value>上方图层</value></data>
+<data name="TachiePlacementAboveDescription" xml:space="preserve"><value>音频上方一层</value></data>
+<data name="TextSplitterDisplayName" xml:space="preserve"><value>分割文本</value></data>
+<data name="TextSplitterDescription" xml:space="preserve"><value>分割所选的文本或音频项目，并纵向或横向排列。</value></data>
+<data name="TextSplitterCommandName" xml:space="preserve"><value>分割文本</value></data>
+<data name="TextSplitterSettingsTitle" xml:space="preserve"><value>文本分割设置</value></data>
+<data name="TextSplitterDeleteOriginal" xml:space="preserve"><value>删除原项目</value></data>
+<data name="TextSplitterModeLabel" xml:space="preserve"><value>分割模式</value></data>
+<data name="TextSplitterDirectionLabel" xml:space="preserve"><value>分割方向</value></data>
+<data name="TextSplitterKeepPosition" xml:space="preserve"><value>保持原绘制位置</value></data>
+<data name="TextSplitterIgnoreTags" xml:space="preserve"><value>忽略 &lt;rb&gt; 等标签</value></data>
+<data name="TextSplitterIgnoreTagsTip" xml:space="preserve"><value>开启时，YMM 的标签 (如 &lt;rb&gt;) 将保持为一个整体而不被分割</value></data>
+<data name="TextSplitterOffsetLabel" xml:space="preserve"><value>偏移量 (帧)</value></data>
+<data name="TextSplitterKeepDuration" xml:space="preserve"><value>保持整体长度</value></data>
+<data name="SplitModeByCharacter" xml:space="preserve"><value>逐字分割</value></data>
+<data name="SplitModeByCharacterDescription" xml:space="preserve"><value>逐字分割</value></data>
+<data name="SplitModeByLine" xml:space="preserve"><value>按换行分割</value></data>
+<data name="SplitModeByLineDescription" xml:space="preserve"><value>按换行分割</value></data>
+<data name="SplitDirectionVertical" xml:space="preserve"><value>纵向</value></data>
+<data name="SplitDirectionVerticalDescription" xml:space="preserve"><value>沿图层方向</value></data>
+<data name="SplitDirectionHorizontal" xml:space="preserve"><value>横向</value></data>
+<data name="SplitDirectionHorizontalDescription" xml:space="preserve"><value>沿帧方向</value></data>
+<data name="ItemContextLock" xml:space="preserve"><value>固定</value></data>
+<data name="ItemContextUnlock" xml:space="preserve"><value>取消固定</value></data>
+<data name="ItemContextHide" xml:space="preserve"><value>隐藏</value></data>
+<data name="HotkeyWinKeyNotAllowed" xml:space="preserve"><value>无法使用 Win 键</value></data>
+<data name="HotkeyNeedCtrlOrAlt" xml:space="preserve"><value>请包含 Ctrl 或 Alt</value></data>
+<data name="HotkeyMouseX1" xml:space="preserve"><value>侧键1</value></data>
+<data name="HotkeyMouseX2" xml:space="preserve"><value>侧键2</value></data>
+<data name="HotkeyMouseLeft" xml:space="preserve"><value>左键单击</value></data>
+<data name="HotkeyMouseMiddle" xml:space="preserve"><value>中键单击</value></data>
+<data name="HotkeyMouseRight" xml:space="preserve"><value>右键单击</value></data>
+<data name="HotkeyNeedMouseButton" xml:space="preserve"><value>请按左键以外的鼠标按键</value></data>
+<data name="HotkeyConflict" xml:space="preserve"><value>与「{0}」重复。只有先放置的一方会响应。</value></data>
+<data name="PanelUndoLayout" xml:space="preserve"><value>撤销布局更改</value></data>
+<data name="PanelUndoGesture" xml:space="preserve"><value>在面板上按 Ctrl+Z</value></data>
+<data name="PanelRedoLayout" xml:space="preserve"><value>重做布局更改</value></data>
+<data name="PanelRedoGesture" xml:space="preserve"><value>在面板上按 Ctrl+Y</value></data>
+<data name="PanelPasteItem" xml:space="preserve"><value>粘贴项目</value></data>
+<data name="PanelAdd" xml:space="preserve"><value>添加面板</value></data>
+<data name="PanelDuplicate" xml:space="preserve"><value>复制面板</value></data>
+<data name="PanelRenameTitle" xml:space="preserve"><value>编辑面板名称</value></data>
+<data name="PanelCopySuffix" xml:space="preserve"><value>{0} 的副本</value></data>
+<data name="ItemCommonDisplaySection" xml:space="preserve"><value>显示</value></data>
+<data name="ItemCommonDisplayModeLabel" xml:space="preserve"><value>显示方式</value></data>
+<data name="DisplayModeIcon" xml:space="preserve"><value>图标</value></data>
+<data name="DisplayModeText" xml:space="preserve"><value>文字</value></data>
+<data name="DisplayModeImage" xml:space="preserve"><value>图像</value></data>
+<data name="ItemCommonImageFileLabel" xml:space="preserve"><value>图像文件</value></data>
+<data name="ItemCommonImageFitLabel" xml:space="preserve"><value>图像适配</value></data>
+<data name="ImageFitUniform" xml:space="preserve"><value>完整显示</value></data>
+<data name="ImageFitFill" xml:space="preserve"><value>拉伸</value></data>
+<data name="ImageFitUniformToFill" xml:space="preserve"><value>裁剪填充</value></data>
+<data name="ItemCommonButtonLabel" xml:space="preserve"><value>按钮标签</value></data>
+<data name="ItemCommonColorSection" xml:space="preserve"><value>配色</value></data>
+<data name="ItemCommonUseCustomColor" xml:space="preserve"><value>更改配色</value></data>
+<data name="ItemCommonBackground" xml:space="preserve"><value>背景色</value></data>
+<data name="ItemCommonBorder" xml:space="preserve"><value>边框颜色</value></data>
+<data name="ItemCommonForeground" xml:space="preserve"><value>图标与文字颜色</value></data>
+<data name="ItemCommonBorderThickness" xml:space="preserve"><value>边框粗细</value></data>
+<data name="ItemCommonCornerRadius" xml:space="preserve"><value>圆角半径</value></data>
+<data name="ItemCommonResetColors" xml:space="preserve"><value>重置配色</value></data>
+<data name="ItemCommonHotkey" xml:space="preserve"><value>热键</value></data>
+<data name="ItemCommonHotkeyHint" xml:space="preserve"><value>选中输入框后按下按键即可分配。按 Esc 解除。为与文字输入区分，只能设置包含 Ctrl 或 Alt 的组合。鼠标侧键可以单独分配。仅在应用位于前台时生效。</value></data>
+<data name="BasicSettingsTitle" xml:space="preserve"><value>基本设置</value></data>
+<data name="BasicShowLockBadge" xml:space="preserve"><value>在固定的项目上显示锁形标记</value></data>
+<data name="BasicCurrentVersion" xml:space="preserve"><value>当前版本</value></data>
+<data name="BasicLatestVersion" xml:space="preserve"><value>最新版本</value></data>
+<data name="BasicDownloadUpdate" xml:space="preserve"><value>下载更新</value></data>
+<data name="VersionChecking" xml:space="preserve"><value>获取中...</value></data>
+<data name="VersionUnknown" xml:space="preserve"><value>未知</value></data>
+<data name="VersionFetchFailed" xml:space="preserve"><value>获取失败</value></data>
+<data name="GridSettingsNodeTitle" xml:space="preserve"><value>网格</value></data>
+<data name="GridSettingsTitle" xml:space="preserve"><value>网格设置</value></data>
+<data name="GridAdjustLabel" xml:space="preserve"><value>网格调整</value></data>
+<data name="GridAdjustAuto" xml:space="preserve"><value>自动</value></data>
+<data name="GridAdjustManual" xml:space="preserve"><value>手动指定</value></data>
+<data name="GridSizeLabel" xml:space="preserve"><value>大小</value></data>
+<data name="GridLayoutLabel" xml:space="preserve"><value>布局</value></data>
+<data name="GridRowsLabel" xml:space="preserve"><value>行数</value></data>
+<data name="GridColumnsLabel" xml:space="preserve"><value>列数</value></data>
+<data name="GridShowLines" xml:space="preserve"><value>始终显示单元格边框</value></data>
+<data name="GridShowHighlight" xml:space="preserve"><value>显示高亮</value></data>
+<data name="GridHighlightColor" xml:space="preserve"><value>高亮颜色</value></data>
+<data name="SettingsRootTitle" xml:space="preserve"><value>设置</value></data>
+<data name="ItemsRootTitle" xml:space="preserve"><value>项目</value></data>
+<data name="CategoryTimeline" xml:space="preserve"><value>时间轴</value></data>
+<data name="CategoryLayout" xml:space="preserve"><value>布局</value></data>
+<data name="CategoryText" xml:space="preserve"><value>文本</value></data>
+<data name="CategoryAudio" xml:space="preserve"><value>音频</value></data>
+<data name="CategoryUtility" xml:space="preserve"><value>实用工具</value></data>
+<data name="CategoryDecoration" xml:space="preserve"><value>装饰</value></data>
+<data name="CategoryOther" xml:space="preserve"><value>其他</value></data>
+<data name="ToolItemInstancesHeaderFormat" xml:space="preserve"><value>项目 ({0})</value></data>
+<data name="ToolItemShowInToolBox" xml:space="preserve"><value>在工具箱中显示</value></data>
+<data name="ToolItemRemovePlacement" xml:space="preserve"><value>移除此放置</value></data>
+<data name="ToolItemAddAnother" xml:space="preserve"><value>再添加一个此项目</value></data>
+<data name="ToolItemSettingsHeaderFormat" xml:space="preserve"><value>{0}的设置</value></data>
+<data name="ShortcutsOverviewHint" xml:space="preserve"><value>从左侧列表中选择快捷键，即可切换其在工具箱中的显示与隐藏。</value></data>
+<data name="ShortcutsOverviewAvailablePrefix" xml:space="preserve"><value>可使用的命令仅限于登记在</value></data>
+<data name="ShortcutsOverviewAvailableSuffix" xml:space="preserve"><value>列表中的命令。</value></data>
+<data name="StaircaseAmountLabel" xml:space="preserve"><value>每级层数</value></data>
+<data name="GridCellSizeLabel" xml:space="preserve"><value>单元格大小</value></data>
+<data name="GridCellMarginLabel" xml:space="preserve"><value>单元格间距</value></data>
+<data name="GapCheckDisplayName" xml:space="preserve"><value>间隙检查</value></data>
+<data name="GapCheckDescription" xml:space="preserve"><value>查找同一层中相邻项目之间的细小间隙，用于发现遗漏的 1 帧或 2 帧。</value></data>
+<data name="GapCheckNextCommandName" xml:space="preserve"><value>下一个间隙</value></data>
+<data name="GapCheckPreviousCommandName" xml:space="preserve"><value>上一个间隙</value></data>
+<data name="GapCheckSummaryCommandName" xml:space="preserve"><value>间隙确认</value></data>
+<data name="GapCheckSettingsTitle" xml:space="preserve"><value>间隙检查设置</value></data>
+<data name="GapCheckMaxFramesLabel" xml:space="preserve"><value>视为间隙的长度</value></data>
+<data name="GapCheckSelectedLayersOnlyLabel" xml:space="preserve"><value>仅选中的层</value></data>
+<data name="GapCheckNotFound" xml:space="preserve"><value>未找到间隙。</value></data>
+<data name="GapCheckFoundSummary" xml:space="preserve"><value>找到 {0} 处间隙。</value></data>
+<data name="GapCheckFoundLine" xml:space="preserve"><value>层 {0}：第 {1} 帧到第 {2} 帧</value></data>
+<data name="GapCheckFoundMore" xml:space="preserve"><value>其他 {0} 处</value></data>
+<data name="BookmarkDisplayName" xml:space="preserve"><value>书签</value></data>
+<data name="BookmarkDescription" xml:space="preserve"><value>记住经常返回的位置，并在书签之间快速跳转。</value></data>
+<data name="BookmarkToggleCommandName" xml:space="preserve"><value>在此加书签</value></data>
+<data name="BookmarkNextCommandName" xml:space="preserve"><value>下一个书签</value></data>
+<data name="BookmarkPreviousCommandName" xml:space="preserve"><value>上一个书签</value></data>
+<data name="BookmarkClearCommandName" xml:space="preserve"><value>全部删除</value></data>
+<data name="BookmarkSettingsTitle" xml:space="preserve"><value>书签</value></data>
+<data name="BookmarkEmpty" xml:space="preserve"><value>还没有书签。</value></data>
+<data name="BookmarkJump" xml:space="preserve"><value>跳转到此</value></data>
+<data name="BookmarkRemove" xml:space="preserve"><value>删除</value></data>
+<data name="BookmarkClearConfirm" xml:space="preserve"><value>要删除全部书签吗？</value></data>
+<data name="BookmarkDefaultName" xml:space="preserve"><value>书签 {0}</value></data>
+<data name="BookmarkFrameFormat" xml:space="preserve"><value>第 {0} 帧</value></data>
+<data name="LayerEditorDisplayName" xml:space="preserve"><value>批量编辑层</value></data>
+<data name="LayerEditorDescription" xml:space="preserve"><value>一次性修改多个层的名称和颜色。</value></data>
+<data name="LayerEditorApplyCommandName" xml:space="preserve"><value>应用</value></data>
+<data name="LayerEditorResetCommandName" xml:space="preserve"><value>重置</value></data>
+<data name="LayerEditorScopeLabel" xml:space="preserve"><value>对象</value></data>
+<data name="LayerEditorScopeSelected" xml:space="preserve"><value>选中的层</value></data>
+<data name="LayerEditorScopeRange" xml:space="preserve"><value>指定范围</value></data>
+<data name="LayerEditorFromLabel" xml:space="preserve"><value>起始层</value></data>
+<data name="LayerEditorToLabel" xml:space="preserve"><value>结束层</value></data>
+<data name="LayerEditorNameLabel" xml:space="preserve"><value>层名称</value></data>
+<data name="LayerEditorNameHint" xml:space="preserve"><value>{0} 会替换为层号，{1} 会替换为自上而下的序号。</value></data>
+<data name="LayerEditorColorLabel" xml:space="preserve"><value>背景色</value></data>
+<data name="LayerEditorNoTarget" xml:space="preserve"><value>没有可修改的层。</value></data>
+<data name="LayerEditorNothingToDo" xml:space="preserve"><value>未勾选要修改的项目。</value></data>
+<data name="LayerEditorApplied" xml:space="preserve"><value>已修改 {0} 个层。</value></data>
+<data name="LayerEditorResetConfirm" xml:space="preserve"><value>要将目标层恢复为默认设置吗？</value></data>
+<data name="GapCheckFoundLineAll" xml:space="preserve"><value>所有层：第 {0} 帧到第 {1} 帧</value></data>
+<data name="GapCheckModeLabel" xml:space="preserve"><value>查找方式</value></data>
+<data name="GapCheckModePerLayer" xml:space="preserve"><value>按层</value></data>
+<data name="GapCheckModeAcrossLayers" xml:space="preserve"><value>跨层</value></data>
+<data name="GapCheckModeAll" xml:space="preserve"><value>全部</value></data>
+<data name="LayerEditorDialogTitle" xml:space="preserve"><value>批量修改层设置</value></data>
+<data name="LayerEditorEnabledLabel" xml:space="preserve"><value>启用</value></data>
+<data name="LayerEditorVolumeLabel" xml:space="preserve"><value>音量</value></data>
+<data name="LayerEditorColorClearTip" xml:space="preserve"><value>清除背景色</value></data>
+<data name="TextTagDisplayName" xml:space="preserve"><value>文字标签</value></data>
+<data name="TextTagDescription" xml:space="preserve"><value>为台词或文本添加颜色、大小、注音、等待等控制标签。</value></data>
+<data name="TextTagWindowTitle" xml:space="preserve"><value>文字标签</value></data>
+<data name="TextTagTargetLabel" xml:space="preserve"><value>对象</value></data>
+<data name="TextTagNoTarget" xml:space="preserve"><value>没有可编辑的台词或文本项目。</value></data>
+<data name="TextTagRangeTab" xml:space="preserve"><value>应用于范围</value></data>
+<data name="TextTagInsertTab" xml:space="preserve"><value>插入到光标处</value></data>
+<data name="TextTagRangeHint" xml:space="preserve"><value>在下方文本中选择范围后即可使用这些按钮。</value></data>
+<data name="TextTagRangeReady" xml:space="preserve"><value>标签将应用于所选范围。</value></data>
+<data name="TextTagInsertHint" xml:space="preserve"><value>标签会插入到光标处；若已选择范围，则插入到其后。</value></data>
+<data name="TextTagSampleBody" xml:space="preserve"><value>示例</value></data>
+<data name="TextTagCommit" xml:space="preserve"><value>确定</value></data>
+<data name="TextTagRevert" xml:space="preserve"><value>还原为初始</value></data>
+<data name="TextTagInsertButton" xml:space="preserve"><value>添加</value></data>
+<data name="TextTagColorLabel" xml:space="preserve"><value>颜色</value></data>
+<data name="TextTagSizeLabel" xml:space="preserve"><value>大小</value></data>
+<data name="TextTagFontLabel" xml:space="preserve"><value>字体</value></data>
+<data name="TextTagPositionLabel" xml:space="preserve"><value>位置</value></data>
+<data name="TextTagPositionByFontLabel" xml:space="preserve"><value>位置（字宽比）</value></data>
+<data name="TextTagRotateLabel" xml:space="preserve"><value>旋转</value></data>
+<data name="TextTagLetterSpacingLabel" xml:space="preserve"><value>字间距</value></data>
+<data name="TextTagRubyLabel" xml:space="preserve"><value>注音</value></data>
+<data name="TextTagSpeedLabel" xml:space="preserve"><value>显示速度</value></data>
+<data name="TextTagWaitLabel" xml:space="preserve"><value>等待</value></data>
+<data name="TextTagClearLabel" xml:space="preserve"><value>清除</value></data>
+<data name="TextTagFieldColor" xml:space="preserve"><value>文字颜色</value></data>
+<data name="TextTagFieldUseDecorationColor" xml:space="preserve"><value>同时指定装饰色</value></data>
+<data name="TextTagFieldDecorationColor" xml:space="preserve"><value>装饰色</value></data>
+<data name="TextTagFieldFontSize" xml:space="preserve"><value>大小</value></data>
+<data name="TextTagFieldFontFamily" xml:space="preserve"><value>字体</value></data>
+<data name="TextTagFieldStyle" xml:space="preserve"><value>样式</value></data>
+<data name="TextTagFieldDecorationType" xml:space="preserve"><value>装饰</value></data>
+<data name="TextTagFieldX" xml:space="preserve"><value>X</value></data>
+<data name="TextTagFieldY" xml:space="preserve"><value>Y</value></data>
+<data name="TextTagFieldRelative" xml:space="preserve"><value>相对当前位置</value></data>
+<data name="TextTagFieldAngle" xml:space="preserve"><value>角度</value></data>
+<data name="TextTagFieldSpacing" xml:space="preserve"><value>字间距</value></data>
+<data name="TextTagFieldRubyText" xml:space="preserve"><value>读音</value></data>
+<data name="TextTagFieldRubyScale" xml:space="preserve"><value>注音大小</value></data>
+<data name="TextTagFieldSpeed" xml:space="preserve"><value>字符／秒</value></data>
+<data name="TextTagFieldSeconds" xml:space="preserve"><value>秒</value></data>
+<data name="TextTagFieldPerCharacter" xml:space="preserve"><value>按字符数等待</value></data>
+<data name="TextTagDecorationNone" xml:space="preserve"><value>不修改</value></data>
+<data name="TextTagDecoration0" xml:space="preserve"><value>无</value></data>
+<data name="TextTagDecoration1" xml:space="preserve"><value>阴影</value></data>
+<data name="TextTagDecoration2" xml:space="preserve"><value>阴影（淡）</value></data>
+<data name="TextTagDecoration3" xml:space="preserve"><value>圆形描边</value></data>
+<data name="TextTagDecoration4" xml:space="preserve"><value>圆形描边（淡）</value></data>
+<data name="TextTagDecoration5" xml:space="preserve"><value>方形描边</value></data>
+<data name="TextTagDecoration6" xml:space="preserve"><value>方形描边（淡）</value></data>
+<data name="TextTagFieldUseColor" xml:space="preserve"><value>同时指定文字色</value></data>
+<data name="TextTagEmptyTarget" xml:space="preserve"><value>（无文字）</value></data>
+<data name="TextTagLiveNotice" xml:space="preserve"><value>修改会立即应用到项目。取消则还原为原文。</value></data>
+<data name="TextTagUndo" xml:space="preserve"><value>撤销一步</value></data>
+<data name="TextTagUndoTip" xml:space="preserve"><value>撤销上一步操作（Ctrl+Z）</value></data>
+<data name="TextTagFieldUseFontFamily" xml:space="preserve"><value>同时更改字体</value></data>
 </root>

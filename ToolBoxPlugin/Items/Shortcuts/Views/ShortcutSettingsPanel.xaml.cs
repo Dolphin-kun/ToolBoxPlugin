@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Windows.Controls;
-using YukkuriMovieMaker.Resources.Localization;
+using YmmTexts = YukkuriMovieMaker.Resources.Localization.Texts;
 
 namespace ToolBox.Items.Shortcuts.Views
 {
@@ -36,7 +36,7 @@ namespace ToolBox.Items.Shortcuts.Views
 
             if (!displayAttr.Name.StartsWith("CommandType") || !displayAttr.Name.EndsWith("Name")) return null;
 
-            var localizedName = Texts.GetString(displayAttr.Name);
+            var localizedName = YmmTexts.GetString(displayAttr.Name);
             if (!string.IsNullOrEmpty(localizedName)) return localizedName;
 
             return displayAttr.GetName() ?? displayAttr.Name;

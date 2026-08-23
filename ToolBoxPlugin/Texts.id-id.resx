@@ -61,4 +61,453 @@
 <data name="CurrentCulture" xml:space="preserve"><value>id-id</value></data>
 <data name="PluginName" xml:space="preserve"><value>Kotak Alat</value></data>
 <data name="SettingsTitle" xml:space="preserve"><value>Pengaturan Kotak Alat</value></data>
+<data name="CommonUnset" xml:space="preserve"><value>(belum diatur)</value></data>
+<data name="CommonNotFound" xml:space="preserve"><value>(tidak ditemukan)</value></data>
+<data name="CommonNoName" xml:space="preserve"><value>(tanpa nama)</value></data>
+<data name="CommonSettings" xml:space="preserve"><value>Pengaturan</value></data>
+<data name="CommonCopy" xml:space="preserve"><value>Salin</value></data>
+<data name="CommonCancel" xml:space="preserve"><value>Batal</value></data>
+<data name="CommonAdd" xml:space="preserve"><value>Tambah</value></data>
+<data name="CommonDelete" xml:space="preserve"><value>Hapus</value></data>
+<data name="CommonRename" xml:space="preserve"><value>Ganti nama</value></data>
+<data name="CommonOverwrite" xml:space="preserve"><value>Timpa</value></data>
+<data name="CommonMoveUp" xml:space="preserve"><value>Naik</value></data>
+<data name="CommonMoveDown" xml:space="preserve"><value>Turun</value></data>
+<data name="CommonClearAll" xml:space="preserve"><value>Hapus semua</value></data>
+<data name="ToolBoxNotReady" xml:space="preserve"><value>Kotak Alat belum siap.</value></data>
+<data name="FilterAllFiles" xml:space="preserve"><value>Semua berkas|*.*</value></data>
+<data name="FilterImageFiles" xml:space="preserve"><value>Berkas gambar|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|Semua berkas|*.*</value></data>
+<data name="UnitTimes" xml:space="preserve"><value>x</value></data>
+<data name="AddonMarketplaceNoResponse" xml:space="preserve"><value>Tidak ada respons dari GitHub ({0}).</value></data>
+<data name="AddonMarketplaceRateLimitedUntil" xml:space="preserve"><value>Batas permintaan GitHub tercapai. Coba lagi setelah {0}.</value></data>
+<data name="AddonMarketplaceRateLimited" xml:space="preserve"><value>Batas permintaan GitHub tercapai. Tunggu sebentar lalu coba lagi.</value></data>
+<data name="AddonMarketplaceReleaseUnreadable" xml:space="preserve"><value>Tidak dapat membaca informasi rilis.</value></data>
+<data name="AddonMarketplaceNoAsset" xml:space="preserve"><value>Rilis terbaru tidak melampirkan .zip maupun .dll.</value></data>
+<data name="AddonMarketplaceNoDll" xml:space="preserve"><value>Paket yang diunduh tidak memuat DLL.</value></data>
+<data name="AddonMarketplaceLastUpdated" xml:space="preserve"><value>Diperbarui {0}</value></data>
+<data name="AddonMarketplaceTitle" xml:space="preserve"><value>Cari Add-on</value></data>
+<data name="AddonMarketplaceHintPrefix" xml:space="preserve"><value>Menampilkan repositori GitHub dengan topik</value></data>
+<data name="AddonMarketplaceHintSuffix" xml:space="preserve"><value>. Tekan Pasang untuk mengambil zip atau dll dari rilis terbaru.</value></data>
+<data name="AddonMarketplaceRefresh" xml:space="preserve"><value>Muat daftar</value></data>
+<data name="AddonMarketplaceInstall" xml:space="preserve"><value>Pasang</value></data>
+<data name="AddonMarketplaceInstalled" xml:space="preserve"><value>Terpasang</value></data>
+<data name="AddonMarketplaceInitialStatus" xml:space="preserve"><value>Tekan Muat daftar untuk mencari add-on di GitHub.</value></data>
+<data name="AddonMarketplaceLoading" xml:space="preserve"><value>Mengambil daftar dari GitHub...</value></data>
+<data name="AddonMarketplaceLoadFailed" xml:space="preserve"><value>Gagal mengambil daftar: {0}</value></data>
+<data name="AddonMarketplaceNoResults" xml:space="preserve"><value>Tidak ada repositori dengan topik {0}.</value></data>
+<data name="AddonMarketplaceFound" xml:space="preserve"><value>Ditemukan {0}.</value></data>
+<data name="AddonMarketplaceTruncated" xml:space="preserve"><value>(Total di GitHub {0}; hanya sebagian ditampilkan karena batas API pencarian)</value></data>
+<data name="AddonMarketplaceCached" xml:space="preserve"><value>Menampilkan daftar yang diambil sebelumnya (hingga {0}).</value></data>
+<data name="AddonMarketplaceInstalling" xml:space="preserve"><value>Mengambil {0}...</value></data>
+<data name="AddonMarketplaceInstallSucceeded" xml:space="preserve"><value>{0} terpasang ({1}).</value></data>
+<data name="AddonMarketplaceInstallFailedStatus" xml:space="preserve"><value>Gagal memasang {0}: {1}</value></data>
+<data name="AddonMarketplaceInstallFailed" xml:space="preserve"><value>Tidak dapat memasang add-on.</value></data>
+<data name="AddonSettingsTitle" xml:space="preserve"><value>Add-on</value></data>
+<data name="AddonListTitle" xml:space="preserve"><value>Daftar Add-on</value></data>
+<data name="AddonListEmpty" xml:space="preserve"><value>Tidak ada add-on.</value></data>
+<data name="AddonOpenFolder" xml:space="preserve"><value>Buka folder</value></data>
+<data name="AddonReload" xml:space="preserve"><value>Muat ulang</value></data>
+<data name="AddonEnableTip" xml:space="preserve"><value>Aktif / nonaktifkan pemuatan</value></data>
+<data name="AddonDeleteTip" xml:space="preserve"><value>Hapus add-on ini</value></data>
+<data name="AddonOpenFolderFailed" xml:space="preserve"><value>Tidak dapat membuka folder.</value></data>
+<data name="AddonDeleteCaption" xml:space="preserve"><value>Hapus Add-on</value></data>
+<data name="AddonDeleteConfirm" xml:space="preserve"><value>Add-on {0} akan dihapus.</value></data>
+<data name="AddonDisabled" xml:space="preserve"><value>Add-on {0} telah dinonaktifkan.</value></data>
+<data name="AddonDisabledHint" xml:space="preserve"><value>Sudah dimuat sehingga penghapusan berkas selesai saat YMM4 dijalankan ulang.</value></data>
+<data name="AddonDeleteFailed" xml:space="preserve"><value>Tidak dapat menghapus add-on {0}.</value></data>
+<data name="AddonDisabledDescription" xml:space="preserve"><value>Dinonaktifkan. Aktifkan kembali agar dimuat berikutnya.</value></data>
+<data name="LabelDisplayName" xml:space="preserve"><value>Label</value></data>
+<data name="LabelDescription" xml:space="preserve"><value>Menempatkan teks judul pada panel. Mengekliknya tidak melakukan apa pun.</value></data>
+<data name="LabelDefaultText" xml:space="preserve"><value>Judul</value></data>
+<data name="LabelSettingsTitle" xml:space="preserve"><value>Pengaturan Label</value></data>
+<data name="LabelTextLabel" xml:space="preserve"><value>Teks yang ditampilkan</value></data>
+<data name="LabelFontLabel" xml:space="preserve"><value>Font</value></data>
+<data name="LabelFontSizeLabel" xml:space="preserve"><value>Ukuran teks</value></data>
+<data name="LabelBoldLabel" xml:space="preserve"><value>Tebal</value></data>
+<data name="LabelAlignmentLabel" xml:space="preserve"><value>Perataan teks</value></data>
+<data name="AlignLeft" xml:space="preserve"><value>Kiri</value></data>
+<data name="AlignCenter" xml:space="preserve"><value>Tengah</value></data>
+<data name="AlignRight" xml:space="preserve"><value>Kanan</value></data>
+<data name="SeparatorDisplayName" xml:space="preserve"><value>Pemisah</value></data>
+<data name="SeparatorDescription" xml:space="preserve"><value>Menggambar garis pemisah pada panel. Hiasan untuk memisahkan kelompok item.</value></data>
+<data name="SeparatorSettingsTitle" xml:space="preserve"><value>Pengaturan Pemisah</value></data>
+<data name="SeparatorOrientationLabel" xml:space="preserve"><value>Orientasi</value></data>
+<data name="SeparatorHorizontal" xml:space="preserve"><value>Horizontal</value></data>
+<data name="SeparatorVertical" xml:space="preserve"><value>Vertikal</value></data>
+<data name="SeparatorThicknessLabel" xml:space="preserve"><value>Ketebalan garis</value></data>
+<data name="SeparatorColorHint" xml:space="preserve"><value>Warna garis dapat diubah di Warna pada pengaturan umum.</value></data>
+<data name="InsertIntoGroupDisplayName" xml:space="preserve"><value>Kelompokkan</value></data>
+<data name="InsertIntoGroupDescription" xml:space="preserve"><value>Menambahkan kontrol grup yang mencakup seluruh item terpilih agar dapat ditangani sekaligus.</value></data>
+<data name="ItemStockTitle" xml:space="preserve"><value>Item Tersimpan</value></data>
+<data name="ItemStockHint" xml:space="preserve"><value>Item yang dipilih di lini masa dapat disimpan di sini. Letakkan Tambah item tersimpan pada panel untuk menautkan salah satunya.</value></data>
+<data name="ItemStockEmpty" xml:space="preserve"><value>Belum ada yang disimpan.</value></data>
+<data name="ItemStockSaveSelected" xml:space="preserve"><value>Simpan item terpilih</value></data>
+<data name="ItemStockSaveTip" xml:space="preserve"><value>Menyimpan item yang sedang dipilih di lini masa</value></data>
+<data name="ItemStockOverwriteTip" xml:space="preserve"><value>Mengganti entri terpilih dengan item yang sedang dipilih di lini masa</value></data>
+<data name="ItemStockSaveFailed" xml:space="preserve"><value>Item ini tidak dapat disimpan.</value></data>
+<data name="ItemStockSelectFirst" xml:space="preserve"><value>Pilih item di lini masa terlebih dahulu.</value></data>
+<data name="ItemStockSummaryMore" xml:space="preserve"><value>{0} dan {1} lainnya</value></data>
+<data name="ItemStockOverwriteConfirm" xml:space="preserve"><value>Isi {0} akan diganti dengan pilihan saat ini.</value></data>
+<data name="ItemStockDeleteConfirm" xml:space="preserve"><value>{0} akan dihapus.</value></data>
+<data name="ItemStockDeleteConfirmUsers" xml:space="preserve"><value>Ada {0} tombol yang memakai item ini.</value></data>
+<data name="ItemStockClearConfirm" xml:space="preserve"><value>Semua item tersimpan akan dihapus.</value></data>
+<data name="ItemStockClearConfirmHint" xml:space="preserve"><value>Tombol yang tertaut juga akan berhenti berfungsi.</value></data>
+<data name="ItemPresetDisplayName" xml:space="preserve"><value>Tambah item tersimpan</value></data>
+<data name="ItemPresetDescription" xml:space="preserve"><value>Menautkan salah satu entri Item tersimpan ke tombol ini dan menambahkannya ke lini masa dengan sekali klik.</value></data>
+<data name="ItemPresetSaveCommandName" xml:space="preserve"><value>Simpan pilihan dan tautkan</value></data>
+<data name="ItemPresetOverwriteCommandName" xml:space="preserve"><value>Timpa entri tertaut dengan pilihan</value></data>
+<data name="ItemPresetSettingsTitle" xml:space="preserve"><value>Pengaturan Item Tersimpan</value></data>
+<data name="ItemPresetStockLabel" xml:space="preserve"><value>Item yang ditautkan ke tombol ini</value></data>
+<data name="ItemPresetSaveButtonTip" xml:space="preserve"><value>Menyimpan pilihan saat ini sebagai entri baru dan menautkannya ke tombol ini</value></data>
+<data name="ItemPresetOverwriteButtonTip" xml:space="preserve"><value>Mengganti entri tertaut dengan item yang sedang dipilih</value></data>
+<data name="ItemPresetManageHint" xml:space="preserve"><value>Menambah mengganti nama dan menghapus entri dapat dilakukan di Item tersimpan pada pengaturan Kotak Alat.</value></data>
+<data name="ItemPresetUseCurrentFrame" xml:space="preserve"><value>Tambahkan di posisi saat ini</value></data>
+<data name="ItemPresetUseCurrentLayer" xml:space="preserve"><value>Tambahkan di lapisan saat ini</value></data>
+<data name="ItemPresetSelectAfterAdd" xml:space="preserve"><value>Pilih item yang ditambahkan</value></data>
+<data name="ItemPresetLoadFailed" xml:space="preserve"><value>Tidak dapat memuat {0}. Simpan ulang.</value></data>
+<data name="LauncherDisplayName" xml:space="preserve"><value>Buka berkas atau folder</value></data>
+<data name="LauncherDescription" xml:space="preserve"><value>Membuka berkas atau folder yang ditentukan. Berguna sebagai pintu ke folder aset atau alat eksternal.</value></data>
+<data name="LauncherOpenCommandName" xml:space="preserve"><value>Buka</value></data>
+<data name="LauncherTargetLabel" xml:space="preserve"><value>Target</value></data>
+<data name="LauncherBrowseFolder" xml:space="preserve"><value>Pilih folder...</value></data>
+<data name="LauncherFolderDialogTitle" xml:space="preserve"><value>Pilih folder yang akan dibuka</value></data>
+<data name="LauncherOpenNotFound" xml:space="preserve"><value>Tidak dapat dibuka. Lokasi berikut tidak ditemukan.</value></data>
+<data name="LauncherOpenFailed" xml:space="preserve"><value>Tidak dapat dibuka.</value></data>
+<data name="LauncherNodeGroup" xml:space="preserve"><value>Grup</value></data>
+<data name="LauncherSettingsNodeTitle" xml:space="preserve"><value>Peluncur</value></data>
+<data name="LauncherSettingsTitle" xml:space="preserve"><value>Pengaturan Peluncur</value></data>
+<data name="LauncherEnableLabel" xml:space="preserve"><value>Gunakan peluncur</value></data>
+<data name="LauncherTriggerLabel" xml:space="preserve"><value>Buka dengan</value></data>
+<data name="LauncherImageFillsSectorLabel" xml:space="preserve"><value>Perbesar gambar</value></data>
+<data name="LauncherPreviewLabel" xml:space="preserve"><value>Pratinjau</value></data>
+<data name="LauncherOrderLabel" xml:space="preserve"><value>Urutan</value></data>
+<data name="LauncherClearTip" xml:space="preserve"><value>Mengosongkannya mengembalikan tata letak otomatis dari panel saat ini</value></data>
+<data name="LauncherNodeKindLabel" xml:space="preserve"><value>Jenis</value></data>
+<data name="LauncherKindPanelItem" xml:space="preserve"><value>Item panel</value></data>
+<data name="LauncherTargetNodeLabel" xml:space="preserve"><value>Target</value></data>
+<data name="LauncherNewGroup" xml:space="preserve"><value>Grup baru</value></data>
+<data name="LauncherClearConfirm" xml:space="preserve"><value>Seluruh tata letak peluncur akan dihapus.</value></data>
+<data name="LauncherClearConfirmHint" xml:space="preserve"><value>Setelahnya item pada panel saat ini akan ditata otomatis kembali.</value></data>
+<data name="RadialMenuBack" xml:space="preserve"><value>Kembali</value></data>
+<data name="RadialMenuClose" xml:space="preserve"><value>Tutup</value></data>
+<data name="RadialMenuPrevious" xml:space="preserve"><value>Sebelumnya</value></data>
+<data name="RadialMenuNext" xml:space="preserve"><value>Berikutnya</value></data>
+<data name="RadialMenuPreviewEmpty" xml:space="preserve"><value>Tidak ada item untuk ditata.</value></data>
+<data name="MacroDisplayName" xml:space="preserve"><value>Makro</value></data>
+<data name="MacroDescription" xml:space="preserve"><value>Menjalankan aksi terdaftar dari atas ke bawah. Langkah yang sering dipakai bisa disatukan dalam satu tombol.</value></data>
+<data name="MacroRunCommandName" xml:space="preserve"><value>Jalankan makro</value></data>
+<data name="MacroSummaryNoSteps" xml:space="preserve"><value>{0} (tanpa langkah)</value></data>
+<data name="MacroSummarySteps" xml:space="preserve"><value>{0} ({1} langkah)</value></data>
+<data name="MacroStepNotFound" xml:space="preserve"><value>Langkah {1} pada makro {0} tidak ditemukan.</value></data>
+<data name="MacroStepNotFoundHint" xml:space="preserve"><value>Add-on penyedianya mungkin telah dihapus.</value></data>
+<data name="MacroStepsLabel" xml:space="preserve"><value>Langkah</value></data>
+<data name="MacroSelectedStepLabel" xml:space="preserve"><value>Langkah terpilih</value></data>
+<data name="MacroMoveUpTip" xml:space="preserve"><value>Naik satu</value></data>
+<data name="MacroMoveDownTip" xml:space="preserve"><value>Turun satu</value></data>
+<data name="MacroAddStepTip" xml:space="preserve"><value>Tambah langkah</value></data>
+<data name="MacroRemoveStepTip" xml:space="preserve"><value>Hapus langkah terpilih</value></data>
+<data name="MacroStepKindLabel" xml:space="preserve"><value>Jenis</value></data>
+<data name="StepKindCommand" xml:space="preserve"><value>Aksi Kotak Alat</value></data>
+<data name="StepKindShortcut" xml:space="preserve"><value>Pintasan</value></data>
+<data name="StepKindPanelItem" xml:space="preserve"><value>Item pada panel</value></data>
+<data name="StepKindWait" xml:space="preserve"><value>Tunggu</value></data>
+<data name="MacroCommandLabel" xml:space="preserve"><value>Aksi</value></data>
+<data name="MacroPanelItemLabel" xml:space="preserve"><value>Item</value></data>
+<data name="MacroPanelItemHint" xml:space="preserve"><value>Menjalankan item pada panel yang terbuka memakai pengaturan item itu sendiri.</value></data>
+<data name="MacroWaitLabel" xml:space="preserve"><value>Waktu tunggu</value></data>
+<data name="MacroStepsHint" xml:space="preserve"><value>Langkah dijalankan dari atas ke bawah. Langkah yang tidak dapat dijalankan (misalnya tanpa pilihan) akan dilewati.</value></data>
+<data name="MacroStepWait" xml:space="preserve"><value>Tunggu {0} md</value></data>
+<data name="MacroStepNew" xml:space="preserve"><value>Langkah baru (pilih aksi)</value></data>
+<data name="MacroStepUnknown" xml:space="preserve"><value>(aksi tak dikenal: {0})</value></data>
+<data name="MacroStepChooseItem" xml:space="preserve"><value>(pilih item)</value></data>
+<data name="RecordingDisplayName" xml:space="preserve"><value>Perekaman</value></data>
+<data name="RecordingDescription" xml:space="preserve"><value>Merekam dari mikrofon dan menambahkan hasilnya ke lini masa sebagai item audio.</value></data>
+<data name="RecordingToggleCommandName" xml:space="preserve"><value>Mulai atau hentikan perekaman</value></data>
+<data name="RecordingSettingsTitle" xml:space="preserve"><value>Pengaturan Perekaman</value></data>
+<data name="RecordingDeviceLabel" xml:space="preserve"><value>Perangkat input</value></data>
+<data name="RecordingOpenFolder" xml:space="preserve"><value>Buka folder rekaman</value></data>
+<data name="RecordingOpenFolderFailed" xml:space="preserve"><value>Tidak dapat membuka folder rekaman.</value></data>
+<data name="RubyDisplayName" xml:space="preserve"><value>Teks ruby</value></data>
+<data name="RubyDescription" xml:space="preserve"><value>Menambahkan teks ruby di atas kanji pada item terpilih.</value></data>
+<data name="RubyApplyCommandName" xml:space="preserve"><value>Tambahkan teks ruby</value></data>
+<data name="RubySettingsTitle" xml:space="preserve"><value>Pengaturan Ruby</value></data>
+<data name="RubyTypeLabel" xml:space="preserve"><value>Gaya ruby</value></data>
+<data name="RubyTypeHiragana" xml:space="preserve"><value>Hiragana</value></data>
+<data name="RubyTypeHiraganaDescription" xml:space="preserve"><value>Menambahkan ruby dalam hiragana</value></data>
+<data name="RubyTypeKatakana" xml:space="preserve"><value>Katakana</value></data>
+<data name="RubyTypeKatakanaDescription" xml:space="preserve"><value>Menambahkan ruby dalam katakana</value></data>
+<data name="RubyAutoLineHeight" xml:space="preserve"><value>Sesuaikan tinggi baris otomatis</value></data>
+<data name="RubyLineHeightScale" xml:space="preserve"><value>Faktor tinggi baris</value></data>
+<data name="SceneMoverDisplayName" xml:space="preserve"><value>Pindah ke scene</value></data>
+<data name="SceneMoverDescription" xml:space="preserve"><value>Memindahkan item terpilih sekaligus ke scene baru atau yang sudah ada. Mengeklik akan membuka menu tujuan.</value></data>
+<data name="SceneMoverToNewSceneCommandName" xml:space="preserve"><value>Pindah ke scene baru</value></data>
+<data name="SceneMoverToSceneCommandName" xml:space="preserve"><value>Pindah ke scene yang dipilih</value></data>
+<data name="SceneMoverSettingsTitle" xml:space="preserve"><value>Pengaturan Pindah ke Scene</value></data>
+<data name="SceneMoverDuplicateLabel" xml:space="preserve"><value>Duplikat alih-alih memindahkan</value></data>
+<data name="SceneMoverAlignLabel" xml:space="preserve"><value>Ratakan ke awal scene</value></data>
+<data name="SceneMoverSwitchLabel" xml:space="preserve"><value>Beralih ke scene tujuan</value></data>
+<data name="SceneMoverToNewSceneTip" xml:space="preserve"><value>Memindahkan item terpilih di lini masa ke scene baru</value></data>
+<data name="SceneMoverSummaryDuplicate" xml:space="preserve"><value>Duplikat</value></data>
+<data name="SceneMoverSummaryMove" xml:space="preserve"><value>Pindah</value></data>
+<data name="SceneMoverNoTimeline" xml:space="preserve"><value>Tidak dapat mengakses lini masa.</value></data>
+<data name="SceneMoverNoSelection" xml:space="preserve"><value>Pilih item di lini masa.</value></data>
+<data name="SceneMoverNoScenes" xml:space="preserve"><value>Tidak dapat memperoleh daftar scene.</value></data>
+<data name="SceneMoverAlreadyHere" xml:space="preserve"><value>Sudah berada di scene ini.</value></data>
+<data name="SceneMoverAddFailed" xml:space="preserve"><value>Tidak dapat menempatkan item di tujuan.</value></data>
+<data name="SceneMoverMoveFailed" xml:space="preserve"><value>Tidak dapat memindahkan item.</value></data>
+<data name="SceneMoverCreateFailed" xml:space="preserve"><value>Tidak dapat membuat scene baru.</value></data>
+<data name="SceneMoverMenuFailed" xml:space="preserve"><value>Tidak dapat membuka daftar tujuan.</value></data>
+<data name="SceneMoverMenuNewScene" xml:space="preserve"><value>Ke scene baru</value></data>
+<data name="SceneMoverMenuNoOtherScenes" xml:space="preserve"><value>Tidak ada scene lain</value></data>
+<data name="SceneMoverSceneWord" xml:space="preserve"><value>Scene</value></data>
+<data name="SceneMoverNewSceneName" xml:space="preserve"><value>Scene {0}</value></data>
+<data name="SeparateAudioDisplayName" xml:space="preserve"><value>Pisahkan audio</value></data>
+<data name="SeparateAudioDescription" xml:space="preserve"><value>Membisukan item video terpilih dan menambahkan audio yang sama sebagai item audio terpisah satu lapisan di bawahnya.</value></data>
+<data name="SeparateAudioCommandName" xml:space="preserve"><value>Pisahkan audio</value></data>
+<data name="ShortcutRunCommandName" xml:space="preserve"><value>Jalankan pintasan</value></data>
+<data name="ShortcutsRootTitle" xml:space="preserve"><value>Pintasan</value></data>
+<data name="ShortcutSettingsTitle" xml:space="preserve"><value>Pengaturan Pintasan</value></data>
+<data name="ShortcutLabelLabel" xml:space="preserve"><value>Label</value></data>
+<data name="ShortcutCommandLabel" xml:space="preserve"><value>Perintah yang dijalankan</value></data>
+<data name="ShortcutDefaultDescription" xml:space="preserve"><value>Menjalankan perintah YMM4 {0}.</value></data>
+<data name="ShortcutGroupEdit" xml:space="preserve"><value>Edit</value></data>
+<data name="ShortcutGroupItem" xml:space="preserve"><value>Item</value></data>
+<data name="ShortcutGroupArrange" xml:space="preserve"><value>Tata dan pindah</value></data>
+<data name="ShortcutGroupSelection" xml:space="preserve"><value>Pilihan</value></data>
+<data name="ShortcutGroupAddItem" xml:space="preserve"><value>Tambah item</value></data>
+<data name="ShortcutGroupMidpoint" xml:space="preserve"><value>Titik tengah</value></data>
+<data name="ShortcutGroupPlayback" xml:space="preserve"><value>Pemutaran</value></data>
+<data name="ShortcutGroupView" xml:space="preserve"><value>Tampilan</value></data>
+<data name="ShortcutGroupLayer" xml:space="preserve"><value>Lapisan</value></data>
+<data name="ShortcutGroupCharacterScene" xml:space="preserve"><value>Karakter dan scene</value></data>
+<data name="ShortcutGroupProject" xml:space="preserve"><value>Proyek</value></data>
+<data name="ShortcutGroupWindowFolder" xml:space="preserve"><value>Jendela dan folder</value></data>
+<data name="SortDisplayName" xml:space="preserve"><value>Urutkan</value></data>
+<data name="SortDescription" xml:space="preserve"><value>Menata ulang item terpilih antar lapisan menurut posisi mulai secara naik atau turun.</value></data>
+<data name="SortAscendingCommandName" xml:space="preserve"><value>Urutkan dari yang terawal</value></data>
+<data name="SortDescendingCommandName" xml:space="preserve"><value>Urutkan dari yang terakhir</value></data>
+<data name="SortAscendingTip" xml:space="preserve"><value>Urutkan dari yang terawal</value></data>
+<data name="SortDescendingTip" xml:space="preserve"><value>Urutkan dari yang terakhir</value></data>
+<data name="StaircaseDisplayName" xml:space="preserve"><value>Susun bertingkat</value></data>
+<data name="StaircaseDescription" xml:space="preserve"><value>Menggeser item terpilih sejumlah frame tetap per lapisan sehingga membentuk tangga.</value></data>
+<data name="StaircaseReverseCommandName" xml:space="preserve"><value>Susun bertingkat terbalik</value></data>
+<data name="StaircaseSettingsTitle" xml:space="preserve"><value>Pengaturan Bertingkat</value></data>
+<data name="StaircaseOffsetLabel" xml:space="preserve"><value>Offset</value></data>
+<data name="TachiePlacerDisplayName" xml:space="preserve"><value>Tempatkan gambar karakter</value></data>
+<data name="TachiePlacerDescription" xml:space="preserve"><value>Menempatkan gambar karakter yang cocok dengan item suara terpilih pada lapisan di atas atau di bawahnya.</value></data>
+<data name="TachiePlacerCommandName" xml:space="preserve"><value>Tempatkan gambar karakter</value></data>
+<data name="TachiePlacerSettingsTitle" xml:space="preserve"><value>Pengaturan Gambar Karakter</value></data>
+<data name="TachiePlacerPlacementLabel" xml:space="preserve"><value>Lapisan target</value></data>
+<data name="TachiePlacementBelow" xml:space="preserve"><value>Lapisan bawah</value></data>
+<data name="TachiePlacementBelowDescription" xml:space="preserve"><value>Satu lapisan di bawah audio</value></data>
+<data name="TachiePlacementAbove" xml:space="preserve"><value>Lapisan atas</value></data>
+<data name="TachiePlacementAboveDescription" xml:space="preserve"><value>Satu lapisan di atas audio</value></data>
+<data name="TextSplitterDisplayName" xml:space="preserve"><value>Pisah teks</value></data>
+<data name="TextSplitterDescription" xml:space="preserve"><value>Memisahkan item teks atau suara terpilih dan menatanya secara vertikal atau horizontal.</value></data>
+<data name="TextSplitterCommandName" xml:space="preserve"><value>Pisah teks</value></data>
+<data name="TextSplitterSettingsTitle" xml:space="preserve"><value>Pengaturan Pisah Teks</value></data>
+<data name="TextSplitterDeleteOriginal" xml:space="preserve"><value>Hapus item asli</value></data>
+<data name="TextSplitterModeLabel" xml:space="preserve"><value>Mode pemisahan</value></data>
+<data name="TextSplitterDirectionLabel" xml:space="preserve"><value>Arah pemisahan</value></data>
+<data name="TextSplitterKeepPosition" xml:space="preserve"><value>Pertahankan posisi asli</value></data>
+<data name="TextSplitterIgnoreTags" xml:space="preserve"><value>Abaikan tag seperti &lt;rb&gt;</value></data>
+<data name="TextSplitterIgnoreTagsTip" xml:space="preserve"><value>Jika aktif tag YMM4 seperti &lt;rb&gt; dipertahankan utuh alih-alih dipisah</value></data>
+<data name="TextSplitterOffsetLabel" xml:space="preserve"><value>Lebar geser (frame)</value></data>
+<data name="TextSplitterKeepDuration" xml:space="preserve"><value>Pertahankan durasi total</value></data>
+<data name="SplitModeByCharacter" xml:space="preserve"><value>Pisah tiap karakter</value></data>
+<data name="SplitModeByCharacterDescription" xml:space="preserve"><value>Pisah tiap karakter</value></data>
+<data name="SplitModeByLine" xml:space="preserve"><value>Pisah pada ganti baris</value></data>
+<data name="SplitModeByLineDescription" xml:space="preserve"><value>Pisah pada ganti baris</value></data>
+<data name="SplitDirectionVertical" xml:space="preserve"><value>Vertikal</value></data>
+<data name="SplitDirectionVerticalDescription" xml:space="preserve"><value>Searah lapisan</value></data>
+<data name="SplitDirectionHorizontal" xml:space="preserve"><value>Horizontal</value></data>
+<data name="SplitDirectionHorizontalDescription" xml:space="preserve"><value>Searah frame</value></data>
+<data name="ItemContextLock" xml:space="preserve"><value>Kunci</value></data>
+<data name="ItemContextUnlock" xml:space="preserve"><value>Buka kunci</value></data>
+<data name="ItemContextHide" xml:space="preserve"><value>Sembunyikan</value></data>
+<data name="HotkeyWinKeyNotAllowed" xml:space="preserve"><value>Tombol Win tidak dapat dipakai</value></data>
+<data name="HotkeyNeedCtrlOrAlt" xml:space="preserve"><value>Sertakan Ctrl atau Alt</value></data>
+<data name="HotkeyMouseX1" xml:space="preserve"><value>Tombol samping 1</value></data>
+<data name="HotkeyMouseX2" xml:space="preserve"><value>Tombol samping 2</value></data>
+<data name="HotkeyMouseLeft" xml:space="preserve"><value>Klik kiri</value></data>
+<data name="HotkeyMouseMiddle" xml:space="preserve"><value>Klik tengah</value></data>
+<data name="HotkeyMouseRight" xml:space="preserve"><value>Klik kanan</value></data>
+<data name="HotkeyNeedMouseButton" xml:space="preserve"><value>Tekan tombol mouse selain tombol kiri</value></data>
+<data name="HotkeyConflict" xml:space="preserve"><value>Bentrok dengan {0}. Hanya yang ditempatkan lebih dulu yang merespons.</value></data>
+<data name="PanelUndoLayout" xml:space="preserve"><value>Urungkan perubahan tata letak</value></data>
+<data name="PanelUndoGesture" xml:space="preserve"><value>Ctrl+Z di atas panel</value></data>
+<data name="PanelRedoLayout" xml:space="preserve"><value>Ulangi perubahan tata letak</value></data>
+<data name="PanelRedoGesture" xml:space="preserve"><value>Ctrl+Y di atas panel</value></data>
+<data name="PanelPasteItem" xml:space="preserve"><value>Tempel item</value></data>
+<data name="PanelAdd" xml:space="preserve"><value>Tambah panel</value></data>
+<data name="PanelDuplicate" xml:space="preserve"><value>Duplikat panel</value></data>
+<data name="PanelRenameTitle" xml:space="preserve"><value>Ganti nama panel</value></data>
+<data name="PanelCopySuffix" xml:space="preserve"><value>Salinan {0}</value></data>
+<data name="ItemCommonDisplaySection" xml:space="preserve"><value>Tampilan</value></data>
+<data name="ItemCommonDisplayModeLabel" xml:space="preserve"><value>Mode tampilan</value></data>
+<data name="DisplayModeIcon" xml:space="preserve"><value>Ikon</value></data>
+<data name="DisplayModeText" xml:space="preserve"><value>Teks</value></data>
+<data name="DisplayModeImage" xml:space="preserve"><value>Gambar</value></data>
+<data name="ItemCommonImageFileLabel" xml:space="preserve"><value>Berkas gambar</value></data>
+<data name="ItemCommonImageFitLabel" xml:space="preserve"><value>Penyesuaian gambar</value></data>
+<data name="ImageFitUniform" xml:space="preserve"><value>Muat</value></data>
+<data name="ImageFitFill" xml:space="preserve"><value>Regangkan</value></data>
+<data name="ImageFitUniformToFill" xml:space="preserve"><value>Potong dan isi</value></data>
+<data name="ItemCommonButtonLabel" xml:space="preserve"><value>Label tombol</value></data>
+<data name="ItemCommonColorSection" xml:space="preserve"><value>Warna</value></data>
+<data name="ItemCommonUseCustomColor" xml:space="preserve"><value>Gunakan warna khusus</value></data>
+<data name="ItemCommonBackground" xml:space="preserve"><value>Latar</value></data>
+<data name="ItemCommonBorder" xml:space="preserve"><value>Warna bingkai</value></data>
+<data name="ItemCommonForeground" xml:space="preserve"><value>Warna ikon dan teks</value></data>
+<data name="ItemCommonBorderThickness" xml:space="preserve"><value>Ketebalan bingkai</value></data>
+<data name="ItemCommonCornerRadius" xml:space="preserve"><value>Radius sudut</value></data>
+<data name="ItemCommonResetColors" xml:space="preserve"><value>Atur ulang warna</value></data>
+<data name="ItemCommonHotkey" xml:space="preserve"><value>Tombol pintas</value></data>
+<data name="ItemCommonHotkeyHint" xml:space="preserve"><value>Pilih kolomnya lalu tekan tombol untuk menetapkannya. Esc menghapusnya. Agar berbeda dari pengetikan hanya kombinasi dengan Ctrl atau Alt yang dapat diatur. Tombol samping mouse dapat ditetapkan sendiri. Hanya bekerja saat aplikasi berada di depan.</value></data>
+<data name="BasicSettingsTitle" xml:space="preserve"><value>Umum</value></data>
+<data name="BasicShowLockBadge" xml:space="preserve"><value>Tampilkan lencana kunci pada item terkunci</value></data>
+<data name="BasicCurrentVersion" xml:space="preserve"><value>Versi saat ini</value></data>
+<data name="BasicLatestVersion" xml:space="preserve"><value>Versi terbaru</value></data>
+<data name="BasicDownloadUpdate" xml:space="preserve"><value>Unduh pembaruan</value></data>
+<data name="VersionChecking" xml:space="preserve"><value>Memeriksa...</value></data>
+<data name="VersionUnknown" xml:space="preserve"><value>Tidak diketahui</value></data>
+<data name="VersionFetchFailed" xml:space="preserve"><value>Gagal memeriksa</value></data>
+<data name="GridSettingsNodeTitle" xml:space="preserve"><value>Kisi</value></data>
+<data name="GridSettingsTitle" xml:space="preserve"><value>Pengaturan Kisi</value></data>
+<data name="GridAdjustLabel" xml:space="preserve"><value>Penyesuaian kisi</value></data>
+<data name="GridAdjustAuto" xml:space="preserve"><value>Otomatis</value></data>
+<data name="GridAdjustManual" xml:space="preserve"><value>Manual</value></data>
+<data name="GridSizeLabel" xml:space="preserve"><value>Ukuran</value></data>
+<data name="GridLayoutLabel" xml:space="preserve"><value>Tata letak</value></data>
+<data name="GridRowsLabel" xml:space="preserve"><value>Baris</value></data>
+<data name="GridColumnsLabel" xml:space="preserve"><value>Kolom</value></data>
+<data name="GridShowLines" xml:space="preserve"><value>Selalu tampilkan garis sel</value></data>
+<data name="GridShowHighlight" xml:space="preserve"><value>Tampilkan sorotan</value></data>
+<data name="GridHighlightColor" xml:space="preserve"><value>Warna sorotan</value></data>
+<data name="SettingsRootTitle" xml:space="preserve"><value>Pengaturan</value></data>
+<data name="ItemsRootTitle" xml:space="preserve"><value>Item</value></data>
+<data name="CategoryTimeline" xml:space="preserve"><value>Lini masa</value></data>
+<data name="CategoryLayout" xml:space="preserve"><value>Tata letak</value></data>
+<data name="CategoryText" xml:space="preserve"><value>Teks</value></data>
+<data name="CategoryAudio" xml:space="preserve"><value>Audio</value></data>
+<data name="CategoryUtility" xml:space="preserve"><value>Utilitas</value></data>
+<data name="CategoryDecoration" xml:space="preserve"><value>Hiasan</value></data>
+<data name="CategoryOther" xml:space="preserve"><value>Lainnya</value></data>
+<data name="ToolItemInstancesHeaderFormat" xml:space="preserve"><value>Item ({0})</value></data>
+<data name="ToolItemShowInToolBox" xml:space="preserve"><value>Tampilkan di Kotak Alat</value></data>
+<data name="ToolItemRemovePlacement" xml:space="preserve"><value>Hapus penempatan ini</value></data>
+<data name="ToolItemAddAnother" xml:space="preserve"><value>Tambahkan satu lagi item ini</value></data>
+<data name="ToolItemSettingsHeaderFormat" xml:space="preserve"><value>Pengaturan {0}</value></data>
+<data name="ShortcutsOverviewHint" xml:space="preserve"><value>Pilih pintasan dari daftar di kiri untuk menampilkan atau menyembunyikannya di Kotak Alat.</value></data>
+<data name="ShortcutsOverviewAvailablePrefix" xml:space="preserve"><value>Perintah yang tersedia hanya yang terdaftar pada daftar di</value></data>
+<data name="ShortcutsOverviewAvailableSuffix" xml:space="preserve"><value>.</value></data>
+<data name="StaircaseAmountLabel" xml:space="preserve"><value>Lapisan per tangga</value></data>
+<data name="GridCellSizeLabel" xml:space="preserve"><value>Ukuran sel</value></data>
+<data name="GridCellMarginLabel" xml:space="preserve"><value>Jarak antar sel</value></data>
+<data name="GapCheckDisplayName" xml:space="preserve"><value>Periksa celah</value></data>
+<data name="GapCheckDescription" xml:space="preserve"><value>Mencari celah kecil antara item bersebelahan pada lapisan yang sama, untuk menemukan satu atau dua frame yang terlewat.</value></data>
+<data name="GapCheckNextCommandName" xml:space="preserve"><value>Celah berikutnya</value></data>
+<data name="GapCheckPreviousCommandName" xml:space="preserve"><value>Celah sebelumnya</value></data>
+<data name="GapCheckSummaryCommandName" xml:space="preserve"><value>Cek celah</value></data>
+<data name="GapCheckSettingsTitle" xml:space="preserve"><value>Pengaturan periksa celah</value></data>
+<data name="GapCheckMaxFramesLabel" xml:space="preserve"><value>Laporkan celah hingga</value></data>
+<data name="GapCheckSelectedLayersOnlyLabel" xml:space="preserve"><value>Hanya lapisan terpilih</value></data>
+<data name="GapCheckNotFound" xml:space="preserve"><value>Tidak ada celah yang ditemukan.</value></data>
+<data name="GapCheckFoundSummary" xml:space="preserve"><value>Ditemukan {0} celah.</value></data>
+<data name="GapCheckFoundLine" xml:space="preserve"><value>Lapisan {0}: frame {1} sampai {2}</value></data>
+<data name="GapCheckFoundMore" xml:space="preserve"><value>dan {0} lainnya</value></data>
+<data name="BookmarkDisplayName" xml:space="preserve"><value>Markah</value></data>
+<data name="BookmarkDescription" xml:space="preserve"><value>Mengingat posisi yang sering Anda kunjungi dan melompat di antaranya.</value></data>
+<data name="BookmarkToggleCommandName" xml:space="preserve"><value>Markah di sini</value></data>
+<data name="BookmarkNextCommandName" xml:space="preserve"><value>Markah berikutnya</value></data>
+<data name="BookmarkPreviousCommandName" xml:space="preserve"><value>Markah sebelumnya</value></data>
+<data name="BookmarkClearCommandName" xml:space="preserve"><value>Hapus semua</value></data>
+<data name="BookmarkSettingsTitle" xml:space="preserve"><value>Markah</value></data>
+<data name="BookmarkEmpty" xml:space="preserve"><value>Belum ada markah.</value></data>
+<data name="BookmarkJump" xml:space="preserve"><value>Ke sini</value></data>
+<data name="BookmarkRemove" xml:space="preserve"><value>Hapus</value></data>
+<data name="BookmarkClearConfirm" xml:space="preserve"><value>Hapus semua markah?</value></data>
+<data name="BookmarkDefaultName" xml:space="preserve"><value>Markah {0}</value></data>
+<data name="BookmarkFrameFormat" xml:space="preserve"><value>{0}F</value></data>
+<data name="LayerEditorDisplayName" xml:space="preserve"><value>Edit lapisan massal</value></data>
+<data name="LayerEditorDescription" xml:space="preserve"><value>Mengubah nama dan warna beberapa lapisan sekaligus.</value></data>
+<data name="LayerEditorApplyCommandName" xml:space="preserve"><value>Terapkan</value></data>
+<data name="LayerEditorResetCommandName" xml:space="preserve"><value>Atur ulang</value></data>
+<data name="LayerEditorScopeLabel" xml:space="preserve"><value>Sasaran</value></data>
+<data name="LayerEditorScopeSelected" xml:space="preserve"><value>Lapisan terpilih</value></data>
+<data name="LayerEditorScopeRange" xml:space="preserve"><value>Rentang tertentu</value></data>
+<data name="LayerEditorFromLabel" xml:space="preserve"><value>Dari lapisan</value></data>
+<data name="LayerEditorToLabel" xml:space="preserve"><value>Sampai lapisan</value></data>
+<data name="LayerEditorNameLabel" xml:space="preserve"><value>Nama lapisan</value></data>
+<data name="LayerEditorNameHint" xml:space="preserve"><value>{0} menjadi nomor lapisan dan {1} menjadi urutan dari atas.</value></data>
+<data name="LayerEditorColorLabel" xml:space="preserve"><value>Warna latar</value></data>
+<data name="LayerEditorNoTarget" xml:space="preserve"><value>Tidak ada lapisan untuk diubah.</value></data>
+<data name="LayerEditorNothingToDo" xml:space="preserve"><value>Tidak ada kolom yang dicentang untuk diubah.</value></data>
+<data name="LayerEditorApplied" xml:space="preserve"><value>{0} lapisan diubah.</value></data>
+<data name="LayerEditorResetConfirm" xml:space="preserve"><value>Kembalikan lapisan sasaran ke pengaturan bawaan?</value></data>
+<data name="GapCheckFoundLineAll" xml:space="preserve"><value>Semua lapisan: frame {0} sampai {1}</value></data>
+<data name="GapCheckModeLabel" xml:space="preserve"><value>Cara mencari</value></data>
+<data name="GapCheckModePerLayer" xml:space="preserve"><value>Per lapisan</value></data>
+<data name="GapCheckModeAcrossLayers" xml:space="preserve"><value>Lintas lapisan</value></data>
+<data name="GapCheckModeAll" xml:space="preserve"><value>Semua</value></data>
+<data name="LayerEditorDialogTitle" xml:space="preserve"><value>Pengaturan lapisan massal</value></data>
+<data name="LayerEditorEnabledLabel" xml:space="preserve"><value>Aktif</value></data>
+<data name="LayerEditorVolumeLabel" xml:space="preserve"><value>Volume</value></data>
+<data name="LayerEditorColorClearTip" xml:space="preserve"><value>Hapus warna latar</value></data>
+<data name="TextTagDisplayName" xml:space="preserve"><value>Tag teks</value></data>
+<data name="TextTagDescription" xml:space="preserve"><value>Menambahkan tag kontrol seperti warna, ukuran, ruby, dan jeda ke teks.</value></data>
+<data name="TextTagWindowTitle" xml:space="preserve"><value>Tag teks</value></data>
+<data name="TextTagTargetLabel" xml:space="preserve"><value>Sasaran</value></data>
+<data name="TextTagNoTarget" xml:space="preserve"><value>Tidak ada item suara atau teks untuk diedit.</value></data>
+<data name="TextTagRangeTab" xml:space="preserve"><value>Pada rentang</value></data>
+<data name="TextTagInsertTab" xml:space="preserve"><value>Di posisi kursor</value></data>
+<data name="TextTagRangeHint" xml:space="preserve"><value>Pilih teks di bawah untuk mengaktifkan tombol ini.</value></data>
+<data name="TextTagRangeReady" xml:space="preserve"><value>Tag akan diterapkan pada rentang terpilih.</value></data>
+<data name="TextTagInsertHint" xml:space="preserve"><value>Tag disisipkan di kursor, atau tepat setelah pilihan jika ada.</value></data>
+<data name="TextTagSampleBody" xml:space="preserve"><value>Contoh</value></data>
+<data name="TextTagCommit" xml:space="preserve"><value>OK</value></data>
+<data name="TextTagRevert" xml:space="preserve"><value>Kembali ke awal</value></data>
+<data name="TextTagInsertButton" xml:space="preserve"><value>Tambah</value></data>
+<data name="TextTagColorLabel" xml:space="preserve"><value>Warna</value></data>
+<data name="TextTagSizeLabel" xml:space="preserve"><value>Ukuran</value></data>
+<data name="TextTagFontLabel" xml:space="preserve"><value>Font</value></data>
+<data name="TextTagPositionLabel" xml:space="preserve"><value>Posisi</value></data>
+<data name="TextTagPositionByFontLabel" xml:space="preserve"><value>Posisi (em)</value></data>
+<data name="TextTagRotateLabel" xml:space="preserve"><value>Putar</value></data>
+<data name="TextTagLetterSpacingLabel" xml:space="preserve"><value>Spasi</value></data>
+<data name="TextTagRubyLabel" xml:space="preserve"><value>Ruby</value></data>
+<data name="TextTagSpeedLabel" xml:space="preserve"><value>Kecepatan</value></data>
+<data name="TextTagWaitLabel" xml:space="preserve"><value>Jeda</value></data>
+<data name="TextTagClearLabel" xml:space="preserve"><value>Bersihkan</value></data>
+<data name="TextTagFieldColor" xml:space="preserve"><value>Warna teks</value></data>
+<data name="TextTagFieldUseDecorationColor" xml:space="preserve"><value>Atur juga warna dekorasi</value></data>
+<data name="TextTagFieldDecorationColor" xml:space="preserve"><value>Warna dekorasi</value></data>
+<data name="TextTagFieldFontSize" xml:space="preserve"><value>Ukuran</value></data>
+<data name="TextTagFieldFontFamily" xml:space="preserve"><value>Font</value></data>
+<data name="TextTagFieldStyle" xml:space="preserve"><value>Gaya</value></data>
+<data name="TextTagFieldDecorationType" xml:space="preserve"><value>Dekorasi</value></data>
+<data name="TextTagFieldX" xml:space="preserve"><value>X</value></data>
+<data name="TextTagFieldY" xml:space="preserve"><value>Y</value></data>
+<data name="TextTagFieldRelative" xml:space="preserve"><value>Relatif</value></data>
+<data name="TextTagFieldAngle" xml:space="preserve"><value>Sudut</value></data>
+<data name="TextTagFieldSpacing" xml:space="preserve"><value>Spasi</value></data>
+<data name="TextTagFieldRubyText" xml:space="preserve"><value>Bacaan</value></data>
+<data name="TextTagFieldRubyScale" xml:space="preserve"><value>Ukuran ruby</value></data>
+<data name="TextTagFieldSpeed" xml:space="preserve"><value>Karakter per detik</value></data>
+<data name="TextTagFieldSeconds" xml:space="preserve"><value>Detik</value></data>
+<data name="TextTagFieldPerCharacter" xml:space="preserve"><value>Kalikan dengan jumlah karakter</value></data>
+<data name="TextTagDecorationNone" xml:space="preserve"><value>Tidak diubah</value></data>
+<data name="TextTagDecoration0" xml:space="preserve"><value>Tidak ada</value></data>
+<data name="TextTagDecoration1" xml:space="preserve"><value>Bayangan</value></data>
+<data name="TextTagDecoration2" xml:space="preserve"><value>Bayangan (tipis)</value></data>
+<data name="TextTagDecoration3" xml:space="preserve"><value>Garis bulat</value></data>
+<data name="TextTagDecoration4" xml:space="preserve"><value>Garis bulat (tipis)</value></data>
+<data name="TextTagDecoration5" xml:space="preserve"><value>Garis kotak</value></data>
+<data name="TextTagDecoration6" xml:space="preserve"><value>Garis kotak (tipis)</value></data>
+<data name="TextTagFieldUseColor" xml:space="preserve"><value>Atur juga warna teks</value></data>
+<data name="TextTagEmptyTarget" xml:space="preserve"><value>(kosong)</value></data>
+<data name="TextTagLiveNotice" xml:space="preserve"><value>Perubahan langsung diterapkan ke item. Membatalkan akan mengembalikan teks asli.</value></data>
+<data name="TextTagUndo" xml:space="preserve"><value>Urungkan</value></data>
+<data name="TextTagUndoTip" xml:space="preserve"><value>Membatalkan perubahan terakhir (Ctrl+Z)</value></data>
+<data name="TextTagFieldUseFontFamily" xml:space="preserve"><value>Ubah juga font</value></data>
 </root>

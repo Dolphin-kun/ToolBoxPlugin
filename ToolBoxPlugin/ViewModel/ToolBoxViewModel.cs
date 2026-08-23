@@ -90,7 +90,7 @@ namespace ToolBox.ViewModel
 
         #region IToolViewModel
 
-        private const string BaseTitle = "ツールボックス";
+        private static string BaseTitle => Texts.PluginName;
 
         public string Title => string.IsNullOrWhiteSpace(Panel.PanelName)
             ? BaseTitle
@@ -150,7 +150,7 @@ namespace ToolBox.ViewModel
         }
 
         private static string BuildCopyName(string original) =>
-            string.IsNullOrWhiteSpace(original) ? "コピー" : $"{original} のコピー";
+            string.IsNullOrWhiteSpace(original) ? Texts.CommonCopy : string.Format(Texts.PanelCopySuffix, original);
 
         private void RequestNewPanel(ToolBoxPanel newPanel)
         {

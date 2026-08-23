@@ -110,6 +110,22 @@ namespace ToolBox.Settings
             set => Set(ref isRadialLauncherEnabled, value);
         }
 
+        public const string DefaultRadialLauncherGesture = "Ctrl+MouseRight";
+
+        private string radialLauncherGesture = DefaultRadialLauncherGesture;
+        public string RadialLauncherGesture
+        {
+            get => radialLauncherGesture;
+            set => Set(ref radialLauncherGesture, string.IsNullOrWhiteSpace(value) ? DefaultRadialLauncherGesture : value);
+        }
+
+        private bool radialLauncherImageFillsSector;
+        public bool RadialLauncherImageFillsSector
+        {
+            get => radialLauncherImageFillsSector;
+            set => Set(ref radialLauncherImageFillsSector, value);
+        }
+
         private ObservableCollection<LauncherNode> launcherNodes = [];
         public ObservableCollection<LauncherNode> LauncherNodes
         {

@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
@@ -15,18 +15,18 @@ namespace ToolBox.Items.Launcher.Settings
         public override string Name => "Launcher";
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "ファイル・フォルダーを開く";
+        public override string DisplayName => Texts.LauncherDisplayName;
 
         [JsonIgnore, NJsonIgnore]
         public override string Description =>
-            "指定したファイル・フォルダー を開きます。素材フォルダーや外部ツールへの入口として使えます。";
+            Texts.LauncherDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.OpenInNew;
 
         [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary =>
-            string.IsNullOrWhiteSpace(TargetPath) ? "(未設定)" : TargetPath;
+            string.IsNullOrWhiteSpace(TargetPath) ? Texts.CommonUnset : TargetPath;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand =>
@@ -39,9 +39,5 @@ namespace ToolBox.Items.Launcher.Settings
             set => Set(ref targetPath, value, etcChangedPropertyNames: nameof(InstanceSummary));
         }
 
-        public LauncherSettings()
-        {
-            Label = "開く";
-        }
     }
 }

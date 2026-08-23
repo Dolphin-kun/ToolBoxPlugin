@@ -1,6 +1,7 @@
-<UserControl x:Class="ToolBox.Items.TachiePlacer.Views.TachiePlacerItem"
+﻿<tbView:ToolItemView x:Class="ToolBox.Items.TachiePlacer.Views.TachiePlacerItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbView="clr-namespace:ToolBox.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
@@ -14,4 +15,4 @@
             Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
         <commons:IconControl IconData="{Binding IconPath}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Button>
-</UserControl>
+</tbView:ToolItemView>

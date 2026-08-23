@@ -34,7 +34,7 @@ namespace ToolBox.Commons
                 return;
             }
 
-            var resource = Application.Current.TryFindResource(IconData);
+            var resource = Application.Current?.TryFindResource(IconData);
             if (resource != null)
             {
                 if (resource is UIElement element)

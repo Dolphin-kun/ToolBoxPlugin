@@ -1,11 +1,10 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using ToolBox.Commons;
+using ToolBox.Controls;
 
 namespace ToolBox.Items.Staircase.Views
 {
-    public partial class StaircaseItem : UserControl
+    public partial class StaircaseItem : ToolItemView
     {
         public static readonly DependencyProperty StaircaseItemCommandProperty =
             DependencyProperty.Register(nameof(StaircaseItemCommand), typeof(ICommand), typeof(StaircaseItem));
@@ -25,16 +24,6 @@ namespace ToolBox.Items.Staircase.Views
             set => SetValue(ReverseStaircaseItemCommandProperty, value);
         }
 
-        private readonly AdornerUtil adornerUtil = new();
-
         public StaircaseItem() => InitializeComponent();
-
-        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseRightButtonDown(e);
-            e.Handled = true;
-
-            adornerUtil.Toggle(this, () => new StaircaseSettingsPanel { DataContext = DataContext });
-        }
-    }
+    }
 }

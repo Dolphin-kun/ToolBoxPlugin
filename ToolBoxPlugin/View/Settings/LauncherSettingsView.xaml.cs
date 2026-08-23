@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ToolBox.Settings;
@@ -8,10 +8,7 @@ namespace ToolBox.View.Settings
 {
     public partial class LauncherSettingsView : UserControl
     {
-        public LauncherSettingsView()
-        {
-            InitializeComponent();
-        }
+        public LauncherSettingsView() => InitializeComponent();
 
         private LauncherSettingsViewModel? ViewModel => DataContext as LauncherSettingsViewModel;
 

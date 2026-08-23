@@ -61,9 +61,9 @@ namespace ToolBox.Items.Macro
             if (command == null)
             {
                 MessageBox.Show(
-                    $"マクロ「{settings.Label}」の手順「{commandName}」が見つかりませんでした。\n" +
-                    "提供元のアドオンが外されている可能性があります。",
-                    "マクロ",
+                    $"{string.Format(Texts.MacroStepNotFound, settings.Label, commandName)}\n" +
+                    Texts.MacroStepNotFoundHint,
+                    Texts.MacroDisplayName,
                     MessageBoxButton.OK);
                 return false;
             }

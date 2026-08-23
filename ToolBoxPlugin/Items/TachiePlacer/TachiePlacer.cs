@@ -17,7 +17,7 @@ namespace ToolBox.Items.TachiePlacer
             new("TachiePlacerItemCommand",
                 ctx => TachiePlacerCommand.CanExecute(ctx.SelectedItems ?? []),
                 ctx => TachiePlacerCommand.AddTachie(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
-                displayName: "立ち絵を配置"),
+                displayName: Texts.TachiePlacerCommandName),
         ];
     }
 }

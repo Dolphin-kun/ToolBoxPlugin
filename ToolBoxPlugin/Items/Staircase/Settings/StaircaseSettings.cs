@@ -12,6 +12,9 @@ namespace ToolBox.Items.Staircase.Settings
         private int offset = 20;
         public int Offset { get => offset; set => Set(ref offset, Math.Max(1, value)); }
 
+        private int amount = 1;
+        public int Amount { get => amount; set => Set(ref amount, Math.Max(1, value)); }
+
         [JsonIgnore, NJsonIgnore]
         public override Size MinSize => new(2, 1);
 
@@ -25,10 +28,10 @@ namespace ToolBox.Items.Staircase.Settings
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.SortReverseVariant;
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "階段状に配置";
+        public override string DisplayName => Texts.StaircaseDisplayName;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => "選択したアイテムをレイヤー順に一定フレームずつずらして、階段状に配置します。";
+        public override string Description => Texts.StaircaseDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("StaircaseItemCommand");

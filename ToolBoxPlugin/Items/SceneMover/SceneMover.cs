@@ -1,4 +1,4 @@
-using ToolBox.Commons;
+﻿using ToolBox.Commons;
 using ToolBox.Items.SceneMover.Settings;
 using ToolBox.Items.SceneMover.Views;
 
@@ -17,7 +17,7 @@ namespace ToolBox.Items.SceneMover
             new("MoveToNewSceneCommand",
                 (ctx, _) => SceneMoverCommand.CanMoveToNewScene(ctx),
                 (ctx, param) => SceneMoverCommand.MoveToNewScene(ctx, param as SceneMoverSettings),
-                displayName: "新しいシーンへ移動"),
+                displayName: Texts.SceneMoverToNewSceneCommandName),
             new("MoveToSceneCommand",
                 (ctx, param) => param is SceneMoveTarget && SceneMoverCommand.CanMove(ctx),
                 (ctx, param) =>
@@ -25,7 +25,7 @@ namespace ToolBox.Items.SceneMover
                     if (param is SceneMoveTarget target)
                         SceneMoverCommand.MoveToScene(ctx, target.Settings, target.Target);
                 },
-                displayName: "指定したシーンへ移動",
+                displayName: Texts.SceneMoverToSceneCommandName,
                 requiresItemParameter: true),
         ];
     }

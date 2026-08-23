@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="ToolBox.Items.Macro.Views.MacroSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
@@ -58,7 +60,7 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <TextBlock Text="手順" Margin="0,0,0,4"/>
+        <TextBlock Text="{x:Static toolbox:Texts.MacroStepsLabel}" Margin="0,0,0,4"/>
 
         <ListBox x:Name="StepList"
                  tbControls:ScrollBubbling.IsEnabled="True"
@@ -77,25 +79,25 @@
         </ListBox>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <Button Click="OnMoveUpClick" ToolTip="1 つ上へ"
+            <Button Click="OnMoveUpClick" ToolTip="{x:Static toolbox:Texts.MacroMoveUpTip}"
                     Width="24" Height="24" Padding="0">
                 <tbCommons:IconControl IconData="{x:Static icons:IconKeys.ArrowUpThick}"
                                        Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                        Width="14" Height="14"/>
             </Button>
-            <Button Click="OnMoveDownClick" ToolTip="1 つ下へ"
+            <Button Click="OnMoveDownClick" ToolTip="{x:Static toolbox:Texts.MacroMoveDownTip}"
                     Width="24" Height="24" Padding="0" Margin="4,0,0,0">
                 <tbCommons:IconControl IconData="{x:Static icons:IconKeys.ArrowDownThick}"
                                        Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                        Width="14" Height="14"/>
             </Button>
-            <Button Click="OnAddClick" ToolTip="手順を追加"
+            <Button Click="OnAddClick" ToolTip="{x:Static toolbox:Texts.MacroAddStepTip}"
                     Width="24" Height="24" Padding="0" Margin="4,0,0,0">
                 <tbCommons:IconControl IconData="{x:Static icons:IconKeys.PlusThick}"
                                        Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                        Width="14" Height="14"/>
             </Button>
-            <Button Click="OnRemoveClick" ToolTip="選択中の手順を削除"
+            <Button Click="OnRemoveClick" ToolTip="{x:Static toolbox:Texts.MacroRemoveStepTip}"
                     Width="24" Height="24" Padding="0" Margin="4,0,0,0">
                 <tbCommons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
                                        Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
@@ -118,82 +120,62 @@
             <Border BorderThickness="0,1,0,0" Margin="0,0,0,8"
                     BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
 
-            <TextBlock Text="選択中の手順" Margin="0,0,0,6"/>
+            <TextBlock Text="{x:Static toolbox:Texts.MacroSelectedStepLabel}" Margin="0,0,0,6"/>
 
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="種類" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="0" Text="{x:Static toolbox:Texts.MacroStepKindLabel}" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <ComboBox Grid.Column="1"
                           SelectedValue="{Binding Kind, Mode=TwoWay}"
-                          SelectedValuePath="Tag" Height="24" VerticalContentAlignment="Center">
-                    <ComboBoxItem Content="ツールボックスの操作" Tag="{x:Static macro:MacroStepKind.Command}"/>
-                    <ComboBoxItem Content="ショートカット" Tag="{x:Static macro:MacroStepKind.Shortcut}"/>
-                    <ComboBoxItem Content="パネル上のアイテム" Tag="{x:Static macro:MacroStepKind.PanelItem}"/>
-                    <ComboBoxItem Content="待つ" Tag="{x:Static macro:MacroStepKind.Wait}"/>
+                          SelectedValuePath="Tag" Width="150" HorizontalAlignment="Left" Height="24" VerticalContentAlignment="Center">
+                    <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindCommand}" Tag="{x:Static macro:MacroStepKind.Command}"/>
+                    <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindShortcut}" Tag="{x:Static macro:MacroStepKind.Shortcut}"/>
+                    <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindPanelItem}" Tag="{x:Static macro:MacroStepKind.PanelItem}"/>
+                    <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindWait}" Tag="{x:Static macro:MacroStepKind.Wait}"/>
                 </ComboBox>
             </Grid>
 
-            <Grid Style="{StaticResource VisibleForCommand}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*" MinWidth="90"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="操作" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                <ComboBox Grid.Column="1"
-                          ItemsSource="{Binding AvailableCommands, ElementName=Root}"
-                          DisplayMemberPath="FullDisplayName"
-                          SelectedValuePath="CommandName"
-                          SelectedValue="{Binding CommandName, Mode=TwoWay}" Height="24" VerticalContentAlignment="Center"/>
-            </Grid>
+            <tbRow:SettingsRow Label="{x:Static toolbox:Texts.MacroCommandLabel}" ContentMinWidth="90" Style="{StaticResource VisibleForCommand}">
+                <ComboBox
+                ItemsSource="{Binding AvailableCommands, ElementName=Root}"
+                DisplayMemberPath="FullDisplayName"
+                SelectedValuePath="CommandName"
+                SelectedValue="{Binding CommandName, Mode=TwoWay}" Width="150" HorizontalAlignment="Left" Height="24" VerticalContentAlignment="Center"/>
+            </tbRow:SettingsRow>
 
-            <Grid Margin="0,0,0,8" Style="{StaticResource VisibleForShortcut}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*" MinWidth="90"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="操作" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                <ComboBox Grid.Column="1"
-                          ItemsSource="{Binding AvailableShortcuts, ElementName=Root}"
-                          DisplayMemberPath="DisplayName"
-                          SelectedValuePath="CommandType"
-                          SelectedValue="{Binding ShortcutCommand, Mode=TwoWay}" Height="24" VerticalContentAlignment="Center"/>
-            </Grid>
+            <tbRow:SettingsRow Label="{x:Static toolbox:Texts.MacroCommandLabel}" ContentMinWidth="90" Margin="0,0,0,8" Style="{StaticResource VisibleForShortcut}">
+                <ComboBox
+                ItemsSource="{Binding AvailableShortcuts, ElementName=Root}"
+                DisplayMemberPath="DisplayName"
+                SelectedValuePath="CommandType"
+                SelectedValue="{Binding ShortcutCommand, Mode=TwoWay}" Width="150" HorizontalAlignment="Left" Height="24" VerticalContentAlignment="Center"/>
+            </tbRow:SettingsRow>
 
             <StackPanel Style="{StaticResource VisibleForPanelItem}" Margin="0,0,0,8">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" MinWidth="90"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="アイテム" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <ComboBox Grid.Column="1"
-                              ItemsSource="{Binding AvailablePanelItems, ElementName=Root}"
-                              DisplayMemberPath="DisplayText"
-                              SelectedValuePath="Id"
-                              SelectedValue="{Binding PanelItemId, Mode=TwoWay}" Height="24" VerticalContentAlignment="Center"/>
-                </Grid>
-                <TextBlock Text="開いているパネルに置かれているアイテムを、そのアイテム自身の設定で実行します。"
+                <tbRow:SettingsRow Label="{x:Static toolbox:Texts.MacroPanelItemLabel}" ContentMinWidth="90">
+                    <ComboBox
+                    ItemsSource="{Binding AvailablePanelItems, ElementName=Root}"
+                    DisplayMemberPath="DisplayText"
+                    SelectedValuePath="Id"
+                    SelectedValue="{Binding PanelItemId, Mode=TwoWay}" Width="150" HorizontalAlignment="Left" Height="24" VerticalContentAlignment="Center"/>
+                </tbRow:SettingsRow>
+                <TextBlock Text="{x:Static toolbox:Texts.MacroPanelItemHint}"
                            FontSize="10" TextWrapping="Wrap" Margin="0,4,0,0"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
             </StackPanel>
 
-            <Grid Margin="0,0,0,8" Style="{StaticResource VisibleForWait}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*" MinWidth="90"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="待ち時間" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                <controls:TextBoxSlider Grid.Column="1"
-                                        Value="{Binding WaitMilliseconds, Mode=TwoWay}"
-                                        DefaultValue="200" StringFormat="F0" Unit="ms"
-                                        Min="0" Max="5000" DefaultMin="0" DefaultMax="5000" Delta="50" Height="24" VerticalContentAlignment="Center"/>
-            </Grid>
+            <tbRow:SettingsRow Label="{x:Static toolbox:Texts.MacroWaitLabel}" ContentMinWidth="90" Margin="0,0,0,8" Style="{StaticResource VisibleForWait}">
+                <controls:TextBoxSlider
+                Value="{Binding WaitMilliseconds, Mode=TwoWay}"
+                DefaultValue="200" StringFormat="F0" Unit="ms"
+                Min="0" Max="5000" DefaultMin="0" DefaultMax="5000" Delta="50" Height="24" VerticalContentAlignment="Center"/>
+            </tbRow:SettingsRow>
         </StackPanel>
 
-        <TextBlock Text="手順は上から順に実行されます。実行できない手順 (選択が無いなど) は飛ばして続きます。"
+        <TextBlock Text="{x:Static toolbox:Texts.MacroStepsHint}"
                    FontSize="10" TextWrapping="Wrap" Margin="0,4,0,0"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
     </StackPanel>

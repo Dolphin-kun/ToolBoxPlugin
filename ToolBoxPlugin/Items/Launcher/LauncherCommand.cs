@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using ToolBox.Items.Launcher.Settings;
@@ -21,8 +21,8 @@ namespace ToolBox.Items.Launcher
             if (!IsUrl(target) && !File.Exists(target) && !Directory.Exists(target))
             {
                 MessageBox.Show(
-                    $"開けませんでした。次の場所が見つかりません。\n\n{target}",
-                    "ファイル・フォルダーを開く",
+                    $"{Texts.LauncherOpenNotFound}\n\n{target}",
+                    Texts.LauncherDisplayName,
                     MessageBoxButton.OK);
                 return;
             }
@@ -41,8 +41,8 @@ namespace ToolBox.Items.Launcher
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"開けませんでした。\n\n{target}\n\n{ex.Message}",
-                    "ファイル・フォルダーを開く",
+                    $"{Texts.LauncherOpenFailed}\n\n{target}\n\n{ex.Message}",
+                    Texts.LauncherDisplayName,
                     MessageBoxButton.OK);
             }
         }

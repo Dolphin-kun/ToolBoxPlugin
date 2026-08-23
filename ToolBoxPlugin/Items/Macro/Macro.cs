@@ -1,4 +1,4 @@
-using ToolBox.Commons;
+﻿using ToolBox.Commons;
 using ToolBox.Items.Macro.Settings;
 using ToolBox.Items.Macro.Views;
 
@@ -21,7 +21,7 @@ namespace ToolBox.Items.Macro
                     if (param is MacroSettings settings)
                         MacroCommand.Run(settings);
                 },
-                displayName: "マクロを実行",
+                displayName: Texts.MacroRunCommandName,
                 requiresItemParameter: true),
         ];
     }

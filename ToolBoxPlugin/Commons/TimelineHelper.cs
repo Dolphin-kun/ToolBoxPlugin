@@ -22,6 +22,26 @@ namespace ToolBox.Commons
             return selected?.Layer ?? 0;
         }
 
+        public static IReadOnlyList<int> GetSelectedLayers(Timeline timeline)
+        {
+            var layers = new SortedSet<int>();
+
+            try
+            {
+                foreach (var layer in timeline.LayerSelection.GetSelectedLayers())
+                {
+                    if (layer >= 0)
+                        layers.Add(layer);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to read the layer selection: {ex}");
+            }
+
+            return [.. layers];
+        }
+
         public static bool AddItems(Timeline timeline, IReadOnlyList<IItem> items, int frame, int layer)
         {
             if (items.Count == 0)

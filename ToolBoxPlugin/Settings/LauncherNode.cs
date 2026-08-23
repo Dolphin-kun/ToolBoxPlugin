@@ -96,12 +96,12 @@ namespace ToolBox.Settings
                 return EffectiveKind switch
                 {
                     LauncherNodeKind.PanelItem =>
-                        ToolBoxViewModel.FindPlacedItem(ItemId)?.Label ?? "(見つかりません)",
+                        ToolBoxViewModel.FindPlacedItem(ItemId)?.Label ?? Texts.CommonNotFound,
                     LauncherNodeKind.Command =>
-                        CommandCatalog.Find(CommandName)?.DisplayName ?? "(見つかりません)",
+                        CommandCatalog.Find(CommandName)?.DisplayName ?? Texts.CommonNotFound,
                     LauncherNodeKind.Shortcut =>
                         FindShortcut()?.DisplayName ?? ShortcutCommand.ToString(),
-                    _ => "グループ",
+                    _ => Texts.LauncherNodeGroup,
                 };
             }
         }

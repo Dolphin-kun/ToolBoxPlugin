@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="ToolBox.Items.Decorations.Views.LabelSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
@@ -16,58 +18,49 @@
             <Setter Property="Margin" Value="0,0,8,0"/>
         </Style>
         <Style x:Key="FieldRow" TargetType="Grid">
-            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
         </Style>
     </UserControl.Resources>
 
     <StackPanel>
-        <TextBlock Text="ラベルの設定" FontWeight="SemiBold" Margin="0,0,0,8"/>
+        <TextBlock Text="{x:Static toolbox:Texts.LabelSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LabelTextLabel}" LabelStyle="{StaticResource FieldLabel}" ContentMinWidth="90" Style="{StaticResource FieldRow}">
+            <TextBox
+            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="24" VerticalContentAlignment="Center" HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LabelFontLabel}" LabelStyle="{StaticResource FieldLabel}" ContentMinWidth="90" Style="{StaticResource FieldRow}">
+            <controls:FontComboBox
+            Font="{Binding FontFamily, Mode=TwoWay}"
+            HorizontalAlignment="Right" Width="200" Height="24"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LabelFontSizeLabel}" LabelStyle="{StaticResource FieldLabel}" ContentMinWidth="90" Style="{StaticResource FieldRow}">
+            <controls:TextBoxSlider
+            Value="{Binding FontSize, Mode=TwoWay}"
+            DefaultValue="12" StringFormat="F0" Unit="px"
+            Min="6" Max="48" DefaultMin="6" DefaultMax="48" Delta="1" Width="200" Height="24" VerticalContentAlignment="Center" HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LabelBoldLabel}" LabelStyle="{StaticResource FieldLabel}" Style="{StaticResource FieldRow}">
+            <controls:ToggleSlider
+            Value="{Binding IsBold, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
 
         <Grid Style="{StaticResource FieldRow}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*" MinWidth="90"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="表示する文字" Style="{StaticResource FieldLabel}"/>
-            <TextBox Grid.Column="1"
-                     Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="24" VerticalContentAlignment="Center"/>
-        </Grid>
-
-        <Grid Style="{StaticResource FieldRow}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*" MinWidth="90"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="文字の大きさ" Style="{StaticResource FieldLabel}"/>
-            <controls:TextBoxSlider Grid.Column="1"
-                                    Value="{Binding FontSize, Mode=TwoWay}"
-                                    DefaultValue="12" StringFormat="F0" Unit="px"
-                                    Min="6" Max="48" DefaultMin="6" DefaultMax="48" Delta="1" Height="24" VerticalContentAlignment="Center"/>
-        </Grid>
-
-        <Grid Style="{StaticResource FieldRow}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="太字にする" Style="{StaticResource FieldLabel}"/>
-            <controls:ToggleSlider Grid.Column="1"
-                                   Value="{Binding IsBold, Mode=TwoWay}"
-                                   HorizontalAlignment="Right"/>
-        </Grid>
-
-        <Grid Style="{StaticResource FieldRow}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*" MinWidth="90"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="文字の位置" Style="{StaticResource FieldLabel}"/>
+            <TextBlock Grid.Column="0" Text="{x:Static toolbox:Texts.LabelAlignmentLabel}" Style="{StaticResource FieldLabel}"/>
             <ComboBox Grid.Column="1"
                       SelectedValue="{Binding TextAlignment, Mode=TwoWay}"
-                      SelectedValuePath="Tag" Height="24" VerticalContentAlignment="Center">
-                <ComboBoxItem Content="左寄せ" Tag="{x:Static settings:ItemTextAlignment.Left}"/>
-                <ComboBoxItem Content="中央" Tag="{x:Static settings:ItemTextAlignment.Center}"/>
-                <ComboBoxItem Content="右寄せ" Tag="{x:Static settings:ItemTextAlignment.Right}"/>
+                      SelectedValuePath="Tag" Width="200" Height="24" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                <ComboBoxItem Content="{x:Static toolbox:Texts.AlignLeft}" Tag="{x:Static settings:ItemTextAlignment.Left}"/>
+                <ComboBoxItem Content="{x:Static toolbox:Texts.AlignCenter}" Tag="{x:Static settings:ItemTextAlignment.Center}"/>
+                <ComboBoxItem Content="{x:Static toolbox:Texts.AlignRight}" Tag="{x:Static settings:ItemTextAlignment.Right}"/>
             </ComboBox>
         </Grid>
     </StackPanel>

@@ -89,7 +89,7 @@ namespace ToolBox.ViewModel
         public ICommand MoveDownCommand { get; }
         public ICommand ClearCommand { get; }
 
-        public LauncherSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel) : base("ランチャー")
+        public LauncherSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel) : base(Texts.LauncherSettingsNodeTitle)
         {
             this.settings = settings;
             this.panel = panel;
@@ -144,7 +144,7 @@ namespace ToolBox.ViewModel
                     LauncherNode.CreateCommand(command),
                 LauncherNodeKind.Shortcut when SelectedAvailableShortcut is { } shortcut =>
                     LauncherNode.CreateShortcut(shortcut),
-                LauncherNodeKind.Folder => LauncherNode.CreateFolder("新しいグループ"),
+                LauncherNodeKind.Folder => LauncherNode.CreateFolder(Texts.LauncherNewGroup),
                 _ => null,
             };
 
@@ -164,9 +164,9 @@ namespace ToolBox.ViewModel
         private void Clear()
         {
             var confirm = MessageBox.Show(
-                "ランチャーの並びをすべて消します。\n" +
-                "消したあとは、今のパネルのアイテムが自動で並ぶ状態に戻ります。",
-                "ランチャー",
+                $"{Texts.LauncherClearConfirm}\n" +
+                Texts.LauncherClearConfirmHint,
+                Texts.LauncherSettingsNodeTitle,
                 MessageBoxButton.OKCancel);
 
             if (confirm != MessageBoxResult.OK)

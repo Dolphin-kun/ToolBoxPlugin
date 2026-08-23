@@ -1,19 +1,19 @@
 ﻿<UserControl x:Class="ToolBox.Items.Shortcuts.Views.ShortcutSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
              mc:Ignorable="d">
 
     <StackPanel>
-        <TextBlock Text="ショートカットの設定" FontWeight="SemiBold" Margin="0,0,0,6" />
+        <TextBlock Text="{x:Static toolbox:Texts.ShortcutSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,6" />
 
-        <TextBlock Text="表示ラベル" Margin="0,0,0,2"/>
+        <TextBlock Text="{x:Static toolbox:Texts.ShortcutLabelLabel}" Margin="0,0,0,2"/>
         <TextBox Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" Height="24" VerticalContentAlignment="Center"/>
 
-        <TextBlock Text="実行するコマンド" Margin="0,0,0,2"/>
+        <TextBlock Text="{x:Static toolbox:Texts.ShortcutCommandLabel}" Margin="0,0,0,2"/>
         <controls:CommonComboBox x:Name="CommandTypeComboBox"
                                  SelectedValuePath="Value"
                                  DisplayMemberPath="DisplayName"

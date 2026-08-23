@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="ToolBox.View.Settings.LauncherSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
@@ -15,7 +17,7 @@
              d:DataContext="{d:DesignInstance Type=vm:LauncherSettingsViewModel}">
 
     <UserControl.Resources>
-        <Style x:Key="VisibleForPanelItem" TargetType="ComboBox">
+        <Style x:Key="VisibleForPanelItem" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.PanelItem}">
@@ -24,7 +26,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="VisibleForCommand" TargetType="ComboBox">
+        <Style x:Key="VisibleForCommand" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Command}">
@@ -33,7 +35,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="VisibleForShortcut" TargetType="ComboBox">
+        <Style x:Key="VisibleForShortcut" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Shortcut}">
@@ -53,17 +55,30 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <TextBlock Text="ランチャーの設定"
+        <TextBlock Text="{x:Static toolbox:Texts.LauncherSettingsTitle}"
                    FontWeight="SemiBold" FontSize="13"
                    Margin="0,0,0,10"/>
 
-        <Grid Margin="0,0,0,10">
-            <TextBlock Text="ランチャーを使う" VerticalAlignment="Center"/>
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LauncherEnableLabel}" Margin="0,0,0,0">
             <controls:ToggleSlider Value="{Binding Settings.IsRadialLauncherEnabled, Mode=TwoWay}"
-                                   HorizontalAlignment="Right"/>
-        </Grid>
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
 
-        <TextBlock Text="プレビュー"
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LauncherTriggerLabel}" Margin="0,0,0,8">
+            <tbControls:HotkeyBox
+            Gesture="{Binding Settings.RadialLauncherGesture, Mode=TwoWay}"
+            Scope="RadialLauncher"
+            Width="180" HorizontalAlignment="Right" Height="24"
+            VerticalContentAlignment="Center"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LauncherImageFillsSectorLabel}">
+            <controls:ToggleSlider
+            Value="{Binding Settings.RadialLauncherImageFillsSector, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <TextBlock Text="{x:Static toolbox:Texts.LauncherPreviewLabel}"
                    FontWeight="SemiBold"
                    Margin="0,4,0,4"/>
 
@@ -74,7 +89,7 @@
             <tbControls:RadialMenuPreview Nodes="{Binding Nodes}" Height="220"/>
         </Border>
 
-        <TextBlock Text="並び"
+        <TextBlock Text="{x:Static toolbox:Texts.LauncherOrderLabel}"
                    FontWeight="SemiBold"
                    Margin="0,4,0,4"/>
 
@@ -101,8 +116,8 @@
                         <Grid Background="Transparent" Margin="0,2" MinWidth="80">
                             <Grid.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="名前を変更" Click="OnRenameClick"/>
-                                    <MenuItem Header="削除" Click="OnRemoveClick"/>
+                                    <MenuItem Header="{x:Static toolbox:Texts.CommonRename}" Click="OnRenameClick"/>
+                                    <MenuItem Header="{x:Static toolbox:Texts.CommonDelete}" Click="OnRemoveClick"/>
                                 </ContextMenu>
                             </Grid.ContextMenu>
 
@@ -123,7 +138,7 @@
                                      KeyDown="OnRenameBoxKeyDown"
                                      LostFocus="OnRenameBoxLostFocus" Height="24" VerticalContentAlignment="Center">
                                 <TextBox.Style>
-                                    <Style TargetType="TextBox">
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsEditing}" Value="True">
@@ -149,27 +164,27 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Command="{Binding MoveUpCommand}"
-                Width="28" Padding="0,3" ToolTip="上へ">
+                Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveUp}">
                 <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronUp}"
                                      Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                      Width="14" Height="14"/>
             </Button>
             <Button Grid.Column="1" Command="{Binding MoveDownCommand}"
-                Width="28" Padding="0,3" ToolTip="下へ">
+                Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveDown}">
                 <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronDown}"
                                      Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                      Width="14" Height="14"/>
             </Button>
             <Button Grid.Column="2" Command="{Binding RemoveCommand}"
-                Width="28" Padding="0,3" ToolTip="削除">
+                Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonDelete}">
                 <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
                                      Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
                                      Width="14" Height="14"/>
             </Button>
 
-            <Button Grid.Column="4" Content="すべて消す" Command="{Binding ClearCommand}"
+            <Button Grid.Column="4" Content="{x:Static toolbox:Texts.CommonClearAll}" Command="{Binding ClearCommand}"
                 Padding="8,3"
-                ToolTip="空にすると、今のパネルのアイテムが自動で並ぶ状態に戻ります"/>
+                ToolTip="{x:Static toolbox:Texts.LauncherClearTip}"/>
             
         </Grid>
 
@@ -180,21 +195,21 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
-               Text="種類"
+               Text="{x:Static toolbox:Texts.LauncherNodeKindLabel}"
                VerticalAlignment="Center"
                Margin="0,0,8,0"/>
 
             <ComboBox Grid.Column="1"
-              HorizontalAlignment="Stretch"
+              HorizontalAlignment="Right" Width="180"
               SelectedValue="{Binding AddKind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               SelectedValuePath="Tag" Height="24" VerticalContentAlignment="Center">
-                <ComboBoxItem Content="パネルのアイテム"
+                <ComboBoxItem Content="{x:Static toolbox:Texts.LauncherKindPanelItem}"
                       Tag="{x:Static settings:LauncherNodeKind.PanelItem}"/>
-                <ComboBoxItem Content="ツールボックスの操作"
+                <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindCommand}"
                       Tag="{x:Static settings:LauncherNodeKind.Command}"/>
-                <ComboBoxItem Content="ショートカット"
+                <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindShortcut}"
                       Tag="{x:Static settings:LauncherNodeKind.Shortcut}"/>
-                <ComboBoxItem Content="グループ"
+                <ComboBoxItem Content="{x:Static toolbox:Texts.LauncherNodeGroup}"
                       Tag="{x:Static settings:LauncherNodeKind.Folder}"/>
             </ComboBox>
         </Grid>
@@ -205,28 +220,28 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="対象" VerticalAlignment="Center" Margin="0,0,8,0"
+            <TextBlock Grid.Column="0" Text="{x:Static toolbox:Texts.LauncherTargetNodeLabel}" VerticalAlignment="Center" Margin="0,0,8,0"
                        Visibility="{Binding Visibility, ElementName=TargetArea}"/>
 
             <Grid Grid.Column="1" x:Name="TargetArea" Style="{StaticResource HiddenForFolder}">
                 <ComboBox ItemsSource="{Binding AvailableItems}"
                           SelectedItem="{Binding SelectedAvailableItem, Mode=TwoWay}"
                           DisplayMemberPath="Label"
-                          Style="{StaticResource VisibleForPanelItem}" Height="24" VerticalContentAlignment="Center"/>
+                          Style="{StaticResource VisibleForPanelItem}" Width="180" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
 
                 <ComboBox ItemsSource="{Binding AvailableCommands}"
                           SelectedItem="{Binding SelectedAvailableCommand, Mode=TwoWay}"
                           DisplayMemberPath="FullDisplayName"
-                          Style="{StaticResource VisibleForCommand}" Height="24" VerticalContentAlignment="Center"/>
+                          Style="{StaticResource VisibleForCommand}" Width="180" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
 
                 <ComboBox ItemsSource="{Binding AvailableShortcuts}"
                           SelectedItem="{Binding SelectedAvailableShortcut, Mode=TwoWay}"
                           DisplayMemberPath="FullDisplayName"
-                          Style="{StaticResource VisibleForShortcut}" Height="24" VerticalContentAlignment="Center"/>
+                          Style="{StaticResource VisibleForShortcut}" Width="180" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
             </Grid>
         </Grid>
 
-        <Button Content="追加" Command="{Binding AddCommand}"
+        <Button Content="{x:Static toolbox:Texts.CommonAdd}" Command="{Binding AddCommand}"
                 HorizontalAlignment="Right" Padding="12,3"/>
     </StackPanel>
 </UserControl>

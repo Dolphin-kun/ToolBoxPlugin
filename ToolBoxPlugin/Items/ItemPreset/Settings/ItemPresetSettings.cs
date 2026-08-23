@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Commons;
@@ -63,11 +63,11 @@ namespace ToolBox.Items.ItemPreset.Settings
         public override string Name => "ItemPreset";
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "保存したアイテムを追加";
+        public override string DisplayName => Texts.ItemPresetDisplayName;
 
         [JsonIgnore, NJsonIgnore]
         public override string Description =>
-            "「保存したアイテム」に貯めておいたアイテムのうち 1 つをこのボタンに紐づけて、クリック 1 回でタイムラインに追加します。";
+            Texts.ItemPresetDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => HasStock
@@ -75,7 +75,7 @@ namespace ToolBox.Items.ItemPreset.Settings
             : YukkuriMovieMaker.Resources.Icons.IconKeys.BookmarkOutline;
 
         [JsonIgnore, NJsonIgnore]
-        public override string InstanceSummary => Stock?.DisplayLabel ?? "(未設定)";
+        public override string InstanceSummary => Stock?.DisplayLabel ?? Texts.CommonUnset;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand =>

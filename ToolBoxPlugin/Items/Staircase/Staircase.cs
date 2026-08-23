@@ -17,11 +17,11 @@ namespace ToolBox.Items.Staircase
             new("StaircaseItemCommand",
                 ctx => ctx.SelectedItems?.Any() == true,
                 ctx => StaircaseItemCommand.Staircase(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
-                displayName: "階段状に配置"),
+                displayName: Texts.StaircaseDisplayName),
             new("ReverseStaircaseItemCommand",
                 ctx => ctx.SelectedItems?.Any() == true,
                 ctx => StaircaseItemCommand.ReverseStaircase(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
-                displayName: "逆向きに階段状に配置"),
+                displayName: Texts.StaircaseReverseCommandName),
         ];
     }
 }

@@ -1,18 +1,17 @@
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using ToolBox.Items.Recording.Settings;
 using ToolBox.ViewModel;
+using ToolBox.Controls;
 using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.Items.Recording.Views
 {
-    public partial class RecordingItem : UserControl, IDisposable
+    public partial class RecordingItem : ToolItemView, IDisposable
     {
-        private readonly Commons.AdornerUtil adornerUtil = new();
         private readonly DisposeCollector disposer = new();
 
         public static readonly DependencyProperty RecordingItemCommandProperty =
@@ -56,17 +55,10 @@ namespace ToolBox.Items.Recording.Views
             GC.SuppressFinalize(this);
         }
 
-        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        protected override FrameworkElement CreateSettingsPanel()
         {
-            base.OnMouseRightButtonDown(e);
-            e.Handled = true;
-
-            adornerUtil.Toggle(this, () =>
-            {
-                var vm = DataContext as ViewModels.RecordingViewModel;
-                var recordingSettings = vm?.Settings ?? (DataContext as RecordingSettings);
-                return new RecordingSettingsPanel(recordingSettings);
-            });
+            var vm = DataContext as ViewModels.RecordingViewModel;
+            return new RecordingSettingsPanel(vm?.Settings ?? DataContext as RecordingSettings);
         }
 
         private void OnWaveformUpdated(object? sender, EventArgs e)

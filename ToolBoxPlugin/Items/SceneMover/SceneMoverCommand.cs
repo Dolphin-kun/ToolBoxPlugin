@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ToolBox.Commons;
@@ -12,16 +12,16 @@ namespace ToolBox.Items.SceneMover
 
     internal static class SceneMoverCommand
     {
-        private const string Caption = "シーンへ移動";
+        private static string Caption => Texts.SceneMoverDisplayName;
         private const int MaxSceneSteps = 20;
 
         public static string? DescribeBlock(IToolBoxContext ctx)
         {
             if (ctx.Timeline is null || ctx.UndoRedoManager is null)
-                return "タイムラインを取得できませんでした。";
+                return Texts.SceneMoverNoTimeline;
 
             if (ctx.SelectedItems is not { Count: > 0 })
-                return "タイムラインでアイテムを選んでください。";
+                return Texts.SceneMoverNoSelection;
 
             return null;
         }
@@ -45,7 +45,7 @@ namespace ToolBox.Items.SceneMover
 
             if (ctx.Scenes is not { } scenes)
             {
-                Report("シーンの一覧を取得できませんでした。");
+                Report(Texts.SceneMoverNoScenes);
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace ToolBox.Items.SceneMover
 
             if (ReferenceEquals(source, target))
             {
-                Report("すでにこのシーンにあります。");
+                Report(Texts.SceneMoverAlreadyHere);
                 return false;
             }
 
@@ -97,7 +97,7 @@ namespace ToolBox.Items.SceneMover
 
                 if (!TimelineHelper.AddItems(target, clones, frame, layer))
                 {
-                    Report("移動先にアイテムを置けませんでした。");
+                    Report(Texts.SceneMoverAddFailed);
                     return false;
                 }
 
@@ -113,7 +113,7 @@ namespace ToolBox.Items.SceneMover
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Failed to move items to another scene: {ex}");
-                Report($"アイテムを移せませんでした。\n{ex.Message}");
+                Report($"{Texts.SceneMoverMoveFailed}\n{ex.Message}");
                 return false;
             }
 
@@ -143,7 +143,7 @@ namespace ToolBox.Items.SceneMover
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Failed to create a scene: {ex}");
-                Report($"新しいシーンを作れませんでした。\n{ex.Message}");
+                Report($"{Texts.SceneMoverCreateFailed}\n{ex.Message}");
                 return null;
             }
         }
@@ -154,12 +154,12 @@ namespace ToolBox.Items.SceneMover
 
             for (var index = 1; index < 1000; index++)
             {
-                var name = $"シーン{index}";
+                var name = string.Format(Texts.SceneMoverNewSceneName, index);
                 if (existing.Add(name))
                     return name;
             }
 
-            return "シーン";
+            return Texts.SceneMoverSceneWord;
         }
 
         private static void SelectScene(IToolBoxContext ctx, Timeline target, int remaining)

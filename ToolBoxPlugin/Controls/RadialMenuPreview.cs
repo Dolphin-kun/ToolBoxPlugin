@@ -30,7 +30,18 @@ namespace ToolBox.Controls
         {
             HorizontalContentAlignment = HorizontalAlignment.Center;
             VerticalContentAlignment = VerticalAlignment.Center;
-            Loaded += (_, _) => Rebuild();
+            Loaded += (_, _) =>
+            {
+                ToolBoxSettings.Default.PropertyChanged += OnSettingsChanged;
+                Rebuild();
+            };
+            Unloaded += (_, _) => ToolBoxSettings.Default.PropertyChanged -= OnSettingsChanged;
+        }
+
+        private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ToolBoxSettings.RadialLauncherImageFillsSector))
+                ScheduleRebuild();
         }
 
         private static void OnNodesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -88,7 +99,7 @@ namespace ToolBox.Controls
             {
                 Content = new TextBlock
                 {
-                    Text = "並べるアイテムがありません。",
+                    Text = Texts.RadialMenuPreviewEmpty,
                     FontSize = 11,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Foreground = SystemColors.GrayTextBrush,

@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
@@ -36,17 +36,17 @@ namespace ToolBox.Items.SceneMover.Settings
         public override string Name => "SceneMover";
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "シーンへ移動";
+        public override string DisplayName => Texts.SceneMoverDisplayName;
 
         [JsonIgnore, NJsonIgnore]
         public override string Description =>
-            "選択したアイテムを、新しいシーンや既存のシーンへまとめて移します。クリックすると移動先を選ぶメニューが開きます。";
+            Texts.SceneMoverDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.MovieOpenPlusOutline;
 
         [JsonIgnore, NJsonIgnore]
-        public override string InstanceSummary => DuplicateInsteadOfMove ? "複製する" : "移動する";
+        public override string InstanceSummary => DuplicateInsteadOfMove ? Texts.SceneMoverSummaryDuplicate : Texts.SceneMoverSummaryMove;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand =>

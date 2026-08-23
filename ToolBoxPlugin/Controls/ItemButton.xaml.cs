@@ -1,12 +1,9 @@
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace ToolBox.Controls
 {
     public partial class ItemButton : Button
     {
-        public ItemButton()
-        {
-            InitializeComponent();
-        }
+        public ItemButton() => InitializeComponent();
     }
 }

@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using ToolBox.Items.SceneMover.Settings;
 using ToolBox.ViewModel;
@@ -14,8 +14,8 @@ namespace ToolBox.Items.SceneMover.Views
             if (ToolBoxViewModel.Instance is not { } context)
             {
                 MessageBox.Show(
-                    "ツールボックスを初期化できていません。",
-                    "シーンへ移動",
+                    Texts.ToolBoxNotReady,
+                    Texts.SceneMoverDisplayName,
                     MessageBoxButton.OK);
                 return;
             }

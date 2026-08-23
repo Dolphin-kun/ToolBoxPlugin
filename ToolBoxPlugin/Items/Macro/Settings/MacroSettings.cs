@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
@@ -16,18 +16,20 @@ namespace ToolBox.Items.Macro.Settings
         public override string Name => "Macro";
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "マクロ";
+        public override string DisplayName => Texts.MacroDisplayName;
 
         [JsonIgnore, NJsonIgnore]
         public override string Description =>
-            "登録した操作を上から順に実行します。よく使う手順をまとめて 1 つのボタンにできます。";
+            Texts.MacroDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.PlaylistPlay;
 
         [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary =>
-            Steps.Count == 0 ? $"{Label} (手順なし)" : $"{Label} ({Steps.Count} 手順)";
+            Steps.Count == 0
+                ? string.Format(Texts.MacroSummaryNoSteps, Label)
+                : string.Format(Texts.MacroSummarySteps, Label, Steps.Count);
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand =>
@@ -53,7 +55,6 @@ namespace ToolBox.Items.Macro.Settings
 
         public MacroSettings()
         {
-            Label = "マクロ";
             steps.CollectionChanged += OnStepsChanged;
         }
 

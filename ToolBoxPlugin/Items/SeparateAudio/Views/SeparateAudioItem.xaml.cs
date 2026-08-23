@@ -2,9 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using ToolBox.Controls;
+
 namespace ToolBox.Items.SeparateAudio.Views
 {
-    public partial class SeparateAudioItem : UserControl
+    public partial class SeparateAudioItem : ToolItemView
     {
         public static readonly DependencyProperty SeparateAudioItemCommandProperty =
             DependencyProperty.Register(nameof(SeparateAudioItemCommand), typeof(ICommand), typeof(SeparateAudioItem));

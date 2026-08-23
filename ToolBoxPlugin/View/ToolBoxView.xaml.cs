@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,20 +51,20 @@ namespace ToolBox.View
             hwndSource = PresentationSource.FromVisual(this) as HwndSource;
             hwndSource?.AddHook(OnWindowMessage);
 
-            ToolBox.Commons.PanelKeyRouter.Add(OnRoutedKey);
+            ToolBox.Commons.PanelInputRouter.Add(OnRoutedInput);
 
             UpdateAutoFit();
         }
 
-        private bool OnRoutedKey(Key key, ModifierKeys modifiers)
+        private bool OnRoutedInput(ToolBox.Commons.HotkeyTrigger trigger)
         {
-            if (!IsMouseOver || modifiers != ModifierKeys.Control)
+            if (trigger.IsMouse || !IsMouseOver || trigger.Modifiers != ModifierKeys.Control)
                 return false;
 
             if (DataContext is not ToolBoxViewModel vm)
                 return false;
 
-            switch (key)
+            switch (trigger.Key)
             {
                 case Key.Z when vm.UndoLayoutCommand.CanExecute(null):
                     vm.UndoLayoutCommand.Execute(null);
@@ -103,7 +103,7 @@ namespace ToolBox.View
             hwndSource?.RemoveHook(OnWindowMessage);
             hwndSource = null;
 
-            ToolBox.Commons.PanelKeyRouter.Remove(OnRoutedKey);
+            ToolBox.Commons.PanelInputRouter.Remove(OnRoutedInput);
         }
 
         private void OnPanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -189,8 +189,12 @@ namespace ToolBox.View
 
             if (!autoFitLayout)
             {
-                BindingOperations.GetBindingExpression(DropGrid, ToolBox.Controls.DropGrid.RowCountProperty)?.UpdateTarget();
                 BindingOperations.GetBindingExpression(DropGrid, ToolBox.Controls.DropGrid.ColumnCountProperty)?.UpdateTarget();
+            }
+
+            if (!autoFitLayout && !autoFitSize)
+            {
+                BindingOperations.GetBindingExpression(DropGrid, ToolBox.Controls.DropGrid.RowCountProperty)?.UpdateTarget();
             }
 
             if (!autoFitSize)
@@ -201,21 +205,30 @@ namespace ToolBox.View
             if (!autoFitLayout && !autoFitSize) return;
             if (ActualWidth <= 0 || ActualHeight <= 0) return;
 
-            if (autoFitLayout)
-            {
-                var baseCellSize = Math.Max(1, settings.CellSize);
-                var cols = Math.Max(1, (int)(ActualWidth / baseCellSize));
-                var rows = Math.Max(1, (int)(ActualHeight / baseCellSize));
-                DropGrid.SetCurrentValue(ToolBox.Controls.DropGrid.ColumnCountProperty, cols);
-                DropGrid.SetCurrentValue(ToolBox.Controls.DropGrid.RowCountProperty, rows);
-            }
+            var baseCellSize = Math.Max(1, settings.CellSize);
+
+            var columns = autoFitLayout
+                ? Math.Max(1, (int)(autoFitSize
+                    ? Math.Round(ActualWidth / baseCellSize)
+                    : Math.Floor(ActualWidth / baseCellSize)))
+                : Math.Max(1, DropGrid.ColumnCount);
+
+            var cellSize = autoFitSize ? Math.Max(1, ActualWidth / columns) : baseCellSize;
+
+            var rows = autoFitLayout || autoFitSize
+                ? Math.Max(1, (int)(ActualHeight / cellSize))
+                : Math.Max(1, DropGrid.RowCount);
 
             if (autoFitSize)
             {
-                var rows = Math.Max(1, DropGrid.RowCount);
-                var cols = Math.Max(1, DropGrid.ColumnCount);
-                var cellSize = Math.Max(1, Math.Min(ActualWidth / cols, ActualHeight / rows));
                 DropGrid.SetCurrentValue(ToolBox.Controls.DropGrid.CellSizeProperty, cellSize);
+                DropGrid.SetCurrentValue(ToolBox.Controls.DropGrid.RowCountProperty, rows);
+            }
+
+            if (autoFitLayout)
+            {
+                DropGrid.SetCurrentValue(ToolBox.Controls.DropGrid.ColumnCountProperty, columns);
+                DropGrid.SetCurrentValue(ToolBox.Controls.DropGrid.RowCountProperty, rows);
             }
         }
     }

@@ -1,4 +1,4 @@
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ToolBox.Settings;
 
 namespace ToolBox.Commons
@@ -7,7 +7,7 @@ namespace ToolBox.Commons
     {
         private readonly ToolBoxPanel panel;
         private readonly PanelItemWatcher watcher;
-        private readonly Dictionary<(Key Key, ModifierKeys Modifiers), ToolItemSettings> bindings = [];
+        private readonly Dictionary<HotkeyTrigger, ToolItemSettings> bindings = [];
 
         private bool isEnabled;
 
@@ -23,7 +23,7 @@ namespace ToolBox.Commons
                 return;
 
             isEnabled = true;
-            PanelKeyRouter.Add(OnKey);
+            PanelInputRouter.Add(OnInput);
             Rebuild();
         }
 
@@ -33,7 +33,7 @@ namespace ToolBox.Commons
                 return;
 
             isEnabled = false;
-            PanelKeyRouter.Remove(OnKey);
+            PanelInputRouter.Remove(OnInput);
             bindings.Clear();
         }
 
@@ -46,17 +46,16 @@ namespace ToolBox.Commons
 
             foreach (var item in panel.Items)
             {
-                var gesture = HotkeyGesture.ParseAssignable(item);
-                if (gesture == null)
+                if (HotkeyGesture.ParseAssignable(item) is not { } trigger)
                     continue;
 
-                bindings.TryAdd((gesture.Key, gesture.Modifiers), item);
+                bindings.TryAdd(trigger, item);
             }
         }
 
-        private bool OnKey(Key key, ModifierKeys modifiers)
+        private bool OnInput(HotkeyTrigger trigger)
         {
-            if (!bindings.TryGetValue((key, modifiers), out var item))
+            if (!bindings.TryGetValue(trigger, out var item))
                 return false;
 
             var command = item.DefaultCommand;

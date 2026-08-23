@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Windows.Controls;
 using ToolBox.Settings;
 using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
@@ -14,10 +14,10 @@ namespace ToolBox.Items.Decorations.Settings
         public override string Name => "Separator";
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => "区切り線";
+        public override string DisplayName => Texts.SeparatorDisplayName;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => "パネルに区切り線を引きます。アイテムのまとまりを分けるための飾りです。";
+        public override string Description => Texts.SeparatorDescription;
 
         [JsonIgnore, NJsonIgnore]
         public override string IconPath => YukkuriMovieMaker.Resources.Icons.IconKeys.Minus;
@@ -27,7 +27,7 @@ namespace ToolBox.Items.Decorations.Settings
 
         [JsonIgnore, NJsonIgnore]
         public override string InstanceSummary =>
-            $"{DisplayName} ({(Orientation == Orientation.Horizontal ? "横" : "縦")})";
+            $"{DisplayName} ({(Orientation == Orientation.Horizontal ? Texts.SeparatorHorizontal : Texts.SeparatorVertical)})";
 
         private Orientation orientation = Orientation.Horizontal;
         public Orientation Orientation

@@ -2,9 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using ToolBox.Controls;
+
 namespace ToolBox.Items.InsertIntoGroup.Views
 {
-    public partial class InsertIntoGroupItem : UserControl
+    public partial class InsertIntoGroupItem : ToolItemView
     {
         public static readonly DependencyProperty InsertIntoGroupItemCommandProperty =
             DependencyProperty.Register(nameof(InsertIntoGroupItemCommand), typeof(ICommand), typeof(InsertIntoGroupItem));

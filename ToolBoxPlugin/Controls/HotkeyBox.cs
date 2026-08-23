@@ -19,6 +19,16 @@ namespace ToolBox.Controls
             set => SetValue(GestureProperty, value);
         }
 
+        public static readonly DependencyProperty ScopeProperty =
+            DependencyProperty.Register(nameof(Scope), typeof(HotkeyScope), typeof(HotkeyBox),
+                new FrameworkPropertyMetadata(HotkeyScope.PanelItem));
+
+        public HotkeyScope Scope
+        {
+            get => (HotkeyScope)GetValue(ScopeProperty);
+            set => SetValue(ScopeProperty, value);
+        }
+
         private bool isCapturing;
 
         public HotkeyBox()
@@ -27,6 +37,8 @@ namespace ToolBox.Controls
             IsReadOnlyCaretVisible = false;
             Cursor = Cursors.Hand;
             UpdateText();
+
+            ContextMenuOpening += (_, e) => e.Handled = true;
 
             Unloaded += (_, _) => StopCapturing();
         }
@@ -38,7 +50,8 @@ namespace ToolBox.Controls
         }
 
         private void UpdateText() =>
-            SetCurrentValue(TextProperty, string.IsNullOrEmpty(Gesture) ? "(未設定)" : Gesture);
+            SetCurrentValue(TextProperty,
+                string.IsNullOrEmpty(Gesture) ? Texts.CommonUnset : HotkeyGesture.Describe(Gesture));
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
@@ -59,7 +72,7 @@ namespace ToolBox.Controls
                 return;
 
             isCapturing = true;
-            PanelKeyRouter.AddFirst(OnRoutedKey);
+            PanelInputRouter.AddFirst(Capture);
         }
 
         private void StopCapturing()
@@ -68,42 +81,57 @@ namespace ToolBox.Controls
                 return;
 
             isCapturing = false;
-            PanelKeyRouter.Remove(OnRoutedKey);
+            PanelInputRouter.Remove(Capture);
         }
-
-        private bool OnRoutedKey(Key key, ModifierKeys modifiers) => Capture(key, modifiers);
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             var key = e.Key == Key.System ? e.SystemKey : e.Key;
-            e.Handled = Capture(key, Keyboard.Modifiers);
+            e.Handled = Capture(HotkeyTrigger.FromKey(key, Keyboard.Modifiers));
         }
 
-        private bool Capture(Key key, ModifierKeys modifiers)
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
-            if (key is Key.Escape or Key.Back or Key.Delete)
+            var trigger = HotkeyTrigger.FromMouse(e.ChangedButton, Keyboard.Modifiers);
+
+            if (!HotkeyGesture.IsAssignable(trigger, Scope))
             {
-                SetCurrentValue(GestureProperty, string.Empty);
+                base.OnPreviewMouseDown(e);
+                return;
+            }
+
+            e.Handled = Capture(trigger);
+        }
+
+        private bool Capture(HotkeyTrigger trigger)
+        {
+            if (!trigger.IsMouse)
+            {
+                if (trigger.Key is Key.Escape or Key.Back or Key.Delete)
+                {
+                    SetCurrentValue(GestureProperty, string.Empty);
+                    return true;
+                }
+
+                if (IsModifierKey(trigger.Key))
+                    return true;
+            }
+
+            if (trigger.Modifiers.HasFlag(ModifierKeys.Windows))
+            {
+                SetCurrentValue(TextProperty, Texts.HotkeyWinKeyNotAllowed);
                 return true;
             }
 
-            if (IsModifierKey(key))
-                return true;
-
-            if (modifiers.HasFlag(ModifierKeys.Windows))
+            if (!HotkeyGesture.IsAssignable(trigger, Scope))
             {
-                SetCurrentValue(TextProperty, "Win キーは使えません");
+                SetCurrentValue(TextProperty, Scope == HotkeyScope.RadialLauncher
+                    ? Texts.HotkeyNeedMouseButton
+                    : Texts.HotkeyNeedCtrlOrAlt);
                 return true;
             }
 
-            if (!modifiers.HasFlag(ModifierKeys.Control) && !modifiers.HasFlag(ModifierKeys.Alt))
-            {
-                SetCurrentValue(TextProperty, "Ctrl か Alt を含めてください");
-                return true;
-            }
-
-            var gesture = HotkeyGesture.Format(key, modifiers);
-            if (gesture == null)
+            if (HotkeyGesture.Format(trigger, Scope) is not { } gesture)
                 return true;
 
             SetCurrentValue(GestureProperty, gesture);

@@ -17,7 +17,7 @@ namespace ToolBox.Items.Ruby
             new("RubyItemCommand",
                 ctx => RubyCommand.CanExecute(ctx.SelectedItems ?? []),
                 ctx => _ = RubyCommand.AddRuby(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
-                displayName: "ルビを振る"),
+                displayName: Texts.RubyApplyCommandName),
         ];
     }
 }

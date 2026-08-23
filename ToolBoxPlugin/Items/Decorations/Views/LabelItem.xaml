@@ -1,6 +1,7 @@
-<UserControl x:Class="ToolBox.Items.Decorations.Views.LabelItem"
+﻿<tbView:ToolItemView x:Class="ToolBox.Items.Decorations.Views.LabelItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbView="clr-namespace:ToolBox.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:settings="clr-namespace:ToolBox.Settings"
@@ -22,6 +23,9 @@
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="FontWeight" Value="Normal"/>
                     <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasCustomFont}" Value="True">
+                            <Setter Property="FontFamily" Value="{Binding TextFontFamily}"/>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding IsBold}" Value="True">
                             <Setter Property="FontWeight" Value="SemiBold"/>
                         </DataTrigger>
@@ -39,4 +43,4 @@
             </TextBlock.Style>
         </TextBlock>
     </Grid>
-</UserControl>
+</tbView:ToolItemView>

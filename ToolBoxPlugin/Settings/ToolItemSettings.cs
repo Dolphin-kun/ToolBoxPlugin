@@ -1,10 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using ToolBox.Commons;
 using YukkuriMovieMaker.Commons;
 using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
+using NJsonProperty = Newtonsoft.Json.JsonPropertyAttribute;
 
 namespace ToolBox.Settings
 {
@@ -45,11 +47,57 @@ namespace ToolBox.Settings
             set => Set(ref customImagePath, value);
         }
 
+        private Stretch imageStretch = Stretch.Uniform;
+        public Stretch ImageStretch
+        {
+            get => imageStretch;
+            set => Set(ref imageStretch, value);
+        }
+
         private string label = string.Empty;
+
+        [JsonPropertyName("Label")]
+        [NJsonProperty("Label")]
+        public string CustomLabel
+        {
+            get => label;
+            set => Set(ref label, NormalizeLabel(value), etcChangedPropertyNames: [nameof(Name), nameof(Label)]);
+        }
+
+        [JsonIgnore, NJsonIgnore]
         public string Label
         {
             get => string.IsNullOrEmpty(label) ? DisplayName : label;
-            set => Set(ref label, value, etcChangedPropertyNames: nameof(Name));
+            set => CustomLabel = value;
+        }
+
+        private string NormalizeLabel(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return string.Empty;
+
+            if (value == DisplayName)
+                return string.Empty;
+
+            return value == GetJapaneseDisplayName() ? string.Empty : value;
+        }
+
+        private string? GetJapaneseDisplayName()
+        {
+            var original = Texts.Culture;
+            try
+            {
+                Texts.Culture = CultureInfo.GetCultureInfo("ja-jp");
+                return DisplayName;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                Texts.Culture = original;
+            }
         }
 
         private string hotkeyGesture = string.Empty;

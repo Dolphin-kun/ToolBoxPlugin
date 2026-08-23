@@ -1,23 +1,46 @@
 ﻿<UserControl x:Class="ToolBox.Items.Staircase.Views.StaircaseSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
              xmlns:setting="clr-namespace:ToolBox.Items.Staircase.Settings"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=setting:StaircaseSettings}">
+             d:DataContext="{d:DesignInstance Type=setting:StaircaseSettings}" >
 
     <StackPanel>
-        <TextBlock Text="階段化の設定" FontWeight="SemiBold" Margin="0,0,0,6" />
+        <TextBlock Text="{x:Static toolbox:Texts.StaircaseSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,6" />
 
-        <TextBlock Text="オフセット (フレーム)" Margin="0,0,0,2" />
-        <controls:TextBoxSlider Value="{Binding Offset, Mode=TwoWay}"
-                                DefaultValue="20"
-                                StringFormat="F0"
-                                Unit="F"
-                                DefaultMin="0" DefaultMax="50"
-                                Min="1" Max="10000"
-                                HorizontalAlignment="Stretch" Height="24" VerticalContentAlignment="Center"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="{x:Static toolbox:Texts.StaircaseOffsetLabel}" VerticalAlignment="Center"/>
+            <controls:TextBoxSlider Grid.Column="1" Value="{Binding Offset, Mode=TwoWay}"
+                        DefaultValue="20"
+                        StringFormat="F0"
+                        Unit="F"
+                        DefaultMin="0" DefaultMax="50"
+                        Min="1" Max="10000"
+                        HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="{x:Static toolbox:Texts.StaircaseAmountLabel}" VerticalAlignment="Center"/>
+            <controls:TextBoxSlider Grid.Column="1" Value="{Binding Amount, Mode=TwoWay}"
+                        DefaultValue="1"
+                        StringFormat="F0"
+                        IsUnitVisible="False"
+                        DefaultMin="1" DefaultMax="10"
+                        Min="1" Max="100"
+                        HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
+        </Grid>
+
     </StackPanel>
 </UserControl>

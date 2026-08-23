@@ -106,7 +106,7 @@ namespace ToolBox.Commons
             if (IsRateLimited(response))
                 throw new InvalidOperationException(BuildRateLimitMessage(response));
 
-            throw new InvalidOperationException($"GitHub から応答がありませんでした ({(int)response.StatusCode})。");
+            throw new InvalidOperationException(string.Format(Texts.AddonMarketplaceNoResponse, (int)response.StatusCode));
         }
 
         private static bool IsRateLimited(HttpResponseMessage response)
@@ -124,10 +124,10 @@ namespace ToolBox.Commons
                 && long.TryParse(reset.FirstOrDefault(), out var epochSeconds))
             {
                 var resetAt = DateTimeOffset.FromUnixTimeSeconds(epochSeconds).LocalDateTime;
-                return $"GitHub の問い合わせ回数の上限に達しました。{resetAt:HH:mm} 以降にもう一度お試しください。";
+                return string.Format(Texts.AddonMarketplaceRateLimitedUntil, resetAt.ToString("HH:mm"));
             }
 
-            return "GitHub の問い合わせ回数の上限に達しました。しばらく待ってからもう一度お試しください。";
+            return Texts.AddonMarketplaceRateLimited;
         }
 
         public static async Task<IReadOnlyList<string>> InstallAsync(MarketplaceAddon addon, CancellationToken cancellationToken = default)
@@ -135,10 +135,10 @@ namespace ToolBox.Commons
             var releaseUrl = $"https://api.github.com/repos/{addon.FullName}/releases/latest";
             var json = await GetStringAsync(releaseUrl, cancellationToken).ConfigureAwait(false);
             var release = JsonSerializer.Deserialize<Release>(json, JsonOptions)
-                ?? throw new InvalidOperationException("リリース情報を読み取れませんでした。");
+                ?? throw new InvalidOperationException(Texts.AddonMarketplaceReleaseUnreadable);
 
             var asset = SelectAsset(release)
-                ?? throw new InvalidOperationException("最新リリースに .zip も .dll も添付されていません。");
+                ?? throw new InvalidOperationException(Texts.AddonMarketplaceNoAsset);
 
             var directory = AddonLoader.AddonDirectory;
             Directory.CreateDirectory(directory);
@@ -152,7 +152,7 @@ namespace ToolBox.Commons
                 : WriteSingleDll(bytes, directory, asset.Name);
 
             if (installed.Count == 0)
-                throw new InvalidOperationException("ダウンロードした成果物に DLL が含まれていませんでした。");
+                throw new InvalidOperationException(Texts.AddonMarketplaceNoDll);
 
             AddonLoader.LoadAddons();
             return installed;
@@ -266,7 +266,7 @@ namespace ToolBox.Commons
         DateTimeOffset? PushedAt)
     {
         public string UpdatedText => PushedAt.HasValue
-            ? $"最終更新 {PushedAt.Value.LocalDateTime:yyyy/MM/dd}"
+            ? string.Format(Texts.AddonMarketplaceLastUpdated, PushedAt.Value.LocalDateTime.ToString("yyyy/MM/dd"))
             : string.Empty;
 
         public string StarsText => $"★ {Stars}";

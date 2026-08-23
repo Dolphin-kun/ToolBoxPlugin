@@ -1,6 +1,8 @@
 ﻿<UserControl x:Class="ToolBox.Items.Decorations.Views.SeparatorSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sysControls="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
@@ -10,35 +12,30 @@
              d:DataContext="{d:DesignInstance Type=local:SeparatorSettings}">
 
     <StackPanel>
-        <TextBlock Text="区切り線の設定" FontWeight="SemiBold" Margin="0,0,0,8"/>
+        <TextBlock Text="{x:Static toolbox:Texts.SeparatorSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,8"/>
 
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*" MinWidth="90"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="向き" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBlock Grid.Column="0" Text="{x:Static toolbox:Texts.SeparatorOrientationLabel}" VerticalAlignment="Center" Margin="0,0,8,0"/>
             <ComboBox Grid.Column="1"
                       SelectedValue="{Binding Orientation, Mode=TwoWay}"
                       SelectedValuePath="Tag" Height="24" VerticalContentAlignment="Center">
-                <ComboBoxItem Content="横" Tag="{x:Static sysControls:Orientation.Horizontal}"/>
-                <ComboBoxItem Content="縦" Tag="{x:Static sysControls:Orientation.Vertical}"/>
+                <ComboBoxItem Content="{x:Static toolbox:Texts.SeparatorHorizontal}" Tag="{x:Static sysControls:Orientation.Horizontal}"/>
+                <ComboBoxItem Content="{x:Static toolbox:Texts.SeparatorVertical}" Tag="{x:Static sysControls:Orientation.Vertical}"/>
             </ComboBox>
         </Grid>
 
-        <Grid Margin="0,0,0,8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*" MinWidth="90"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="線の太さ" VerticalAlignment="Center" Margin="0,0,8,0"/>
-            <controls:TextBoxSlider Grid.Column="1"
-                                    Value="{Binding LineThickness, Mode=TwoWay}"
-                                    DefaultValue="1" StringFormat="F0" Unit="px"
-                                    Min="1" Max="10" DefaultMin="1" DefaultMax="10" Delta="1" Height="24" VerticalContentAlignment="Center"/>
-        </Grid>
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.SeparatorThicknessLabel}" ContentMinWidth="90" Margin="0,0,0,8">
+            <controls:TextBoxSlider
+            Value="{Binding LineThickness, Mode=TwoWay}"
+            DefaultValue="1" StringFormat="F0" Unit="px"
+            Min="1" Max="10" DefaultMin="1" DefaultMax="10" Delta="1" Height="24" VerticalContentAlignment="Center"/>
+        </tbRow:SettingsRow>
 
-        <TextBlock Text="線の色は共通設定の「配色」で変えられます。"
+        <TextBlock Text="{x:Static toolbox:Texts.SeparatorColorHint}"
                    FontSize="10" TextWrapping="Wrap"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
     </StackPanel>

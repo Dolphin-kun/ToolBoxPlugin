@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="ToolBox.Items.GapCheck.Views.GapCheckSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:setting="clr-namespace:ToolBox.Items.GapCheck.Settings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=setting:GapCheckSettings}">
+
+    <StackPanel>
+        <TextBlock Text="{x:Static toolbox:Texts.GapCheckSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.GapCheckMaxFramesLabel}">
+            <controls:TextBoxSlider Value="{Binding MaxGapFrames, Mode=TwoWay}"
+            DefaultValue="2" StringFormat="F0" Unit="F"
+            Min="1" Max="120" DefaultMin="1" DefaultMax="10" Delta="1"
+            HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center"/>
+        </tbRow:SettingsRow>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{x:Static toolbox:Texts.GapCheckModeLabel}" VerticalAlignment="Center"/>
+            <ComboBox Grid.Column="1" SelectedValue="{Binding Mode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValuePath="Tag"
+                      HorizontalAlignment="Right" Width="180" Height="24" VerticalContentAlignment="Center">
+                <ComboBoxItem Content="{x:Static toolbox:Texts.GapCheckModeAll}" Tag="{x:Static setting:GapSearchMode.All}"/>
+                <ComboBoxItem Content="{x:Static toolbox:Texts.GapCheckModePerLayer}" Tag="{x:Static setting:GapSearchMode.PerLayer}"/>
+                <ComboBoxItem Content="{x:Static toolbox:Texts.GapCheckModeAcrossLayers}" Tag="{x:Static setting:GapSearchMode.AcrossLayers}"/>
+            </ComboBox>
+        </Grid>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.GapCheckSelectedLayersOnlyLabel}">
+            <controls:ToggleSlider Value="{Binding SelectedLayersOnly, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+    </StackPanel>
+</UserControl>

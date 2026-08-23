@@ -61,4 +61,453 @@
 <data name="CurrentCulture" xml:space="preserve"><value>es-es</value></data>
 <data name="PluginName" xml:space="preserve"><value>Caja de herramientas</value></data>
 <data name="SettingsTitle" xml:space="preserve"><value>Ajustes de la caja de herramientas</value></data>
+<data name="CommonUnset" xml:space="preserve"><value>(sin definir)</value></data>
+<data name="CommonNotFound" xml:space="preserve"><value>(no encontrado)</value></data>
+<data name="CommonNoName" xml:space="preserve"><value>(sin nombre)</value></data>
+<data name="CommonSettings" xml:space="preserve"><value>Ajustes</value></data>
+<data name="CommonCopy" xml:space="preserve"><value>Copiar</value></data>
+<data name="CommonCancel" xml:space="preserve"><value>Cancelar</value></data>
+<data name="CommonAdd" xml:space="preserve"><value>Añadir</value></data>
+<data name="CommonDelete" xml:space="preserve"><value>Eliminar</value></data>
+<data name="CommonRename" xml:space="preserve"><value>Cambiar nombre</value></data>
+<data name="CommonOverwrite" xml:space="preserve"><value>Sobrescribir</value></data>
+<data name="CommonMoveUp" xml:space="preserve"><value>Subir</value></data>
+<data name="CommonMoveDown" xml:space="preserve"><value>Bajar</value></data>
+<data name="CommonClearAll" xml:space="preserve"><value>Borrar todo</value></data>
+<data name="ToolBoxNotReady" xml:space="preserve"><value>La caja de herramientas aún no está lista.</value></data>
+<data name="FilterAllFiles" xml:space="preserve"><value>Todos los archivos|*.*</value></data>
+<data name="FilterImageFiles" xml:space="preserve"><value>Imágenes|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|Todos los archivos|*.*</value></data>
+<data name="UnitTimes" xml:space="preserve"><value>x</value></data>
+<data name="AddonMarketplaceNoResponse" xml:space="preserve"><value>GitHub no respondió ({0}).</value></data>
+<data name="AddonMarketplaceRateLimitedUntil" xml:space="preserve"><value>Se alcanzó el límite de peticiones de GitHub. Inténtalo de nuevo después de las {0}.</value></data>
+<data name="AddonMarketplaceRateLimited" xml:space="preserve"><value>Se alcanzó el límite de peticiones de GitHub. Espera un poco e inténtalo de nuevo.</value></data>
+<data name="AddonMarketplaceReleaseUnreadable" xml:space="preserve"><value>No se pudo leer la información de la versión.</value></data>
+<data name="AddonMarketplaceNoAsset" xml:space="preserve"><value>La última versión no incluye ningún .zip ni .dll.</value></data>
+<data name="AddonMarketplaceNoDll" xml:space="preserve"><value>El paquete descargado no contenía ningún DLL.</value></data>
+<data name="AddonMarketplaceLastUpdated" xml:space="preserve"><value>Actualizado el {0}</value></data>
+<data name="AddonMarketplaceTitle" xml:space="preserve"><value>Buscar complementos</value></data>
+<data name="AddonMarketplaceHintPrefix" xml:space="preserve"><value>Muestra los repositorios de GitHub con el tema</value></data>
+<data name="AddonMarketplaceHintSuffix" xml:space="preserve"><value>. Pulsa Instalar para descargar el zip o dll de la última versión.</value></data>
+<data name="AddonMarketplaceRefresh" xml:space="preserve"><value>Actualizar lista</value></data>
+<data name="AddonMarketplaceInstall" xml:space="preserve"><value>Instalar</value></data>
+<data name="AddonMarketplaceInstalled" xml:space="preserve"><value>Instalado</value></data>
+<data name="AddonMarketplaceInitialStatus" xml:space="preserve"><value>Pulsa Actualizar lista para buscar complementos en GitHub.</value></data>
+<data name="AddonMarketplaceLoading" xml:space="preserve"><value>Obteniendo la lista de GitHub...</value></data>
+<data name="AddonMarketplaceLoadFailed" xml:space="preserve"><value>No se pudo obtener la lista: {0}</value></data>
+<data name="AddonMarketplaceNoResults" xml:space="preserve"><value>No se encontró ningún repositorio con el tema {0}.</value></data>
+<data name="AddonMarketplaceFound" xml:space="preserve"><value>Se encontraron {0}.</value></data>
+<data name="AddonMarketplaceTruncated" xml:space="preserve"><value>(GitHub indica {0} en total; solo se muestran algunos por el límite de la API de búsqueda)</value></data>
+<data name="AddonMarketplaceCached" xml:space="preserve"><value>Mostrando la lista obtenida anteriormente (hasta las {0}).</value></data>
+<data name="AddonMarketplaceInstalling" xml:space="preserve"><value>Descargando {0}...</value></data>
+<data name="AddonMarketplaceInstallSucceeded" xml:space="preserve"><value>Se instaló {0} ({1}).</value></data>
+<data name="AddonMarketplaceInstallFailedStatus" xml:space="preserve"><value>No se pudo instalar {0}: {1}</value></data>
+<data name="AddonMarketplaceInstallFailed" xml:space="preserve"><value>No se pudo instalar el complemento.</value></data>
+<data name="AddonSettingsTitle" xml:space="preserve"><value>Complementos</value></data>
+<data name="AddonListTitle" xml:space="preserve"><value>Lista de complementos</value></data>
+<data name="AddonListEmpty" xml:space="preserve"><value>No hay complementos.</value></data>
+<data name="AddonOpenFolder" xml:space="preserve"><value>Abrir carpeta</value></data>
+<data name="AddonReload" xml:space="preserve"><value>Recargar</value></data>
+<data name="AddonEnableTip" xml:space="preserve"><value>Activar / desactivar la carga</value></data>
+<data name="AddonDeleteTip" xml:space="preserve"><value>Eliminar este complemento</value></data>
+<data name="AddonOpenFolderFailed" xml:space="preserve"><value>No se pudo abrir la carpeta.</value></data>
+<data name="AddonDeleteCaption" xml:space="preserve"><value>Eliminar complemento</value></data>
+<data name="AddonDeleteConfirm" xml:space="preserve"><value>Se eliminará el complemento {0}.</value></data>
+<data name="AddonDisabled" xml:space="preserve"><value>Se desactivó el complemento {0}.</value></data>
+<data name="AddonDisabledHint" xml:space="preserve"><value>Ya está cargado; la eliminación del archivo se completará al reiniciar YMM4.</value></data>
+<data name="AddonDeleteFailed" xml:space="preserve"><value>No se pudo eliminar el complemento {0}.</value></data>
+<data name="AddonDisabledDescription" xml:space="preserve"><value>Desactivado. Vuelve a activarlo para cargarlo la próxima vez.</value></data>
+<data name="LabelDisplayName" xml:space="preserve"><value>Etiqueta</value></data>
+<data name="LabelDescription" xml:space="preserve"><value>Coloca un texto de encabezado en el panel. Al pulsarlo no ocurre nada.</value></data>
+<data name="LabelDefaultText" xml:space="preserve"><value>Encabezado</value></data>
+<data name="LabelSettingsTitle" xml:space="preserve"><value>Ajustes de la etiqueta</value></data>
+<data name="LabelTextLabel" xml:space="preserve"><value>Texto a mostrar</value></data>
+<data name="LabelFontLabel" xml:space="preserve"><value>Fuente</value></data>
+<data name="LabelFontSizeLabel" xml:space="preserve"><value>Tamaño del texto</value></data>
+<data name="LabelBoldLabel" xml:space="preserve"><value>Negrita</value></data>
+<data name="LabelAlignmentLabel" xml:space="preserve"><value>Alineación del texto</value></data>
+<data name="AlignLeft" xml:space="preserve"><value>Izquierda</value></data>
+<data name="AlignCenter" xml:space="preserve"><value>Centro</value></data>
+<data name="AlignRight" xml:space="preserve"><value>Derecha</value></data>
+<data name="SeparatorDisplayName" xml:space="preserve"><value>Separador</value></data>
+<data name="SeparatorDescription" xml:space="preserve"><value>Dibuja una línea separadora en el panel. Es un adorno para separar grupos de elementos.</value></data>
+<data name="SeparatorSettingsTitle" xml:space="preserve"><value>Ajustes del separador</value></data>
+<data name="SeparatorOrientationLabel" xml:space="preserve"><value>Orientación</value></data>
+<data name="SeparatorHorizontal" xml:space="preserve"><value>Horizontal</value></data>
+<data name="SeparatorVertical" xml:space="preserve"><value>Vertical</value></data>
+<data name="SeparatorThicknessLabel" xml:space="preserve"><value>Grosor de la línea</value></data>
+<data name="SeparatorColorHint" xml:space="preserve"><value>El color de la línea se cambia en Colores de los ajustes comunes.</value></data>
+<data name="InsertIntoGroupDisplayName" xml:space="preserve"><value>Agrupar</value></data>
+<data name="InsertIntoGroupDescription" xml:space="preserve"><value>Añade un control de grupo que cubre todos los elementos seleccionados para tratarlos a la vez.</value></data>
+<data name="ItemStockTitle" xml:space="preserve"><value>Elementos guardados</value></data>
+<data name="ItemStockHint" xml:space="preserve"><value>Aquí puedes guardar los elementos seleccionados en la línea de tiempo. Coloca Añadir elemento guardado en el panel para vincular uno de ellos.</value></data>
+<data name="ItemStockEmpty" xml:space="preserve"><value>Todavía no se ha guardado nada.</value></data>
+<data name="ItemStockSaveSelected" xml:space="preserve"><value>Guardar la selección</value></data>
+<data name="ItemStockSaveTip" xml:space="preserve"><value>Guarda los elementos seleccionados actualmente en la línea de tiempo</value></data>
+<data name="ItemStockOverwriteTip" xml:space="preserve"><value>Sustituye la entrada seleccionada por los elementos seleccionados en la línea de tiempo</value></data>
+<data name="ItemStockSaveFailed" xml:space="preserve"><value>No se pudo guardar este elemento.</value></data>
+<data name="ItemStockSelectFirst" xml:space="preserve"><value>Selecciona primero elementos en la línea de tiempo.</value></data>
+<data name="ItemStockSummaryMore" xml:space="preserve"><value>{0} y {1} más</value></data>
+<data name="ItemStockOverwriteConfirm" xml:space="preserve"><value>El contenido de {0} se sustituirá por la selección actual.</value></data>
+<data name="ItemStockDeleteConfirm" xml:space="preserve"><value>Se eliminará {0}.</value></data>
+<data name="ItemStockDeleteConfirmUsers" xml:space="preserve"><value>Hay {0} botones que usan este elemento.</value></data>
+<data name="ItemStockClearConfirm" xml:space="preserve"><value>Se eliminarán todos los elementos guardados.</value></data>
+<data name="ItemStockClearConfirmHint" xml:space="preserve"><value>Los botones vinculados también dejarán de funcionar.</value></data>
+<data name="ItemPresetDisplayName" xml:space="preserve"><value>Añadir elemento guardado</value></data>
+<data name="ItemPresetDescription" xml:space="preserve"><value>Vincula a este botón una de las entradas de Elementos guardados y la añade a la línea de tiempo con un clic.</value></data>
+<data name="ItemPresetSaveCommandName" xml:space="preserve"><value>Guardar la selección y vincularla</value></data>
+<data name="ItemPresetOverwriteCommandName" xml:space="preserve"><value>Sobrescribir la entrada vinculada con la selección</value></data>
+<data name="ItemPresetSettingsTitle" xml:space="preserve"><value>Ajustes del elemento guardado</value></data>
+<data name="ItemPresetStockLabel" xml:space="preserve"><value>Elemento vinculado a este botón</value></data>
+<data name="ItemPresetSaveButtonTip" xml:space="preserve"><value>Guarda la selección actual como una entrada nueva y la vincula a este botón</value></data>
+<data name="ItemPresetOverwriteButtonTip" xml:space="preserve"><value>Sustituye la entrada vinculada por los elementos seleccionados</value></data>
+<data name="ItemPresetManageHint" xml:space="preserve"><value>Puedes añadir renombrar y eliminar entradas en Elementos guardados de los ajustes de la caja de herramientas.</value></data>
+<data name="ItemPresetUseCurrentFrame" xml:space="preserve"><value>Añadir en la posición actual</value></data>
+<data name="ItemPresetUseCurrentLayer" xml:space="preserve"><value>Añadir en la capa actual</value></data>
+<data name="ItemPresetSelectAfterAdd" xml:space="preserve"><value>Seleccionar los elementos añadidos</value></data>
+<data name="ItemPresetLoadFailed" xml:space="preserve"><value>No se pudo cargar {0}. Vuelve a guardarlo.</value></data>
+<data name="LauncherDisplayName" xml:space="preserve"><value>Abrir archivo o carpeta</value></data>
+<data name="LauncherDescription" xml:space="preserve"><value>Abre el archivo o la carpeta indicados. Útil como acceso a carpetas de recursos o herramientas externas.</value></data>
+<data name="LauncherOpenCommandName" xml:space="preserve"><value>Abrir</value></data>
+<data name="LauncherTargetLabel" xml:space="preserve"><value>Destino</value></data>
+<data name="LauncherBrowseFolder" xml:space="preserve"><value>Elegir carpeta...</value></data>
+<data name="LauncherFolderDialogTitle" xml:space="preserve"><value>Selecciona la carpeta que abrir</value></data>
+<data name="LauncherOpenNotFound" xml:space="preserve"><value>No se pudo abrir. No se encontró la siguiente ubicación.</value></data>
+<data name="LauncherOpenFailed" xml:space="preserve"><value>No se pudo abrir.</value></data>
+<data name="LauncherNodeGroup" xml:space="preserve"><value>Grupo</value></data>
+<data name="LauncherSettingsNodeTitle" xml:space="preserve"><value>Lanzador</value></data>
+<data name="LauncherSettingsTitle" xml:space="preserve"><value>Ajustes del lanzador</value></data>
+<data name="LauncherEnableLabel" xml:space="preserve"><value>Usar el lanzador</value></data>
+<data name="LauncherTriggerLabel" xml:space="preserve"><value>Abrir con</value></data>
+<data name="LauncherImageFillsSectorLabel" xml:space="preserve"><value>Ampliar imágenes</value></data>
+<data name="LauncherPreviewLabel" xml:space="preserve"><value>Vista previa</value></data>
+<data name="LauncherOrderLabel" xml:space="preserve"><value>Orden</value></data>
+<data name="LauncherClearTip" xml:space="preserve"><value>Al vaciarlo se vuelve a la disposición automática del panel actual</value></data>
+<data name="LauncherNodeKindLabel" xml:space="preserve"><value>Tipo</value></data>
+<data name="LauncherKindPanelItem" xml:space="preserve"><value>Elemento del panel</value></data>
+<data name="LauncherTargetNodeLabel" xml:space="preserve"><value>Destino</value></data>
+<data name="LauncherNewGroup" xml:space="preserve"><value>Grupo nuevo</value></data>
+<data name="LauncherClearConfirm" xml:space="preserve"><value>Se borrará toda la disposición del lanzador.</value></data>
+<data name="LauncherClearConfirmHint" xml:space="preserve"><value>Después los elementos del panel actual se ordenarán automáticamente otra vez.</value></data>
+<data name="RadialMenuBack" xml:space="preserve"><value>Atrás</value></data>
+<data name="RadialMenuClose" xml:space="preserve"><value>Cerrar</value></data>
+<data name="RadialMenuPrevious" xml:space="preserve"><value>Anterior</value></data>
+<data name="RadialMenuNext" xml:space="preserve"><value>Siguiente</value></data>
+<data name="RadialMenuPreviewEmpty" xml:space="preserve"><value>No hay elementos que ordenar.</value></data>
+<data name="MacroDisplayName" xml:space="preserve"><value>Macro</value></data>
+<data name="MacroDescription" xml:space="preserve"><value>Ejecuta las acciones registradas de arriba abajo. Permite agrupar pasos frecuentes en un solo botón.</value></data>
+<data name="MacroRunCommandName" xml:space="preserve"><value>Ejecutar macro</value></data>
+<data name="MacroSummaryNoSteps" xml:space="preserve"><value>{0} (sin pasos)</value></data>
+<data name="MacroSummarySteps" xml:space="preserve"><value>{0} ({1} pasos)</value></data>
+<data name="MacroStepNotFound" xml:space="preserve"><value>No se encontró el paso {1} de la macro {0}.</value></data>
+<data name="MacroStepNotFoundHint" xml:space="preserve"><value>Puede que se haya quitado el complemento que lo proporcionaba.</value></data>
+<data name="MacroStepsLabel" xml:space="preserve"><value>Pasos</value></data>
+<data name="MacroSelectedStepLabel" xml:space="preserve"><value>Paso seleccionado</value></data>
+<data name="MacroMoveUpTip" xml:space="preserve"><value>Subir uno</value></data>
+<data name="MacroMoveDownTip" xml:space="preserve"><value>Bajar uno</value></data>
+<data name="MacroAddStepTip" xml:space="preserve"><value>Añadir paso</value></data>
+<data name="MacroRemoveStepTip" xml:space="preserve"><value>Eliminar el paso seleccionado</value></data>
+<data name="MacroStepKindLabel" xml:space="preserve"><value>Tipo</value></data>
+<data name="StepKindCommand" xml:space="preserve"><value>Acción de la caja de herramientas</value></data>
+<data name="StepKindShortcut" xml:space="preserve"><value>Atajo</value></data>
+<data name="StepKindPanelItem" xml:space="preserve"><value>Elemento del panel</value></data>
+<data name="StepKindWait" xml:space="preserve"><value>Esperar</value></data>
+<data name="MacroCommandLabel" xml:space="preserve"><value>Acción</value></data>
+<data name="MacroPanelItemLabel" xml:space="preserve"><value>Elemento</value></data>
+<data name="MacroPanelItemHint" xml:space="preserve"><value>Ejecuta un elemento colocado en un panel abierto con sus propios ajustes.</value></data>
+<data name="MacroWaitLabel" xml:space="preserve"><value>Tiempo de espera</value></data>
+<data name="MacroStepsHint" xml:space="preserve"><value>Los pasos se ejecutan de arriba abajo. Los que no se pueden ejecutar (por ejemplo sin selección) se omiten.</value></data>
+<data name="MacroStepWait" xml:space="preserve"><value>Esperar {0} ms</value></data>
+<data name="MacroStepNew" xml:space="preserve"><value>Paso nuevo (elige una acción)</value></data>
+<data name="MacroStepUnknown" xml:space="preserve"><value>(acción desconocida: {0})</value></data>
+<data name="MacroStepChooseItem" xml:space="preserve"><value>(elige un elemento)</value></data>
+<data name="RecordingDisplayName" xml:space="preserve"><value>Grabación</value></data>
+<data name="RecordingDescription" xml:space="preserve"><value>Graba desde el micrófono y añade la grabación a la línea de tiempo como elemento de audio.</value></data>
+<data name="RecordingToggleCommandName" xml:space="preserve"><value>Iniciar o detener la grabación</value></data>
+<data name="RecordingSettingsTitle" xml:space="preserve"><value>Ajustes de grabación</value></data>
+<data name="RecordingDeviceLabel" xml:space="preserve"><value>Dispositivo de entrada</value></data>
+<data name="RecordingOpenFolder" xml:space="preserve"><value>Abrir la carpeta de grabaciones</value></data>
+<data name="RecordingOpenFolderFailed" xml:space="preserve"><value>No se pudo abrir la carpeta de grabaciones.</value></data>
+<data name="RubyDisplayName" xml:space="preserve"><value>Texto ruby</value></data>
+<data name="RubyDescription" xml:space="preserve"><value>Añade texto ruby sobre los kanji de los elementos seleccionados.</value></data>
+<data name="RubyApplyCommandName" xml:space="preserve"><value>Añadir texto ruby</value></data>
+<data name="RubySettingsTitle" xml:space="preserve"><value>Ajustes de ruby</value></data>
+<data name="RubyTypeLabel" xml:space="preserve"><value>Estilo de ruby</value></data>
+<data name="RubyTypeHiragana" xml:space="preserve"><value>Hiragana</value></data>
+<data name="RubyTypeHiraganaDescription" xml:space="preserve"><value>Añade el ruby en hiragana</value></data>
+<data name="RubyTypeKatakana" xml:space="preserve"><value>Katakana</value></data>
+<data name="RubyTypeKatakanaDescription" xml:space="preserve"><value>Añade el ruby en katakana</value></data>
+<data name="RubyAutoLineHeight" xml:space="preserve"><value>Ajustar la altura de línea automáticamente</value></data>
+<data name="RubyLineHeightScale" xml:space="preserve"><value>Factor de altura de línea</value></data>
+<data name="SceneMoverDisplayName" xml:space="preserve"><value>Mover a una escena</value></data>
+<data name="SceneMoverDescription" xml:space="preserve"><value>Mueve juntos los elementos seleccionados a una escena nueva o existente. Al pulsar se abre un menú para elegir el destino.</value></data>
+<data name="SceneMoverToNewSceneCommandName" xml:space="preserve"><value>Mover a una escena nueva</value></data>
+<data name="SceneMoverToSceneCommandName" xml:space="preserve"><value>Mover a la escena elegida</value></data>
+<data name="SceneMoverSettingsTitle" xml:space="preserve"><value>Ajustes de mover a escena</value></data>
+<data name="SceneMoverDuplicateLabel" xml:space="preserve"><value>Duplicar en vez de mover</value></data>
+<data name="SceneMoverAlignLabel" xml:space="preserve"><value>Alinear al inicio de la escena</value></data>
+<data name="SceneMoverSwitchLabel" xml:space="preserve"><value>Cambiar a la escena de destino</value></data>
+<data name="SceneMoverToNewSceneTip" xml:space="preserve"><value>Mueve los elementos seleccionados en la línea de tiempo a una escena nueva</value></data>
+<data name="SceneMoverSummaryDuplicate" xml:space="preserve"><value>Duplicar</value></data>
+<data name="SceneMoverSummaryMove" xml:space="preserve"><value>Mover</value></data>
+<data name="SceneMoverNoTimeline" xml:space="preserve"><value>No se pudo acceder a la línea de tiempo.</value></data>
+<data name="SceneMoverNoSelection" xml:space="preserve"><value>Selecciona elementos en la línea de tiempo.</value></data>
+<data name="SceneMoverNoScenes" xml:space="preserve"><value>No se pudo obtener la lista de escenas.</value></data>
+<data name="SceneMoverAlreadyHere" xml:space="preserve"><value>Ya están en esta escena.</value></data>
+<data name="SceneMoverAddFailed" xml:space="preserve"><value>No se pudieron colocar los elementos en el destino.</value></data>
+<data name="SceneMoverMoveFailed" xml:space="preserve"><value>No se pudieron mover los elementos.</value></data>
+<data name="SceneMoverCreateFailed" xml:space="preserve"><value>No se pudo crear una escena nueva.</value></data>
+<data name="SceneMoverMenuFailed" xml:space="preserve"><value>No se pudo abrir la lista de destinos.</value></data>
+<data name="SceneMoverMenuNewScene" xml:space="preserve"><value>A una escena nueva</value></data>
+<data name="SceneMoverMenuNoOtherScenes" xml:space="preserve"><value>No hay otras escenas</value></data>
+<data name="SceneMoverSceneWord" xml:space="preserve"><value>Escena</value></data>
+<data name="SceneMoverNewSceneName" xml:space="preserve"><value>Escena {0}</value></data>
+<data name="SeparateAudioDisplayName" xml:space="preserve"><value>Separar audio</value></data>
+<data name="SeparateAudioDescription" xml:space="preserve"><value>Silencia el elemento de vídeo seleccionado y añade el mismo audio como elemento independiente una capa más abajo.</value></data>
+<data name="SeparateAudioCommandName" xml:space="preserve"><value>Separar el audio</value></data>
+<data name="ShortcutRunCommandName" xml:space="preserve"><value>Ejecutar atajo</value></data>
+<data name="ShortcutsRootTitle" xml:space="preserve"><value>Atajos</value></data>
+<data name="ShortcutSettingsTitle" xml:space="preserve"><value>Ajustes del atajo</value></data>
+<data name="ShortcutLabelLabel" xml:space="preserve"><value>Etiqueta</value></data>
+<data name="ShortcutCommandLabel" xml:space="preserve"><value>Comando a ejecutar</value></data>
+<data name="ShortcutDefaultDescription" xml:space="preserve"><value>Ejecuta el comando {0} de YMM4.</value></data>
+<data name="ShortcutGroupEdit" xml:space="preserve"><value>Editar</value></data>
+<data name="ShortcutGroupItem" xml:space="preserve"><value>Elementos</value></data>
+<data name="ShortcutGroupArrange" xml:space="preserve"><value>Ordenar y mover</value></data>
+<data name="ShortcutGroupSelection" xml:space="preserve"><value>Selección</value></data>
+<data name="ShortcutGroupAddItem" xml:space="preserve"><value>Añadir elementos</value></data>
+<data name="ShortcutGroupMidpoint" xml:space="preserve"><value>Puntos intermedios</value></data>
+<data name="ShortcutGroupPlayback" xml:space="preserve"><value>Reproducción</value></data>
+<data name="ShortcutGroupView" xml:space="preserve"><value>Vista</value></data>
+<data name="ShortcutGroupLayer" xml:space="preserve"><value>Capas</value></data>
+<data name="ShortcutGroupCharacterScene" xml:space="preserve"><value>Personajes y escenas</value></data>
+<data name="ShortcutGroupProject" xml:space="preserve"><value>Proyecto</value></data>
+<data name="ShortcutGroupWindowFolder" xml:space="preserve"><value>Ventanas y carpetas</value></data>
+<data name="SortDisplayName" xml:space="preserve"><value>Ordenar</value></data>
+<data name="SortDescription" xml:space="preserve"><value>Reordena los elementos seleccionados entre capas según su posición de inicio ascendente o descendente.</value></data>
+<data name="SortAscendingCommandName" xml:space="preserve"><value>Ordenar del más temprano</value></data>
+<data name="SortDescendingCommandName" xml:space="preserve"><value>Ordenar del más tardío</value></data>
+<data name="SortAscendingTip" xml:space="preserve"><value>Ordenar del más temprano</value></data>
+<data name="SortDescendingTip" xml:space="preserve"><value>Ordenar del más tardío</value></data>
+<data name="StaircaseDisplayName" xml:space="preserve"><value>Escalonar</value></data>
+<data name="StaircaseDescription" xml:space="preserve"><value>Desplaza los elementos seleccionados un número fijo de fotogramas por capa formando una escalera.</value></data>
+<data name="StaircaseReverseCommandName" xml:space="preserve"><value>Escalonar en sentido inverso</value></data>
+<data name="StaircaseSettingsTitle" xml:space="preserve"><value>Ajustes del escalonado</value></data>
+<data name="StaircaseOffsetLabel" xml:space="preserve"><value>Desplazamiento</value></data>
+<data name="TachiePlacerDisplayName" xml:space="preserve"><value>Colocar el arte del personaje</value></data>
+<data name="TachiePlacerDescription" xml:space="preserve"><value>Coloca el arte del personaje del elemento de voz seleccionado en la capa contigua superior o inferior.</value></data>
+<data name="TachiePlacerCommandName" xml:space="preserve"><value>Colocar el arte del personaje</value></data>
+<data name="TachiePlacerSettingsTitle" xml:space="preserve"><value>Ajustes del arte del personaje</value></data>
+<data name="TachiePlacerPlacementLabel" xml:space="preserve"><value>Capa de destino</value></data>
+<data name="TachiePlacementBelow" xml:space="preserve"><value>Capa inferior</value></data>
+<data name="TachiePlacementBelowDescription" xml:space="preserve"><value>Una capa por debajo del audio</value></data>
+<data name="TachiePlacementAbove" xml:space="preserve"><value>Capa superior</value></data>
+<data name="TachiePlacementAboveDescription" xml:space="preserve"><value>Una capa por encima del audio</value></data>
+<data name="TextSplitterDisplayName" xml:space="preserve"><value>Dividir texto</value></data>
+<data name="TextSplitterDescription" xml:space="preserve"><value>Divide los elementos de texto o voz seleccionados y los coloca en vertical u horizontal.</value></data>
+<data name="TextSplitterCommandName" xml:space="preserve"><value>Dividir el texto</value></data>
+<data name="TextSplitterSettingsTitle" xml:space="preserve"><value>Ajustes de división de texto</value></data>
+<data name="TextSplitterDeleteOriginal" xml:space="preserve"><value>Eliminar el elemento original</value></data>
+<data name="TextSplitterModeLabel" xml:space="preserve"><value>Modo de división</value></data>
+<data name="TextSplitterDirectionLabel" xml:space="preserve"><value>Dirección de división</value></data>
+<data name="TextSplitterKeepPosition" xml:space="preserve"><value>Mantener la posición original</value></data>
+<data name="TextSplitterIgnoreTags" xml:space="preserve"><value>Ignorar etiquetas como &lt;rb&gt;</value></data>
+<data name="TextSplitterIgnoreTagsTip" xml:space="preserve"><value>Si está activado las etiquetas de YMM4 como &lt;rb&gt; se mantienen unidas en vez de dividirse</value></data>
+<data name="TextSplitterOffsetLabel" xml:space="preserve"><value>Desplazamiento (fotogramas)</value></data>
+<data name="TextSplitterKeepDuration" xml:space="preserve"><value>Mantener la duración total</value></data>
+<data name="SplitModeByCharacter" xml:space="preserve"><value>Dividir por carácter</value></data>
+<data name="SplitModeByCharacterDescription" xml:space="preserve"><value>Dividir por carácter</value></data>
+<data name="SplitModeByLine" xml:space="preserve"><value>Dividir en los saltos de línea</value></data>
+<data name="SplitModeByLineDescription" xml:space="preserve"><value>Dividir en los saltos de línea</value></data>
+<data name="SplitDirectionVertical" xml:space="preserve"><value>Vertical</value></data>
+<data name="SplitDirectionVerticalDescription" xml:space="preserve"><value>A lo largo de las capas</value></data>
+<data name="SplitDirectionHorizontal" xml:space="preserve"><value>Horizontal</value></data>
+<data name="SplitDirectionHorizontalDescription" xml:space="preserve"><value>A lo largo de los fotogramas</value></data>
+<data name="ItemContextLock" xml:space="preserve"><value>Bloquear</value></data>
+<data name="ItemContextUnlock" xml:space="preserve"><value>Desbloquear</value></data>
+<data name="ItemContextHide" xml:space="preserve"><value>Ocultar</value></data>
+<data name="HotkeyWinKeyNotAllowed" xml:space="preserve"><value>No se puede usar la tecla Win</value></data>
+<data name="HotkeyNeedCtrlOrAlt" xml:space="preserve"><value>Incluye Ctrl o Alt</value></data>
+<data name="HotkeyMouseX1" xml:space="preserve"><value>Botón lateral 1</value></data>
+<data name="HotkeyMouseX2" xml:space="preserve"><value>Botón lateral 2</value></data>
+<data name="HotkeyMouseLeft" xml:space="preserve"><value>Clic izquierdo</value></data>
+<data name="HotkeyMouseMiddle" xml:space="preserve"><value>Clic central</value></data>
+<data name="HotkeyMouseRight" xml:space="preserve"><value>Clic derecho</value></data>
+<data name="HotkeyNeedMouseButton" xml:space="preserve"><value>Pulsa un botón del ratón que no sea el izquierdo</value></data>
+<data name="HotkeyConflict" xml:space="preserve"><value>Coincide con {0}. Solo responderá el que se colocó primero.</value></data>
+<data name="PanelUndoLayout" xml:space="preserve"><value>Deshacer el cambio de disposición</value></data>
+<data name="PanelUndoGesture" xml:space="preserve"><value>Ctrl+Z sobre el panel</value></data>
+<data name="PanelRedoLayout" xml:space="preserve"><value>Rehacer el cambio de disposición</value></data>
+<data name="PanelRedoGesture" xml:space="preserve"><value>Ctrl+Y sobre el panel</value></data>
+<data name="PanelPasteItem" xml:space="preserve"><value>Pegar elemento</value></data>
+<data name="PanelAdd" xml:space="preserve"><value>Añadir panel</value></data>
+<data name="PanelDuplicate" xml:space="preserve"><value>Duplicar panel</value></data>
+<data name="PanelRenameTitle" xml:space="preserve"><value>Cambiar el nombre del panel</value></data>
+<data name="PanelCopySuffix" xml:space="preserve"><value>Copia de {0}</value></data>
+<data name="ItemCommonDisplaySection" xml:space="preserve"><value>Apariencia</value></data>
+<data name="ItemCommonDisplayModeLabel" xml:space="preserve"><value>Modo de visualización</value></data>
+<data name="DisplayModeIcon" xml:space="preserve"><value>Icono</value></data>
+<data name="DisplayModeText" xml:space="preserve"><value>Texto</value></data>
+<data name="DisplayModeImage" xml:space="preserve"><value>Imagen</value></data>
+<data name="ItemCommonImageFileLabel" xml:space="preserve"><value>Archivo de imagen</value></data>
+<data name="ItemCommonImageFitLabel" xml:space="preserve"><value>Ajuste de imagen</value></data>
+<data name="ImageFitUniform" xml:space="preserve"><value>Ajustar</value></data>
+<data name="ImageFitFill" xml:space="preserve"><value>Estirar</value></data>
+<data name="ImageFitUniformToFill" xml:space="preserve"><value>Recortar y rellenar</value></data>
+<data name="ItemCommonButtonLabel" xml:space="preserve"><value>Etiqueta del botón</value></data>
+<data name="ItemCommonColorSection" xml:space="preserve"><value>Colores</value></data>
+<data name="ItemCommonUseCustomColor" xml:space="preserve"><value>Usar colores propios</value></data>
+<data name="ItemCommonBackground" xml:space="preserve"><value>Fondo</value></data>
+<data name="ItemCommonBorder" xml:space="preserve"><value>Color del borde</value></data>
+<data name="ItemCommonForeground" xml:space="preserve"><value>Color del icono y el texto</value></data>
+<data name="ItemCommonBorderThickness" xml:space="preserve"><value>Grosor del borde</value></data>
+<data name="ItemCommonCornerRadius" xml:space="preserve"><value>Radio de esquina</value></data>
+<data name="ItemCommonResetColors" xml:space="preserve"><value>Restablecer colores</value></data>
+<data name="ItemCommonHotkey" xml:space="preserve"><value>Tecla rápida</value></data>
+<data name="ItemCommonHotkeyHint" xml:space="preserve"><value>Selecciona el campo y pulsa una tecla para asignarla. Esc la borra. Para distinguirla de la escritura solo se admiten combinaciones con Ctrl o Alt. Los botones laterales del ratón pueden asignarse solos. Solo funciona cuando la aplicación está en primer plano.</value></data>
+<data name="BasicSettingsTitle" xml:space="preserve"><value>General</value></data>
+<data name="BasicShowLockBadge" xml:space="preserve"><value>Mostrar un candado en los elementos bloqueados</value></data>
+<data name="BasicCurrentVersion" xml:space="preserve"><value>Versión actual</value></data>
+<data name="BasicLatestVersion" xml:space="preserve"><value>Última versión</value></data>
+<data name="BasicDownloadUpdate" xml:space="preserve"><value>Descargar la actualización</value></data>
+<data name="VersionChecking" xml:space="preserve"><value>Comprobando...</value></data>
+<data name="VersionUnknown" xml:space="preserve"><value>Desconocida</value></data>
+<data name="VersionFetchFailed" xml:space="preserve"><value>Error al comprobar</value></data>
+<data name="GridSettingsNodeTitle" xml:space="preserve"><value>Cuadrícula</value></data>
+<data name="GridSettingsTitle" xml:space="preserve"><value>Ajustes de la cuadrícula</value></data>
+<data name="GridAdjustLabel" xml:space="preserve"><value>Ajuste de la cuadrícula</value></data>
+<data name="GridAdjustAuto" xml:space="preserve"><value>Automático</value></data>
+<data name="GridAdjustManual" xml:space="preserve"><value>Manual</value></data>
+<data name="GridSizeLabel" xml:space="preserve"><value>Tamaño</value></data>
+<data name="GridLayoutLabel" xml:space="preserve"><value>Disposición</value></data>
+<data name="GridRowsLabel" xml:space="preserve"><value>Filas</value></data>
+<data name="GridColumnsLabel" xml:space="preserve"><value>Columnas</value></data>
+<data name="GridShowLines" xml:space="preserve"><value>Mostrar siempre los bordes de celda</value></data>
+<data name="GridShowHighlight" xml:space="preserve"><value>Mostrar el resaltado</value></data>
+<data name="GridHighlightColor" xml:space="preserve"><value>Color del resaltado</value></data>
+<data name="SettingsRootTitle" xml:space="preserve"><value>Ajustes</value></data>
+<data name="ItemsRootTitle" xml:space="preserve"><value>Elementos</value></data>
+<data name="CategoryTimeline" xml:space="preserve"><value>Línea de tiempo</value></data>
+<data name="CategoryLayout" xml:space="preserve"><value>Disposición</value></data>
+<data name="CategoryText" xml:space="preserve"><value>Texto</value></data>
+<data name="CategoryAudio" xml:space="preserve"><value>Audio</value></data>
+<data name="CategoryUtility" xml:space="preserve"><value>Utilidades</value></data>
+<data name="CategoryDecoration" xml:space="preserve"><value>Decoración</value></data>
+<data name="CategoryOther" xml:space="preserve"><value>Otros</value></data>
+<data name="ToolItemInstancesHeaderFormat" xml:space="preserve"><value>Elementos ({0})</value></data>
+<data name="ToolItemShowInToolBox" xml:space="preserve"><value>Mostrar en la caja de herramientas</value></data>
+<data name="ToolItemRemovePlacement" xml:space="preserve"><value>Quitar esta colocación</value></data>
+<data name="ToolItemAddAnother" xml:space="preserve"><value>Añadir otra copia de este elemento</value></data>
+<data name="ToolItemSettingsHeaderFormat" xml:space="preserve"><value>Ajustes de {0}</value></data>
+<data name="ShortcutsOverviewHint" xml:space="preserve"><value>Elige un atajo de la lista de la izquierda para mostrarlo u ocultarlo en la caja de herramientas.</value></data>
+<data name="ShortcutsOverviewAvailablePrefix" xml:space="preserve"><value>Solo están disponibles los comandos registrados en la lista de</value></data>
+<data name="ShortcutsOverviewAvailableSuffix" xml:space="preserve"><value>.</value></data>
+<data name="StaircaseAmountLabel" xml:space="preserve"><value>Capas por escalón</value></data>
+<data name="GridCellSizeLabel" xml:space="preserve"><value>Tamaño de celda</value></data>
+<data name="GridCellMarginLabel" xml:space="preserve"><value>Espaciado de celdas</value></data>
+<data name="GapCheckDisplayName" xml:space="preserve"><value>Comprobar huecos</value></data>
+<data name="GapCheckDescription" xml:space="preserve"><value>Busca huecos diminutos entre elementos contiguos de la misma capa, para detectar el fotograma o dos que olvidaste cerrar.</value></data>
+<data name="GapCheckNextCommandName" xml:space="preserve"><value>Hueco siguiente</value></data>
+<data name="GapCheckPreviousCommandName" xml:space="preserve"><value>Hueco anterior</value></data>
+<data name="GapCheckSummaryCommandName" xml:space="preserve"><value>Comprobar huecos</value></data>
+<data name="GapCheckSettingsTitle" xml:space="preserve"><value>Ajustes de comprobación</value></data>
+<data name="GapCheckMaxFramesLabel" xml:space="preserve"><value>Informar huecos de hasta</value></data>
+<data name="GapCheckSelectedLayersOnlyLabel" xml:space="preserve"><value>Solo capas seleccionadas</value></data>
+<data name="GapCheckNotFound" xml:space="preserve"><value>No se encontraron huecos.</value></data>
+<data name="GapCheckFoundSummary" xml:space="preserve"><value>Se encontraron {0} huecos.</value></data>
+<data name="GapCheckFoundLine" xml:space="preserve"><value>Capa {0}: del fotograma {1} al {2}</value></data>
+<data name="GapCheckFoundMore" xml:space="preserve"><value>y {0} más</value></data>
+<data name="BookmarkDisplayName" xml:space="preserve"><value>Marcadores</value></data>
+<data name="BookmarkDescription" xml:space="preserve"><value>Recuerda las posiciones a las que vuelves a menudo y salta entre ellas.</value></data>
+<data name="BookmarkToggleCommandName" xml:space="preserve"><value>Marcar aquí</value></data>
+<data name="BookmarkNextCommandName" xml:space="preserve"><value>Marcador siguiente</value></data>
+<data name="BookmarkPreviousCommandName" xml:space="preserve"><value>Marcador anterior</value></data>
+<data name="BookmarkClearCommandName" xml:space="preserve"><value>Borrar todo</value></data>
+<data name="BookmarkSettingsTitle" xml:space="preserve"><value>Marcadores</value></data>
+<data name="BookmarkEmpty" xml:space="preserve"><value>Todavía no hay marcadores.</value></data>
+<data name="BookmarkJump" xml:space="preserve"><value>Ir aquí</value></data>
+<data name="BookmarkRemove" xml:space="preserve"><value>Quitar</value></data>
+<data name="BookmarkClearConfirm" xml:space="preserve"><value>¿Quitar todos los marcadores?</value></data>
+<data name="BookmarkDefaultName" xml:space="preserve"><value>Marcador {0}</value></data>
+<data name="BookmarkFrameFormat" xml:space="preserve"><value>{0}F</value></data>
+<data name="LayerEditorDisplayName" xml:space="preserve"><value>Editar capas en lote</value></data>
+<data name="LayerEditorDescription" xml:space="preserve"><value>Cambia el nombre y el color de varias capas a la vez.</value></data>
+<data name="LayerEditorApplyCommandName" xml:space="preserve"><value>Aplicar</value></data>
+<data name="LayerEditorResetCommandName" xml:space="preserve"><value>Restablecer</value></data>
+<data name="LayerEditorScopeLabel" xml:space="preserve"><value>Objetivo</value></data>
+<data name="LayerEditorScopeSelected" xml:space="preserve"><value>Capas seleccionadas</value></data>
+<data name="LayerEditorScopeRange" xml:space="preserve"><value>Un intervalo</value></data>
+<data name="LayerEditorFromLabel" xml:space="preserve"><value>Desde la capa</value></data>
+<data name="LayerEditorToLabel" xml:space="preserve"><value>Hasta la capa</value></data>
+<data name="LayerEditorNameLabel" xml:space="preserve"><value>Nombre de capa</value></data>
+<data name="LayerEditorNameHint" xml:space="preserve"><value>{0} se sustituye por el número de capa y {1} por un contador desde arriba.</value></data>
+<data name="LayerEditorColorLabel" xml:space="preserve"><value>Color de fondo</value></data>
+<data name="LayerEditorNoTarget" xml:space="preserve"><value>No hay capas que cambiar.</value></data>
+<data name="LayerEditorNothingToDo" xml:space="preserve"><value>No hay ningún campo marcado para cambiar.</value></data>
+<data name="LayerEditorApplied" xml:space="preserve"><value>Se cambiaron {0} capas.</value></data>
+<data name="LayerEditorResetConfirm" xml:space="preserve"><value>¿Restaurar las capas objetivo a sus valores predeterminados?</value></data>
+<data name="GapCheckFoundLineAll" xml:space="preserve"><value>Todas las capas: del fotograma {0} al {1}</value></data>
+<data name="GapCheckModeLabel" xml:space="preserve"><value>Búsqueda</value></data>
+<data name="GapCheckModePerLayer" xml:space="preserve"><value>Por capa</value></data>
+<data name="GapCheckModeAcrossLayers" xml:space="preserve"><value>Entre capas</value></data>
+<data name="GapCheckModeAll" xml:space="preserve"><value>Todo</value></data>
+<data name="LayerEditorDialogTitle" xml:space="preserve"><value>Ajustes de capa en lote</value></data>
+<data name="LayerEditorEnabledLabel" xml:space="preserve"><value>Activada</value></data>
+<data name="LayerEditorVolumeLabel" xml:space="preserve"><value>Volumen</value></data>
+<data name="LayerEditorColorClearTip" xml:space="preserve"><value>Borrar el color de fondo</value></data>
+<data name="TextTagDisplayName" xml:space="preserve"><value>Etiquetas de texto</value></data>
+<data name="TextTagDescription" xml:space="preserve"><value>Añade etiquetas de control como color, tamaño, ruby y espera a un texto.</value></data>
+<data name="TextTagWindowTitle" xml:space="preserve"><value>Etiquetas de texto</value></data>
+<data name="TextTagTargetLabel" xml:space="preserve"><value>Objetivo</value></data>
+<data name="TextTagNoTarget" xml:space="preserve"><value>No hay ningún elemento de voz o texto que editar.</value></data>
+<data name="TextTagRangeTab" xml:space="preserve"><value>Sobre un rango</value></data>
+<data name="TextTagInsertTab" xml:space="preserve"><value>En el cursor</value></data>
+<data name="TextTagRangeHint" xml:space="preserve"><value>Selecciona texto abajo para activar estos botones.</value></data>
+<data name="TextTagRangeReady" xml:space="preserve"><value>La etiqueta se aplicará al rango seleccionado.</value></data>
+<data name="TextTagInsertHint" xml:space="preserve"><value>La etiqueta se inserta en el cursor, o justo después de la selección.</value></data>
+<data name="TextTagSampleBody" xml:space="preserve"><value>Ejemplo</value></data>
+<data name="TextTagCommit" xml:space="preserve"><value>Aceptar</value></data>
+<data name="TextTagRevert" xml:space="preserve"><value>Volver al inicio</value></data>
+<data name="TextTagInsertButton" xml:space="preserve"><value>Añadir</value></data>
+<data name="TextTagColorLabel" xml:space="preserve"><value>Color</value></data>
+<data name="TextTagSizeLabel" xml:space="preserve"><value>Tamaño</value></data>
+<data name="TextTagFontLabel" xml:space="preserve"><value>Fuente</value></data>
+<data name="TextTagPositionLabel" xml:space="preserve"><value>Posición</value></data>
+<data name="TextTagPositionByFontLabel" xml:space="preserve"><value>Posición (em)</value></data>
+<data name="TextTagRotateLabel" xml:space="preserve"><value>Rotar</value></data>
+<data name="TextTagLetterSpacingLabel" xml:space="preserve"><value>Espaciado</value></data>
+<data name="TextTagRubyLabel" xml:space="preserve"><value>Ruby</value></data>
+<data name="TextTagSpeedLabel" xml:space="preserve"><value>Velocidad</value></data>
+<data name="TextTagWaitLabel" xml:space="preserve"><value>Espera</value></data>
+<data name="TextTagClearLabel" xml:space="preserve"><value>Limpiar</value></data>
+<data name="TextTagFieldColor" xml:space="preserve"><value>Color del texto</value></data>
+<data name="TextTagFieldUseDecorationColor" xml:space="preserve"><value>Definir también el color de decoración</value></data>
+<data name="TextTagFieldDecorationColor" xml:space="preserve"><value>Color de decoración</value></data>
+<data name="TextTagFieldFontSize" xml:space="preserve"><value>Tamaño</value></data>
+<data name="TextTagFieldFontFamily" xml:space="preserve"><value>Fuente</value></data>
+<data name="TextTagFieldStyle" xml:space="preserve"><value>Estilo</value></data>
+<data name="TextTagFieldDecorationType" xml:space="preserve"><value>Decoración</value></data>
+<data name="TextTagFieldX" xml:space="preserve"><value>X</value></data>
+<data name="TextTagFieldY" xml:space="preserve"><value>Y</value></data>
+<data name="TextTagFieldRelative" xml:space="preserve"><value>Relativo</value></data>
+<data name="TextTagFieldAngle" xml:space="preserve"><value>Ángulo</value></data>
+<data name="TextTagFieldSpacing" xml:space="preserve"><value>Espaciado</value></data>
+<data name="TextTagFieldRubyText" xml:space="preserve"><value>Lectura</value></data>
+<data name="TextTagFieldRubyScale" xml:space="preserve"><value>Tamaño del ruby</value></data>
+<data name="TextTagFieldSpeed" xml:space="preserve"><value>Caracteres por segundo</value></data>
+<data name="TextTagFieldSeconds" xml:space="preserve"><value>Segundos</value></data>
+<data name="TextTagFieldPerCharacter" xml:space="preserve"><value>Multiplicar por el número de caracteres</value></data>
+<data name="TextTagDecorationNone" xml:space="preserve"><value>Sin cambios</value></data>
+<data name="TextTagDecoration0" xml:space="preserve"><value>Ninguna</value></data>
+<data name="TextTagDecoration1" xml:space="preserve"><value>Sombra</value></data>
+<data name="TextTagDecoration2" xml:space="preserve"><value>Sombra (suave)</value></data>
+<data name="TextTagDecoration3" xml:space="preserve"><value>Contorno redondo</value></data>
+<data name="TextTagDecoration4" xml:space="preserve"><value>Contorno redondo (suave)</value></data>
+<data name="TextTagDecoration5" xml:space="preserve"><value>Contorno cuadrado</value></data>
+<data name="TextTagDecoration6" xml:space="preserve"><value>Contorno cuadrado (suave)</value></data>
+<data name="TextTagFieldUseColor" xml:space="preserve"><value>Definir también el color del texto</value></data>
+<data name="TextTagEmptyTarget" xml:space="preserve"><value>(vacío)</value></data>
+<data name="TextTagLiveNotice" xml:space="preserve"><value>Los cambios se aplican al elemento de inmediato. Al cancelar se restaura el texto original.</value></data>
+<data name="TextTagUndo" xml:space="preserve"><value>Deshacer</value></data>
+<data name="TextTagUndoTip" xml:space="preserve"><value>Deshace el último cambio (Ctrl+Z)</value></data>
+<data name="TextTagFieldUseFontFamily" xml:space="preserve"><value>Cambiar también la fuente</value></data>
 </root>

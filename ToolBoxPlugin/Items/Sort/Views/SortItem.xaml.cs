@@ -2,9 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using ToolBox.Controls;
+
 namespace ToolBox.Items.Sort.Views
 {
-    public partial class SortItem : UserControl
+    public partial class SortItem : ToolItemView
     {
         public static readonly DependencyProperty SortAscendingItemCommandProperty =
             DependencyProperty.Register(nameof(SortAscendingItemCommand), typeof(ICommand), typeof(SortItem), new PropertyMetadata(null));
@@ -24,9 +26,6 @@ namespace ToolBox.Items.Sort.Views
             set => SetValue(SortDescendingItemCommandProperty, value);
         }
 
-        public SortItem()
-        {
-            InitializeComponent();
-        }
+        public SortItem() => InitializeComponent();
     }
 }

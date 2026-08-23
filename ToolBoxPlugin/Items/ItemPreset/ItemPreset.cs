@@ -1,4 +1,4 @@
-using ToolBox.Commons;
+﻿using ToolBox.Commons;
 using ToolBox.Items.ItemPreset.Settings;
 using ToolBox.Items.ItemPreset.Views;
 
@@ -21,7 +21,7 @@ namespace ToolBox.Items.ItemPreset
                     if (param is ItemPresetSettings settings)
                         ItemPresetCommand.Add(ctx, settings);
                 },
-                displayName: "保存したアイテムを追加",
+                displayName: Texts.ItemPresetDisplayName,
                 requiresItemParameter: true),
             new("SaveItemStockCommand",
                 (ctx, param) => param is ItemPresetSettings && ItemPresetCommand.CanSave(ctx),
@@ -30,7 +30,7 @@ namespace ToolBox.Items.ItemPreset
                     if (param is ItemPresetSettings settings)
                         ItemPresetCommand.SaveAsNewStock(ctx, settings);
                 },
-                displayName: "選んでいるアイテムを保存して紐づける",
+                displayName: Texts.ItemPresetSaveCommandName,
                 requiresItemParameter: true),
             new("OverwriteItemStockCommand",
                 (ctx, param) => param is ItemPresetSettings settings
@@ -41,7 +41,7 @@ namespace ToolBox.Items.ItemPreset
                     if (param is ItemPresetSettings settings)
                         ItemPresetCommand.Overwrite(ctx, settings);
                 },
-                displayName: "紐づけ先を選んでいるアイテムで上書きする",
+                displayName: Texts.ItemPresetOverwriteCommandName,
                 requiresItemParameter: true),
         ];
     }

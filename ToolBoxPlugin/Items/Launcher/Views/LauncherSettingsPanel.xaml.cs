@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
@@ -8,10 +8,7 @@ namespace ToolBox.Items.Launcher.Views
 {
     public partial class LauncherSettingsPanel : UserControl
     {
-        public LauncherSettingsPanel()
-        {
-            InitializeComponent();
-        }
+        public LauncherSettingsPanel() => InitializeComponent();
 
         private void OnBrowseFolderClick(object sender, RoutedEventArgs e)
         {
@@ -19,7 +16,7 @@ namespace ToolBox.Items.Launcher.Views
 
             var dialog = new OpenFolderDialog
             {
-                Title = "開くフォルダーを選択",
+                Title = Texts.LauncherFolderDialogTitle,
                 InitialDirectory = GetInitialDirectory(settings.TargetPath),
             };
 

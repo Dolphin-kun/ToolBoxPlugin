@@ -95,8 +95,8 @@ namespace ToolBox.ViewModel
         private void UpdateHotkeyConflict()
         {
             var current = selectedInstance;
-            var gesture = current == null ? null : HotkeyGesture.ParseAssignable(current);
-            if (current == null || gesture == null)
+            var trigger = current == null ? null : HotkeyGesture.ParseAssignable(current);
+            if (current == null || trigger is not { } gesture)
             {
                 HotkeyConflictMessage = string.Empty;
                 return;
@@ -104,16 +104,14 @@ namespace ToolBox.ViewModel
 
             var conflicts = ToolBoxViewModel.GetAllPlacedItems()
                 .Where(item => !ReferenceEquals(item, current))
-                .Where(item => HotkeyGesture.ParseAssignable(item) is { } other
-                               && other.Key == gesture.Key
-                               && other.Modifiers == gesture.Modifiers)
+                .Where(item => HotkeyGesture.ParseAssignable(item) == gesture)
                 .Select(item => item.InstanceSummary)
                 .Distinct()
                 .ToList();
 
             HotkeyConflictMessage = conflicts.Count == 0
                 ? string.Empty
-                : $"「{string.Join("」「", conflicts)}」と重複しています。先に配置されている方だけが反応します。";
+                : string.Format(Texts.HotkeyConflict, string.Join("」「", conflicts));
         }
 
         public bool IsVisible

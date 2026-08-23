@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Project.Items;
 using YmmJson = YukkuriMovieMaker.Json.Json;
@@ -79,7 +79,7 @@ namespace ToolBox.Commons
 
         public static string MakeUniqueName(string baseName)
         {
-            var trimmed = string.IsNullOrWhiteSpace(baseName) ? "保存したアイテム" : baseName;
+            var trimmed = string.IsNullOrWhiteSpace(baseName) ? Texts.ItemStockTitle : baseName;
             var existing = Entries.Select(entry => entry.Name).ToHashSet(StringComparer.Ordinal);
 
             if (existing.Add(trimmed))
@@ -98,7 +98,7 @@ namespace ToolBox.Commons
         public static string BuildSummary(IReadOnlyList<IItem> items)
         {
             var label = SafeLabel(items[0]);
-            return items.Count == 1 ? label : $"{label} 他{items.Count - 1}件";
+            return items.Count == 1 ? label : string.Format(Texts.ItemStockSummaryMore, label, items.Count - 1);
         }
 
         private static string SafeLabel(IItem item)

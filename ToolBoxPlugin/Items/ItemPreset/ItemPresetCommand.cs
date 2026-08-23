@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using ToolBox.Commons;
 using ToolBox.Items.ItemPreset.Settings;
 using ToolBox.Settings;
@@ -9,7 +9,7 @@ namespace ToolBox.Items.ItemPreset
 {
     internal static class ItemPresetCommand
     {
-        private const string Caption = "保存したアイテム";
+        private static string Caption => Texts.ItemStockTitle;
 
         public static bool CanAdd(IToolBoxContext ctx, ItemPresetSettings settings) =>
             ctx.Timeline != null && ctx.UndoRedoManager != null && settings.HasStock;
@@ -36,7 +36,7 @@ namespace ToolBox.Items.ItemPreset
             if (entry == null)
             {
                 MessageBox.Show(
-                    "このアイテムは保存できませんでした。",
+                    Texts.ItemStockSaveFailed,
                     Caption,
                     MessageBoxButton.OK);
                 return null;
@@ -55,7 +55,7 @@ namespace ToolBox.Items.ItemPreset
             if (!ItemStockStore.Overwrite(entry, items))
             {
                 MessageBox.Show(
-                    "このアイテムは保存できませんでした。",
+                    Texts.ItemStockSaveFailed,
                     Caption,
                     MessageBoxButton.OK);
                 return;
@@ -76,7 +76,7 @@ namespace ToolBox.Items.ItemPreset
             if (items is null || items.Count == 0)
             {
                 MessageBox.Show(
-                    $"「{entry.DisplayLabel}」を読み込めませんでした。もう一度保存し直してください。",
+                    string.Format(Texts.ItemPresetLoadFailed, entry.DisplayLabel),
                     Caption,
                     MessageBoxButton.OK);
                 return;

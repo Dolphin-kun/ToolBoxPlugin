@@ -9,8 +9,6 @@ namespace ToolBox.Commons
 {
     public static class RadialEntryBuilder
     {
-        public const int MaxItems = 8;
-
         public static IReadOnlyList<RadialEntry> BuildRoot()
         {
             var nodes = ToolBoxSettings.Default.LauncherNodes;
@@ -26,7 +24,7 @@ namespace ToolBox.Commons
         {
             var entries = new List<RadialEntry>();
 
-            foreach (var node in nodes.Take(MaxItems))
+            foreach (var node in nodes)
             {
                 if (CreateEntry(node) is { } entry)
                     entries.Add(entry);
@@ -114,7 +112,6 @@ namespace ToolBox.Commons
                     .Where(item => item.IsInvokable && item.DefaultCommand != null)
                     .OrderBy(item => item.Position.Y)
                     .ThenBy(item => item.Position.X)
-                    .Take(MaxItems)
                     .Select(item => CreateItemEntry(item, string.Empty))
             ];
         }
@@ -123,6 +120,8 @@ namespace ToolBox.Commons
         {
             Label = string.IsNullOrWhiteSpace(title) ? item.Label : title,
             IconPath = item.IconPath,
+            ImagePath = item.DisplayMode == ToolItemDisplayMode.Image ? item.CustomImagePath : string.Empty,
+            ImageStretch = item.ImageStretch,
             Foreground = item.AppearanceForeground,
             CanInvoke = () => item.DefaultCommand?.CanExecute(item) == true,
             Invoke = () =>

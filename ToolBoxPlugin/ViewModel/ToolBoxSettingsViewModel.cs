@@ -46,7 +46,7 @@ namespace ToolBox.ViewModel
             AddonLoader.AddonsChanged += OnAddonsChanged;
 
             var initialBasicSettings = Groups.OfType<RootCategoryGroupViewModel>()
-                .FirstOrDefault(g => g.CategoryName == "設定")?
+                .FirstOrDefault(g => g.CategoryName == Texts.SettingsRootTitle)?
                 .SubGroups.OfType<BasicSettingsViewModel>()
                 .FirstOrDefault();
             if (initialBasicSettings != null)
@@ -98,16 +98,16 @@ namespace ToolBox.ViewModel
 
             var categoryOrder = new Dictionary<ItemCategory, (int Order, string JaName)>
             {
-                { ItemCategory.Timeline,   (0, "タイムライン") },
-                { ItemCategory.Layout,     (1, "レイアウト") },
-                { ItemCategory.Text,       (2, "テキスト") },
-                { ItemCategory.Audio,      (3, "オーディオ") },
-                { ItemCategory.Utility,    (4, "ユーティリティ") },
-                { ItemCategory.Decoration, (5, "装飾") },
-                { ItemCategory.None,       (99, "その他") },
+                { ItemCategory.Timeline,   (0, Texts.CategoryTimeline) },
+                { ItemCategory.Layout,     (1, Texts.CategoryLayout) },
+                { ItemCategory.Text,       (2, Texts.CategoryText) },
+                { ItemCategory.Audio,      (3, Texts.CategoryAudio) },
+                { ItemCategory.Utility,    (4, Texts.CategoryUtility) },
+                { ItemCategory.Decoration, (5, Texts.CategoryDecoration) },
+                { ItemCategory.None,       (99, Texts.CategoryOther) },
             };
 
-            var settingsRoot = new RootCategoryGroupViewModel("設定", [
+            var settingsRoot = new RootCategoryGroupViewModel(Texts.SettingsRootTitle, [
                 basicSettings,
                 generalSettings,
                 launcherSettings,
@@ -140,9 +140,9 @@ namespace ToolBox.ViewModel
                 .Select(group => (object)new ShortcutsGroupViewModel(panel, group))
                 .ToList();
 
-            itemGroups.Add(new RootCategoryGroupViewModel("ショートカット", shortcutGroups) { IsExpanded = false });
+            itemGroups.Add(new RootCategoryGroupViewModel(Texts.ShortcutsRootTitle, shortcutGroups) { IsExpanded = false });
 
-            var itemsRoot = new RootCategoryGroupViewModel("アイテム", itemGroups);
+            var itemsRoot = new RootCategoryGroupViewModel(Texts.ItemsRootTitle, itemGroups);
 
             return [settingsRoot, itemsRoot];
         }
