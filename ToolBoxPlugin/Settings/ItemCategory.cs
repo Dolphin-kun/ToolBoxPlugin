@@ -7,6 +7,9 @@ namespace ToolBox.Settings
         Layout,
         Text,
         Audio,
-        Shortcuts
+        Shortcuts,
+        Utility,
+        Decoration,
+        Animation
     }
 }

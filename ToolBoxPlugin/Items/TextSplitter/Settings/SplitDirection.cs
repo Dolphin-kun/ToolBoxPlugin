@@ -1,13 +1,13 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ToolBox.Items.TextSplitter.Settings
 {
     public enum SplitDirection
     {
-        [Display(Name = "縦", Description = "レイヤー方向")]
+        [Display(Name = nameof(Texts.SplitDirectionVertical), Description = nameof(Texts.SplitDirectionVerticalDescription), ResourceType = typeof(Texts))]
         Vertical,
 
-        [Display(Name = "横", Description = "フレーム方向")]
+        [Display(Name = nameof(Texts.SplitDirectionHorizontal), Description = nameof(Texts.SplitDirectionHorizontalDescription), ResourceType = typeof(Texts))]
         Horizontal,
     }
 }

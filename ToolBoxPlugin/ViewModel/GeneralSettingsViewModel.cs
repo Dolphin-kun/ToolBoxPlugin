@@ -1,19 +1,11 @@
-using System.Windows;
-using ToolBox.Settings;
-using YukkuriMovieMaker.Commons;
+﻿using ToolBox.Settings;
 
 namespace ToolBox.ViewModel
 {
-    public class GeneralSettingsViewModel(ToolBoxSettings settings) : Bindable
+    public class GeneralSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel)
+        : SettingsNodeViewModel(Texts.GridSettingsNodeTitle)
     {
         public ToolBoxSettings Settings { get; } = settings;
-        public string CategoryName { get; } = "グリッド";
-
-        private bool isExpanded = true;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set => Set(ref isExpanded, value);
-        }
+        public ToolBoxPanel Panel { get; } = panel;
     }
 }

@@ -1,27 +1,22 @@
-<UserControl x:Class="ToolBox.Items.Shortcuts.Views.ShortcutItem"
+﻿<tbControls:ToolItemView x:Class="ToolBox.Items.Shortcuts.Views.ShortcutItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
              xmlns:commons="clr-namespace:ToolBox.Commons"
+             xmlns:tbControls="clr-namespace:ToolBox.Controls"
              xmlns:settings="clr-namespace:ToolBox.Settings"
-             xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
              mc:Ignorable="d"
              x:Name="Root">
-    <UserControl.Resources>
-        <commons:StringToGeometryConverter x:Key="StringToGeometryConverter" />
-        <commons:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-    </UserControl.Resources>
 
     <Button Command="{Binding ShortcutCommand, ElementName=Root}" CommandParameter="{Binding}" ToolTip="{Binding Label}">
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-            <!-- Icon Mode -->
-            <Path Data="{Binding IconPath, Converter={StaticResource StringToGeometryConverter}}"
-                  Fill="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                  Width="14" Height="14" Stretch="Uniform">
-                <Path.Style>
-                    <Style TargetType="Path">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ClipToBounds="True">
+            <commons:IconControl IconData="{Binding IconPath}"
+                  Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <commons:IconControl.Style>
+                    <Style TargetType="commons:IconControl">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Icon}">
@@ -29,45 +24,35 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Path.Style>
-            </Path>
+                </commons:IconControl.Style>
+            </commons:IconControl>
 
-            <!-- Custom Mode: Image -->
-            <Image Source="{Binding CustomImagePath}"
-                   Width="14" Height="14" Stretch="Uniform">
-                <Image.Style>
-                    <Style TargetType="Image">
+            <tbControls:AnimatedImage SourcePath="{Binding CustomImagePath}"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="{Binding ImageStretch}">
+                <tbControls:AnimatedImage.Style>
+                    <Style TargetType="tbControls:AnimatedImage">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}"/>
-                                    <Condition Binding="{Binding CustomImagePath, Converter={StaticResource StringToVisibilityConverter}}" Value="Visible"/>
-                                </MultiDataTrigger.Conditions>
+                            <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Image}">
                                 <Setter Property="Visibility" Value="Visible"/>
-                            </MultiDataTrigger>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Image.Style>
-            </Image>
+                </tbControls:AnimatedImage.Style>
+            </tbControls:AnimatedImage>
 
-            <!-- Custom Mode: Text -->
-            <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis">
+            <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Custom}"/>
-                                    <Condition Binding="{Binding CustomImagePath, Converter={StaticResource StringToVisibilityConverter}}" Value="Collapsed"/>
-                                </MultiDataTrigger.Conditions>
+                            <DataTrigger Binding="{Binding DisplayMode}" Value="{x:Static settings:ToolItemDisplayMode.Text}">
                                 <Setter Property="Visibility" Value="Visible"/>
-                            </MultiDataTrigger>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
         </Grid>
     </Button>
-</UserControl>
+</tbControls:ToolItemView>

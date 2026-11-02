@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="ToolBox.Items.ItemPreset.Views.ItemPresetSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:local="clr-namespace:ToolBox.Items.ItemPreset.Settings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:ItemPresetSettings}">
+
+    <StackPanel MinWidth="240">
+        <TextBlock Text="{x:Static toolbox:Texts.ItemPresetStockLabel}"/>
+        <ComboBox ItemsSource="{Binding AvailableStocks}"
+                  SelectedValue="{Binding StockId, Mode=TwoWay}"
+                  SelectedValuePath="Id"
+                  DisplayMemberPath="DisplayLabel"
+                  HorizontalAlignment="Stretch" Height="24" VerticalContentAlignment="Center"/>
+
+        <Grid Margin="0,4,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="{x:Static toolbox:Texts.ItemStockSaveSelected}"
+                    Command="{Binding SaveStockCommand}" CommandParameter="{Binding}"
+                    Padding="8,3"
+                    ToolTip="{x:Static toolbox:Texts.ItemPresetSaveButtonTip}"/>
+            <Button Grid.Column="1" Content="{x:Static toolbox:Texts.CommonOverwrite}"
+                    Command="{Binding OverwriteStockCommand}" CommandParameter="{Binding}"
+                    Padding="8,3"
+                    ToolTip="{x:Static toolbox:Texts.ItemPresetOverwriteButtonTip}"/>
+        </Grid>
+
+        <TextBlock Text="{x:Static toolbox:Texts.ItemPresetManageHint}"
+                   TextWrapping="Wrap" Margin="0,4,0,0"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.ItemPresetUseCurrentFrame}" Margin="0,8,0,0">
+            <controls:ToggleSlider Value="{Binding UseCurrentFrame, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.ItemPresetUseCurrentLayer}">
+            <controls:ToggleSlider Value="{Binding UseCurrentLayer, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.ItemPresetSelectAfterAdd}">
+            <controls:ToggleSlider Value="{Binding SelectAfterAdd, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+    </StackPanel>
+</UserControl>

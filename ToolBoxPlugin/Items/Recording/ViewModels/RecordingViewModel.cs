@@ -1,4 +1,3 @@
-using ToolBox.Items.Recording;
 using ToolBox.Items.Recording.Settings;
 using YukkuriMovieMaker.Commons;
 
@@ -38,6 +37,8 @@ namespace ToolBox.Items.Recording.ViewModels
         public void Dispose()
         {
             disposer.Dispose();
+
+            GC.SuppressFinalize(this);
         }
     }
 }

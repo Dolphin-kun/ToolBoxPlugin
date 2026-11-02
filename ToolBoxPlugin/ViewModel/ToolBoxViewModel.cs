@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
@@ -15,68 +15,233 @@ using YukkuriMovieMaker.UndoRedo;
 
 namespace ToolBox.ViewModel
 {
-    public class ToolBoxViewModel : Bindable, ITimelineToolViewModel, IToolBoxContext, IDisposable
+    public class ToolBoxViewModel : Bindable, ITimelineToolViewModel, IToolViewModel, IToolBoxContext, IDisposable
     {
-        public static ToolBoxViewModel? Instance { get; private set; }
+        private static readonly List<ToolBoxViewModel> instances = [];
+
+        public static ToolBoxViewModel? Instance =>
+            instances.LastOrDefault(vm => vm.timeline != null) ?? instances.LastOrDefault();
+
+        public static IEnumerable<ToolItemSettings> GetAllPlacedItems() =>
+            instances.Where(vm => vm.Panel != null).SelectMany(vm => vm.Panel.Items);
+
+        public static ToolItemSettings? FindPlacedItem(Guid id) =>
+            GetAllPlacedItems().FirstOrDefault(item => item.Id == id);
+
+        public static void RefreshAllCommands()
+        {
+            foreach (var instance in instances.ToList())
+                instance.RaiseAllCanExecuteChanged();
+        }
 
         private readonly DisposeCollector disposer = new();
         public DisposeCollector Disposer => disposer;
 
-        public ToolBoxSettings ToolBoxSettings => ToolBoxSettings.Default;
+        public static ToolBoxSettings ToolBoxSettings => ToolBoxSettings.Default;
 
-        private bool isSettingsVisible = false;
-        public bool IsSettingsVisible
-        {
-            get => isSettingsVisible;
-            set => Set(ref isSettingsVisible, value);
-        }
+        public ToolBoxPanel Panel { get; }
+
+        public PanelHistory History { get; }
+
+        private readonly PanelHotkeyRegistrar hotkeyRegistrar;
+
+        public ICommand UndoLayoutCommand { get; }
+        public ICommand RedoLayoutCommand { get; }
+
+        public void EnableHotkeys() => hotkeyRegistrar.Enable();
+
+        public event EventHandler? Disposed;
 
         private ToolBoxSettingsViewModel? settingsViewModel;
         public ToolBoxSettingsViewModel SettingsViewModel
         {
             get
             {
-                settingsViewModel ??= new ToolBoxSettingsViewModel(
-                        ToolBoxSettings,
-                        () => IsSettingsVisible = false
-                    );
+                settingsViewModel ??= new ToolBoxSettingsViewModel(ToolBoxSettings, Panel);
                 return settingsViewModel;
             }
         }
 
         private Timeline? timeline;
+        private Scenes? scenes;
         private UndoRedoManager? undoRedoManager;
         private IReadOnlyList<IItem>? selectedItems;
 
         IReadOnlyList<IItem>? IToolBoxContext.SelectedItems => selectedItems;
         Timeline? IToolBoxContext.Timeline => timeline;
+        Scenes? IToolBoxContext.Scenes => scenes;
         UndoRedoManager? IToolBoxContext.UndoRedoManager => undoRedoManager;
+
+        T? IToolBoxContext.FindItemSettings<T>() where T : class => Panel.Items.OfType<T>().FirstOrDefault();
 
         public Dictionary<string, ICommand> Commands { get; } = [];
 
         private readonly List<ActionCommand> allCommands = [];
+        private readonly HashSet<Type> registeredSettingsTypes = [];
+
+        #region IToolViewModel
+
+        private static string BaseTitle => Texts.PluginName;
+
+        public string Title => string.IsNullOrWhiteSpace(Panel.PanelName)
+            ? BaseTitle
+            : $"{BaseTitle} / {Panel.PanelName}";
+
+        public event EventHandler<CreateNewToolViewRequestedEventArgs>? CreateNewToolViewRequested;
+
+        public ToolState SaveState() => new()
+        {
+            Title = Title,
+            SavedState = Panel.ToJson(),
+        };
+
+        public void AddPanel()
+        {
+            var newPanel = new ToolBoxPanel
+            {
+                GridRowCount = Panel.GridRowCount,
+                GridColumnCount = Panel.GridColumnCount,
+            };
+
+            RequestNewPanel(newPanel);
+        }
+
+        public void PasteItem()
+        {
+            var copy = ItemClipboard.CreateCopy();
+            if (copy == null)
+                return;
+
+            copy.Position = FindEmptyPosition();
+            Panel.Items.Add(copy);
+        }
+
+        private Point FindEmptyPosition()
+        {
+            var occupied = Panel.Items.Select(item => item.Position).ToHashSet();
+
+            for (var y = 0; y < Math.Max(1, Panel.GridRowCount); y++)
+                for (var x = 0; x < Math.Max(1, Panel.GridColumnCount); x++)
+                {
+                    var candidate = new Point(x, y);
+                    if (!occupied.Contains(candidate))
+                        return candidate;
+                }
+
+            return new Point(0, 0);
+        }
+
+        public void DuplicatePanel()
+        {
+            var copy = new ToolBoxPanel();
+            copy.LoadJson(Panel.ToJson());
+            copy.PanelName = BuildCopyName(Panel.PanelName);
+
+            RequestNewPanel(copy);
+        }
+
+        private static string BuildCopyName(string original) =>
+            string.IsNullOrWhiteSpace(original) ? Texts.CommonCopy : string.Format(Texts.PanelCopySuffix, original);
+
+        private void RequestNewPanel(ToolBoxPanel newPanel)
+        {
+            CreateNewToolViewRequested?.Invoke(this, new CreateNewToolViewRequestedEventArgs(new ToolState
+            {
+                Title = Title,
+                SavedState = newPanel.ToJson(),
+            }));
+        }
+
+        public void LoadState(ToolState stateData)
+        {
+            if (!string.IsNullOrEmpty(stateData.SavedState))
+                Panel.LoadJson(stateData.SavedState);
+
+            RegisterNewAddonItems();
+            RemoveOrphanedPlacedItems();
+
+            History.Reset();
+        }
+
+        #endregion
 
         public ToolBoxViewModel()
         {
-            Instance = this;
-
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            ToolBoxSettings.Default.Migrate();
+            ToolBoxSettings.Default.Initialize();
 
-            var draggableItems = DiscoverDraggableItems();
+            AddonLoader.LoadAddons();
+            Panel = ToolBoxPanel.CreateDefault();
+            Panel.PropertyChanged += OnPanelPropertyChanged;
 
-            foreach (var item in draggableItems)
+            foreach (var item in ItemCatalog.GetDraggableItems())
             {
-                RegisterCommands(item);
-                RegisterDataTemplate(item);
+                RegisterItem(item);
+            }
+
+            RemoveOrphanedPlacedItems();
+
+            History = new PanelHistory(Panel);
+            hotkeyRegistrar = new PanelHotkeyRegistrar(Panel);
+
+            UndoLayoutCommand = new ActionCommand(_ => History.CanUndo, _ => History.Undo());
+            RedoLayoutCommand = new ActionCommand(_ => History.CanRedo, _ => History.Redo());
+            History.PropertyChanged += OnHistoryChanged;
+
+            AddonLoader.AddonsChanged += OnAddonsChanged;
+
+            instances.Add(this);
+        }
+
+        private void OnHistoryChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            (UndoLayoutCommand as ActionCommand)?.RaiseCanExecuteChanged();
+            (RedoLayoutCommand as ActionCommand)?.RaiseCanExecuteChanged();
+        }
+
+        private void OnPanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ToolBoxPanel.PanelName))
+                OnPropertyChanged(nameof(Title));
+        }
+
+        private void OnAddonsChanged(object? sender, EventArgs e)
+        {
+            UiThread.Run(HandleAddonsChanged);
+        }
+
+        private void HandleAddonsChanged()
+        {
+            RegisterNewAddonItems();
+            RemoveOrphanedPlacedItems();
+        }
+
+        private void RegisterNewAddonItems()
+        {
+            foreach (var item in AddonLoader.GetAllDraggableItems())
+            {
+                RegisterItem(item);
             }
         }
 
-        private static List<DraggableItem> DiscoverDraggableItems()
+        private void RemoveOrphanedPlacedItems()
         {
-            return [.. typeof(DraggableItem).Assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && typeof(DraggableItem).IsAssignableFrom(t))
-                .Select(t => (DraggableItem)Activator.CreateInstance(t)!)];
+            var validTypes = ItemCatalog.GetKnownSettingsTypes();
+
+            for (var i = Panel.Items.Count - 1; i >= 0; i--)
+            {
+                if (!validTypes.Contains(Panel.Items[i].GetType()))
+                    Panel.Items.RemoveAt(i);
+            }
+        }
+
+        private void RegisterItem(DraggableItem item)
+        {
+            if (!registeredSettingsTypes.Add(item.SettingsType))
+                return;
+
+            RegisterCommands(item);
+            RegisterDataTemplate(item);
         }
 
         private void RegisterCommands(DraggableItem item)
@@ -127,7 +292,10 @@ namespace ToolBox.ViewModel
                 var key = new DataTemplateKey(settingsType);
                 Application.Current.Resources[key] = dataTemplate;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to register data template for {item.GetType()}: {ex}");
+            }
         }
 
         public void SetTimelineToolInfo(TimelineToolInfo info)
@@ -136,6 +304,7 @@ namespace ToolBox.ViewModel
             UpdateSelectedItems(null);
 
             timeline = info.Timeline;
+            scenes = info.Scenes;
             undoRedoManager = info.UndoRedoManager;
 
             if (timeline != null)
@@ -165,11 +334,15 @@ namespace ToolBox.ViewModel
 
         public void Dispose()
         {
+            AddonLoader.AddonsChanged -= OnAddonsChanged;
+            Panel.PropertyChanged -= OnPanelPropertyChanged;
+            History.PropertyChanged -= OnHistoryChanged;
+            History.Dispose();
+            hotkeyRegistrar.Dispose();
+            timeline?.PropertyChanged -= Timeline_PropertyChanged;
             disposer.Dispose();
-            if (Instance == this)
-            {
-                Instance = null;
-            }
+            instances.Remove(this);
+            Disposed?.Invoke(this, EventArgs.Empty);
 
             GC.SuppressFinalize(this);
         }

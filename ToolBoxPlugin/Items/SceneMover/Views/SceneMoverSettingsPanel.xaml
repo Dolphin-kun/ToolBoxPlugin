@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="ToolBox.Items.SceneMover.Views.SceneMoverSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbRow="clr-namespace:ToolBox.Controls"
+             xmlns:toolbox="clr-namespace:ToolBox"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
+             xmlns:local="clr-namespace:ToolBox.Items.SceneMover.Settings"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:SceneMoverSettings}">
+
+    <StackPanel>
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.SceneMoverDuplicateLabel}">
+            <controls:ToggleSlider Value="{Binding DuplicateInsteadOfMove, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.SceneMoverAlignLabel}">
+            <controls:ToggleSlider Value="{Binding AlignToSceneStart, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.SceneMoverSwitchLabel}">
+            <controls:ToggleSlider Value="{Binding SwitchToTargetScene, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
+        <Button Content="{x:Static toolbox:Texts.SceneMoverToNewSceneCommandName}"
+                Click="OnMoveToNewScene"
+                HorizontalAlignment="Right" Padding="12,3" Margin="0,8,0,0"
+                ToolTip="{x:Static toolbox:Texts.SceneMoverToNewSceneTip}"/>
+    </StackPanel>
+</UserControl>

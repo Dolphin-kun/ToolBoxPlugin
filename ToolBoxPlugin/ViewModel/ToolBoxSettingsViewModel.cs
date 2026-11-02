@@ -1,25 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ToolBox.Commons;
-using ToolBox.Items;
-using ToolBox.Items.Shortcuts.Settings;
+using ToolBox.Items.Shortcuts;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
+using YukkuriMovieMaker.Resources.Icons;
 
 namespace ToolBox.ViewModel
 {
     public class ToolBoxSettingsViewModel : Bindable
     {
-        private readonly ToolBoxSettings settings;
+        private readonly ToolBoxPanel panel;
+        private readonly BasicSettingsViewModel basicSettings;
+        private readonly GeneralSettingsViewModel generalSettings;
+        private readonly LauncherSettingsViewModel launcherSettings;
+        private readonly ItemStockSettingsViewModel itemStockSettings;
+        private readonly AddonSettingsViewModel addonSettings;
 
-        public IReadOnlyList<object> Groups { get; }
-
-        public ICommand CloseCommand { get; }
-
-        public string Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "1.0.0";
+        private IReadOnlyList<object> groups = [];
+        public IReadOnlyList<object> Groups
+        {
+            get => groups;
+            private set => Set(ref groups, value);
+        }
 
         private object? selectedDetail;
         public object? SelectedDetail
@@ -28,57 +30,118 @@ namespace ToolBox.ViewModel
             set => Set(ref selectedDetail, value);
         }
 
-        public ToolItemEntryViewModel? SelectedToolEntry => SelectedDetail as ToolItemEntryViewModel;
-        public ShortcutEntryViewModel? SelectedShortcutEntry => SelectedDetail as ShortcutEntryViewModel;
-        public ShortcutsGroupViewModel? SelectedShortcutsGroup => SelectedDetail as ShortcutsGroupViewModel;
-        public GeneralSettingsViewModel? SelectedGeneralSettings => SelectedDetail as GeneralSettingsViewModel;
-        public BasicSettingsViewModel? SelectedBasicSettings => SelectedDetail as BasicSettingsViewModel;
+        private IReadOnlyList<SettingsSearchResult> searchIndex = [];
 
-        public ToolBoxSettingsViewModel(ToolBoxSettings settings, Action closeAction)
+        private string searchText = string.Empty;
+        public string SearchText
         {
-            this.settings = settings;
-            CloseCommand = new ActionCommand(_ => true, _ => closeAction());
-            Groups = BuildGroups();
+            get => searchText;
+            set
+            {
+                if (Set(ref searchText, value ?? string.Empty, etcChangedPropertyNames: nameof(IsSearching)))
+                    UpdateSearchResults();
+            }
+        }
 
-            var basicSettings = Groups.OfType<RootCategoryGroupViewModel>()
-                .FirstOrDefault(g => g.CategoryName == "設定")?
+        public bool IsSearching => !string.IsNullOrWhiteSpace(SearchText);
+
+        private IReadOnlyList<SettingsSearchResult> searchResults = [];
+        public IReadOnlyList<SettingsSearchResult> SearchResults
+        {
+            get => searchResults;
+            private set => Set(ref searchResults, value, etcChangedPropertyNames: nameof(HasNoSearchResults));
+        }
+
+        public bool HasNoSearchResults => IsSearching && SearchResults.Count == 0;
+
+        private void UpdateSearchResults()
+        {
+            var terms = SearchText.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+            SearchResults = terms.Length == 0 ? [] : [.. searchIndex.Where(result => result.Matches(terms))];
+        }
+
+        public ToolBoxSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel)
+        {
+            this.panel = panel;
+            basicSettings = new BasicSettingsViewModel(settings);
+            generalSettings = new GeneralSettingsViewModel(settings, panel);
+            launcherSettings = new LauncherSettingsViewModel(settings, panel);
+            itemStockSettings = new ItemStockSettingsViewModel();
+            addonSettings = new AddonSettingsViewModel();
+            Groups = BuildGroups();
+            AddonLoader.AddonsChanged += OnAddonsChanged;
+
+            var initialBasicSettings = Groups.OfType<RootCategoryGroupViewModel>()
+                .FirstOrDefault(g => g.CategoryName == Texts.SettingsRootTitle)?
                 .SubGroups.OfType<BasicSettingsViewModel>()
                 .FirstOrDefault();
-            if (basicSettings != null)
+            if (initialBasicSettings != null)
+            {
+                SelectedDetail = initialBasicSettings;
+            }
+        }
+
+        private void OnAddonsChanged(object? sender, EventArgs e)
+        {
+            UiThread.Run(ReloadGroups);
+        }
+
+        private void ReloadGroups()
+        {
+            var currentSelection = SelectedDetail;
+            Groups = BuildGroups();
+            UpdateSearchResults();
+
+            if (currentSelection is BasicSettingsViewModel)
             {
                 SelectedDetail = basicSettings;
+            }
+            else if (currentSelection is GeneralSettingsViewModel)
+            {
+                SelectedDetail = generalSettings;
+            }
+            else if (currentSelection is LauncherSettingsViewModel)
+            {
+                SelectedDetail = launcherSettings;
+            }
+            else if (currentSelection is ItemStockSettingsViewModel)
+            {
+                SelectedDetail = itemStockSettings;
+            }
+            else if (currentSelection is AddonSettingsViewModel)
+            {
+                SelectedDetail = addonSettings;
             }
         }
 
         private IReadOnlyList<object> BuildGroups()
         {
-            var draggableItems = typeof(DraggableItem).Assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && typeof(DraggableItem).IsAssignableFrom(t))
-                .Select(t => (DraggableItem)Activator.CreateInstance(t)!)
-                .ToDictionary(item => item.SettingsType, item => item);
-
-            var allSettingsTypes = typeof(ToolItemSettings).Assembly
-                .GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract
-                    && typeof(ToolItemSettings).IsAssignableFrom(t)
-                    && t != typeof(ToolItemSettings)
-                    && t != typeof(ShortcutSettings))
-                .Select(t => (ToolItemSettings)Activator.CreateInstance(t)!)
-                .ToList();
+            var draggableItems = ItemCatalog.GetDraggableItemsBySettingsType();
+            var allSettingsTypes = ItemCatalog.GetSettingsPrototypes();
 
             var categoryOrder = new Dictionary<ItemCategory, (int Order, string JaName)>
             {
-                { ItemCategory.Timeline, (0, "タイムライン") },
-                { ItemCategory.Layout,   (1, "レイアウト") },
-                { ItemCategory.Text,     (2, "テキスト") },
-                { ItemCategory.Audio,    (3, "オーディオ") },
-                { ItemCategory.None,     (99, "その他") },
+                { ItemCategory.Timeline,   (0, Texts.CategoryTimeline) },
+                { ItemCategory.Layout,     (1, Texts.CategoryLayout) },
+                { ItemCategory.Animation,  (2, Texts.CategoryAnimation) },
+                { ItemCategory.Text,       (3, Texts.CategoryText) },
+                { ItemCategory.Audio,      (4, Texts.CategoryAudio) },
+                { ItemCategory.Utility,    (5, Texts.CategoryUtility) },
+                { ItemCategory.Decoration, (6, Texts.CategoryDecoration) },
+                { ItemCategory.None,       (99, Texts.CategoryOther) },
             };
 
-            var settingsRoot = new RootCategoryGroupViewModel("設定", [
-                new BasicSettingsViewModel(settings),
-                new GeneralSettingsViewModel(settings)
+            var settingsRoot = new RootCategoryGroupViewModel(Texts.SettingsRootTitle, [
+                basicSettings,
+                generalSettings,
+                launcherSettings,
+                itemStockSettings,
+                addonSettings,
             ]);
+
+            var index = new List<SettingsSearchResult>();
+            foreach (var node in settingsRoot.SubGroups.OfType<SettingsNodeViewModel>())
+                index.Add(new SettingsSearchResult(node, node.CategoryName, IconKeys.Cog, Texts.SettingsRootTitle, []));
 
             var itemGroups = new List<object>();
 
@@ -92,59 +155,44 @@ namespace ToolBox.ViewModel
                         .Select(s =>
                         {
                             draggableItems.TryGetValue(s.GetType(), out var item);
-                            return new ToolItemEntryViewModel(settings, s.GetType(), s.DisplayName, item?.IconPath ?? string.Empty, item?.SettingsViewType);
+                            var entry = new ToolItemEntryViewModel(panel, s.GetType(), s.DisplayName, s.IconPath, s.Description, item?.SettingsViewType);
+
+                            var commandNames = item?.GetCommandDefinitions().Select(definition => definition.DisplayName) ?? [];
+                            index.Add(new SettingsSearchResult(entry, entry.DisplayName, entry.IconPath, jaName, [entry.Description, .. commandNames]));
+                            return entry;
                         })
                         .ToList();
                     return new ToolItemGroupViewModel(jaName, entries);
-                });
+                })
+                .ToList();
 
             itemGroups.AddRange(toolGroups);
 
-            itemGroups.Add(new ShortcutsGroupViewModel(settings));
+            var shortcutGroups = ShortcutDefinitions.Groups
+                .Select(group => (object)new ShortcutsGroupViewModel(panel, group))
+                .ToList();
 
-            var itemsRoot = new RootCategoryGroupViewModel("アイテム", itemGroups);
+            itemGroups.Add(new RootCategoryGroupViewModel(Texts.ShortcutsRootTitle, shortcutGroups) { IsExpanded = false });
+
+            foreach (var group in shortcutGroups.OfType<ShortcutsGroupViewModel>())
+            {
+                foreach (var shortcut in group.Shortcuts)
+                {
+                    index.Add(new SettingsSearchResult(
+                        shortcut, shortcut.DisplayName, shortcut.IconPath,
+                        $"{Texts.ShortcutsRootTitle} / {group.CategoryName}", [shortcut.Description]));
+                }
+            }
+
+            searchIndex = index;
+
+            var itemsRoot = new RootCategoryGroupViewModel(Texts.ItemsRootTitle, itemGroups);
 
             return [settingsRoot, itemsRoot];
         }
 
-        private ICommand? selectToolEntryCommand;
-        public ICommand SelectToolEntryCommand =>
-            selectToolEntryCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is ToolItemEntryViewModel entry)
-                    SelectedDetail = entry;
-            });
-
-        private ICommand? selectShortcutEntryCommand;
-        public ICommand SelectShortcutEntryCommand =>
-            selectShortcutEntryCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is ShortcutEntryViewModel entry)
-                    SelectedDetail = entry;
-            });
-
-        private ICommand? selectShortcutsGroupCommand;
-        public ICommand SelectShortcutsGroupCommand =>
-            selectShortcutsGroupCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is ShortcutsGroupViewModel group)
-                    SelectedDetail = group;
-            });
-
-        private ICommand? selectGeneralSettingsCommand;
-        public ICommand SelectGeneralSettingsCommand =>
-            selectGeneralSettingsCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is GeneralSettingsViewModel group)
-                    SelectedDetail = group;
-            });
-
-        private ICommand? selectBasicSettingsCommand;
-        public ICommand SelectBasicSettingsCommand =>
-            selectBasicSettingsCommand ??= new ActionCommand(_ => true, param =>
-            {
-                if (param is BasicSettingsViewModel group)
-                    SelectedDetail = group;
-            });
+        private ICommand? selectDetailCommand;
+        public ICommand SelectDetailCommand =>
+            selectDetailCommand ??= new ActionCommand(_ => true, param => SelectedDetail = param);
     }
 }

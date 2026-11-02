@@ -1,13 +1,13 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ToolBox.Items.TextSplitter.Settings
 {
     public enum SplitMode
     {
-        [Display(Name = "1文字ごとに分割", Description = "1文字ごとに分割")]
+        [Display(Name = nameof(Texts.SplitModeByCharacter), Description = nameof(Texts.SplitModeByCharacterDescription), ResourceType = typeof(Texts))]
         PerCharacter,
 
-        [Display(Name = "改行で分割", Description = "改行で分割")]
+        [Display(Name = nameof(Texts.SplitModeByLine), Description = nameof(Texts.SplitModeByLineDescription), ResourceType = typeof(Texts))]
         PerLine,
     }
 }

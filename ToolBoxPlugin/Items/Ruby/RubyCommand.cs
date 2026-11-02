@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Win32;
@@ -12,6 +12,7 @@ using YukkuriMovieMaker.UndoRedo;
 using ToolBox.Settings;
 using ToolBox.Items.Ruby.Settings;
 using IFELanguage = YukkuriMovieMaker.KanjiToYomi.Core.IME.IFELanguage;
+using ToolBox.Commons;
 
 namespace ToolBox.Items.Ruby
 {
@@ -33,10 +34,8 @@ namespace ToolBox.Items.Ruby
             });
         }
 
-        private static RubySettings GetSettings()
-            => ToolBoxSettings.Default.Items
-                .OfType<RubySettings>()
-                .FirstOrDefault() ?? new RubySettings();
+        private static RubySettings GetSettings(IToolBoxContext ctx)
+            => ctx.FindItemSettings<RubySettings>() ?? new RubySettings();
 
         private static string RemoveRuby(string text)
         {
@@ -44,7 +43,7 @@ namespace ToolBox.Items.Ruby
             return RubyRegex().Replace(text, "$1");
         }
 
-        public static async Task AddRuby(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
+        public static async Task AddRuby(IToolBoxContext ctx, IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
         {
             if (timeline is null || undoRedoManager is null) return;
 
@@ -55,7 +54,7 @@ namespace ToolBox.Items.Ruby
 
             if (itemsToRuby.Count == 0) return;
 
-            var settings = GetSettings();
+            var settings = GetSettings(ctx);
 
             foreach (var item in itemsToRuby)
             {
@@ -65,7 +64,7 @@ namespace ToolBox.Items.Ruby
                     bool alreadyHasRuby = currentSerif.Contains("<rb", StringComparison.OrdinalIgnoreCase);
                     string plainText = RemoveRuby(currentSerif);
                     string rubyText = await GetRubyTextAsync(plainText, settings.RubyType);
-                    
+
                     if (voiceItem.Serif != rubyText)
                     {
                         voiceItem.Serif = rubyText;
@@ -81,7 +80,7 @@ namespace ToolBox.Items.Ruby
                     bool alreadyHasRuby = currentText.Contains("<rb", StringComparison.OrdinalIgnoreCase);
                     string plainText = RemoveRuby(currentText);
                     string rubyText = await GetRubyTextAsync(plainText, settings.RubyType);
-                    
+
                     if (textItem.Text != rubyText)
                     {
                         textItem.Text = rubyText;
@@ -178,71 +177,94 @@ namespace ToolBox.Items.Ruby
                                 continue;
                             }
 
-                            MORRSLT* ptr = null;
-                            fixed (char* value = line)
+                            int currentIndex = 0;
+                            while (currentIndex < line.Length)
                             {
-                                PCWSTR pwchInput = new(value);
-                                iFELanguage.GetJMorphResult(196608u, 16u, line.Length, pwchInput, null, &ptr);
+                                int chunkLen = line.Length - currentIndex;
+                                if (chunkLen > 80)
+                                {
+                                    int breakIndex = line.LastIndexOfAny(['。', '、', '！', '？', ' ', '　', '…', '，', '．'], currentIndex + 80, 80);
+                                    if (breakIndex > currentIndex)
+                                    {
+                                        chunkLen = (breakIndex - currentIndex) + 1;
+                                    }
+                                    else
+                                    {
+                                        chunkLen = 80;
+                                    }
+                                }
+
+                                string chunk = line.Substring(currentIndex, chunkLen);
+
+                                MORRSLT* ptr = null;
+                                fixed (char* value = chunk)
+                                {
+                                    PCWSTR pwchInput = new(value);
+                                    iFELanguage.GetJMorphResult(196608u, 16u, chunk.Length, pwchInput, null, &ptr);
+                                }
+
+                                if (ptr == null)
+                                {
+                                    finalResult.Append(chunk);
+                                }
+                                else
+                                {
+                                    string yomiFull = Marshal.PtrToStringUni((nint)ptr->pwchOutput.Value, ptr->cchOutput) ?? "";
+                                    WDD* pWDD = ptr->pWDD;
+                                    int cWDD = ptr->cWDD;
+
+                                    for (int i = 0; i < cWDD; i++)
+                                    {
+                                        WDD wdd = pWDD[i];
+
+                                        if (wdd.Anonymous1.wReadPos > chunk.Length ||
+                                            wdd.Anonymous1.wReadPos + wdd.Anonymous2.cchRead > chunk.Length ||
+                                            wdd.wDispPos > yomiFull.Length ||
+                                            wdd.wDispPos + wdd.cchDisp > yomiFull.Length)
+                                        {
+                                            continue;
+                                        }
+
+                                        string surface = chunk.Substring(wdd.Anonymous1.wReadPos, wdd.Anonymous2.cchRead);
+                                        string yomi = yomiFull.Substring(wdd.wDispPos, wdd.cchDisp);
+
+                                        yomi = ConvertKana(yomi, rubyType);
+
+                                        if (!ContainsKanji(surface))
+                                        {
+                                            finalResult.Append(surface);
+                                            continue;
+                                        }
+
+                                        int prefixMatch = 0;
+                                        while (prefixMatch < surface.Length && prefixMatch < yomi.Length &&
+                                               surface[prefixMatch] == yomi[prefixMatch])
+                                        {
+                                            prefixMatch++;
+                                        }
+
+                                        int suffixMatch = 0;
+                                        while (suffixMatch < surface.Length - prefixMatch &&
+                                               suffixMatch < yomi.Length - prefixMatch &&
+                                               surface[surface.Length - 1 - suffixMatch] == yomi[yomi.Length - 1 - suffixMatch])
+                                        {
+                                            suffixMatch++;
+                                        }
+
+                                        string prefix = surface[..prefixMatch];
+                                        string kanjiPart = surface[prefixMatch..^suffixMatch];
+                                        string yomiPart = yomi[prefixMatch..^suffixMatch];
+                                        string suffix = surface[^suffixMatch..];
+
+                                        finalResult.Append($"{prefix}<rb {kanjiPart},{yomiPart}>{suffix}");
+                                    }
+
+                                    PInvoke.CoTaskMemFree(ptr);
+                                }
+
+                                currentIndex += chunkLen;
                             }
 
-                            if (ptr == null)
-                            {
-                                finalResult.Append(line);
-                                if (lineIdx < lines.Length - 1) finalResult.Append("\r\n");
-                                continue;
-                            }
-
-                            string yomiFull = Marshal.PtrToStringUni((nint)ptr->pwchOutput.Value, ptr->cchOutput) ?? "";
-                            WDD* pWDD = ptr->pWDD;
-                            int cWDD = ptr->cWDD;
-
-                            for (int i = 0; i < cWDD; i++)
-                            {
-                                WDD wdd = pWDD[i];
-
-                                if (wdd.Anonymous1.wReadPos > line.Length ||
-                                    wdd.Anonymous1.wReadPos + wdd.Anonymous2.cchRead > line.Length ||
-                                    wdd.wDispPos > yomiFull.Length ||
-                                    wdd.wDispPos + wdd.cchDisp > yomiFull.Length)
-                                {
-                                    continue;
-                                }
-
-                                string surface = line.Substring(wdd.Anonymous1.wReadPos, wdd.Anonymous2.cchRead);
-                                string yomi = yomiFull.Substring(wdd.wDispPos, wdd.cchDisp);
-
-                                yomi = ConvertKana(yomi, rubyType);
-
-                                if (!ContainsKanji(surface))
-                                {
-                                    finalResult.Append(surface);
-                                    continue;
-                                }
-
-                                int prefixMatch = 0;
-                                while (prefixMatch < surface.Length && prefixMatch < yomi.Length &&
-                                       surface[prefixMatch] == yomi[prefixMatch])
-                                {
-                                    prefixMatch++;
-                                }
-
-                                int suffixMatch = 0;
-                                while (suffixMatch < surface.Length - prefixMatch &&
-                                       suffixMatch < yomi.Length - prefixMatch &&
-                                       surface[surface.Length - 1 - suffixMatch] == yomi[yomi.Length - 1 - suffixMatch])
-                                {
-                                    suffixMatch++;
-                                }
-
-                                string prefix = surface[..prefixMatch];
-                                string kanjiPart = surface[prefixMatch..^suffixMatch];
-                                string yomiPart = yomi[prefixMatch..^suffixMatch];
-                                string suffix = surface[^suffixMatch..];
-
-                                finalResult.Append($"{prefix}<rb {kanjiPart},{yomiPart}>{suffix}");
-                            }
-
-                            PInvoke.CoTaskMemFree(ptr);
                             if (lineIdx < lines.Length - 1) finalResult.Append("\r\n");
                         }
 

@@ -1,3 +1,8 @@
+﻿using System.Windows;
+using Microsoft.Win32;
+using ToolBox.Commons;
+using YukkuriMovieMaker.Project.Items;
+using YukkuriMovieMaker.Resources.Icons;
 using YukkuriMovieMaker.Settings;
 
 namespace ToolBox.Items.Shortcuts
@@ -6,23 +11,386 @@ namespace ToolBox.Items.Shortcuts
         string DisplayName,
         CommandType CommandType,
         string DefaultLabel,
-        string IconPath
-    );
+        string IconPath,
+        string Description,
+        string Group,
+        Func<IToolBoxContext?, bool> CanExecute,
+        Action<IToolBoxContext?> Execute
+    )
+    {
+        public string FullDisplayName => $"{Group} / {DisplayName}";
+    }
 
     public static class ShortcutDefinitions
     {
-        public static readonly IReadOnlyList<ShortcutDefinition> Allowed =
-        [
-            new("アイテム削除",   CommandType.Delete,             "削除",      "M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"),
-            new("空白追加",       CommandType.AddTimelineSpace,   "空白追加",  "M2 12H4V17H20V7H16V5H22V19H2V12M6 5V12H14V5H6Z"),
-            new("すべて選択",     CommandType.SelectAll,          "全選択",    "M4,3H5V5H3V4A1,1 0 0,1 4,3M20,3A1,1 0 0,1 21,4V5H19V3H20M15,5V3H17V5H15M11,5V3H13V5H11M7,5V3H9V5H7M21,20A1,1 0 0,1 20,21H19V19H21V20M15,21V19H17V21H15M11,21V19H13V21H11M7,21V19H9V21H7M4,21A1,1 0 0,1 3,20V19H5V21H4M3,15H5V17H3V15M21,15V17H19V15H21M3,11H5V13H3V11M21,11V13H19V11H21M3,7H5V9H3V7M21,7V9H19V7H21Z"),
-            new("元に戻す",       CommandType.Undo,               "元に戻す",  "M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z"),
-            new("やり直す",       CommandType.Redo,               "やり直す",  "M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z"),
-            new("切り取り",       CommandType.Cut,                "切り取り",  "M19 3L13 9L15 11L22 4V3M12 12.5A1.5 1.5 0 0 1 10.5 14A1.5 1.5 0 0 1 9 12.5A1.5 1.5 0 0 1 10.5 11A1.5 1.5 0 0 1 12 12.5M6 20A2 2 0 0 0 8 18C8 16.89 7.1 16 6 16A2 2 0 0 0 4 18A2 2 0 0 0 6 20M6 8A2 2 0 0 0 8 6C8 4.89 7.1 4 6 4A2 2 0 0 0 4 6A2 2 0 0 0 6 8M9.6 8.5C9.8 8.8 10.1 9.2 10.5 9.5L15.9 4.1C15.6 3.8 15.3 3.5 14.9 3.2L9.6 8.5Z"),
-            new("コピー",         CommandType.Copy,               "コピー",    "M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"),
-            new("貼り付け",       CommandType.Paste,              "貼り付け",  "M19,20H5V4H7V7H17V4H19M12,2A1,1 0 0,1 13,3A1,1 0 0,1 12,4A1,1 0 0,1 11,3A1,1 0 0,1 12,2M19,2H14.82C14.4,0.84 13.3,0 12,0C10.7,0 9.6,0.84 9.18,2H5A2,2 0 0,0 3,4V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V4A2,2 0 0,0 19,2Z"),
-            new("グループ化",     CommandType.Group,              "グループ化",   "M4,4H10V10H4V4M20,4V10H14V4H20M14,15H17V13H19V15H22V17H19V19H17V17H14V15M10,14H4V20H10V14Z"),
-            new("グループ解除",   CommandType.Ungroup,            "グループ解除", "M12 5.69L17 10.19V18H15V11.81L12 9.12L9 11.81V18H7V10.19L12 5.69M12 3L2 12H5V20H9V14H15V20H19V12H22L12 3Z"),
-        ];
+        private static string CurrentGroup = string.Empty;
+
+        private static ShortcutDefinition Create(
+            ICommandId id,
+            string icon,
+            string description,
+            Func<IToolBoxContext?, bool> canExecute,
+            Action<IToolBoxContext?> execute)
+        {
+            var displayName = CommandRegistry.GetDisplayName(id.Key);
+
+            return new ShortcutDefinition(
+                displayName,
+                Enum.Parse<CommandType>(id.Key),
+                displayName,
+                icon,
+                description,
+                CurrentGroup,
+                canExecute,
+                execute);
+        }
+
+        private static ShortcutDefinition Create(ICommandId<NoParameter> id, string icon) =>
+            Create(id, icon, DescriptionOf(Texts.ShortcutDefaultDescription, id),
+                _ => YmmCommand.CanExecute(id),
+                _ => YmmCommand.Execute(id));
+
+        private static ShortcutDefinition CreateForLayer(ICommandId<int> id, string icon) =>
+            Create(id, icon, DescriptionOf(Texts.ShortcutSelectedLayerDescription, id),
+                ctx => SelectedLayer(ctx) is { } layer && YmmCommand.CanExecute(id, layer),
+                ctx =>
+                {
+                    if (SelectedLayer(ctx) is { } layer)
+                        YmmCommand.Execute(id, layer);
+                });
+
+        private static ShortcutDefinition CreateForLayer(ICommandId<Point> id, string icon) =>
+            Create(id, icon, DescriptionOf(Texts.ShortcutSelectedLayerDescription, id),
+                ctx => SelectedLayer(ctx) is { } layer && YmmCommand.CanExecute(id, LayerPoint(layer)),
+                ctx =>
+                {
+                    if (SelectedLayer(ctx) is { } layer)
+                        YmmCommand.Execute(id, LayerPoint(layer));
+                });
+
+        private static ShortcutDefinition CreateForItems(ICommandId<IItem> id, string icon) =>
+            Create(id, icon, DescriptionOf(Texts.ShortcutSelectedItemsDescription, id),
+                ctx => ctx?.SelectedItems?.Any(item => YmmCommand.CanExecute(id, item)) == true,
+                ctx =>
+                {
+                    foreach (var item in ctx?.SelectedItems?.OrderBy(item => item.Frame).ToList() ?? [])
+                        YmmCommand.Execute(id, item);
+                });
+
+        private static ShortcutDefinition CreateForFiles(ICommandId<IEnumerable<string>> id, string icon) =>
+            Create(id, icon, DescriptionOf(Texts.ShortcutSelectFilesDescription, id),
+                _ => YmmCommand.CanExecute(id, []),
+                _ =>
+                {
+                    var dialog = new OpenFileDialog { Multiselect = true };
+                    if (dialog.ShowDialog(Application.Current?.MainWindow) == true)
+                        YmmCommand.Execute<IEnumerable<string>>(id, dialog.FileNames);
+                });
+
+        private sealed record AppCommandId<TParameter>(string Key) : ICommandId<TParameter>;
+
+        private static AppCommandId<TParameter> AppCommand<TParameter>(string key) => new(key);
+
+        private static string DescriptionOf(string format, ICommandId id) =>
+            string.Format(format, CommandRegistry.GetDisplayName(id.Key));
+
+        private static int? SelectedLayer(IToolBoxContext? ctx) =>
+            ctx?.SelectedItems is { Count: > 0 } items ? items.Min(item => item.Layer) : null;
+
+        private static Point LayerPoint(int layer) =>
+            new(0, (layer + 0.5) * YMMSettings.Default.LayerHeight);
+
+        public static readonly IReadOnlyList<ShortcutDefinition> Allowed = BuildAll();
+
+        private static readonly Dictionary<CommandType, ShortcutDefinition> byCommandType =
+            Allowed.DistinctBy(d => d.CommandType).ToDictionary(d => d.CommandType);
+
+        public static ShortcutDefinition? Find(CommandType commandType) =>
+            byCommandType.GetValueOrDefault(commandType);
+
+        public static IReadOnlyList<string> Groups =>
+            [.. Allowed.Select(d => d.Group).Distinct()];
+
+        public static IReadOnlyList<ShortcutDefinition> InGroup(string group) =>
+            [.. Allowed.Where(d => d.Group == group)];
+
+        private static List<ShortcutDefinition> BuildAll()
+        {
+            var all = new List<ShortcutDefinition>();
+
+            CurrentGroup = Texts.ShortcutGroupEdit;
+            all.AddRange(
+            [
+                Create(Commands.Undo, IconKeys.Undo),
+                Create(Commands.Redo, IconKeys.Redo),
+                Create(Commands.Cut, IconKeys.ContentCut),
+                Create(Commands.Copy, IconKeys.ContentCopy),
+                Create(Commands.Paste, IconKeys.ContentPaste),
+                Create(Commands.Clone, IconKeys.ContentDuplicate),
+                Create(Commands.Delete, IconKeys.Delete),
+                Create(Commands.DeleteAndMoveAll, IconKeys.DeleteSweep),
+                Create(Commands.DeleteAndMoveLayer, IconKeys.DeleteSweepOutline),
+                Create(Commands.CopyCurrentPositionItems, IconKeys.ContentCopy),
+                Create(Commands.CutCurrentPositionItems, IconKeys.ContentCut),
+                Create(Commands.DeleteCurrentPositionItems, IconKeys.DeleteOutline),
+                CreateForItems(AppCommand<IItem>(nameof(CommandType.DeleteItemSpace)), IconKeys.ArrowCollapseHorizontal),
+                CreateForLayer(Commands.DeleteAllLayerSpaces, IconKeys.ArrowCollapseHorizontal),
+                Create(Commands.DeleteTimelineSpace, IconKeys.ArrowCollapseHorizontal),
+                Create(Commands.DeleteAllTimelineSpaces, IconKeys.ArrowCollapseHorizontal),
+                Create(Commands.DeleteIsolatedRanges, IconKeys.Eraser),
+                Create(Commands.AddTimelineSpace, IconKeys.ArrowExpandHorizontal),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupItem;
+            all.AddRange(
+            [
+                Create(Commands.SplitCurrentPosition, IconKeys.PaperCutVertical),
+                Create(Commands.SplitCurrentPositionItems, IconKeys.ChartGantt),
+                Create(Commands.ChangeItemLength, IconKeys.ArrowLeftRight),
+                Create(Commands.ResetItemLength, IconKeys.Restore),
+                Create(Commands.Group, IconKeys.Group),
+                Create(Commands.Ungroup, IconKeys.Ungroup),
+                Create(Commands.ToggleGroup, IconKeys.Group),
+                Create(Commands.ToggleVisibility, IconKeys.EyeOutline),
+                Create(Commands.EnableVisibility, IconKeys.Eye),
+                Create(Commands.DisableVisibility, IconKeys.EyeOff),
+                Create(Commands.ToggleLock, IconKeys.Lock),
+                Create(Commands.Lock, IconKeys.Lock),
+                Create(Commands.Unlock, IconKeys.LockOpenOutline),
+                Create(Commands.ToggleWaveform, IconKeys.Waveform),
+                Create(Commands.EnableWaveform, IconKeys.Waveform),
+                Create(Commands.DisableWaveform, IconKeys.WaveformOff),
+                Create(Commands.ToggleClipping, IconKeys.VectorClipping),
+                Create(Commands.EnableClipping, IconKeys.VectorClipping),
+                Create(Commands.DisableClipping, IconKeys.VectorArrangeAbove),
+                Create(Commands.SetToDefaultItem, IconKeys.Restore),
+                Create(Commands.SetToCharacterVoice, IconKeys.AccountVoice),
+                Create(Commands.SetToCharacterJimaku, IconKeys.Subtitles),
+                Create(Commands.SetToCharacterFace, IconKeys.EmoticonOutline),
+                Create(Commands.SeparateVoiceTextToTextItem, IconKeys.Text),
+                Create(Commands.CreateFaceItemFromVoiceItem, IconKeys.EmoticonOutline),
+                Create(Commands.MonotonizeSelectedAquesTalkVoice, IconKeys.Waveform),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupArrange;
+            all.AddRange(
+            [
+                Create(Commands.AlignItemsLeft, IconKeys.AlignHorizontalLeft),
+                Create(Commands.AlignItemsRight, IconKeys.AlignHorizontalRight),
+                Create(Commands.AlignItemsCenter, IconKeys.AlignHorizontalCenter),
+                Create(Commands.AlignItemsHorizontal, IconKeys.FormatAlignMiddle),
+                Create(Commands.AlignItemsVertical, IconKeys.FormatAlignCenter),
+                Create(Commands.AlignPositionAndLengthToAboveItem, IconKeys.ArrowUp),
+                Create(Commands.AlignPositionAndLengthToBelowItem, IconKeys.ArrowDown),
+                Create(Commands.AlignHeadToAboveItem, IconKeys.FormatHorizontalAlignLeft),
+                Create(Commands.AlignTailToAboveItem, IconKeys.FormatHorizontalAlignRight),
+                Create(Commands.AlignHeadToBelowItem, IconKeys.FormatHorizontalAlignLeft),
+                Create(Commands.AlignTailToBelowItem, IconKeys.FormatHorizontalAlignRight),
+                Create(Commands.MoveSelectedItemsToLeftFrame, IconKeys.ChevronLeft),
+                Create(Commands.MoveSelectedItemsToRightFrame, IconKeys.ChevronRight),
+                Create(Commands.MoveSelectedItemsToUpLayer, IconKeys.ChevronUp),
+                Create(Commands.MoveSelectedItemsToDownLayer, IconKeys.ChevronDown),
+                Create(Commands.MoveSelectedItemsToPreviousSecond, IconKeys.ChevronDoubleLeft),
+                Create(Commands.MoveSelectedItemsToNextSecond, IconKeys.ChevronDoubleRight),
+                Create(Commands.MoveToHigherLayer, IconKeys.ArrowUpBold),
+                Create(Commands.MoveToLowerLayer, IconKeys.ArrowDownBold),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupSelection;
+            all.AddRange(
+            [
+                Create(Commands.SelectAll, IconKeys.SelectAll),
+                Create(Commands.SelectRightItems, IconKeys.ArrowExpandRight),
+                Create(Commands.SelectLeftItems, IconKeys.ArrowExpandLeft),
+                Create(Commands.SelectRightItemsOfSelectedItems, IconKeys.ArrowExpandRight),
+                Create(Commands.SelectLeftItemsOfSelectedItems, IconKeys.ArrowExpandLeft),
+                Create(Commands.SelectUpItem, IconKeys.ArrowUp),
+                Create(Commands.SelectDownItem, IconKeys.ArrowDown),
+                Create(Commands.SelectLeftItem, IconKeys.ArrowLeft),
+                Create(Commands.SelectRightItem, IconKeys.ArrowRight),
+                Create(Commands.SelectCurrentPositionItems, IconKeys.ChartGantt),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupAddItem;
+            all.AddRange(
+            [
+                Create(AppCommand<NoParameter>(nameof(CommandType.AddVoiceItem)), IconKeys.YMM4.VoiceItem),
+                Create(Commands.AddTextItem, IconKeys.YMM4.TextItem),
+                Create(Commands.AddVideoItem, IconKeys.YMM4.VideoItem),
+                Create(Commands.AddAudioItem, IconKeys.YMM4.AudioItem),
+                Create(Commands.AddImageItem, IconKeys.YMM4.ImageItem),
+                Create(Commands.AddShapeItem, IconKeys.YMM4.ShapeItem),
+                Create(AppCommand<NoParameter>(nameof(CommandType.AddTachieItem)), IconKeys.YMM4.TachieItem),
+                Create(AppCommand<NoParameter>(nameof(CommandType.AddFaceItem)), IconKeys.YMM4.FaceItem),
+                Create(Commands.AddEffectItem, IconKeys.YMM4.EffectItem),
+                Create(Commands.AddTransitionItem, IconKeys.YMM4.TransitionItem),
+                Create(Commands.AddGroupItem, IconKeys.YMM4.GroupItem),
+                Create(Commands.AddFrameBufferItem, IconKeys.YMM4.FrameBufferItem),
+                Create(Commands.AddSceneItem, IconKeys.YMM4.SceneItem),
+                CreateForFiles(Commands.AddFileItem, IconKeys.FilePlusOutline),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupMidpoint;
+            all.AddRange(
+            [
+                Create(Commands.AddKeyFrameAtCurrentFrame, IconKeys.PlusThick),
+                Create(Commands.RemoveKeyFrameAtCurrentFrame, IconKeys.Minus),
+                Create(Commands.AddKeyFrameAtCursorPosition, IconKeys.Plus),
+                Create(Commands.RemoveKeyFrameAtCursorPosition, IconKeys.Minus),
+                Create(Commands.AddSymmetricKeyFrames, IconKeys.ReflectHorizontal),
+                Create(Commands.DistributeKeyFramesEvenly, IconKeys.FormatAlignJustify),
+                Create(Commands.SplitAtKeyFrame, IconKeys.ContentCut),
+                Create(Commands.SplitAtAllKeyFrames, IconKeys.ContentCut),
+                Create(Commands.RemoveAllKeyFrames, IconKeys.Delete),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupPlayback;
+            all.AddRange(
+            [
+                Create(Commands.PlayPause, IconKeys.Play),
+                Create(Commands.Stop, IconKeys.Stop),
+                Create(Commands.SeekToStart, IconKeys.SkipPrevious),
+                Create(Commands.SeekToEnd, IconKeys.SkipNext),
+                Create(Commands.SeekToPreviousFrame, IconKeys.StepBackward),
+                Create(Commands.SeekToNextFrame, IconKeys.StepForward),
+                Create(Commands.SeekToPreviousSecond, IconKeys.Rewind5),
+                Create(Commands.SeekToNextSecond, IconKeys.FastForward5),
+                Create(Commands.SeekToPrevEditPoint, IconKeys.StepBackward2),
+                Create(Commands.SeekToNextEditPoint, IconKeys.StepForward2),
+                Create(Commands.ToggleRepeat, IconKeys.RepeatCircleArrow),
+                Create(Commands.PlaybackRateDown, IconKeys.Rewind),
+                Create(Commands.PlaybackRateUp, IconKeys.FastForward),
+                Create(Commands.PlaybackRateReset, IconKeys.Restore),
+                Create(Commands.ReloadPlayer, IconKeys.Refresh),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupView;
+            all.AddRange(
+            [
+                Create(Commands.ZoomInTimeline, IconKeys.MagnifyPlusOutline),
+                Create(Commands.ZoomOutTimeline, IconKeys.MagnifyMinusOutline),
+                Create(Commands.ZoomInPreview, IconKeys.MagnifyPlusOutline),
+                Create(Commands.ZoomOutPreview, IconKeys.MagnifyMinusOutline),
+                Create(Commands.FitPreviewZoom, IconKeys.FitToScreen),
+                Create(Commands.SizeUpLayer, IconKeys.ArrowExpandVertical),
+                Create(Commands.SizeDownLayer, IconKeys.ArrowCollapseVertical),
+                Create(Commands.SizeUpToolBar, IconKeys.ArrowExpand),
+                Create(Commands.SizeDownToolBar, IconKeys.ArrowCollapse),
+                Create(Commands.ToggleVerticalLine, IconKeys.Grid),
+                Create(Commands.EnableVerticalLine, IconKeys.Grid),
+                Create(Commands.DisableVerticalLine, IconKeys.GridOff),
+                Create(Commands.SwitchControlPointVisibility, IconKeys.VectorPolyline),
+                Create(Commands.TogglePeakMeterVisibility, IconKeys.Poll),
+                Create(Commands.ToggleLoudnessMeterVisibility, IconKeys.Gauge),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupLayer;
+            all.AddRange(
+            [
+                CreateForLayer(Commands.AddLayer, IconKeys.PlusThick),
+                CreateForLayer(Commands.DeleteLayer, IconKeys.Delete),
+                CreateForLayer(Commands.MoveUpLayer, IconKeys.ArrowUp),
+                CreateForLayer(Commands.MoveDownLayer, IconKeys.ArrowDown),
+                CreateForLayer(Commands.ToggleLayerVisibility, IconKeys.EyeOutline),
+                CreateForLayer(Commands.DisableOtherLayers, IconKeys.EyeOffOutline),
+                Create(Commands.EnableAllLayers, IconKeys.EyeOutline),
+                Create(Commands.ResetAllLayerSettings, IconKeys.Restore),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupCharacterScene;
+            all.AddRange(
+            [
+                Create(Commands.ChangeCharacter, IconKeys.AccountSwitch),
+                Create(Commands.ChangePreviousCharacter, IconKeys.AccountArrowLeft),
+                Create(Commands.ChangeNextCharacter, IconKeys.AccountArrowRight),
+                Create(Commands.ChangeVoiceMode, IconKeys.AccountVoice),
+                Create(Commands.CreateNewScene, IconKeys.MovieOpenPlusOutline),
+                Create(Commands.DeleteScene, IconKeys.MovieRemoveOutline),
+                Create(Commands.RenameScene, IconKeys.RenameOutline),
+                Create(Commands.SelectPreviousScene, IconKeys.ChevronLeft),
+                Create(Commands.SelectNextScene, IconKeys.ChevronRight),
+                Create(Commands.MoveSceneLeft, IconKeys.ArrowLeftBold),
+                Create(Commands.MoveSceneRight, IconKeys.ArrowRightBold),
+                Create(Commands.OpenScenePreviewWindow, IconKeys.MonitorEye),
+                Create(Commands.SaveSceneAsTemplate, IconKeys.ContentSaveOutline),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupProject;
+            all.AddRange(
+            [
+                Create(Commands.CreateProject, IconKeys.FilePlus),
+                Create(Commands.OpenProject, IconKeys.FolderOpen),
+                Create(Commands.CloseProject, IconKeys.CloseBoxOutline),
+                Create(Commands.SaveProject, IconKeys.ContentSave),
+                Create(Commands.SaveProjectAs, IconKeys.ContentSaveEdit),
+                Create(Commands.OpenScenarioFile, IconKeys.CommentTextMultipleOutline),
+                Create(Commands.ImportSubtitleFile, IconKeys.Subtitles),
+                Create(Commands.ImportSubtitleFileAsVoiceItem, IconKeys.SubtitlesOutline),
+                Create(Commands.OutputVideo, IconKeys.FileVideoOutline2),
+                Create(Commands.OutputExo, IconKeys.FileFilmstripOutline),
+                Create(Commands.SaveThumbnail, IconKeys.Camera),
+                Create(Commands.SaveThumbnailToClipboard, IconKeys.ClipboardCameraOutline),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupTemplate;
+            all.AddRange(
+            [
+                Create(AppCommand<NoParameter>(nameof(CommandType.SaveTemplate)), IconKeys.ContentSaveOutline),
+                Create(Commands.ImportTemplate, IconKeys.Import),
+                Create(AppCommand<NoParameter>(nameof(CommandType.ExportItemTemplate)), IconKeys.Export),
+                Create(Commands.ExportVideoEffectTemplate, IconKeys.Export),
+                Create(Commands.ExportAudioEffectTemplate, IconKeys.Export),
+                Create(Commands.OpenTemplateMenu, IconKeys.FormatListBulleted),
+                Create(Commands.OpenVoiceTemplateMenu, IconKeys.YMM4.VoiceItem),
+                Create(Commands.OpenTextTemplateMenu, IconKeys.YMM4.TextItem),
+                Create(Commands.OpenVideoTemplateMenu, IconKeys.YMM4.VideoItem),
+                Create(Commands.OpenAudioTemplateMenu, IconKeys.YMM4.AudioItem),
+                Create(Commands.OpenImageTemplateMenu, IconKeys.YMM4.ImageItem),
+                Create(Commands.OpenShapeTemplateMenu, IconKeys.YMM4.ShapeItem),
+                Create(Commands.OpenEffectTemplateMenu, IconKeys.YMM4.EffectItem),
+                Create(Commands.OpenFrameBufferTemplateMenu, IconKeys.YMM4.FrameBufferItem),
+                Create(Commands.OpenGroupTemplateMenu, IconKeys.YMM4.GroupItem),
+                Create(Commands.OpenTachieTemplateMenu, IconKeys.YMM4.TachieItem),
+                Create(Commands.OpenFaceTemplateMenu, IconKeys.YMM4.FaceItem),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupWindowFolder;
+            all.AddRange(
+            [
+                Create(Commands.OpenSettingWindow, IconKeys.Cog),
+                Create(Commands.OpenScenarioWindow, IconKeys.CommentTextMultipleOutline),
+                Create(Commands.OpenDictionaryWindow, IconKeys.BookOpenPageVariant),
+                Create(Commands.OpenResourceWindow, IconKeys.ListBoxOutline),
+                Create(Commands.OpenSearchWindow, IconKeys.Magnify),
+                Create(Commands.OpenReplaceWindow, IconKeys.FindReplace),
+                Create(Commands.OpenVideoInfoEditorWindow, IconKeys.Tune),
+                Create(Commands.OpenCharacterEditorWindow, IconKeys.AccountEdit),
+                Create(Commands.OpenTemplateEditorWindow, IconKeys.FileEdit),
+                Create(Commands.OpenVerticalLineSettingsWindow, IconKeys.Grid),
+                Create(Commands.CreateNewWindow, IconKeys.DockWindow),
+                Create(Commands.OpenApplicationDirectory, IconKeys.FolderOpen),
+                Create(Commands.OpenUserDirectory, IconKeys.FolderOpen),
+                Create(Commands.OpenPluginDirectory, IconKeys.FolderOpen),
+                Create(Commands.OpenTemporaryDirectory, IconKeys.FolderOpen),
+            ]);
+
+            CurrentGroup = Texts.ShortcutGroupOther;
+            all.AddRange(
+            [
+                Create(AppCommand<NoParameter>(nameof(CommandType.GenerateScenarioLineByAI)), IconKeys.Creation),
+                Create(Commands.FocusToDefaultPropertyEditor, IconKeys.FormTextbox),
+                Create(Commands.SaveLayoutPreset, IconKeys.ViewDashboardOutline),
+                Create(Commands.ResetLayout, IconKeys.ViewDashboardOutline),
+                Create(Commands.ResetUIScale, IconKeys.FormatSize),
+                Create(Commands.ExportLogFile, IconKeys.FileDocumentOutline),
+                Create(Commands.OpenAboutWindow, IconKeys.InformationOutline),
+                Create(Commands.OpenFeedbackWindow, IconKeys.MessageAlertOutline),
+                Create(Commands.OpenUpdaterWindow, IconKeys.Refresh),
+                Create(Commands.CloseWindow, IconKeys.WindowClose),
+                Create(Commands.Exit, IconKeys.ExitToApp),
+            ]);
+
+            return all;
+        }
     }
 }

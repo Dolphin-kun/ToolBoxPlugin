@@ -1,18 +1,18 @@
+﻿using ToolBox.Commons;
 using ToolBox.Settings;
-using YukkuriMovieMaker.Commons;
 
 namespace ToolBox.ViewModel
 {
-    public class BasicSettingsViewModel(ToolBoxSettings settings) : Bindable
+    public class BasicSettingsViewModel : SettingsNodeViewModel
     {
-        public ToolBoxSettings Settings { get; } = settings;
-        public string CategoryName { get; } = "基本設定";
+        public ToolBoxSettings Settings { get; }
 
-        private bool isExpanded = true;
-        public bool IsExpanded
+        public UpdateChecker Update { get; } = UpdateChecker.Instance;
+
+        public BasicSettingsViewModel(ToolBoxSettings settings) : base(Texts.BasicSettingsTitle)
         {
-            get => isExpanded;
-            set => Set(ref isExpanded, value);
+            Settings = settings;
+            Update.EnsureChecked();
         }
     }
 }

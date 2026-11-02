@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
-using ToolBox.Items.Audio.Settings;
-using ToolBox.Items.Group.Settings;
+using ToolBox.Commons;
+using ToolBox.Items.SeparateAudio.Settings;
+using ToolBox.Items.InsertIntoGroup.Settings;
 using ToolBox.Items.Ruby.Settings;
 using ToolBox.Items.Sort.Settings;
 using ToolBox.Items.Staircase.Settings;
@@ -12,36 +12,18 @@ using ToolBox.Items.Recording.Settings;
 using ToolBox.Items.TextSplitter.Settings;
 using ToolBox.Items.TachiePlacer.Settings;
 using YukkuriMovieMaker.Plugin;
+using NJsonIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace ToolBox.Settings
 {
     public class ToolBoxSettings : SettingsBase<ToolBoxSettings>
     {
         public override SettingsCategory Category => SettingsCategory.Tool;
-        public override string Name => "ツールボックス";
+        public override string Name => Texts.PluginName;
         public override bool HasSettingView => false;
         public override object? SettingView => null;
 
-        private ObservableCollection<ToolItemSettings> items = [];
-        public ObservableCollection<ToolItemSettings> Items
-        {
-            get => items;
-            set => Set(ref items, value);
-        }
-
-        private int gridColumnCount = 6;
-        public int GridColumnCount
-        {
-            get => gridColumnCount;
-            set => Set(ref gridColumnCount, value);
-        }
-
-        private int gridRowCount = 6;
-        public int GridRowCount
-        {
-            get => gridRowCount;
-            set => Set(ref gridRowCount, value);
-        }
+        #region 全パネル共通の見た目
 
         private double cellSize = 40;
         public double CellSize
@@ -57,6 +39,13 @@ namespace ToolBox.Settings
             set => Set(ref cellMargin, value);
         }
 
+        private bool showGridLines = false;
+        public bool ShowGridLines
+        {
+            get => showGridLines;
+            set => Set(ref showGridLines, value);
+        }
+
         private bool showHighlight = true;
         public bool ShowHighlight
         {
@@ -68,87 +57,160 @@ namespace ToolBox.Settings
         public string HighlightColorHex
         {
             get => highlightColorHex;
-            set
-            {
-                if (Set(ref highlightColorHex, value))
-                {
-                    OnPropertyChanged(nameof(HighlightColor));
-                }
-            }
+            set => Set(ref highlightColorHex, value, etcChangedPropertyNames: nameof(HighlightColor));
         }
 
-        [JsonIgnore]
+        [JsonIgnore, NJsonIgnore]
         public Color HighlightColor
         {
-            get
-            {
-                try
-                {
-                    return (Color)ColorConverter.ConvertFromString(HighlightColorHex);
-                }
-                catch
-                {
-                    return Color.FromArgb(0xFF, 0x00, 0x99, 0xFF);
-                }
-            }
-            set
-            {
-                HighlightColorHex = value.ToString();
-                OnPropertyChanged();
-            }
+            get => ColorHelper.Parse(HighlightColorHex, Color.FromArgb(0xFF, 0x00, 0x99, 0xFF));
+            set => HighlightColorHex = value.ToString();
         }
 
-        private bool showGridLines = false;
-        public bool ShowGridLines
+        private bool showLockBadge = true;
+        public bool ShowLockBadge
         {
-            get => showGridLines;
-            set => Set(ref showGridLines, value);
+            get => showLockBadge;
+            set => Set(ref showLockBadge, value);
         }
 
-        public Dictionary<string, Point> HiddenItemPositions { get; set; } = [];
+        #endregion
+
+        #region グリッドの調整
+
+        private GridAdjustMode gridAdjustMode = GridAdjustMode.Manual;
+        public GridAdjustMode GridAdjustMode
+        {
+            get => gridAdjustMode;
+            set => Set(ref gridAdjustMode, value);
+        }
+
+        private bool autoFitSize = false;
+        public bool AutoFitSize
+        {
+            get => autoFitSize;
+            set => Set(ref autoFitSize, value);
+        }
+
+        private bool autoFitLayout = false;
+        public bool AutoFitLayout
+        {
+            get => autoFitLayout;
+            set => Set(ref autoFitLayout, value);
+        }
+
+        #endregion
+
+        #region 円形ランチャー
+
+        private bool isRadialLauncherEnabled = true;
+        public bool IsRadialLauncherEnabled
+        {
+            get => isRadialLauncherEnabled;
+            set => Set(ref isRadialLauncherEnabled, value);
+        }
+
+        public const string DefaultRadialLauncherGesture = "Ctrl+MouseRight";
+
+        private string radialLauncherGesture = DefaultRadialLauncherGesture;
+        public string RadialLauncherGesture
+        {
+            get => radialLauncherGesture;
+            set => Set(ref radialLauncherGesture, string.IsNullOrWhiteSpace(value) ? DefaultRadialLauncherGesture : value);
+        }
+
+        private bool radialLauncherImageFillsSector;
+        public bool RadialLauncherImageFillsSector
+        {
+            get => radialLauncherImageFillsSector;
+            set => Set(ref radialLauncherImageFillsSector, value);
+        }
+
+        private ObservableCollection<LauncherNode> launcherNodes = [];
+        public ObservableCollection<LauncherNode> LauncherNodes
+        {
+            get => launcherNodes;
+            set => Set(ref launcherNodes, value ?? []);
+        }
+
+        #endregion
+
+        #region 保存したアイテム
+
+        private ObservableCollection<ItemStockEntry> itemStocks = [];
+        public ObservableCollection<ItemStockEntry> ItemStocks
+        {
+            get => itemStocks;
+            set => Set(ref itemStocks, value ?? []);
+        }
+
+        #endregion
+
+        private DefaultPanelSettings defaultPanel = new();
+        public DefaultPanelSettings DefaultPanel
+        {
+            get => defaultPanel;
+            set => Set(ref defaultPanel, value ?? new DefaultPanelSettings());
+        }
+
+        public List<string> DisabledAddonFileNames { get; set; } = [];
+
+        #region v1.1 以前の保存形式。読み込み時に DefaultPanel へ移し替える
+
+        public ObservableCollection<ToolItemSettings>? Items { get; set; }
+        public int? GridRowCount { get; set; }
+        public int? GridColumnCount { get; set; }
+        public Dictionary<string, Point>? HiddenItemPositions { get; set; }
+
+        #endregion
 
         public override void Initialize()
         {
-            Migrate();
+            MigrateLegacyLayout();
+            EnsureDefaultItems();
         }
 
-        public void Migrate()
+        private void MigrateLegacyLayout()
+        {
+            if (Items is { Count: > 0 } legacyItems && DefaultPanel.Items.Count == 0)
+                DefaultPanel.Items = [.. legacyItems];
+
+            if (GridRowCount is { } rows)
+                DefaultPanel.GridRowCount = rows;
+
+            if (GridColumnCount is { } columns)
+                DefaultPanel.GridColumnCount = columns;
+
+            if (HiddenItemPositions is { Count: > 0 } legacyPositions)
+            {
+                foreach (var (key, position) in legacyPositions)
+                    DefaultPanel.HiddenItemPositions.TryAdd(key, position);
+            }
+
+            Items = null;
+            GridRowCount = null;
+            GridColumnCount = null;
+            HiddenItemPositions = null;
+        }
+
+        private void EnsureDefaultItems()
         {
             EnsureItemExists<StaircaseSettings>(new Point(0, 0));
             EnsureItemExists<RubySettings>(new Point(1, 0));
-            EnsureItemExists<GroupSettings>(new Point(0, 1));
+            EnsureItemExists<InsertIntoGroupSettings>(new Point(0, 1));
             EnsureItemExists<SortSettings>(new Point(0, 2));
-            EnsureItemExists<AudioSettings>(new Point(2, 1));
+            EnsureItemExists<SeparateAudioSettings>(new Point(2, 1));
             EnsureItemExists<RecordingSettings>(new Point(1, 1));
             EnsureItemExists<TextSplitterSettings>(new Point(3, 1));
             EnsureItemExists<TachiePlacerSettings>(new Point(4, 1));
-
-            EnsureShortcutExists(new Point(2, 0), YukkuriMovieMaker.Settings.CommandType.Delete,           "削除");
-            EnsureShortcutExists(new Point(3, 0), YukkuriMovieMaker.Settings.CommandType.AddTimelineSpace, "空白追加");
         }
 
-        private void EnsureItemExists<T>(Point defaultPos, Action<T>? configure = null) where T : ToolItemSettings, new()
+        private void EnsureItemExists<T>(Point defaultPosition) where T : ToolItemSettings, new()
         {
-            if (!Items.OfType<T>().Any())
-            {
-                var item = new T { Position = defaultPos };
-                configure?.Invoke(item);
-                Items.Add(item);
-            }
-        }
+            if (DefaultPanel.Items.OfType<T>().Any())
+                return;
 
-        /// <summary>CommandType で一致するショートカットが存在しない場合のみ追加する。</summary>
-        private void EnsureShortcutExists(Point defaultPos, YukkuriMovieMaker.Settings.CommandType commandType, string defaultLabel)
-        {
-            if (!Items.OfType<Items.Shortcuts.Settings.ShortcutSettings>().Any(s => s.CommandType == commandType))
-            {
-                Items.Add(new Items.Shortcuts.Settings.ShortcutSettings
-                {
-                    Position = defaultPos,
-                    CommandType = commandType,
-                    Label = defaultLabel
-                });
-            }
+            DefaultPanel.Items.Add(new T { Position = defaultPosition });
         }
     }
 }

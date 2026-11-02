@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,9 +17,30 @@ namespace ToolBox.Controls
         public SettingsAdorner(UIElement adornedElement, UIElement content) : base(adornedElement)
         {
             visuals = new VisualCollection(this);
-            presenter = new ContentPresenter { Content = content };
+            presenter = new ContentPresenter { Content = CreateChrome(content) };
             visuals.Add(presenter);
             IsHitTestVisible = true;
+        }
+
+        private const double MinPanelWidth = 260;
+        private const double MaxPanelWidth = 380;
+
+        private static Border CreateChrome(UIElement content)
+        {
+            var border = new Border
+            {
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(4),
+                Padding = new Thickness(8),
+                MinWidth = MinPanelWidth,
+                MaxWidth = MaxPanelWidth,
+                Child = content,
+            };
+
+            border.SetResourceReference(Border.BackgroundProperty, SystemColors.ControlBrushKey);
+            border.SetResourceReference(Border.BorderBrushProperty, SystemColors.ActiveBorderBrushKey);
+
+            return border;
         }
 
         protected override int VisualChildrenCount => visuals.Count;
@@ -37,7 +58,7 @@ namespace ToolBox.Controls
         protected override Size ArrangeOverride(Size finalSize)
         {
             presenter.Arrange(new Rect(new Point(0, 0), presenter.DesiredSize));
-            
+
             return new Size(
                 Math.Max(finalSize.Width, presenter.DesiredSize.Width),
                 Math.Max(finalSize.Height, presenter.DesiredSize.Height));
@@ -63,7 +84,7 @@ namespace ToolBox.Controls
                 return;
 
             var point = e.GetPosition(presenter);
-            
+
             var rect = new Rect(0, 0, presenter.RenderSize.Width, presenter.RenderSize.Height);
             if (!rect.Contains(point))
             {

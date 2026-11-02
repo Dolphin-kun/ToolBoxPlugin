@@ -1,5 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -13,15 +13,15 @@ namespace ToolBox.Items.Recording.Views
         public static readonly DependencyProperty DeviceListProperty =
             DependencyProperty.Register(nameof(DeviceList), typeof(List<KeyValuePair<int, string>>), typeof(RecordingSettingsPanel));
 
+        public static readonly DependencyProperty IsDropDownOpenProperty =
+            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(RecordingSettingsPanel),
+                new PropertyMetadata(false));
+
         public List<KeyValuePair<int, string>> DeviceList
         {
             get => (List<KeyValuePair<int, string>>?)GetValue(DeviceListProperty) ?? [];
             set => SetValue(DeviceListProperty, value);
         }
-
-        public static readonly DependencyProperty IsDropDownOpenProperty =
-            DependencyProperty.Register(nameof(IsDropDownOpen), typeof(bool), typeof(RecordingSettingsPanel),
-                new PropertyMetadata(false));
 
         public bool IsDropDownOpen
         {
@@ -42,6 +42,21 @@ namespace ToolBox.Items.Recording.Views
             Loaded += (_, _) => AttachDropDownHandlers();
         }
 
+        private void OnOpenRecordingFolderClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            try
+            {
+                var directory = RecordingCommand.RecordingDirectory;
+                Directory.CreateDirectory(directory);
+                Process.Start(new ProcessStartInfo { FileName = directory, UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{Texts.RecordingOpenFolderFailed}\n\n{ex.Message}", Texts.RecordingDisplayName, MessageBoxButton.OK);
+            }
+        }
 
         private void AttachDropDownHandlers()
         {

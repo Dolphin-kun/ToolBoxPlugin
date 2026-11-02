@@ -1,64 +1,67 @@
-using System.Linq;
+﻿using ToolBox.Commons;
 using ToolBox.Items.Staircase.Settings;
-using ToolBox.Settings;
-using YukkuriMovieMaker.Project;
+using YukkuriMovieMaker.Commons;
 using YukkuriMovieMaker.Project.Items;
-using YukkuriMovieMaker.UndoRedo;
 
 namespace ToolBox.Items.Staircase
 {
-    internal static class StaircaseCommand
+    internal static class StaircaseItemCommand
     {
-        public static bool CanExecute(IReadOnlyList<IItem> selectedItems)
+        public static bool CanExecute(IToolBoxContext ctx) =>
+            ctx.SelectedItems?.Any() == true && ctx.Timeline != null && ctx.UndoRedoManager != null;
+
+        public static void Staircase(IToolBoxContext ctx, bool reverse)
         {
-            return selectedItems.Any();
-        }
+            if (ctx.Timeline is not { } timeline || ctx.UndoRedoManager is not { } undoRedoManager)
+                return;
 
-        public static void Staircase(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
-        {
-            if (timeline is null) return;
-            if (undoRedoManager is null) return;
+            var items = ctx.SelectedItems?.ToList() ?? [];
+            if (items.Count == 0)
+                return;
 
-            var items = selectedItems.ToList();
-            if (items.Count == 0) return;
-
+            var settings = ctx.FindItemSettings<StaircaseSettings>();
+            var offset = settings?.Offset ?? 20;
+            var amount = Math.Max(1, settings?.Amount ?? 1);
+            var minLayer = items.Min(item => item.Layer);
             var maxLayer = items.Max(item => item.Layer);
 
+            int StepOf(IItem item) => (reverse ? item.Layer - minLayer : maxLayer - item.Layer) / amount;
+
+            var count = items.Max(StepOf) + 1;
+            var delays = GetDelays(count, offset, settings);
+
             foreach (var item in items)
-            {
-                var relativeLayer = maxLayer - item.Layer;
-                item.Frame += relativeLayer * GetStaircaseOffset();
-            }
+                item.Frame = Math.Max(0, item.Frame + delays[StepOf(item)]);
 
             timeline.ResolveAllItemsCollision();
             timeline.RefreshTimelineLengthAndMaxLayer();
             undoRedoManager.Record();
         }
 
-        public static void ReverseStaircase(IReadOnlyList<IItem> selectedItems, Timeline? timeline, UndoRedoManager? undoRedoManager)
+        private static int[] GetDelays(int count, int offset, StaircaseSettings? settings)
         {
-            if (timeline is null) return;
-            if (undoRedoManager is null) return;
+            var order = settings?.Order ?? StaircaseOrder.Layer;
+            var half = (count - 1) / 2.0;
+            var shuffled = Enumerable.Range(0, count).OrderBy(_ => Random.Shared.Next()).ToArray();
 
-            var items = selectedItems.ToList();
-            if (items.Count == 0) return;
-
-            var minLayer = items.Min(item => item.Layer);
-
-            foreach (var item in items)
+            double Rank(int step) => order switch
             {
-                var relativeLayer = item.Layer - minLayer;
-                item.Frame += relativeLayer * GetStaircaseOffset();
-            }
+                StaircaseOrder.CenterOut => Math.Abs(step - half),
+                StaircaseOrder.EdgesIn => half - Math.Abs(step - half),
+                StaircaseOrder.Random => shuffled[step],
+                _ => step,
+            };
 
-            timeline.ResolveAllItemsCollision();
-            timeline.RefreshTimelineLengthAndMaxLayer();
-            undoRedoManager.Record();
+            var max = order is StaircaseOrder.CenterOut or StaircaseOrder.EdgesIn ? half : count - 1;
+            var curve = settings?.Curve ?? EasingType.Linear;
+            var direction = settings?.Direction ?? EasingMode.In;
+
+            var delays = Enumerable.Range(0, count)
+                .Select(step => max <= 0 ? 0 : (int)Math.Round(max * offset * YukkuriMovieMaker.Commons.Easing.GetValue(curve, direction, Rank(step) / max)))
+                .ToArray();
+
+            var min = delays.Min();
+            return [.. delays.Select(delay => delay - min)];
         }
-
-        private static int GetStaircaseOffset()
-            => ToolBoxSettings.Default.Items
-                .OfType<StaircaseSettings>()
-                .FirstOrDefault()?.Offset ?? 20;
     }
 }

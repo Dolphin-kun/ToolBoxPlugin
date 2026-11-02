@@ -1,0 +1,118 @@
+﻿using System.Windows.Input;
+using ToolBox.Controls;
+using ToolBox.Settings;
+using ToolBox.ViewModel;
+
+namespace ToolBox.Commons
+{
+    public static class RadialEntryBuilder
+    {
+        public static IReadOnlyList<RadialEntry> BuildRoot()
+        {
+            var nodes = ToolBoxSettings.Default.LauncherNodes;
+
+            if (nodes.Count == 0)
+                return BuildFromPanel();
+
+            var entries = Build(nodes);
+            return entries.Count > 0 ? entries : BuildFromPanel();
+        }
+
+        public static IReadOnlyList<RadialEntry> Build(IEnumerable<LauncherNode> nodes)
+        {
+            var entries = new List<RadialEntry>();
+
+            foreach (var node in nodes)
+            {
+                if (CreateEntry(node) is { } entry)
+                    entries.Add(entry);
+            }
+
+            return entries;
+        }
+
+        private static RadialEntry? CreateEntry(LauncherNode node) => node.EffectiveKind switch
+        {
+            LauncherNodeKind.Folder => new RadialEntry
+            {
+                Label = node.DisplayLabel,
+                Children = Build(node.Children),
+            },
+            LauncherNodeKind.PanelItem => CreatePanelItemEntry(node),
+            LauncherNodeKind.Command => CreateCommandEntry(node),
+            LauncherNodeKind.Shortcut => CreateShortcutEntry(node),
+            _ => null,
+        };
+
+        private static RadialEntry? CreatePanelItemEntry(LauncherNode node)
+        {
+            var item = ToolBoxViewModel.FindPlacedItem(node.ItemId);
+            return item == null ? null : CreateItemEntry(item, node.Title);
+        }
+
+        private static RadialEntry? CreateCommandEntry(LauncherNode node)
+        {
+            var definition = CommandCatalog.Find(node.CommandName);
+            if (definition == null)
+                return null;
+
+            return new RadialEntry
+            {
+                Label = string.IsNullOrWhiteSpace(node.Title) ? definition.DisplayName : node.Title,
+                IconPath = definition.IconPath,
+                CanInvoke = () => FindCommand(node.CommandName)?.CanExecute(null) == true,
+                Invoke = () => FindCommand(node.CommandName)?.Execute(null),
+            };
+        }
+
+        private static RadialEntry CreateShortcutEntry(LauncherNode node)
+        {
+            var definition = node.FindShortcut();
+            var commandType = node.ShortcutCommand;
+
+            return new RadialEntry
+            {
+                Label = string.IsNullOrWhiteSpace(node.Title)
+                    ? definition?.DisplayName ?? commandType.ToString()
+                    : node.Title,
+                IconPath = definition?.IconPath ?? string.Empty,
+                CanInvoke = () => definition?.CanExecute(ToolBoxViewModel.Instance) == true,
+                Invoke = () => definition?.Execute(ToolBoxViewModel.Instance),
+            };
+        }
+
+        private static ICommand? FindCommand(string commandName) =>
+            ToolBoxViewModel.Instance?.Commands.GetValueOrDefault(commandName);
+
+        public static IReadOnlyList<RadialEntry> BuildFromPanel()
+        {
+            var viewModel = ToolBoxViewModel.Instance;
+            if (viewModel == null)
+                return [];
+
+            return
+            [
+                .. viewModel.Panel.Items
+                    .Where(item => item.IsInvokable && item.DefaultCommand != null)
+                    .OrderBy(item => item.Position.Y)
+                    .ThenBy(item => item.Position.X)
+                    .Select(item => CreateItemEntry(item, string.Empty))
+            ];
+        }
+
+        private static RadialEntry CreateItemEntry(ToolItemSettings item, string title) => new()
+        {
+            Label = string.IsNullOrWhiteSpace(title) ? item.Label : title,
+            IconPath = item.IconPath,
+            ImagePath = item.DisplayMode == ToolItemDisplayMode.Image ? item.CustomImagePath : string.Empty,
+            ImageStretch = item.ImageStretch,
+            Foreground = item.AppearanceForeground,
+            CanInvoke = () => item.DefaultCommand?.CanExecute(item) == true,
+            Invoke = () =>
+            {
+                if (item.DefaultCommand is { } command && command.CanExecute(item))
+                    command.Execute(item);
+            },
+        };
+    }
+}

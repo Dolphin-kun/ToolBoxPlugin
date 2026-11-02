@@ -1,4 +1,4 @@
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using System.IO;
 using System.Windows.Threading;
 using YukkuriMovieMaker.Commons;
@@ -21,6 +21,8 @@ namespace ToolBox.Items.Recording
 
         public static event EventHandler? IsRecordingChanged;
         public static event EventHandler? WaveformUpdated;
+
+        public static string RecordingDirectory => Path.Combine(AppDirectories.TemporaryDirectory,"ToolBoxPlugin", "Recordings");
 
         private static bool isRecording;
         public static bool IsRecording
@@ -95,7 +97,7 @@ namespace ToolBox.Items.Recording
 
                 IsRecording = true;
 
-                var recordingDir = Path.Combine(AppDirectories.TemporaryDirectory, "ToolBoxPlugin");
+                var recordingDir = RecordingDirectory;
                 Directory.CreateDirectory(recordingDir);
                 filePath = Path.Combine(recordingDir, $"Record_{DateTime.Now:yyyyMMdd_HHmmss}.wav");
                 writer = new WaveFileWriter(filePath, waveIn.WaveFormat);

@@ -1,0 +1,32 @@
+﻿<tbView:ToolItemView x:Class="ToolBox.Items.GapCheck.Views.GapCheckItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tbView="clr-namespace:ToolBox.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:theme="clr-namespace:YukkuriMovieMaker.Theme;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
+             xmlns:toolbox="clr-namespace:ToolBox"
+             xmlns:commons="clr-namespace:ToolBox.Commons"
+             mc:Ignorable="d"
+             x:Name="Root"
+             ToolTip="{Binding DisplayName}">
+
+    <UniformGrid Columns="3">
+        <Button Command="{Binding GapCheckPreviousCommand, ElementName=Root}"
+                ToolTip="{x:Static toolbox:Texts.GapCheckPreviousCommandName}"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+            <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronLeft}"/>
+        </Button>
+        <Button Command="{Binding GapCheckSummaryCommand, ElementName=Root}"
+                ToolTip="{x:Static toolbox:Texts.GapCheckSummaryCommandName}"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+            <commons:IconControl IconData="{x:Static icons:IconKeys.Magnify}"/>
+        </Button>
+        <Button Command="{Binding GapCheckNextCommand, ElementName=Root}"
+                ToolTip="{x:Static toolbox:Texts.GapCheckNextCommandName}"
+                Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}">
+            <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronRight}"/>
+        </Button>
+    </UniformGrid>
+</tbView:ToolItemView>
