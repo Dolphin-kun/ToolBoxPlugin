@@ -120,17 +120,19 @@
                                   Width="10" Height="10"/>
         </Border>
 
-        <Border x:Name="ResizeHandle"
-                Width="12" Height="12"
-                CornerRadius="6"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Margin="0,0,-6,-6"
-                Cursor="SizeNWSE"
-                Visibility="Collapsed"
-                PreviewMouseLeftButtonDown="ResizeHandle_MouseLeftButtonDown">
-            <Border.Background>
-                <SolidColorBrush Color="{Binding Source={x:Static settings:ToolBoxSettings.Default}, Path=HighlightColor}" />
-            </Border.Background>
-        </Border>
+        <Grid x:Name="ResizeHandle"
+              Width="24" Height="24"
+              HorizontalAlignment="Right" VerticalAlignment="Bottom"
+              Margin="0,0,-12,-12"
+              Background="Transparent"
+              Cursor="SizeNWSE"
+              Visibility="Collapsed"
+              PreviewMouseLeftButtonDown="ResizeHandle_MouseLeftButtonDown">
+            <Border Width="12" Height="12" CornerRadius="6" IsHitTestVisible="False">
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding Source={x:Static settings:ToolBoxSettings.Default}, Path=HighlightColor}" />
+                </Border.Background>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

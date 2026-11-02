@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using YukkuriMovieMaker.Commons;
+using YukkuriMovieMaker.ItemEditor.CustomVisibilityAttributes;
+using YukkuriMovieMaker.Controls;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -20,6 +23,8 @@ namespace ToolBox.Items.TachiePlacer.Settings
     public class TachiePlacerSettings : ToolItemSettings
     {
         private TachiePlacement placement = TachiePlacement.Below;
+        [Display(GroupName = nameof(Texts.TachiePlacerDisplayName), Name = nameof(Texts.TachiePlacerPlacementLabel), Order = 0, ResourceType = typeof(Texts))]
+        [EnumComboBox(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public TachiePlacement Placement { get => placement; set => Set(ref placement, value); }
 
         [JsonIgnore, NJsonIgnore]

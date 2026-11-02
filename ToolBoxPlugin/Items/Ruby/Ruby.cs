@@ -9,7 +9,7 @@ namespace ToolBox.Items.Ruby
         public override Type SettingsType => typeof(RubySettings);
         public override Type ViewType => typeof(RubyItem);
         public override Type? ViewModelType => null;
-        public override Type? SettingsViewType => typeof(RubySettingsPanel);
+        public override Type? SettingsViewType => null;
         public override Type? SettingsViewModelType => null;
 
         public override IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions() =>

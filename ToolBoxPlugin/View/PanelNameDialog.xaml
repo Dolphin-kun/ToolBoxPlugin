@@ -10,8 +10,7 @@
         SizeToContent="Height"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        ShowInTaskbar="False"
-        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        ShowInTaskbar="False">
 
     <StackPanel>
         <TextBox x:Name="NameTextBox" FontSize="12" Padding="4,3" Height="24" VerticalContentAlignment="Center"/>

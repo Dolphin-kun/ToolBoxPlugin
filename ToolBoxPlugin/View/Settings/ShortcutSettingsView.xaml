@@ -35,6 +35,5 @@
 
         <settingsView:ToolItemInstancesPanel />
 
-        <view:ToolItemCommonSettingsPanel />
     </StackPanel>
 </UserControl>

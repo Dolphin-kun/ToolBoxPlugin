@@ -14,7 +14,8 @@ namespace ToolBox.Items.Shortcuts.Settings
         public override ItemCategory Category => ItemCategory.Shortcuts;
         public override string Name => TypeName;
 
-        private CommandType commandType = CommandType.Delete;
+        private CommandType commandType = Commands.Delete.Type;
+        [JsonConverter(typeof(CommandTypeJsonConverter))]
         public CommandType CommandType
         {
             get => commandType;
@@ -25,16 +26,13 @@ namespace ToolBox.Items.Shortcuts.Settings
         public override string HiddenKey => "Shortcut_" + CommandType;
 
         [JsonIgnore, NJsonIgnore]
-        public override string DisplayName => ShortcutDefinitions.Allowed
-            .FirstOrDefault(d => d.CommandType == commandType)?.DefaultLabel ?? commandType.ToString();
+        public override string DisplayName => ShortcutDefinitions.Find(commandType)?.DefaultLabel ?? commandType.ToString();
 
         [JsonIgnore, NJsonIgnore]
-        public override string IconPath => ShortcutDefinitions.Allowed
-            .FirstOrDefault(d => d.CommandType == commandType)?.IconPath ?? string.Empty;
+        public override string IconPath => ShortcutDefinitions.Find(commandType)?.IconPath ?? string.Empty;
 
         [JsonIgnore, NJsonIgnore]
-        public override string Description => ShortcutDefinitions.Allowed
-            .FirstOrDefault(d => d.CommandType == commandType)?.Description ?? string.Empty;
+        public override string Description => ShortcutDefinitions.Find(commandType)?.Description ?? string.Empty;
 
         [JsonIgnore, NJsonIgnore]
         public override ICommand? DefaultCommand => ToolBoxViewModel.Instance?.Commands.GetValueOrDefault("ShortcutCommand");

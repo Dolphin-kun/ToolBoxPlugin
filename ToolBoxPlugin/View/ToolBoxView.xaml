@@ -14,17 +14,6 @@
     <Grid Background="Transparent">
 
         <Grid Background="Transparent">
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSettingsVisible}" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-
             <Grid.ContextMenu>
                 <ContextMenu Closed="OnPanelContextMenuClosed" Opened="OnPanelContextMenuOpened">
                     <MenuItem Header="{x:Static toolbox:Texts.PanelUndoLayout}" InputGestureText="{x:Static toolbox:Texts.PanelUndoGesture}"
@@ -72,21 +61,5 @@
                                                 VerticalAlignment="Top"
                                                 IsHitTestVisible="False" />
         </Grid>
-
-        <view:ToolBoxSettingsPanel 
-            DataContext="{Binding SettingsViewModel}"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-            <view:ToolBoxSettingsPanel.Style>
-                <Style TargetType="view:ToolBoxSettingsPanel">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.IsSettingsVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </view:ToolBoxSettingsPanel.Style>
-        </view:ToolBoxSettingsPanel>
     </Grid>
 </UserControl>

@@ -11,8 +11,6 @@
              d:DataContext="{d:DesignInstance Type=local:ItemPresetSettings}">
 
     <StackPanel MinWidth="240">
-        <TextBlock Text="{x:Static toolbox:Texts.ItemPresetSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,8"/>
-
         <TextBlock Text="{x:Static toolbox:Texts.ItemPresetStockLabel}"/>
         <ComboBox ItemsSource="{Binding AvailableStocks}"
                   SelectedValue="{Binding StockId, Mode=TwoWay}"

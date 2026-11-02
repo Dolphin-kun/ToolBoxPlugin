@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 
-		<Version>3.0.0</Version>
+		<Version>4.0.0</Version>
 
 		<!--Pdb内にソースコードのフルパスを含めない-->
 		<RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\'))</RepoRoot>
@@ -28,6 +28,21 @@
 		</Reference>
 		<Reference Include="NAudio.WinMM">
 		  <HintPath>$(YMM4DirPath)NAudio.WinMM.dll</HintPath>
+		</Reference>
+		<Reference Include="SharpGen.Runtime">
+			<HintPath>$(YMM4DirPath)SharpGen.Runtime.dll</HintPath>
+		</Reference>
+		<Reference Include="SharpGen.Runtime.COM">
+			<HintPath>$(YMM4DirPath)SharpGen.Runtime.COM.dll</HintPath>
+		</Reference>
+		<Reference Include="Vortice.Direct2D1">
+			<HintPath>$(YMM4DirPath)Vortice.Direct2D1.dll</HintPath>
+		</Reference>
+		<Reference Include="Vortice.DirectX">
+			<HintPath>$(YMM4DirPath)Vortice.DirectX.dll</HintPath>
+		</Reference>
+		<Reference Include="Vortice.Mathematics">
+			<HintPath>$(YMM4DirPath)Vortice.Mathematics.dll</HintPath>
 		</Reference>
 		<Reference Include="Newtonsoft.Json">
 			<HintPath>$(YMM4DirPath)Newtonsoft.Json.dll</HintPath>

@@ -1,3 +1,4 @@
+using System.Windows.Threading;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
 
@@ -14,6 +15,7 @@ namespace ToolBox.Commons
 
         private string currentSnapshot;
         private bool isRestoring;
+        private bool isCommitPending;
 
         public PanelHistory(ToolBoxPanel panel)
         {
@@ -69,7 +71,7 @@ namespace ToolBox.Commons
 
         private void Touch()
         {
-            if (isRestoring)
+            if (isRestoring || isCommitPending)
                 return;
 
             currentSnapshot = panel.ToJson();
@@ -77,8 +79,16 @@ namespace ToolBox.Commons
 
         private void Commit()
         {
-            if (isRestoring)
+            if (isRestoring || isCommitPending)
                 return;
+
+            isCommitPending = true;
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, CommitPending);
+        }
+
+        private void CommitPending()
+        {
+            isCommitPending = false;
 
             var snapshot = panel.ToJson();
             if (snapshot == currentSnapshot)

@@ -1,4 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using YukkuriMovieMaker.Commons;
+using YukkuriMovieMaker.ItemEditor.CustomVisibilityAttributes;
+using YukkuriMovieMaker.Controls;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using ToolBox.Settings;
@@ -10,24 +14,38 @@ namespace ToolBox.Items.TextSplitter.Settings
     public class TextSplitterSettings : ToolItemSettings
     {
         private bool isDeleteOriginalItem = false;
+        [Display(GroupName = nameof(Texts.TextSplitterDisplayName), Name = nameof(Texts.TextSplitterDeleteOriginal), Order = 0, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public bool IsDeleteOriginalItem { get => isDeleteOriginalItem; set => Set(ref isDeleteOriginalItem, value); }
 
         private SplitDirection splitDirection = SplitDirection.Vertical;
+        [Display(GroupName = nameof(Texts.TextSplitterDisplayName), Name = nameof(Texts.TextSplitterDirectionLabel), Order = 2, ResourceType = typeof(Texts))]
+        [EnumComboBox(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public SplitDirection SplitDirection { get => splitDirection; set => Set(ref splitDirection, value); }
 
         private SplitMode splitMode = SplitMode.PerCharacter;
+        [Display(GroupName = nameof(Texts.TextSplitterDisplayName), Name = nameof(Texts.TextSplitterModeLabel), Order = 1, ResourceType = typeof(Texts))]
+        [EnumComboBox(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public SplitMode SplitMode { get => splitMode; set => Set(ref splitMode, value); }
 
         private int frameOffset = 0;
+        [Display(GroupName = nameof(Texts.TextSplitterDisplayName), Name = nameof(Texts.TextSplitterOffsetLabel), Order = 5, ResourceType = typeof(Texts))]
+        [TextBoxSlider("F0", "F", 0, 300, PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public int FrameOffset { get => frameOffset; set => Set(ref frameOffset, Math.Max(0, value)); }
 
         private bool isKeepLength = false;
+        [Display(GroupName = nameof(Texts.TextSplitterDisplayName), Name = nameof(Texts.TextSplitterKeepDuration), Order = 6, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public bool IsKeepLength { get => isKeepLength; set => Set(ref isKeepLength, value); }
 
         private bool isKeepPosition = true;
+        [Display(GroupName = nameof(Texts.TextSplitterDisplayName), Name = nameof(Texts.TextSplitterKeepPosition), Order = 3, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public bool IsKeepPosition { get => isKeepPosition; set => Set(ref isKeepPosition, value); }
 
         private bool isIgnoreTags = true;
+        [Display(GroupName = nameof(Texts.TextSplitterDisplayName), Name = nameof(Texts.TextSplitterIgnoreTags), Description = nameof(Texts.TextSplitterIgnoreTagsTip), Order = 4, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public bool IsIgnoreTags { get => isIgnoreTags; set => Set(ref isIgnoreTags, value); }
 
         [JsonIgnore, NJsonIgnore]

@@ -9,7 +9,7 @@ namespace ToolBox.Items.TextSplitter
         public override Type SettingsType => typeof(TextSplitterSettings);
         public override Type ViewType => typeof(TextSplitterItem);
         public override Type? ViewModelType => null;
-        public override Type? SettingsViewType => typeof(TextSplitterSettingsPanel);
+        public override Type? SettingsViewType => null;
         public override Type? SettingsViewModelType => null;
 
         public override IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions() =>

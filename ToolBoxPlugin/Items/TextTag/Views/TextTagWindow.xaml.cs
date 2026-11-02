@@ -38,6 +38,7 @@ namespace ToolBox.Items.TextTag.Views
         public TextTagWindow(IEnumerable<IItem> items)
         {
             InitializeComponent();
+            ToolBox.Commons.WindowTheme.Attach(this);
 
             foreach (var target in items.Select(TextTagTarget.From).OfType<TextTagTarget>())
                 model.Targets.Add(target);

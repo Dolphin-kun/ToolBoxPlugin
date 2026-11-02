@@ -9,18 +9,18 @@ namespace ToolBox.Items.Staircase
         public override Type SettingsType => typeof(StaircaseSettings);
         public override Type ViewType => typeof(StaircaseItem);
         public override Type? ViewModelType => null;
-        public override Type? SettingsViewType => typeof(StaircaseSettingsPanel);
+        public override Type? SettingsViewType => null;
         public override Type? SettingsViewModelType => null;
 
         public override IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions() =>
         [
             new("StaircaseItemCommand",
-                ctx => ctx.SelectedItems?.Any() == true,
-                ctx => StaircaseItemCommand.Staircase(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
+                StaircaseItemCommand.CanExecute,
+                ctx => StaircaseItemCommand.Staircase(ctx, reverse: false),
                 displayName: Texts.StaircaseDisplayName),
             new("ReverseStaircaseItemCommand",
-                ctx => ctx.SelectedItems?.Any() == true,
-                ctx => StaircaseItemCommand.ReverseStaircase(ctx, ctx.SelectedItems!, ctx.Timeline, ctx.UndoRedoManager),
+                StaircaseItemCommand.CanExecute,
+                ctx => StaircaseItemCommand.Staircase(ctx, reverse: true),
                 displayName: Texts.StaircaseReverseCommandName),
         ];
     }

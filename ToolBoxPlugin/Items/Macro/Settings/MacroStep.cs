@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using ToolBox.Commons;
+using ToolBox.Settings;
 using ToolBox.ViewModel;
 using YukkuriMovieMaker.Commons;
 using YukkuriMovieMaker.Settings;
@@ -31,7 +32,8 @@ namespace ToolBox.Items.Macro.Settings
             set => Set(ref commandName, value, etcChangedPropertyNames: nameof(DisplayText));
         }
 
-        private CommandType shortcutCommand = CommandType.Undo;
+        private CommandType shortcutCommand = Commands.Undo.Type;
+        [JsonConverter(typeof(CommandTypeJsonConverter))]
         public CommandType ShortcutCommand
         {
             get => shortcutCommand;
@@ -63,8 +65,7 @@ namespace ToolBox.Items.Macro.Settings
         };
 
         private string ShortcutDisplayName() =>
-            Shortcuts.ShortcutDefinitions.Allowed
-                .FirstOrDefault(d => d.CommandType == ShortcutCommand)?.DisplayName
+            Shortcuts.ShortcutDefinitions.Find(ShortcutCommand)?.DisplayName
             ?? ShortcutCommand.ToString();
 
         private string PanelItemDisplayName() =>

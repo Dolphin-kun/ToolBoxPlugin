@@ -50,23 +50,14 @@ namespace ToolBox.ViewModel
 
         public void EnableHotkeys() => hotkeyRegistrar.Enable();
 
-        private bool isSettingsVisible = false;
-        public bool IsSettingsVisible
-        {
-            get => isSettingsVisible;
-            set => Set(ref isSettingsVisible, value);
-        }
+        public event EventHandler? Disposed;
 
         private ToolBoxSettingsViewModel? settingsViewModel;
         public ToolBoxSettingsViewModel SettingsViewModel
         {
             get
             {
-                settingsViewModel ??= new ToolBoxSettingsViewModel(
-                        ToolBoxSettings,
-                        Panel,
-                        () => IsSettingsVisible = false
-                    );
+                settingsViewModel ??= new ToolBoxSettingsViewModel(ToolBoxSettings, Panel);
                 return settingsViewModel;
             }
         }
@@ -351,6 +342,7 @@ namespace ToolBox.ViewModel
             timeline?.PropertyChanged -= Timeline_PropertyChanged;
             disposer.Dispose();
             instances.Remove(this);
+            Disposed?.Invoke(this, EventArgs.Empty);
 
             GC.SuppressFinalize(this);
         }

@@ -22,11 +22,6 @@
 
         <Border Style="{DynamicResource SettingsHeaderSeparator}"/>
 
-        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.BasicShowLockBadge}">
-            <controls:ToggleSlider Value="{Binding Settings.ShowLockBadge, Mode=TwoWay}"
-            HorizontalAlignment="Right"/>
-        </tbRow:SettingsRow>
-
         <Grid Margin="0,0,0,8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -40,17 +35,17 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static toolbox:Texts.BasicCurrentVersion}" VerticalAlignment="Center" Margin="0,0,0,4"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="{x:Static vm:BasicSettingsViewModel.CurrentVersion}"
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Update.CurrentVersion}"
                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,4"/>
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static toolbox:Texts.BasicLatestVersion}" VerticalAlignment="Center" Margin="0,0,0,4"/>
-            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding LatestVersion}"
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Update.LatestVersion}"
                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,4"/>
 
             <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="{x:Static toolbox:Texts.BasicDownloadUpdate}"
-                    Command="{Binding OpenUpdateUrlCommand}"
+                    Command="{Binding Update.OpenDownloadPageCommand}"
                     Margin="0,4,0,0" Padding="8,4" HorizontalAlignment="Right"
-                    Visibility="{Binding HasUpdate, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    Visibility="{Binding Update.HasUpdate, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
     </StackPanel>
 </UserControl>

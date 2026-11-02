@@ -9,7 +9,7 @@ namespace ToolBox.Items.TachiePlacer
         public override Type SettingsType => typeof(TachiePlacerSettings);
         public override Type ViewType => typeof(TachiePlacerItem);
         public override Type? ViewModelType => null;
-        public override Type? SettingsViewType => typeof(TachiePlacerSettingsPanel);
+        public override Type? SettingsViewType => null;
         public override Type? SettingsViewModelType => null;
 
         public override IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions() =>

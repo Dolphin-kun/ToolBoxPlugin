@@ -1,39 +1,54 @@
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Media;
 using ToolBox.Commons;
+using ToolBox.ViewModel;
 
 namespace ToolBox.Controls
 {
     public class ToolItemView : UserControl
     {
-        private readonly AdornerUtil adornerUtil = new();
+        public static readonly DependencyProperty CellSpanProperty =
+            DependencyProperty.RegisterAttached("CellSpan", typeof(Size), typeof(ToolItemView),
+                new FrameworkPropertyMetadata(new Size(1, 1), FrameworkPropertyMetadataOptions.Inherits, OnCellSpanChanged));
 
-        public bool IsSettingsPanelOpen => adornerUtil.IsVisible;
+        public static Size GetCellSpan(DependencyObject element) => (Size)element.GetValue(CellSpanProperty);
 
-        protected virtual FrameworkElement? CreateSettingsPanel() => ItemSettingsPanel.Create(DataContext);
+        public static void SetCellSpan(DependencyObject element, Size value) => element.SetValue(CellSpanProperty, value);
 
-        public void CloseSettingsPanel() => adornerUtil.Hide();
-
-        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        public ToolItemView()
         {
-            base.OnMouseRightButtonDown(e);
+            Background = Brushes.Transparent;
+        }
 
-            if (e.Handled)
-                return;
+        public Size CellSpan => GetCellSpan(this);
 
-            if (adornerUtil.IsVisible)
+        public bool IsCompact => CellSpan.Width < 2 && CellSpan.Height < 2;
+
+        private static void OnCellSpanChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ToolItemView view)
+                view.OnCellSpanChanged();
+        }
+
+        protected virtual void OnCellSpanChanged()
+        {
+        }
+
+        public virtual FrameworkElement? CreateSettingsPanel() => ItemSettingsPanel.Create(DataContext);
+
+        protected ToolBoxViewModel? FindToolBox()
+        {
+            DependencyObject? current = this;
+            while (current != null)
             {
-                adornerUtil.Hide();
-                e.Handled = true;
-                return;
+                if (current is FrameworkElement { DataContext: ToolBoxViewModel viewModel })
+                    return viewModel;
+
+                current = VisualTreeHelper.GetParent(current);
             }
 
-            if (CreateSettingsPanel() is not { } panel)
-                return;
-
-            adornerUtil.Show(this, () => panel);
-            e.Handled = true;
+            return ToolBoxViewModel.Instance;
         }
     }
 }

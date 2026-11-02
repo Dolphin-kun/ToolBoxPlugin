@@ -11,6 +11,8 @@ namespace ToolBox.ViewModel
     {
         public ObservableCollection<AddonEntryViewModel> Addons { get; } = [];
 
+        public AddonMarketplaceViewModel Marketplace { get; } = new();
+
         public bool HasAddons => Addons.Count > 0;
 
         public ICommand DeleteAddonCommand { get; }

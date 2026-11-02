@@ -23,8 +23,6 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <TextBlock Text="{x:Static toolbox:Texts.LabelSettingsTitle}" FontWeight="SemiBold" Margin="0,0,0,8"/>
-
         <tbRow:SettingsRow Label="{x:Static toolbox:Texts.LabelTextLabel}" LabelStyle="{StaticResource FieldLabel}" ContentMinWidth="90" Style="{StaticResource FieldRow}">
             <TextBox
             Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="24" VerticalContentAlignment="Center" HorizontalAlignment="Right"/>

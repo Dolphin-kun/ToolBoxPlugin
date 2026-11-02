@@ -3,6 +3,7 @@ using ToolBox.Commons;
 using ToolBox.Items.Shortcuts;
 using ToolBox.Settings;
 using YukkuriMovieMaker.Commons;
+using YukkuriMovieMaker.Resources.Icons;
 
 namespace ToolBox.ViewModel
 {
@@ -14,7 +15,6 @@ namespace ToolBox.ViewModel
         private readonly LauncherSettingsViewModel launcherSettings;
         private readonly ItemStockSettingsViewModel itemStockSettings;
         private readonly AddonSettingsViewModel addonSettings;
-        private readonly AddonMarketplaceViewModel addonMarketplace;
 
         private IReadOnlyList<object> groups = [];
         public IReadOnlyList<object> Groups
@@ -23,8 +23,6 @@ namespace ToolBox.ViewModel
             private set => Set(ref groups, value);
         }
 
-        public ICommand CloseCommand { get; }
-
         private object? selectedDetail;
         public object? SelectedDetail
         {
@@ -32,7 +30,37 @@ namespace ToolBox.ViewModel
             set => Set(ref selectedDetail, value);
         }
 
-        public ToolBoxSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel, Action closeAction)
+        private IReadOnlyList<SettingsSearchResult> searchIndex = [];
+
+        private string searchText = string.Empty;
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                if (Set(ref searchText, value ?? string.Empty, etcChangedPropertyNames: nameof(IsSearching)))
+                    UpdateSearchResults();
+            }
+        }
+
+        public bool IsSearching => !string.IsNullOrWhiteSpace(SearchText);
+
+        private IReadOnlyList<SettingsSearchResult> searchResults = [];
+        public IReadOnlyList<SettingsSearchResult> SearchResults
+        {
+            get => searchResults;
+            private set => Set(ref searchResults, value, etcChangedPropertyNames: nameof(HasNoSearchResults));
+        }
+
+        public bool HasNoSearchResults => IsSearching && SearchResults.Count == 0;
+
+        private void UpdateSearchResults()
+        {
+            var terms = SearchText.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+            SearchResults = terms.Length == 0 ? [] : [.. searchIndex.Where(result => result.Matches(terms))];
+        }
+
+        public ToolBoxSettingsViewModel(ToolBoxSettings settings, ToolBoxPanel panel)
         {
             this.panel = panel;
             basicSettings = new BasicSettingsViewModel(settings);
@@ -40,8 +68,6 @@ namespace ToolBox.ViewModel
             launcherSettings = new LauncherSettingsViewModel(settings, panel);
             itemStockSettings = new ItemStockSettingsViewModel();
             addonSettings = new AddonSettingsViewModel();
-            addonMarketplace = new AddonMarketplaceViewModel();
-            CloseCommand = new ActionCommand(_ => true, _ => closeAction());
             Groups = BuildGroups();
             AddonLoader.AddonsChanged += OnAddonsChanged;
 
@@ -64,6 +90,7 @@ namespace ToolBox.ViewModel
         {
             var currentSelection = SelectedDetail;
             Groups = BuildGroups();
+            UpdateSearchResults();
 
             if (currentSelection is BasicSettingsViewModel)
             {
@@ -85,10 +112,6 @@ namespace ToolBox.ViewModel
             {
                 SelectedDetail = addonSettings;
             }
-            else if (currentSelection is AddonMarketplaceViewModel)
-            {
-                SelectedDetail = addonMarketplace;
-            }
         }
 
         private IReadOnlyList<object> BuildGroups()
@@ -100,10 +123,11 @@ namespace ToolBox.ViewModel
             {
                 { ItemCategory.Timeline,   (0, Texts.CategoryTimeline) },
                 { ItemCategory.Layout,     (1, Texts.CategoryLayout) },
-                { ItemCategory.Text,       (2, Texts.CategoryText) },
-                { ItemCategory.Audio,      (3, Texts.CategoryAudio) },
-                { ItemCategory.Utility,    (4, Texts.CategoryUtility) },
-                { ItemCategory.Decoration, (5, Texts.CategoryDecoration) },
+                { ItemCategory.Animation,  (2, Texts.CategoryAnimation) },
+                { ItemCategory.Text,       (3, Texts.CategoryText) },
+                { ItemCategory.Audio,      (4, Texts.CategoryAudio) },
+                { ItemCategory.Utility,    (5, Texts.CategoryUtility) },
+                { ItemCategory.Decoration, (6, Texts.CategoryDecoration) },
                 { ItemCategory.None,       (99, Texts.CategoryOther) },
             };
 
@@ -113,8 +137,11 @@ namespace ToolBox.ViewModel
                 launcherSettings,
                 itemStockSettings,
                 addonSettings,
-                addonMarketplace
             ]);
+
+            var index = new List<SettingsSearchResult>();
+            foreach (var node in settingsRoot.SubGroups.OfType<SettingsNodeViewModel>())
+                index.Add(new SettingsSearchResult(node, node.CategoryName, IconKeys.Cog, Texts.SettingsRootTitle, []));
 
             var itemGroups = new List<object>();
 
@@ -128,11 +155,16 @@ namespace ToolBox.ViewModel
                         .Select(s =>
                         {
                             draggableItems.TryGetValue(s.GetType(), out var item);
-                            return new ToolItemEntryViewModel(panel, s.GetType(), s.DisplayName, s.IconPath, s.Description, item?.SettingsViewType);
+                            var entry = new ToolItemEntryViewModel(panel, s.GetType(), s.DisplayName, s.IconPath, s.Description, item?.SettingsViewType);
+
+                            var commandNames = item?.GetCommandDefinitions().Select(definition => definition.DisplayName) ?? [];
+                            index.Add(new SettingsSearchResult(entry, entry.DisplayName, entry.IconPath, jaName, [entry.Description, .. commandNames]));
+                            return entry;
                         })
                         .ToList();
                     return new ToolItemGroupViewModel(jaName, entries);
-                });
+                })
+                .ToList();
 
             itemGroups.AddRange(toolGroups);
 
@@ -141,6 +173,18 @@ namespace ToolBox.ViewModel
                 .ToList();
 
             itemGroups.Add(new RootCategoryGroupViewModel(Texts.ShortcutsRootTitle, shortcutGroups) { IsExpanded = false });
+
+            foreach (var group in shortcutGroups.OfType<ShortcutsGroupViewModel>())
+            {
+                foreach (var shortcut in group.Shortcuts)
+                {
+                    index.Add(new SettingsSearchResult(
+                        shortcut, shortcut.DisplayName, shortcut.IconPath,
+                        $"{Texts.ShortcutsRootTitle} / {group.CategoryName}", [shortcut.Description]));
+                }
+            }
+
+            searchIndex = index;
 
             var itemsRoot = new RootCategoryGroupViewModel(Texts.ItemsRootTitle, itemGroups);
 

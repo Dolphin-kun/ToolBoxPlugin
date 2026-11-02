@@ -53,7 +53,7 @@ namespace ToolBox.Settings
             set => Set(ref commandName, value, etcChangedPropertyNames: LabelPropertyNames);
         }
 
-        private CommandType shortcutCommand = CommandType.Undo;
+        private CommandType shortcutCommand = Commands.Undo.Type;
         public CommandType ShortcutCommand
         {
             get => shortcutCommand;
@@ -107,7 +107,7 @@ namespace ToolBox.Settings
         }
 
         public ShortcutDefinition? FindShortcut() =>
-            ShortcutDefinitions.Allowed.FirstOrDefault(d => d.CommandType == ShortcutCommand);
+            ShortcutDefinitions.Find(ShortcutCommand);
 
         public static LauncherNode CreateFolder(string title) =>
             new() { Kind = LauncherNodeKind.Folder, Title = title };

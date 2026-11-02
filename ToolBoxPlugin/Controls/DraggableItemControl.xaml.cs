@@ -12,6 +12,8 @@ namespace ToolBox.Controls
     {
         public event EventHandler? DragDelta;
         public event EventHandler? DragCompleted;
+        public event EventHandler? ResizeStarted;
+        public event EventHandler<ResizingEventArgs>? Resizing;
         public event EventHandler<ResizeEventArgs>? ResizeCompleted;
 
         private Point startMousePoint;
@@ -52,6 +54,27 @@ namespace ToolBox.Controls
         {
             get => (DropGrid?)GetValue(DropGridProperty);
             set => SetValue(DropGridProperty, value);
+        }
+
+        static DraggableItemControl()
+        {
+            EventManager.RegisterClassHandler(typeof(FrameworkElement), ToolTipService.ToolTipOpeningEvent,
+                new ToolTipEventHandler(OnAnyToolTipOpening));
+        }
+
+        private static void OnAnyToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
+                return;
+
+            for (DependencyObject? current = sender as DependencyObject; current != null; current = VisualTreeHelper.GetParent(current))
+            {
+                if (current is DraggableItemControl)
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
         }
 
         public DraggableItemControl()
@@ -97,7 +120,10 @@ namespace ToolBox.Controls
 
         private static void OnCellSpanChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is DraggableItemControl item) item.UpdateSize();
+            if (d is not DraggableItemControl item) return;
+
+            item.UpdateSize();
+            ToolItemView.SetCellSpan(item, item.CellSpan);
         }
 
         private static void OnDropGridChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -148,6 +174,7 @@ namespace ToolBox.Controls
             {
                 DetachWindowKeyHandlers();
                 ResizeHandle.Visibility = Visibility.Collapsed;
+                Panel.SetZIndex(this, 0);
             }
         }
 
@@ -190,6 +217,9 @@ namespace ToolBox.Controls
                 ResizeHandle.Visibility = Visibility.Collapsed;
                 Cursor = Cursors.Hand;
             }
+
+            if (!isDragging)
+                Panel.SetZIndex(this, ResizeHandle.Visibility == Visibility.Visible ? 1 : 0);
         }
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -286,6 +316,7 @@ namespace ToolBox.Controls
 
             Panel.SetZIndex(this, 999);
             CaptureMouse();
+            ResizeStarted?.Invoke(this, EventArgs.Empty);
         }
 
         private void HandleResizeMove(MouseEventArgs e)
@@ -305,9 +336,12 @@ namespace ToolBox.Controls
             newH = Math.Min(newH, DropGrid.RowCount - currentPos.Value.row);
 
             var newSize = new Size(newW, newH);
-            if (!WouldOverlapSiblings(currentPos.Value, newSize) && newSize != CellSpan)
+            if (newSize != CellSpan)
             {
-                CellSpan = newSize;
+                var args = new ResizingEventArgs(newSize);
+                Resizing?.Invoke(this, args);
+                if (!args.Cancel)
+                    CellSpan = newSize;
             }
 
             e.Handled = true;
@@ -324,33 +358,6 @@ namespace ToolBox.Controls
             e.Handled = true;
         }
 
-        private bool WouldOverlapSiblings((int row, int col) position, Size newSize)
-        {
-            if (ParentCanvas == null || DropGrid == null) return false;
-
-            int endRow = position.row + (int)newSize.Height - 1;
-            int endCol = position.col + (int)newSize.Width - 1;
-
-            foreach (var child in ParentCanvas.Children.OfType<DraggableItemControl>())
-            {
-                if (child == this) continue;
-
-                var otherPos = DropGrid.GetCellPosition(new Point(
-                    double.IsNaN(Canvas.GetLeft(child)) ? 0 : Canvas.GetLeft(child),
-                    double.IsNaN(Canvas.GetTop(child)) ? 0 : Canvas.GetTop(child)));
-
-                if (!otherPos.HasValue) continue;
-
-                bool rowOverlap = position.row <= otherPos.Value.row + (int)child.CellSpan.Height - 1
-                               && endRow >= otherPos.Value.row;
-                bool colOverlap = position.col <= otherPos.Value.col + (int)child.CellSpan.Width - 1
-                               && endCol >= otherPos.Value.col;
-
-                if (rowOverlap && colOverlap) return true;
-            }
-            return false;
-        }
-
         private static bool IsAncestorOf(DependencyObject ancestor, DependencyObject target)
         {
             DependencyObject? current = target;
@@ -360,6 +367,61 @@ namespace ToolBox.Controls
                 current = VisualTreeHelper.GetParent(current);
             }
             return false;
+        }
+
+        private readonly AdornerUtil settingsAdorner = new();
+        private bool suppressContextMenu;
+
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+
+            if (e.Handled || (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                return;
+
+            if (settingsAdorner.IsVisible)
+            {
+                settingsAdorner.Hide();
+            }
+            else if (CreateSettingsPanel() is { } panel)
+            {
+                settingsAdorner.Show(this, () => panel);
+            }
+            else
+            {
+                return;
+            }
+
+            suppressContextMenu = true;
+            e.Handled = true;
+        }
+
+        protected override void OnContextMenuOpening(ContextMenuEventArgs e)
+        {
+            base.OnContextMenuOpening(e);
+
+            if (!suppressContextMenu)
+                return;
+
+            suppressContextMenu = false;
+            e.Handled = true;
+        }
+
+        private FrameworkElement? CreateSettingsPanel() =>
+            FindView(this)?.CreateSettingsPanel() ?? ItemSettingsPanel.Create(DataContext);
+
+        private static ToolItemView? FindView(DependencyObject parent)
+        {
+            for (var i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is ToolItemView view)
+                    return view;
+                if (FindView(child) is { } found)
+                    return found;
+            }
+
+            return null;
         }
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
@@ -383,7 +445,7 @@ namespace ToolBox.Controls
             var contextMenu = new ContextMenu();
 
             var settingsItem = new MenuItem { Header = Texts.CommonSettings };
-            settingsItem.Click += (s, args) => OpenItemSettings(settings);
+            settingsItem.Click += (s, args) => OpenItemSettings();
             contextMenu.Items.Add(settingsItem);
 
             var copyItem = new MenuItem { Header = Texts.CommonCopy };
@@ -396,20 +458,15 @@ namespace ToolBox.Controls
             lockItem.Click += (s, args) => settings.IsLocked = !settings.IsLocked;
             contextMenu.Items.Add(lockItem);
 
-            var hideItem = new MenuItem { Header = Texts.ItemContextHide };
-            hideItem.Click += (s, args) => HideItem(settings);
-            contextMenu.Items.Add(hideItem);
+            var deleteItem = new MenuItem { Header = Texts.CommonDelete };
+            deleteItem.Click += (s, args) => FindOwnerPanel()?.Items.Remove(settings);
+            contextMenu.Items.Add(deleteItem);
 
             contextMenu.Closed += (s, args) =>
                 Dispatcher.BeginInvoke(() => DropGrid?.RefreshCtrlState());
 
             contextMenu.PlacementTarget = this;
             contextMenu.IsOpen = true;
-        }
-
-        private void HideItem(ToolItemSettings settings)
-        {
-            FindOwnerPanel()?.HideItem(settings);
         }
 
         private ToolBoxPanel? FindOwnerPanel()
@@ -425,11 +482,17 @@ namespace ToolBox.Controls
             return null;
         }
 
-        private void OpenItemSettings(ToolItemSettings settings)
+        private void OpenItemSettings()
         {
-            if (ItemSettingsPanel.Create(settings) is not { } panel) return;
+            if (settingsAdorner.IsVisible || CreateSettingsPanel() is not { } panel) return;
 
-            new AdornerUtil().Show(this, () => panel);
+            settingsAdorner.Show(this, () => panel);
+        }
+
+        public class ResizingEventArgs(Size newSize) : EventArgs
+        {
+            public Size NewSize { get; } = newSize;
+            public bool Cancel { get; set; }
         }
 
         public class ResizeEventArgs(Size startSize, Size currentSize) : EventArgs

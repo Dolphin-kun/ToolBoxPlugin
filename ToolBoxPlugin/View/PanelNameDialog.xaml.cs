@@ -9,6 +9,7 @@ namespace ToolBox.View
         public PanelNameDialog(string currentName)
         {
             InitializeComponent();
+            ToolBox.Commons.WindowTheme.Attach(this);
 
             NameTextBox.Text = currentName;
             Loaded += (_, _) =>

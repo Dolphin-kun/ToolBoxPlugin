@@ -13,6 +13,7 @@ namespace ToolBox.Items.LayerEditor.Views
         public LayerEditorDialog(LayerEditorSettings settings)
         {
             InitializeComponent();
+            ToolBox.Commons.WindowTheme.Attach(this);
 
             this.settings = settings;
             DataContext = settings;

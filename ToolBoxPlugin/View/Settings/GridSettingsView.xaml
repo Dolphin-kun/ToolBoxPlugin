@@ -128,6 +128,11 @@
             HorizontalAlignment="Right" Width="200" Height="24" VerticalContentAlignment="Center"/>
         </tbRow:SettingsRow>
 
+        <tbRow:SettingsRow Label="{x:Static toolbox:Texts.BasicShowLockBadge}">
+            <controls:ToggleSlider Value="{Binding Settings.ShowLockBadge, Mode=TwoWay}"
+            HorizontalAlignment="Right"/>
+        </tbRow:SettingsRow>
+
         <tbRow:SettingsRow Label="{x:Static toolbox:Texts.GridShowLines}">
             <controls:ToggleSlider Value="{Binding Settings.ShowGridLines, Mode=TwoWay}"
             HorizontalAlignment="Right"/>

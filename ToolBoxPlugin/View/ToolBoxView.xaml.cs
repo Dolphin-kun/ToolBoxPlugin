@@ -25,6 +25,8 @@ namespace ToolBox.View
         private static partial bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
         private HwndSource? hwndSource;
+        private ToolBoxSettingsWindow? settingsWindow;
+        private ToolBoxViewModel? subscribedViewModel;
 
         public ToolBoxView()
         {
@@ -32,6 +34,7 @@ namespace ToolBox.View
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
             SizeChanged += (_, _) => UpdateAutoFit();
+            PreviewMouseWheel += OnPreviewMouseWheel;
         }
 
         private ToolBoxPanel? subscribedPanel;
@@ -44,6 +47,9 @@ namespace ToolBox.View
             {
                 subscribedPanel = vm.Panel;
                 subscribedPanel.PropertyChanged += OnPanelPropertyChanged;
+
+                subscribedViewModel = vm;
+                subscribedViewModel.Disposed += OnViewModelDisposed;
 
                 vm.EnableHotkeys();
             }
@@ -100,6 +106,9 @@ namespace ToolBox.View
             subscribedPanel?.PropertyChanged -= OnPanelPropertyChanged;
             subscribedPanel = null;
 
+            subscribedViewModel?.Disposed -= OnViewModelDisposed;
+            subscribedViewModel = null;
+
             hwndSource?.RemoveHook(OnWindowMessage);
             hwndSource = null;
 
@@ -120,7 +129,36 @@ namespace ToolBox.View
             if (DataContext is not ToolBoxViewModel vm) return;
 
             e.Handled = true;
-            vm.IsSettingsVisible = true;
+
+            if (settingsWindow != null)
+            {
+                if (settingsWindow.WindowState == WindowState.Minimized)
+                    settingsWindow.WindowState = WindowState.Normal;
+
+                settingsWindow.Activate();
+                return;
+            }
+
+            settingsWindow = new ToolBoxSettingsWindow(Window.GetWindow(this), vm.SettingsViewModel);
+            settingsWindow.Closed += (_, _) => settingsWindow = null;
+            settingsWindow.Show();
+        }
+
+        private void OnViewModelDisposed(object? sender, EventArgs e) => settingsWindow?.Close();
+
+        private const double CellSizeStep = 4;
+        private const double MinCellSize = 16;
+        private const double MaxCellSize = 200;
+
+        private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control || e.Delta == 0)
+                return;
+
+            e.Handled = true;
+
+            var settings = ToolBoxSettings.Default;
+            settings.CellSize = Math.Clamp(settings.CellSize + Math.Sign(e.Delta) * CellSizeStep, MinCellSize, MaxCellSize);
         }
 
         private void OnPanelContextMenuClosed(object sender, RoutedEventArgs e) =>

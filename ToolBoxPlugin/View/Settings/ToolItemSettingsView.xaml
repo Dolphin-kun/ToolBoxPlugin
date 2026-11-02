@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
-             xmlns:view="clr-namespace:ToolBox.View"
              xmlns:settingsView="clr-namespace:ToolBox.View.Settings"
              mc:Ignorable="d"
              d:DesignWidth="300"
@@ -35,29 +34,5 @@
         <Border Style="{DynamicResource SettingsHeaderSeparator}"/>
 
         <settingsView:ToolItemInstancesPanel />
-
-        <StackPanel>
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding HasSettingsView}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Style>
-
-            <Expander IsExpanded="True" Style="{DynamicResource ToolBoxSettingsSection}">
-                <Expander.Header>
-                    <TextBlock FontWeight="SemiBold">
-                        <Run Text="{Binding DisplayName, Mode=OneWay, StringFormat={x:Static toolbox:Texts.ToolItemSettingsHeaderFormat}}"/>
-                    </TextBlock>
-                </Expander.Header>
-                <ContentControl Content="{Binding SettingsView}"/>
-            </Expander>
-        </StackPanel>
-
-        <view:ToolItemCommonSettingsPanel />
     </StackPanel>
 </UserControl>

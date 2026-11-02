@@ -1,9 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ToolBox.Controls;
 using ToolBox.Settings;
 using ToolBox.ViewModel;
-using YukkuriMovieMaker.Settings;
 
 namespace ToolBox.Commons
 {
@@ -78,27 +76,13 @@ namespace ToolBox.Commons
                     ? definition?.DisplayName ?? commandType.ToString()
                     : node.Title,
                 IconPath = definition?.IconPath ?? string.Empty,
-                CanInvoke = () => CanRunShortcut(commandType),
-                Invoke = () => RunShortcut(commandType),
+                CanInvoke = () => definition?.CanExecute(ToolBoxViewModel.Instance) == true,
+                Invoke = () => definition?.Execute(ToolBoxViewModel.Instance),
             };
         }
 
         private static ICommand? FindCommand(string commandName) =>
             ToolBoxViewModel.Instance?.Commands.GetValueOrDefault(commandName);
-
-        private static bool CanRunShortcut(CommandType commandType) =>
-            CommandSettings.Default[commandType] is RoutedCommand routed
-            && routed.CanExecute(null, Application.Current?.MainWindow);
-
-        private static void RunShortcut(CommandType commandType)
-        {
-            if (CommandSettings.Default[commandType] is not RoutedCommand routed)
-                return;
-
-            var mainWindow = Application.Current?.MainWindow;
-            if (routed.CanExecute(null, mainWindow))
-                routed.Execute(null, mainWindow);
-        }
 
         public static IReadOnlyList<RadialEntry> BuildFromPanel()
         {

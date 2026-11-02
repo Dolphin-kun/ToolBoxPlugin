@@ -15,8 +15,7 @@
         SizeToContent="Height"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        ShowInTaskbar="False"
-        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        ShowInTaskbar="False">
 
     <Window.Resources>
         <Style x:Key="VisibleWhenRange" TargetType="Grid">

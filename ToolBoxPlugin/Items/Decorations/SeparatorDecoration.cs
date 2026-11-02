@@ -9,7 +9,7 @@ namespace ToolBox.Items.Decorations
         public override Type SettingsType => typeof(SeparatorSettings);
         public override Type ViewType => typeof(SeparatorItem);
         public override Type? ViewModelType => null;
-        public override Type? SettingsViewType => typeof(SeparatorSettingsPanel);
+        public override Type? SettingsViewType => null;
         public override Type? SettingsViewModelType => null;
 
         public override IReadOnlyList<ToolItemCommandDefinition> GetCommandDefinitions() => [];

@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:ToolBox.ViewModel"
+             xmlns:local="clr-namespace:ToolBox.View.Settings"
              xmlns:commons="clr-namespace:ToolBox.Commons"
              xmlns:controls="clr-namespace:YukkuriMovieMaker.Controls;assembly=YukkuriMovieMaker.Controls"
              xmlns:icons="clr-namespace:YukkuriMovieMaker.Resources.Icons;assembly=YukkuriMovieMaker.Plugin"
@@ -117,5 +118,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <local:AddonMarketplaceView DataContext="{Binding Marketplace}" Margin="0,16,0,0"/>
     </StackPanel>
 </UserControl>

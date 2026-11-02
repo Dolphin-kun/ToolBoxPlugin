@@ -1,3 +1,7 @@
+using YukkuriMovieMaker.Commons;
+using YukkuriMovieMaker.ItemEditor.CustomVisibilityAttributes;
+using YukkuriMovieMaker.Controls;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -10,6 +14,8 @@ namespace ToolBox.Items.GapCheck.Settings
     public class GapCheckSettings : ToolItemSettings
     {
         private int maxGapFrames = 2;
+        [Display(GroupName = nameof(Texts.GapCheckDisplayName), Name = nameof(Texts.GapCheckMaxFramesLabel), Order = 0, ResourceType = typeof(Texts))]
+        [TextBoxSlider("F0", "F", 1, 10, PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public int MaxGapFrames
         {
             get => maxGapFrames;
@@ -17,6 +23,8 @@ namespace ToolBox.Items.GapCheck.Settings
         }
 
         private GapSearchMode mode = GapSearchMode.All;
+        [Display(GroupName = nameof(Texts.GapCheckDisplayName), Name = nameof(Texts.GapCheckModeLabel), Order = 1, ResourceType = typeof(Texts))]
+        [EnumComboBox(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public GapSearchMode Mode
         {
             get => mode;
@@ -24,6 +32,8 @@ namespace ToolBox.Items.GapCheck.Settings
         }
 
         private bool selectedLayersOnly;
+        [Display(GroupName = nameof(Texts.GapCheckDisplayName), Name = nameof(Texts.GapCheckSelectedLayersOnlyLabel), Order = 2, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public bool SelectedLayersOnly
         {
             get => selectedLayersOnly;

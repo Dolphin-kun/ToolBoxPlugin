@@ -1,4 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Windows;
+using YukkuriMovieMaker.Controls;
 using ToolBox.Settings;
 
 namespace ToolBox.Commons
@@ -14,7 +17,7 @@ namespace ToolBox.Commons
                 return null;
 
             if (item.SettingsViewType is not { } viewType)
-                return null;
+                return HasEditableProperties(settings) ? new PropertiesEditor { Target = settings, Width = 300 } : null;
 
             try
             {
@@ -28,5 +31,8 @@ namespace ToolBox.Commons
                 return null;
             }
         }
+
+        private static bool HasEditableProperties(ToolItemSettings settings) =>
+            settings.GetType().GetProperties().Any(property => property.GetCustomAttribute<DisplayAttribute>() != null);
     }
 }

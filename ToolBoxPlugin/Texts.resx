@@ -61,6 +61,7 @@
 <data name="CurrentCulture" xml:space="preserve"><value>ja-jp</value></data>
 <data name="PluginName" xml:space="preserve"><value>ツールボックス</value></data>
 <data name="SettingsTitle" xml:space="preserve"><value>ツールボックスの設定</value></data>
+<data name="SettingsSearchPlaceholder" xml:space="preserve"><value>機能を検索</value></data>
 <data name="CommonUnset" xml:space="preserve"><value>(未設定)</value></data>
 <data name="CommonNotFound" xml:space="preserve"><value>(見つかりません)</value></data>
 <data name="CommonNoName" xml:space="preserve"><value>(名前なし)</value></data>
@@ -76,8 +77,6 @@
 <data name="CommonClearAll" xml:space="preserve"><value>すべて消す</value></data>
 <data name="ToolBoxNotReady" xml:space="preserve"><value>ツールボックスを初期化できていません。</value></data>
 <data name="FilterAllFiles" xml:space="preserve"><value>すべてのファイル|*.*</value></data>
-<data name="FilterImageFiles" xml:space="preserve"><value>画像ファイル|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|すべてのファイル|*.*</value></data>
-<data name="UnitTimes" xml:space="preserve"><value>倍</value></data>
 <data name="AddonMarketplaceNoResponse" xml:space="preserve"><value>GitHub から応答がありませんでした ({0})。</value></data>
 <data name="AddonMarketplaceRateLimitedUntil" xml:space="preserve"><value>GitHub の問い合わせ回数の上限に達しました。{0} 以降にもう一度お試しください。</value></data>
 <data name="AddonMarketplaceRateLimited" xml:space="preserve"><value>GitHub の問い合わせ回数の上限に達しました。しばらく待ってからもう一度お試しください。</value></data>
@@ -119,7 +118,6 @@
 <data name="LabelDisplayName" xml:space="preserve"><value>ラベル</value></data>
 <data name="LabelDescription" xml:space="preserve"><value>パネルに見出しの文字を置きます。クリックしても何も実行しません。</value></data>
 <data name="LabelDefaultText" xml:space="preserve"><value>見出し</value></data>
-<data name="LabelSettingsTitle" xml:space="preserve"><value>ラベルの設定</value></data>
 <data name="LabelTextLabel" xml:space="preserve"><value>表示する文字</value></data>
 <data name="LabelFontLabel" xml:space="preserve"><value>フォント</value></data>
 <data name="LabelFontSizeLabel" xml:space="preserve"><value>文字の大きさ</value></data>
@@ -130,7 +128,6 @@
 <data name="AlignRight" xml:space="preserve"><value>右寄せ</value></data>
 <data name="SeparatorDisplayName" xml:space="preserve"><value>区切り線</value></data>
 <data name="SeparatorDescription" xml:space="preserve"><value>パネルに区切り線を引きます。アイテムのまとまりを分けるための飾りです。</value></data>
-<data name="SeparatorSettingsTitle" xml:space="preserve"><value>区切り線の設定</value></data>
 <data name="SeparatorOrientationLabel" xml:space="preserve"><value>向き</value></data>
 <data name="SeparatorHorizontal" xml:space="preserve"><value>横</value></data>
 <data name="SeparatorVertical" xml:space="preserve"><value>縦</value></data>
@@ -140,7 +137,6 @@
 <data name="InsertIntoGroupDescription" xml:space="preserve"><value>選択したアイテム全体を覆うグループ制御を追加して、まとめて扱えるようにします。</value></data>
 <data name="ItemStockTitle" xml:space="preserve"><value>保存したアイテム</value></data>
 <data name="ItemStockHint" xml:space="preserve"><value>タイムラインで選んだアイテムをここに貯めておけます。パネルに「保存したアイテムを追加」を置くと、貯めたものを 1 つ紐づけて呼び出せます。</value></data>
-<data name="ItemStockEmpty" xml:space="preserve"><value>まだ何も保存されていません。</value></data>
 <data name="ItemStockSaveSelected" xml:space="preserve"><value>選んでいるアイテムを保存</value></data>
 <data name="ItemStockSaveTip" xml:space="preserve"><value>タイムラインで選んでいるアイテムを、新しく保存します</value></data>
 <data name="ItemStockOverwriteTip" xml:space="preserve"><value>選んでいる保存内容を、今タイムラインで選んでいるアイテムで置き換えます</value></data>
@@ -156,7 +152,6 @@
 <data name="ItemPresetDescription" xml:space="preserve"><value>「保存したアイテム」に貯めておいたアイテムのうち 1 つをこのボタンに紐づけて、クリック 1 回でタイムラインに追加します。</value></data>
 <data name="ItemPresetSaveCommandName" xml:space="preserve"><value>選んでいるアイテムを保存して紐づける</value></data>
 <data name="ItemPresetOverwriteCommandName" xml:space="preserve"><value>紐づけ先を選んでいるアイテムで上書きする</value></data>
-<data name="ItemPresetSettingsTitle" xml:space="preserve"><value>保存したアイテムの設定</value></data>
 <data name="ItemPresetStockLabel" xml:space="preserve"><value>このボタンに紐づけるアイテム</value></data>
 <data name="ItemPresetSaveButtonTip" xml:space="preserve"><value>タイムラインで選んでいるアイテムを新しく保存して、このボタンに紐づけます</value></data>
 <data name="ItemPresetOverwriteButtonTip" xml:space="preserve"><value>紐づけ先の保存内容を、今選んでいるアイテムで置き換えます</value></data>
@@ -180,13 +175,16 @@
 <data name="LauncherTriggerLabel" xml:space="preserve"><value>呼び出す操作</value></data>
 <data name="LauncherImageFillsSectorLabel" xml:space="preserve"><value>画像を大きく表示</value></data>
 <data name="LauncherPreviewLabel" xml:space="preserve"><value>プレビュー</value></data>
-<data name="LauncherOrderLabel" xml:space="preserve"><value>並び</value></data>
+<data name="LauncherOrderLabel" xml:space="preserve"><value>項目</value></data>
 <data name="LauncherClearTip" xml:space="preserve"><value>空にすると、今のパネルのアイテムが自動で並ぶ状態に戻ります</value></data>
-<data name="LauncherNodeKindLabel" xml:space="preserve"><value>種類</value></data>
+<data name="LauncherAddEntriesMenu" xml:space="preserve"><value>選んで追加…</value></data>
+<data name="LauncherAddGroupMenu" xml:space="preserve"><value>グループを追加</value></data>
+<data name="LauncherAddDialogTitle" xml:space="preserve"><value>ランチャーに追加</value></data>
+<data name="LauncherAddDialogHint" xml:space="preserve"><value>追加するものにチェックを入れて「追加」を押してください。グループを選んでいるときは、その中に追加します。</value></data>
+<data name="CommonMoreActions" xml:space="preserve"><value>そのほかの操作</value></data>
 <data name="LauncherKindPanelItem" xml:space="preserve"><value>パネルのアイテム</value></data>
-<data name="LauncherTargetNodeLabel" xml:space="preserve"><value>対象</value></data>
 <data name="LauncherNewGroup" xml:space="preserve"><value>新しいグループ</value></data>
-<data name="LauncherClearConfirm" xml:space="preserve"><value>ランチャーの並びをすべて消します。</value></data>
+<data name="LauncherClearConfirm" xml:space="preserve"><value>ランチャーの項目をすべて消します。</value></data>
 <data name="LauncherClearConfirmHint" xml:space="preserve"><value>消したあとは、今のパネルのアイテムが自動で並ぶ状態に戻ります。</value></data>
 <data name="RadialMenuBack" xml:space="preserve"><value>戻る</value></data>
 <data name="RadialMenuClose" xml:space="preserve"><value>閉じる</value></data>
@@ -223,14 +221,12 @@
 <data name="RecordingDisplayName" xml:space="preserve"><value>録音</value></data>
 <data name="RecordingDescription" xml:space="preserve"><value>マイクから録音し、録音した音声をタイムラインへ音声アイテムとして追加します。</value></data>
 <data name="RecordingToggleCommandName" xml:space="preserve"><value>録音の開始/停止</value></data>
-<data name="RecordingSettingsTitle" xml:space="preserve"><value>録音の設定</value></data>
 <data name="RecordingDeviceLabel" xml:space="preserve"><value>入力デバイス</value></data>
 <data name="RecordingOpenFolder" xml:space="preserve"><value>録音フォルダを開く</value></data>
 <data name="RecordingOpenFolderFailed" xml:space="preserve"><value>録音フォルダを開けませんでした。</value></data>
 <data name="RubyDisplayName" xml:space="preserve"><value>ルビ振り</value></data>
 <data name="RubyDescription" xml:space="preserve"><value>選択したアイテムの漢字にルビを振ります。</value></data>
 <data name="RubyApplyCommandName" xml:space="preserve"><value>ルビを振る</value></data>
-<data name="RubySettingsTitle" xml:space="preserve"><value>ルビ振りの設定</value></data>
 <data name="RubyTypeLabel" xml:space="preserve"><value>ルビの種類</value></data>
 <data name="RubyTypeHiragana" xml:space="preserve"><value>ひらがな</value></data>
 <data name="RubyTypeHiraganaDescription" xml:space="preserve"><value>ひらがなでルビを振ります</value></data>
@@ -242,7 +238,6 @@
 <data name="SceneMoverDescription" xml:space="preserve"><value>選択したアイテムを、新しいシーンや既存のシーンへまとめて移します。クリックすると移動先を選ぶメニューが開きます。</value></data>
 <data name="SceneMoverToNewSceneCommandName" xml:space="preserve"><value>新しいシーンへ移動</value></data>
 <data name="SceneMoverToSceneCommandName" xml:space="preserve"><value>指定したシーンへ移動</value></data>
-<data name="SceneMoverSettingsTitle" xml:space="preserve"><value>シーンへ移動の設定</value></data>
 <data name="SceneMoverDuplicateLabel" xml:space="preserve"><value>移動せずに複製する</value></data>
 <data name="SceneMoverAlignLabel" xml:space="preserve"><value>シーンの先頭に詰める</value></data>
 <data name="SceneMoverSwitchLabel" xml:space="preserve"><value>移動先のシーンに切り替える</value></data>
@@ -266,7 +261,6 @@
 <data name="SeparateAudioCommandName" xml:space="preserve"><value>音声を分離</value></data>
 <data name="ShortcutRunCommandName" xml:space="preserve"><value>ショートカットを実行</value></data>
 <data name="ShortcutsRootTitle" xml:space="preserve"><value>ショートカット</value></data>
-<data name="ShortcutSettingsTitle" xml:space="preserve"><value>ショートカットの設定</value></data>
 <data name="ShortcutLabelLabel" xml:space="preserve"><value>表示ラベル</value></data>
 <data name="ShortcutCommandLabel" xml:space="preserve"><value>実行するコマンド</value></data>
 <data name="ShortcutDefaultDescription" xml:space="preserve"><value>本体の「{0}」を実行します。</value></data>
@@ -282,6 +276,11 @@
 <data name="ShortcutGroupCharacterScene" xml:space="preserve"><value>キャラクター・シーン</value></data>
 <data name="ShortcutGroupProject" xml:space="preserve"><value>プロジェクト</value></data>
 <data name="ShortcutGroupWindowFolder" xml:space="preserve"><value>ウィンドウ・フォルダ</value></data>
+<data name="ShortcutGroupTemplate" xml:space="preserve"><value>テンプレート</value></data>
+<data name="ShortcutGroupOther" xml:space="preserve"><value>その他</value></data>
+<data name="ShortcutSelectedLayerDescription" xml:space="preserve"><value>選択中のアイテムがあるレイヤーに対して、本体の「{0}」を実行します。</value></data>
+<data name="ShortcutSelectedItemsDescription" xml:space="preserve"><value>選択中のアイテムに対して、本体の「{0}」を実行します。</value></data>
+<data name="ShortcutSelectFilesDescription" xml:space="preserve"><value>ファイルを選んで、本体の「{0}」を実行します。</value></data>
 <data name="SortDisplayName" xml:space="preserve"><value>整列</value></data>
 <data name="SortDescription" xml:space="preserve"><value>選択したアイテムを開始位置の早い順・遅い順にレイヤーへ並べ直します。</value></data>
 <data name="SortAscendingCommandName" xml:space="preserve"><value>早い順に整列</value></data>
@@ -289,14 +288,12 @@
 <data name="SortAscendingTip" xml:space="preserve"><value>早い順にソート</value></data>
 <data name="SortDescendingTip" xml:space="preserve"><value>遅い順にソート</value></data>
 <data name="StaircaseDisplayName" xml:space="preserve"><value>階段状に配置</value></data>
-<data name="StaircaseDescription" xml:space="preserve"><value>選択したアイテムをレイヤー順に一定フレームずつずらして、階段状に配置します。</value></data>
+<data name="StaircaseDescription" xml:space="preserve"><value>選択したアイテムをレイヤー順に一定フレームずつずらして、階段状に配置します。並べ方や間隔のカーブも変えられます。</value></data>
 <data name="StaircaseReverseCommandName" xml:space="preserve"><value>逆向きに階段状に配置</value></data>
-<data name="StaircaseSettingsTitle" xml:space="preserve"><value>階段化の設定</value></data>
 <data name="StaircaseOffsetLabel" xml:space="preserve"><value>オフセット</value></data>
 <data name="TachiePlacerDisplayName" xml:space="preserve"><value>立ち絵配置</value></data>
 <data name="TachiePlacerDescription" xml:space="preserve"><value>選択した音声アイテムのキャラクターに対応する立ち絵アイテムを、上下いずれかの隣接レイヤーへ配置します。</value></data>
 <data name="TachiePlacerCommandName" xml:space="preserve"><value>立ち絵を配置</value></data>
-<data name="TachiePlacerSettingsTitle" xml:space="preserve"><value>立ち絵配置の設定</value></data>
 <data name="TachiePlacerPlacementLabel" xml:space="preserve"><value>配置レイヤー</value></data>
 <data name="TachiePlacementBelow" xml:space="preserve"><value>下のレイヤー</value></data>
 <data name="TachiePlacementBelowDescription" xml:space="preserve"><value>音声の1つ下のレイヤー</value></data>
@@ -305,7 +302,6 @@
 <data name="TextSplitterDisplayName" xml:space="preserve"><value>テキスト分割</value></data>
 <data name="TextSplitterDescription" xml:space="preserve"><value>選択したテキスト・音声アイテムを分割し、縦または横に並べます。</value></data>
 <data name="TextSplitterCommandName" xml:space="preserve"><value>テキストを分割</value></data>
-<data name="TextSplitterSettingsTitle" xml:space="preserve"><value>テキスト分割の設定</value></data>
 <data name="TextSplitterDeleteOriginal" xml:space="preserve"><value>元のアイテムを削除</value></data>
 <data name="TextSplitterModeLabel" xml:space="preserve"><value>分割モード</value></data>
 <data name="TextSplitterDirectionLabel" xml:space="preserve"><value>分割方向</value></data>
@@ -324,7 +320,6 @@
 <data name="SplitDirectionHorizontalDescription" xml:space="preserve"><value>フレーム方向</value></data>
 <data name="ItemContextLock" xml:space="preserve"><value>固定</value></data>
 <data name="ItemContextUnlock" xml:space="preserve"><value>固定を解除</value></data>
-<data name="ItemContextHide" xml:space="preserve"><value>非表示</value></data>
 <data name="HotkeyWinKeyNotAllowed" xml:space="preserve"><value>Win キーは使えません</value></data>
 <data name="HotkeyNeedCtrlOrAlt" xml:space="preserve"><value>Ctrl か Alt を含めてください</value></data>
 <data name="HotkeyMouseX1" xml:space="preserve"><value>サイドボタン1</value></data>
@@ -343,7 +338,6 @@
 <data name="PanelDuplicate" xml:space="preserve"><value>パネルの複製</value></data>
 <data name="PanelRenameTitle" xml:space="preserve"><value>パネル名の編集</value></data>
 <data name="PanelCopySuffix" xml:space="preserve"><value>{0} のコピー</value></data>
-<data name="ItemCommonDisplaySection" xml:space="preserve"><value>表示</value></data>
 <data name="ItemCommonDisplayModeLabel" xml:space="preserve"><value>表示設定</value></data>
 <data name="DisplayModeIcon" xml:space="preserve"><value>アイコン</value></data>
 <data name="DisplayModeText" xml:space="preserve"><value>テキスト</value></data>
@@ -354,13 +348,14 @@
 <data name="ImageFitFill" xml:space="preserve"><value>引き伸ばす</value></data>
 <data name="ImageFitUniformToFill" xml:space="preserve"><value>切り抜いて埋める</value></data>
 <data name="ItemCommonButtonLabel" xml:space="preserve"><value>ボタンのラベル</value></data>
-<data name="ItemCommonColorSection" xml:space="preserve"><value>配色</value></data>
 <data name="ItemCommonUseCustomColor" xml:space="preserve"><value>配色を変更する</value></data>
 <data name="ItemCommonBackground" xml:space="preserve"><value>背景色</value></data>
 <data name="ItemCommonBorder" xml:space="preserve"><value>枠の色</value></data>
 <data name="ItemCommonForeground" xml:space="preserve"><value>アイコン・文字の色</value></data>
 <data name="ItemCommonBorderThickness" xml:space="preserve"><value>枠の太さ</value></data>
 <data name="ItemCommonCornerRadius" xml:space="preserve"><value>角の丸み</value></data>
+<data name="ItemCommonColorSection" xml:space="preserve"><value>配色</value></data>
+<data name="ItemCommonDisplaySection" xml:space="preserve"><value>表示</value></data>
 <data name="ItemCommonResetColors" xml:space="preserve"><value>配色をリセット</value></data>
 <data name="ItemCommonHotkey" xml:space="preserve"><value>ホットキー</value></data>
 <data name="ItemCommonHotkeyHint" xml:space="preserve"><value>欄を選んでキーを押すと割り当てます。Esc で解除します。文字入力と区別するため、Ctrl か Alt を含む組み合わせだけ設定できます。マウスのサイドボタンは単体でも割り当てられます。アプリが前面にあるときだけ働きます。</value></data>
@@ -393,15 +388,100 @@
 <data name="CategoryUtility" xml:space="preserve"><value>ユーティリティ</value></data>
 <data name="CategoryDecoration" xml:space="preserve"><value>装飾</value></data>
 <data name="CategoryOther" xml:space="preserve"><value>その他</value></data>
-<data name="ToolItemInstancesHeaderFormat" xml:space="preserve"><value>アイテム ({0})</value></data>
-<data name="ToolItemShowInToolBox" xml:space="preserve"><value>ツールボックスに表示</value></data>
+<data name="CategoryAnimation" xml:space="preserve"><value>アニメーション</value></data>
+<data name="EasingDisplayName" xml:space="preserve"><value>イージング</value></data>
+<data name="EasingDescription" xml:space="preserve"><value>選択したアイテムの動いている項目に、イージングや速度グラフ（ベジェ）をまとめて設定します。</value></data>
+<data name="EasingApplyCommandName" xml:space="preserve"><value>イージングを適用</value></data>
+<data name="EasingKindLabel" xml:space="preserve"><value>種類</value></data>
+<data name="EasingKindPreset" xml:space="preserve"><value>イージング</value></data>
+<data name="EasingKindBezier" xml:space="preserve"><value>速度グラフ（ベジェ）</value></data>
+<data name="EasingCurveLabel" xml:space="preserve"><value>カーブ</value></data>
+<data name="EasingDirectionLabel" xml:space="preserve"><value>向き</value></data>
+<data name="EasingSmoothLabel" xml:space="preserve"><value>補間</value></data>
+<data name="EasingScopeLabel" xml:space="preserve"><value>対象</value></data>
+<data name="EasingScopeAll" xml:space="preserve"><value>すべて</value></data>
+<data name="EasingScopeDraw" xml:space="preserve"><value>描画のみ</value></data>
+<data name="EasingNoMovingParameters" xml:space="preserve"><value>選んだアイテムに動いている項目がありません。位置などに中間点を打つか、移動方法を設定してからもう一度押してください。</value></data>
+<data name="KeyFrameToolsDisplayName" xml:space="preserve"><value>中間点ツール</value></data>
+<data name="KeyFrameToolsDescription" xml:space="preserve"><value>選択したアイテムの動きを逆再生の向きに反転したり、中間点をまとめて前後にずらしたりします。</value></data>
+<data name="KeyFrameReverseCommandName" xml:space="preserve"><value>動きを反転</value></data>
+<data name="KeyFrameShiftEarlierCommandName" xml:space="preserve"><value>中間点を前にずらす</value></data>
+<data name="KeyFrameShiftLaterCommandName" xml:space="preserve"><value>中間点を後ろにずらす</value></data>
+<data name="KeyFrameShiftFramesLabel" xml:space="preserve"><value>ずらすフレーム数</value></data>
+<data name="KeyFrameCopyReversedLabel" xml:space="preserve"><value>コピー</value></data>
+<data name="KeyFrameCopyReversedDescription" xml:space="preserve"><value>中間点を反対側へ動かさずに、反対側へコピーします。元の中間点は残ります。</value></data>
+<data name="AnchorPointDisplayName" xml:space="preserve"><value>アンカーポイント</value></data>
+<data name="AnchorPointDescription" xml:space="preserve"><value>選択したアイテムの中心（回転や拡大の基準）を、見た目の位置を変えずに端や角へ移します。YMM4 の中心位置エフェクトを使います。</value></data>
+<data name="AnchorPointCommandName" xml:space="preserve"><value>アンカーポイントを{0}へ</value></data>
+<data name="PositionTopLeft" xml:space="preserve"><value>左上</value></data>
+<data name="PositionTop" xml:space="preserve"><value>上</value></data>
+<data name="PositionTopRight" xml:space="preserve"><value>右上</value></data>
+<data name="PositionLeft" xml:space="preserve"><value>左</value></data>
+<data name="PositionCenter" xml:space="preserve"><value>中央</value></data>
+<data name="PositionRight" xml:space="preserve"><value>右</value></data>
+<data name="PositionBottomLeft" xml:space="preserve"><value>左下</value></data>
+<data name="PositionBottom" xml:space="preserve"><value>下</value></data>
+<data name="PositionBottomRight" xml:space="preserve"><value>右下</value></data>
+<data name="CenterPointUnavailable" xml:space="preserve"><value>YMM4 の中心位置エフェクトを使えませんでした。YMM4 を最新版にしてください。</value></data>
+<data name="ScreenAlignDisplayName" xml:space="preserve"><value>位置を揃える</value></data>
+<data name="ScreenAlignDescription" xml:space="preserve"><value>選択したアイテムの大きさを測り、画面・選択範囲・一番上のアイテムのいずれかを基準に、端や中央へぴったり揃うよう位置（X・Y）を動かします。中間点があるときはシーク位置の後ろにある点の値だけを変えます。等間隔に並べることもできます。</value></data>
+<data name="ScreenDistributeHorizontalCommandName" xml:space="preserve"><value>左右に等間隔に並べる</value></data>
+<data name="ScreenDistributeVerticalCommandName" xml:space="preserve"><value>上下に等間隔に並べる</value></data>
+<data name="ScreenAlignCommandName" xml:space="preserve"><value>{0}に揃える</value></data>
+<data name="ScreenAlignMeasureFailed" xml:space="preserve"><value>大きさを測れなかったアイテムがあるため、そのアイテムは動かしていません。</value></data>
+<data name="ScreenAlignMarginXLabel" xml:space="preserve"><value>左右の余白</value></data>
+<data name="ScreenAlignMarginYLabel" xml:space="preserve"><value>上下の余白</value></data>
+<data name="AlignReferenceLabel" xml:space="preserve"><value>基準</value></data>
+<data name="AlignReferenceDescription" xml:space="preserve"><value>どこを基準に揃えるかを選びます。画面以外では、端の位置を押すとその向きだけを揃えます。</value></data>
+<data name="AlignReferenceScreen" xml:space="preserve"><value>画面</value></data>
+<data name="AlignReferenceSelection" xml:space="preserve"><value>選択範囲</value></data>
+<data name="AlignReferenceTopItem" xml:space="preserve"><value>一番上のアイテム</value></data>
+<data name="LengthFitDisplayName" xml:space="preserve"><value>長さを合わせる</value></data>
+<data name="LengthFitDescription" xml:space="preserve"><value>選択したアイテムの長さを、次のアイテムの手前まで・一番長いものや短いもの・シーク位置までのいずれかに合わせます。</value></data>
+<data name="LengthFitToNextCommandName" xml:space="preserve"><value>次のアイテムまで伸ばす</value></data>
+<data name="LengthFitLongestCommandName" xml:space="preserve"><value>一番長いアイテムに揃える</value></data>
+<data name="LengthFitShortestCommandName" xml:space="preserve"><value>一番短いアイテムに揃える</value></data>
+<data name="LengthFitToSeekCommandName" xml:space="preserve"><value>シーク位置で終わるようにする</value></data>
+<data name="LengthFitGapLabel" xml:space="preserve"><value>隙間</value></data>
+<data name="LengthFitGapDescription" xml:space="preserve"><value>「次のアイテムまで伸ばす」で、次のアイテムとの間に空けるフレーム数です。</value></data>
+<data name="MotionCopyDisplayName" xml:space="preserve"><value>動きのコピー</value></data>
+<data name="MotionCopyDescription" xml:space="preserve"><value>アイテムの位置・不透明度・拡大率・回転角の動きを中間点ごとコピーして、ほかのアイテムに貼り付けます。</value></data>
+<data name="MotionCopyCommandName" xml:space="preserve"><value>動きをコピー</value></data>
+<data name="MotionPasteCommandName" xml:space="preserve"><value>動きを貼り付け</value></data>
+<data name="MotionCopyPositionLabel" xml:space="preserve"><value>位置</value></data>
+<data name="MotionCopyOpacityLabel" xml:space="preserve"><value>不透明度</value></data>
+<data name="MotionCopyZoomLabel" xml:space="preserve"><value>拡大率</value></data>
+<data name="MotionCopyRotationLabel" xml:space="preserve"><value>回転角</value></data>
+<data name="MotionCopyKeepPositionLabel" xml:space="preserve"><value>今の位置から動かす</value></data>
+<data name="MotionCopyKeepPositionDescription" xml:space="preserve"><value>オンにすると、貼り付け先の今の位置を起点に、同じ動きだけを付けます。オフにすると、コピー元と同じ座標になります。</value></data>
+<data name="MotionCopyFitLengthLabel" xml:space="preserve"><value>長さに合わせる</value></data>
+<data name="MotionCopyFitLengthDescription" xml:space="preserve"><value>オンにすると、中間点の位置を貼り付け先のアイテムの長さに合わせて伸び縮みさせます。</value></data>
+<data name="ColorPaletteDisplayName" xml:space="preserve"><value>カラーパレット</value></data>
+<data name="ColorPaletteDescription" xml:space="preserve"><value>YMM4のカラーパレットの色を並べ、クリックひとつで選択したアイテムの色に適用します。スポイトや選択アイテムからの色の取り込みもできます。</value></data>
+<data name="ColorPaletteSwatchHint" xml:space="preserve"><value>クリック：選択したアイテムの色にする／右クリック：適用先を選ぶ・削除など</value></data>
+<data name="ColorPaletteAddHint" xml:space="preserve"><value>色を追加・パレットを切り替え</value></data>
+<data name="ColorPaletteApplyTo" xml:space="preserve"><value>{0}に適用</value></data>
+<data name="ColorPaletteCopyCode" xml:space="preserve"><value>カラーコードをコピー</value></data>
+<data name="ColorPalettePickReplace" xml:space="preserve"><value>スポイトで色を変える</value></data>
+<data name="ColorPalettePickAdd" xml:space="preserve"><value>スポイトで追加</value></data>
+<data name="ColorPaletteAddFromItems" xml:space="preserve"><value>選択したアイテムの色を追加</value></data>
+<data name="ColorPalettePaletteMenu" xml:space="preserve"><value>パレット</value></data>
+<data name="ColorPaletteNew" xml:space="preserve"><value>新しいパレット</value></data>
+<data name="ColorPaletteReset" xml:space="preserve"><value>パレットをリセット</value></data>
+<data name="ColorPaletteResetConfirm" xml:space="preserve"><value>「{0}」をリセットしますか？最初から入っているパレットは初期の色に戻り、それ以外は空になります。</value></data>
+<data name="ColorPaletteDeleteConfirm" xml:space="preserve"><value>パレット「{0}」を削除しますか？YMM4の色選択からも消えます。</value></data>
 <data name="ToolItemRemovePlacement" xml:space="preserve"><value>この配置を取り除く</value></data>
 <data name="ToolItemAddAnother" xml:space="preserve"><value>このアイテムをもう 1 つ追加</value></data>
-<data name="ToolItemSettingsHeaderFormat" xml:space="preserve"><value>{0}の設定</value></data>
 <data name="ShortcutsOverviewHint" xml:space="preserve"><value>左のリストからショートカットを選択して、ツールボックスへの表示/非表示を切り替えられます。</value></data>
 <data name="ShortcutsOverviewAvailablePrefix" xml:space="preserve"><value>利用できるコマンドは</value></data>
 <data name="ShortcutsOverviewAvailableSuffix" xml:space="preserve"><value>のリストに登録されたもののみです。</value></data>
 <data name="StaircaseAmountLabel" xml:space="preserve"><value>まとめる数</value></data>
+<data name="StaircaseOrderLabel" xml:space="preserve"><value>並べ方</value></data>
+<data name="StaircaseOrderLayer" xml:space="preserve"><value>レイヤー順</value></data>
+<data name="StaircaseOrderCenterOut" xml:space="preserve"><value>中央から</value></data>
+<data name="StaircaseOrderEdgesIn" xml:space="preserve"><value>外側から</value></data>
+<data name="StaircaseOrderRandom" xml:space="preserve"><value>ランダム</value></data>
+<data name="StaircaseCurveLabel" xml:space="preserve"><value>間隔のカーブ</value></data>
 <data name="GridCellSizeLabel" xml:space="preserve"><value>セルの大きさ</value></data>
 <data name="GridCellMarginLabel" xml:space="preserve"><value>セルの余白</value></data>
 <data name="GapCheckDisplayName" xml:space="preserve"><value>隙間チェック</value></data>
@@ -409,7 +489,6 @@
 <data name="GapCheckNextCommandName" xml:space="preserve"><value>次の隙間へ</value></data>
 <data name="GapCheckPreviousCommandName" xml:space="preserve"><value>前の隙間へ</value></data>
 <data name="GapCheckSummaryCommandName" xml:space="preserve"><value>隙間確認</value></data>
-<data name="GapCheckSettingsTitle" xml:space="preserve"><value>隙間チェックの設定</value></data>
 <data name="GapCheckMaxFramesLabel" xml:space="preserve"><value>隙間とみなす長さ</value></data>
 <data name="GapCheckSelectedLayersOnlyLabel" xml:space="preserve"><value>選択中のレイヤーだけ</value></data>
 <data name="GapCheckNotFound" xml:space="preserve"><value>隙間は見つかりませんでした。</value></data>
@@ -422,7 +501,6 @@
 <data name="BookmarkNextCommandName" xml:space="preserve"><value>次のブックマークへ</value></data>
 <data name="BookmarkPreviousCommandName" xml:space="preserve"><value>前のブックマークへ</value></data>
 <data name="BookmarkClearCommandName" xml:space="preserve"><value>すべて削除</value></data>
-<data name="BookmarkSettingsTitle" xml:space="preserve"><value>ブックマーク</value></data>
 <data name="BookmarkEmpty" xml:space="preserve"><value>まだブックマークがありません。</value></data>
 <data name="BookmarkJump" xml:space="preserve"><value>ここへ移動</value></data>
 <data name="BookmarkRemove" xml:space="preserve"><value>削除</value></data>

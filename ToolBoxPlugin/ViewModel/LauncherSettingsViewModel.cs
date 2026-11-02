@@ -17,56 +17,22 @@ namespace ToolBox.ViewModel
 
         public ObservableCollection<LauncherNode> Nodes => settings.LauncherNodes;
 
-        public IReadOnlyList<ToolItemSettings> AvailableItems { get; private set; } = [];
+        public ObservableCollection<LauncherNodeRow> Rows { get; } = [];
 
-        public IReadOnlyList<CommandCatalogEntry> AvailableCommands { get; } = CommandCatalog.GetEntries();
+        private readonly List<ObservableCollection<LauncherNode>> watchedCollections = [];
 
-        public IReadOnlyList<ShortcutDefinition> AvailableShortcuts { get; } = ShortcutDefinitions.Allowed;
-
-        private LauncherNodeKind addKind = LauncherNodeKind.PanelItem;
-
-        public LauncherNodeKind AddKind
+        private LauncherNodeRow? selectedRow;
+        public LauncherNodeRow? SelectedRow
         {
-            get => addKind;
+            get => selectedRow;
             set
             {
-                if (Set(ref addKind, value))
-                    (AddCommand as ActionCommand)?.RaiseCanExecuteChanged();
+                if (Set(ref selectedRow, value))
+                    SelectedNode = value?.Node;
             }
         }
 
-        private ToolItemSettings? selectedAvailableItem;
-        public ToolItemSettings? SelectedAvailableItem
-        {
-            get => selectedAvailableItem;
-            set
-            {
-                if (Set(ref selectedAvailableItem, value))
-                    (AddCommand as ActionCommand)?.RaiseCanExecuteChanged();
-            }
-        }
-
-        private CommandCatalogEntry? selectedAvailableCommand;
-        public CommandCatalogEntry? SelectedAvailableCommand
-        {
-            get => selectedAvailableCommand;
-            set
-            {
-                if (Set(ref selectedAvailableCommand, value))
-                    (AddCommand as ActionCommand)?.RaiseCanExecuteChanged();
-            }
-        }
-
-        private ShortcutDefinition? selectedAvailableShortcut;
-        public ShortcutDefinition? SelectedAvailableShortcut
-        {
-            get => selectedAvailableShortcut;
-            set
-            {
-                if (Set(ref selectedAvailableShortcut, value))
-                    (AddCommand as ActionCommand)?.RaiseCanExecuteChanged();
-            }
-        }
+        private IReadOnlyList<ToolItemSettings> availableItems = [];
 
         private LauncherNode? selectedNode;
         public LauncherNode? SelectedNode
@@ -83,7 +49,6 @@ namespace ToolBox.ViewModel
             }
         }
 
-        public ICommand AddCommand { get; }
         public ICommand RemoveCommand { get; }
         public ICommand MoveUpCommand { get; }
         public ICommand MoveDownCommand { get; }
@@ -98,10 +63,6 @@ namespace ToolBox.ViewModel
 
             panel.Items.CollectionChanged += (_, _) => RefreshAvailableItems();
 
-            SelectedAvailableCommand = AvailableCommands.FirstOrDefault();
-            SelectedAvailableShortcut = AvailableShortcuts.FirstOrDefault();
-
-            AddCommand = new ActionCommand(_ => CanAdd(), _ => Add());
             RemoveCommand = new ActionCommand(_ => SelectedNode != null, _ => Remove());
             MoveUpCommand = new ActionCommand(_ => SelectedNode != null, _ => Move(-1));
             MoveDownCommand = new ActionCommand(_ => SelectedNode != null, _ => Move(1));
@@ -109,48 +70,70 @@ namespace ToolBox.ViewModel
 
             Nodes.CollectionChanged += (_, _) =>
                 (ClearCommand as ActionCommand)?.RaiseCanExecuteChanged();
+
+            RebuildRows();
         }
+
+        private void RebuildRows()
+        {
+            foreach (var collection in watchedCollections)
+                collection.CollectionChanged -= OnNodesChanged;
+            watchedCollections.Clear();
+
+            var selected = SelectedNode;
+            Rows.Clear();
+            AddRows(Nodes, 0);
+            SelectedRow = Rows.FirstOrDefault(row => row.Node == selected);
+        }
+
+        private void AddRows(ObservableCollection<LauncherNode> nodes, int depth)
+        {
+            nodes.CollectionChanged += OnNodesChanged;
+            watchedCollections.Add(nodes);
+
+            foreach (var node in nodes)
+            {
+                Rows.Add(new LauncherNodeRow(node, depth));
+                AddRows(node.Children, depth + 1);
+            }
+        }
+
+        private void OnNodesChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => RebuildRows();
 
         public void RefreshAvailableItems()
         {
-            AvailableItems =
+            availableItems =
             [
                 .. panel.Items
                     .Where(item => item.IsInvokable && item.DefaultCommand != null)
                     .OrderBy(item => item.Position.Y)
                     .ThenBy(item => item.Position.X)
             ];
-
-            SelectedAvailableItem ??= AvailableItems.FirstOrDefault();
-            OnPropertyChanged(nameof(AvailableItems));
-            (AddCommand as ActionCommand)?.RaiseCanExecuteChanged();
         }
 
-        private bool CanAdd() => AddKind switch
+        public IReadOnlyList<LauncherCandidate> CreateCandidates()
         {
-            LauncherNodeKind.PanelItem => SelectedAvailableItem != null,
-            LauncherNodeKind.Command => SelectedAvailableCommand != null,
-            LauncherNodeKind.Shortcut => SelectedAvailableShortcut != null,
-            _ => true,
-        };
+            var panelGroup = Texts.LauncherKindPanelItem;
 
-        private void Add()
-        {
-            var node = AddKind switch
-            {
-                LauncherNodeKind.PanelItem when SelectedAvailableItem is { } item =>
-                    LauncherNode.CreateItem(item),
-                LauncherNodeKind.Command when SelectedAvailableCommand is { } command =>
-                    LauncherNode.CreateCommand(command),
-                LauncherNodeKind.Shortcut when SelectedAvailableShortcut is { } shortcut =>
-                    LauncherNode.CreateShortcut(shortcut),
-                LauncherNodeKind.Folder => LauncherNode.CreateFolder(Texts.LauncherNewGroup),
-                _ => null,
-            };
-
-            if (node != null)
-                TargetCollection().Add(node);
+            return
+            [
+                .. availableItems.Select(item => new LauncherCandidate(
+                    item.Label, panelGroup, item.IconPath, () => LauncherNode.CreateItem(item))),
+                .. CommandCatalog.GetEntries().Select(entry => new LauncherCandidate(
+                    entry.DisplayName, $"{Texts.StepKindCommand} / {entry.GroupName}", entry.IconPath, () => LauncherNode.CreateCommand(entry))),
+                .. ShortcutDefinitions.Allowed.Select(definition => new LauncherCandidate(
+                    definition.DisplayName, $"{Texts.StepKindShortcut} / {definition.Group}", definition.IconPath, () => LauncherNode.CreateShortcut(definition))),
+            ];
         }
+
+        public void AddNodes(IEnumerable<LauncherNode> nodes)
+        {
+            var target = TargetCollection();
+            foreach (var node in nodes)
+                target.Add(node);
+        }
+
+        public void AddFolder() => TargetCollection().Add(LauncherNode.CreateFolder(Texts.LauncherNewGroup));
 
         private ObservableCollection<LauncherNode> TargetCollection() =>
             SelectedNode is { IsFolder: true } folder ? folder.Children : Nodes;
@@ -161,7 +144,7 @@ namespace ToolBox.ViewModel
                 RemoveNode(node);
         }
 
-        private void Clear()
+        public void Clear()
         {
             var confirm = MessageBox.Show(
                 $"{Texts.LauncherClearConfirm}\n" +

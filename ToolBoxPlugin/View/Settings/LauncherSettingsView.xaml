@@ -17,41 +17,44 @@
              d:DataContext="{d:DesignInstance Type=vm:LauncherSettingsViewModel}">
 
     <UserControl.Resources>
-        <Style x:Key="VisibleForPanelItem" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.PanelItem}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <DataTemplate x:Key="NodeRowTemplate" DataType="{x:Type vm:LauncherNodeRow}">
+            <Grid Background="Transparent" Margin="{Binding Indent}">
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{x:Static toolbox:Texts.CommonRename}" Click="OnRenameClick"/>
+                        <MenuItem Header="{x:Static toolbox:Texts.CommonDelete}" Click="OnRemoveClick"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
 
-        <Style x:Key="VisibleForCommand" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Command}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+                <TextBlock Text="{Binding Node.DisplayLabel}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Node.IsEditing}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
 
-        <Style x:Key="VisibleForShortcut" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Shortcut}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="HiddenForFolder" TargetType="Grid">
-            <Setter Property="Visibility" Value="Visible"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding AddKind}" Value="{x:Static settings:LauncherNodeKind.Folder}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+                <TextBox Text="{Binding Node.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         IsVisibleChanged="OnRenameBoxVisibleChanged"
+                         KeyDown="OnRenameBoxKeyDown"
+                         LostFocus="OnRenameBoxLostFocus" Height="24" VerticalContentAlignment="Center">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Node.IsEditing}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+        </DataTemplate>
     </UserControl.Resources>
 
     <StackPanel>
@@ -93,155 +96,6 @@
                    FontWeight="SemiBold"
                    Margin="0,4,0,4"/>
 
-        <Border BorderThickness="1"
-                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                Height="180"
-                Margin="0,0,0,0">
-            <TreeView x:Name="NodeTree"
-                      ItemsSource="{Binding Nodes}"
-                      SelectedItemChanged="OnSelectedNodeChanged"
-                      tbControls:ScrollBubbling.IsEnabled="True"
-                      BorderThickness="0"
-                      Background="Transparent">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                        <Setter Property="IsExpanded" Value="True"/>
-                        <EventSetter Event="MouseDoubleClick" Handler="OnNodeDoubleClick"/>
-                    </Style>
-                </TreeView.ItemContainerStyle>
-
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type settings:LauncherNode}"
-                                              ItemsSource="{Binding Children}">
-                        <Grid Background="Transparent" Margin="0,2" MinWidth="80">
-                            <Grid.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="{x:Static toolbox:Texts.CommonRename}" Click="OnRenameClick"/>
-                                    <MenuItem Header="{x:Static toolbox:Texts.CommonDelete}" Click="OnRemoveClick"/>
-                                </ContextMenu>
-                            </Grid.ContextMenu>
-
-                            <TextBlock Text="{Binding DisplayLabel}" VerticalAlignment="Center">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-
-                            <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     IsVisibleChanged="OnRenameBoxVisibleChanged"
-                                     KeyDown="OnRenameBoxKeyDown"
-                                     LostFocus="OnRenameBoxLostFocus" Height="24" VerticalContentAlignment="Center">
-                                <TextBox.Style>
-                                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                        </Grid>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
-        </Border>
-
-        <Grid Margin="0,0,0,8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Command="{Binding MoveUpCommand}"
-                Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveUp}">
-                <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronUp}"
-                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                     Width="14" Height="14"/>
-            </Button>
-            <Button Grid.Column="1" Command="{Binding MoveDownCommand}"
-                Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveDown}">
-                <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronDown}"
-                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                     Width="14" Height="14"/>
-            </Button>
-            <Button Grid.Column="2" Command="{Binding RemoveCommand}"
-                Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonDelete}">
-                <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
-                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                     Width="14" Height="14"/>
-            </Button>
-
-            <Button Grid.Column="4" Content="{x:Static toolbox:Texts.CommonClearAll}" Command="{Binding ClearCommand}"
-                Padding="8,3"
-                ToolTip="{x:Static toolbox:Texts.LauncherClearTip}"/>
-            
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Column="0"
-               Text="{x:Static toolbox:Texts.LauncherNodeKindLabel}"
-               VerticalAlignment="Center"
-               Margin="0,0,8,0"/>
-
-            <ComboBox Grid.Column="1"
-              HorizontalAlignment="Right" Width="180"
-              SelectedValue="{Binding AddKind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              SelectedValuePath="Tag" Height="24" VerticalContentAlignment="Center">
-                <ComboBoxItem Content="{x:Static toolbox:Texts.LauncherKindPanelItem}"
-                      Tag="{x:Static settings:LauncherNodeKind.PanelItem}"/>
-                <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindCommand}"
-                      Tag="{x:Static settings:LauncherNodeKind.Command}"/>
-                <ComboBoxItem Content="{x:Static toolbox:Texts.StepKindShortcut}"
-                      Tag="{x:Static settings:LauncherNodeKind.Shortcut}"/>
-                <ComboBoxItem Content="{x:Static toolbox:Texts.LauncherNodeGroup}"
-                      Tag="{x:Static settings:LauncherNodeKind.Folder}"/>
-            </ComboBox>
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Column="0" Text="{x:Static toolbox:Texts.LauncherTargetNodeLabel}" VerticalAlignment="Center" Margin="0,0,8,0"
-                       Visibility="{Binding Visibility, ElementName=TargetArea}"/>
-
-            <Grid Grid.Column="1" x:Name="TargetArea" Style="{StaticResource HiddenForFolder}">
-                <ComboBox ItemsSource="{Binding AvailableItems}"
-                          SelectedItem="{Binding SelectedAvailableItem, Mode=TwoWay}"
-                          DisplayMemberPath="Label"
-                          Style="{StaticResource VisibleForPanelItem}" Width="180" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
-
-                <ComboBox ItemsSource="{Binding AvailableCommands}"
-                          SelectedItem="{Binding SelectedAvailableCommand, Mode=TwoWay}"
-                          DisplayMemberPath="FullDisplayName"
-                          Style="{StaticResource VisibleForCommand}" Width="180" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
-
-                <ComboBox ItemsSource="{Binding AvailableShortcuts}"
-                          SelectedItem="{Binding SelectedAvailableShortcut, Mode=TwoWay}"
-                          DisplayMemberPath="FullDisplayName"
-                          Style="{StaticResource VisibleForShortcut}" Width="180" HorizontalAlignment="Right" Height="24" VerticalContentAlignment="Center"/>
-            </Grid>
-        </Grid>
-
-        <Button Content="{x:Static toolbox:Texts.CommonAdd}" Command="{Binding AddCommand}"
-                HorizontalAlignment="Right" Padding="12,3"/>
+        <tbControls:ListPanel x:Name="NodeList"/>
     </StackPanel>
 </UserControl>

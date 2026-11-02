@@ -1,9 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using ToolBox.Commons;
+﻿using ToolBox.Commons;
 using ToolBox.Items.Shortcuts.Settings;
 using ToolBox.Items.Shortcuts.Views;
-using YukkuriMovieMaker.Settings;
 
 namespace ToolBox.Items.Shortcuts
 {
@@ -23,16 +20,7 @@ namespace ToolBox.Items.Shortcuts
                 {
                     if (param is not ShortcutSettings settings) return;
 
-                    var cmdObj = CommandSettings.Default[settings.CommandType];
-
-                    if (cmdObj is RoutedCommand routedCmd)
-                    {
-                        var mainWindow = Application.Current.MainWindow;
-                        if (routedCmd.CanExecute(null, mainWindow))
-                        {
-                            routedCmd.Execute(null, mainWindow);
-                        }
-                    }
+                    ShortcutDefinitions.Find(settings.CommandType)?.Execute(ctx);
                 },
                 displayName: Texts.ShortcutRunCommandName,
                 requiresItemParameter: true)

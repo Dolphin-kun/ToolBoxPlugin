@@ -12,8 +12,7 @@
         Width="720" Height="560"
         MinWidth="560" MinHeight="440"
         WindowStartupLocation="CenterOwner"
-        ShowInTaskbar="False"
-        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        ShowInTaskbar="False">
 
     <Window.Resources>
         <DataTemplate x:Key="TagButtonTemplate" DataType="{x:Type views:TextTagButton}">
@@ -127,7 +126,7 @@
                     <TextBlock x:Name="PopupPreview" FontFamily="Consolas" FontSize="11" Margin="0,6,0,0"
                                TextWrapping="Wrap"
                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="{x:Static toolbox:Texts.TextTagInsertButton}" Width="80" Padding="0,4"
                                 Click="OnPopupApplyClick"/>
                         <Button Content="{x:Static toolbox:Texts.CommonCancel}" Width="80" Padding="0,4"

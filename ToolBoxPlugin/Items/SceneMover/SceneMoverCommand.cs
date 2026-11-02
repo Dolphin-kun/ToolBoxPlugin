@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 using System.Windows.Threading;
 using ToolBox.Commons;
 using ToolBox.Items.SceneMover.Settings;
@@ -179,7 +178,7 @@ namespace ToolBox.Items.SceneMover
                 return;
 
             var forward = targetIndex > currentIndex;
-            if (!RunCommand(forward ? CommandType.SelectNextScene : CommandType.SelectPreviousScene))
+            if (!YmmCommand.Execute(forward ? Commands.SelectNextScene : Commands.SelectPreviousScene))
                 return;
 
             Application.Current?.Dispatcher.BeginInvoke(
@@ -191,27 +190,6 @@ namespace ToolBox.Items.SceneMover
 
                     SelectScene(ctx, target, remaining - 1);
                 });
-        }
-
-        private static bool RunCommand(CommandType commandType)
-        {
-            try
-            {
-                if (CommandSettings.Default[commandType] is not RoutedCommand routed)
-                    return false;
-
-                var window = Application.Current?.MainWindow;
-                if (!routed.CanExecute(null, window))
-                    return false;
-
-                routed.Execute(null, window);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Failed to run {commandType}: {ex}");
-                return false;
-            }
         }
 
         private static bool Report(string? message)

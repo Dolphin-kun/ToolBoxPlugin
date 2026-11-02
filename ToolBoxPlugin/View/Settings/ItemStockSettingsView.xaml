@@ -14,6 +14,50 @@
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=vm:ItemStockSettingsViewModel}">
 
+    <UserControl.Resources>
+            <DataTemplate x:Key="StockTemplate" DataType="{x:Type settings:ItemStockEntry}">
+                <Grid Background="Transparent">
+                    <Grid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static toolbox:Texts.CommonRename}" Click="OnRenameClick"/>
+                            <MenuItem Header="{x:Static toolbox:Texts.CommonDelete}" Click="OnRemoveClick"/>
+                        </ContextMenu>
+                    </Grid.ContextMenu>
+
+                    <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <Run Text="{Binding DisplayLabel, Mode=OneWay}"/>
+                        <Run Text="{Binding Summary, Mode=OneWay}"
+                             Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                    </TextBlock>
+
+                    <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsVisibleChanged="OnRenameBoxVisibleChanged"
+                             KeyDown="OnRenameBoxKeyDown"
+                             LostFocus="OnRenameBoxLostFocus" Height="24" VerticalContentAlignment="Center">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Grid>
+            </DataTemplate>
+    </UserControl.Resources>
+
     <StackPanel>
         <TextBlock Text="{x:Static toolbox:Texts.ItemStockTitle}"
                    FontWeight="SemiBold" FontSize="13"/>
@@ -22,132 +66,6 @@
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
         <Border Style="{DynamicResource SettingsHeaderSeparator}"/>
 
-        <Border BorderThickness="1"
-                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                Height="200">
-            <Grid>
-                <TextBlock Text="{x:Static toolbox:Texts.ItemStockEmpty}"
-                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                           TextWrapping="Wrap" TextAlignment="Center"
-                           Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasStocks}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-
-                <ListBox x:Name="StockList"
-                         ItemsSource="{Binding Stocks}"
-                         SelectedItem="{Binding SelectedStock, Mode=TwoWay}"
-                         tbControls:ScrollBubbling.IsEnabled="True"
-                         BorderThickness="0"
-                         Background="Transparent"
-                         HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                            <EventSetter Event="MouseDoubleClick" Handler="OnStockDoubleClick"/>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type settings:ItemStockEntry}">
-                            <Grid Background="Transparent" Margin="0,2">
-                                <Grid.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="{x:Static toolbox:Texts.CommonRename}" Click="OnRenameClick"/>
-                                        <MenuItem Header="{x:Static toolbox:Texts.CommonDelete}" Click="OnRemoveClick"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-
-                                <StackPanel>
-                                    <StackPanel.Style>
-                                        <Style TargetType="StackPanel">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Style>
-                                    <TextBlock Text="{Binding DisplayLabel}" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Text="{Binding Summary}" TextTrimming="CharacterEllipsis"
-                                               Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                </StackPanel>
-
-                                <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         IsVisibleChanged="OnRenameBoxVisibleChanged"
-                                         KeyDown="OnRenameBoxKeyDown"
-                                         LostFocus="OnRenameBoxLostFocus" Height="24" VerticalContentAlignment="Center">
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBox.Style>
-                                </TextBox>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
-        </Border>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Command="{Binding MoveUpCommand}"
-                    Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveUp}">
-                <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronUp}"
-                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                     Width="14" Height="14"/>
-            </Button>
-            <Button Grid.Column="1" Command="{Binding MoveDownCommand}"
-                    Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonMoveDown}">
-                <commons:IconControl IconData="{x:Static icons:IconKeys.ChevronDown}"
-                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                     Width="14" Height="14"/>
-            </Button>
-            <Button Grid.Column="2" Command="{Binding RemoveCommand}"
-                    Width="28" Padding="0,3" ToolTip="{x:Static toolbox:Texts.CommonDelete}">
-                <commons:IconControl IconData="{x:Static icons:IconKeys.Delete}"
-                                     Foreground="{DynamicResource {x:Static theme:YMM4Colors.IconBrushKey}}"
-                                     Width="14" Height="14"/>
-            </Button>
-
-            <Button Grid.Column="4" Content="{x:Static toolbox:Texts.CommonClearAll}" Command="{Binding ClearCommand}"
-                    Padding="8,3"/>
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Content="{x:Static toolbox:Texts.ItemStockSaveSelected}"
-                    Command="{Binding AddCommand}"
-                    Padding="8,3"
-                    ToolTip="{x:Static toolbox:Texts.ItemStockSaveTip}"/>
-            <Button Grid.Column="1" Content="{x:Static toolbox:Texts.CommonOverwrite}"
-                    Command="{Binding OverwriteCommand}"
-                    Padding="8,3"
-                    ToolTip="{x:Static toolbox:Texts.ItemStockOverwriteTip}"/>
-        </Grid>
+        <tbControls:ListPanel x:Name="StockList"/>
     </StackPanel>
 </UserControl>

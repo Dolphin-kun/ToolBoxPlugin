@@ -69,6 +69,9 @@ namespace ToolBox.ViewModel
 
                 Set(ref selectedInstance, value, etcChangedPropertyNames: [nameof(SettingsInstance), .. ExtraSelectionPropertyNames]);
 
+                CommonSettings?.Dispose();
+                CommonSettings = value == null ? null : new ToolItemCommonSettings(value);
+
                 selectedInstance?.PropertyChanged += OnSelectedInstancePropertyChanged;
 
                 UpdateHotkeyConflict();
@@ -76,6 +79,13 @@ namespace ToolBox.ViewModel
         }
 
         public ToolItemSettings? SettingsInstance => SelectedInstance;
+
+        private ToolItemCommonSettings? commonSettings;
+        public ToolItemCommonSettings? CommonSettings
+        {
+            get => commonSettings;
+            private set => Set(ref commonSettings, value);
+        }
 
         private string hotkeyConflictMessage = string.Empty;
         public string HotkeyConflictMessage

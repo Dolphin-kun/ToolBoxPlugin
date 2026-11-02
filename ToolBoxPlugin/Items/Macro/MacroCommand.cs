@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 using ToolBox.Commons;
 using ToolBox.Items.Macro.Settings;
+using ToolBox.Items.Shortcuts;
 using ToolBox.ViewModel;
 using YukkuriMovieMaker.Settings;
 
@@ -85,14 +85,7 @@ namespace ToolBox.Items.Macro
                 command.Execute(item);
         }
 
-        private static void RunShortcut(CommandType commandType)
-        {
-            if (CommandSettings.Default[commandType] is not RoutedCommand routed)
-                return;
-
-            var mainWindow = Application.Current?.MainWindow;
-            if (routed.CanExecute(null, mainWindow))
-                routed.Execute(null, mainWindow);
-        }
+        private static void RunShortcut(CommandType commandType) =>
+            ShortcutDefinitions.Find(commandType)?.Execute(ToolBoxViewModel.Instance);
     }
 }

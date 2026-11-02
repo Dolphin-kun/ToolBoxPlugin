@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using YukkuriMovieMaker.Commons;
+using YukkuriMovieMaker.ItemEditor.CustomVisibilityAttributes;
+using YukkuriMovieMaker.Controls;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
 using ToolBox.Settings;
@@ -19,12 +22,19 @@ namespace ToolBox.Items.Ruby.Settings
     public class RubySettings : ToolItemSettings
     {
         private RubyType rubyType = RubyType.Hiragana;
+        [Display(GroupName = nameof(Texts.RubyDisplayName), Name = nameof(Texts.RubyTypeLabel), Order = 0, ResourceType = typeof(Texts))]
+        [EnumComboBox(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public RubyType RubyType { get => rubyType; set => Set(ref rubyType, value); }
 
         private bool isAutoAdjustLineHeight = true;
+        [Display(GroupName = nameof(Texts.RubyDisplayName), Name = nameof(Texts.RubyAutoLineHeight), Order = 1, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public bool IsAutoAdjustLineHeight { get => isAutoAdjustLineHeight; set => Set(ref isAutoAdjustLineHeight, value); }
 
         private double lineHeightMultiplier = 1.5;
+        [Display(GroupName = nameof(Texts.RubyDisplayName), Name = nameof(Texts.RubyLineHeightScale), Order = 2, ResourceType = typeof(Texts))]
+        [TextBoxSlider("F1", "x", 1, 3, PropertyEditorSize = PropertyEditorSize.FullWidth)]
+        [ShowPropertyEditorWhen(nameof(IsAutoAdjustLineHeight), true)]
         public double LineHeightMultiplier { get => lineHeightMultiplier; set => Set(ref lineHeightMultiplier, value); }
 
         [JsonIgnore, NJsonIgnore]

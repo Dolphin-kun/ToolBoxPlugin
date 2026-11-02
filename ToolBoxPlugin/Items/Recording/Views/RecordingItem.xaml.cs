@@ -55,7 +55,7 @@ namespace ToolBox.Items.Recording.Views
             GC.SuppressFinalize(this);
         }
 
-        protected override FrameworkElement CreateSettingsPanel()
+        public override FrameworkElement CreateSettingsPanel()
         {
             var vm = DataContext as ViewModels.RecordingViewModel;
             return new RecordingSettingsPanel(vm?.Settings ?? DataContext as RecordingSettings);
