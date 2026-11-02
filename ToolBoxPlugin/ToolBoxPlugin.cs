@@ -6,7 +6,7 @@ using YukkuriMovieMaker.Plugin;
 namespace ToolBox
 {
     [PluginDetails(AuthorName = "いるかぁぁ", ContentId = "nc496573")]
-    public class ToolBoxPlugin : IToolPlugin, ICommandPlugin
+    public class ToolBoxPlugin : IToolPlugin
     {
         public ToolBoxPlugin() => RadialLauncher.Install();
 
@@ -14,6 +14,5 @@ namespace ToolBox
         public Type ViewModelType => typeof(ToolBoxViewModel);
         public Type ViewType => typeof(ToolBoxView);
         public bool AllowMultipleInstances => true;
-        public IEnumerable<PluginCommandBase> Commands => ToolBoxPluginCommand.CreateAll();
     }
 }

@@ -19,6 +19,8 @@
 		<AdditionalFiles Include="**/*.csv" />
 	</ItemGroup>
 
+	<Import Project="..\YukkuriMovieMaker.Generator\YukkuriMovieMaker.Generator.targets" />
+
 	<ItemGroup>
 		<Reference Include="NAudio">
 		  <HintPath>$(YMM4DirPath)NAudio.dll</HintPath>
